@@ -8,6 +8,7 @@ import { Form } from "@/components/ui/form";
 import DinamicForm from "../DinamicForm";
 
 import UserIcon from "../../public/assets/icons/user.svg";
+import PasswordIcon from "../../public/assets/icons/security-password.svg";
 
 export enum FormFieldType {
   INPUT = "input",
@@ -49,6 +50,7 @@ const ProfessionalLoginform = () => {
           </h3>
           <p className="text-sm text-dark-700">Ingresar al sistema.</p>
         </section>
+        {/* username */}
         <DinamicForm
           fieldType={FormFieldType.INPUT}
           control={form.control}
@@ -57,6 +59,16 @@ const ProfessionalLoginform = () => {
           placeholder="Usuario o Email"
           iconSrc={UserIcon}
           iconAlt="user-icon"
+        />
+        {/* password */}
+        <DinamicForm
+          fieldType={FormFieldType.INPUT}
+          control={form.control}
+          name="password"
+          label="Ingrese su contraseña"
+          placeholder="Contraseña"
+          iconSrc={PasswordIcon}
+          iconAlt="password-icon"
         />
         <Button type="submit">Submit</Button>
       </form>
