@@ -1,5 +1,6 @@
 import Image from "next/image";
-import Logo from "../public/assets/medical_schedule-logo.svg";
+import LogoImage from "../public/assets/medical_schedule-logo.svg";
+import WelcomeImage from "../public/assets/welcome.jpg";
 import { FaGithub } from "react-icons/fa";
 import ProfessionalLoginForm from "@/components/forms/ProfessionalLoginForm";
 import Link from "next/link";
@@ -12,11 +13,11 @@ export default function Home() {
         {/* Logo */}
         <div className="sub-container max-w-[496px]">
           <Image
-            src={Logo}
+            src={LogoImage}
             height={1000}
             width={1000}
             alt="medical_schedule_logo"
-            className="mb-12 h-10 w-fit"
+            className="mb-12 h-8 w-fit"
           />
           {/* login form */}
           <ProfessionalLoginForm />
@@ -36,6 +37,13 @@ export default function Home() {
         </div>
       </section>
       {/* Right section */}
+      <Image
+      src={WelcomeImage}
+      height={1000}
+      width={1000}
+      alt="welcome-page-image"
+      className="side-img max-w-[50%]"
+      />
     </div>
   );
 }
