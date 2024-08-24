@@ -17,7 +17,7 @@ export default function Home() {
             height={1000}
             width={1000}
             alt="medical_schedule_logo"
-            className="mb-12 h-10 w-fit"
+            className="mb-12 h-8 w-fit"
           />
           {/* login form */}
           <ProfessionalLoginForm />
