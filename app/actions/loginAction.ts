@@ -1,9 +1,11 @@
 "use server";
+import { cookies } from 'next/headers'
 
 interface IloginData {
     username: string;
     password: string;
 }
+
 export async function loginUser(loginData:IloginData
 ) {
 'use server'
@@ -18,6 +20,7 @@ export async function loginUser(loginData:IloginData
 
     const parsedRes = await res.json();
     console.log(parsedRes);
+    cookies().set('session-cookie', parsedRes.token, { secure: true })
   } catch (error) {
     console.log(error);
   }
