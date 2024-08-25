@@ -12,6 +12,8 @@ import {
 import { Input } from "@/components/ui/input";
 import { FormFieldType } from "./forms";
 import Image from "next/image";
+import "react-phone-number-input/style.css";
+import PhoneInput from "react-phone-number-input";
 
 interface CustomProperty {
   control: Control<any>;
@@ -58,6 +60,18 @@ const DinamicField = ({
             />
           </FormControl>
         </div>
+      );
+    case FormFieldType.PHONE_INPUT:
+      return (
+        <PhoneInput
+          defaultCountry="US"
+          placeholder={placeholder}
+          international
+          withCountryCallingCode
+          value={field.value as any | undefined}
+          onChange={field.onChange}
+          className="input-phone"
+        />
       );
   }
 };

@@ -9,6 +9,10 @@ import DinamicForm from "../DinamicForm";
 
 import UserIcon from "../../public/assets/icons/user.svg";
 import PasswordIcon from "../../public/assets/icons/security-password.svg";
+import SubmitButton from "../SubmitButton";
+import { useState } from "react";
+import { loginFormValidation } from "@/lib";
+import { useRouter } from "next/navigation";
 
 export enum FormFieldType {
   INPUT = "input",
@@ -19,26 +23,27 @@ export enum FormFieldType {
   DATE_PICKER = "datePicker",
   SKELETON = "skeleton",
 }
-const formSchema = z.object({
-  username: z.string().min(2, {
-    message: "Username must be at least 2 characters.",
-  }),
-});
 
 const ProfessionalLoginform = () => {
-  // 1. Define your form.
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
+  const [loading, setLoading] = useState(false);
+  const router = useRouter();
+  const form = useForm<z.infer<typeof loginFormValidation>>({
+    resolver: zodResolver(loginFormValidation),
     defaultValues: {
       username: "",
+      password: "",
     },
   });
 
   // 2. Define a submit handler.
-  function onSubmit(values: z.infer<typeof formSchema>) {
-    // Do something with the form values.
-    // ✅ This will be type-safe and validated.
-    console.log(values);
+  function onSubmit({
+    username,
+    password,
+  }: z.infer<typeof loginFormValidation>) {
+    setLoading(true);
+    try {
+    } catch (error) {}
+    // console.log(values);
   }
 
   return (
@@ -70,7 +75,7 @@ const ProfessionalLoginform = () => {
           iconSrc={PasswordIcon}
           iconAlt="password-icon"
         />
-        <Button type="submit">Submit</Button>
+        <SubmitButton loading={loading}>Ingresar</SubmitButton>
       </form>
     </Form>
   );
