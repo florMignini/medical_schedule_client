@@ -13,6 +13,7 @@ import SubmitButton from "../SubmitButton";
 import { useState } from "react";
 import { loginFormValidation } from "@/lib";
 import { useRouter } from "next/navigation";
+import { loginUser } from "@/app/actions";
 
 export enum FormFieldType {
   INPUT = "input",
@@ -36,14 +37,16 @@ const ProfessionalLoginform = () => {
   });
 
   // 2. Define a submit handler.
-  function onSubmit({
-    username,
-    password,
-  }: z.infer<typeof loginFormValidation>) {
+  async function onSubmit(value: z.infer<typeof loginFormValidation>) {
     setLoading(true);
     try {
-    } catch (error) {}
-    // console.log(values);
+      const res = await loginUser(value);
+      
+    } catch (error) {
+      // Handle error here.
+      console.error(error);
+      setLoading(false);
+    }
   }
 
   return (
