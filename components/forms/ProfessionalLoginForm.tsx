@@ -3,7 +3,6 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-import { Button } from "@/components/ui/button";
 import { Form } from "@/components/ui/form";
 import DinamicForm from "../DinamicForm";
 
@@ -36,14 +35,12 @@ const ProfessionalLoginform = () => {
     },
   });
 
-  // 2. Define a submit handler.
   async function onSubmit(value: z.infer<typeof loginFormValidation>) {
     setLoading(true);
     try {
       const res = await loginUser(value);
-      
+      res ? router.push("/professional") : router.push("/");
     } catch (error) {
-      // Handle error here.
       console.error(error);
       setLoading(false);
     }

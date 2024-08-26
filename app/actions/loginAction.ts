@@ -1,4 +1,5 @@
 "use server";
+import { LoginUserResponse } from '@/interfaces/loginUserResponse';
 import { cookies } from 'next/headers'
 
 interface IloginData {
@@ -10,7 +11,7 @@ export async function loginUser(loginData:IloginData
 ) {
 'use server'
   try {
-    const res: any = await fetch(`http://localhost:3001/api/auth/login`, {
+    const res = await fetch(`http://localhost:3001/api/auth/login`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -18,9 +19,9 @@ export async function loginUser(loginData:IloginData
       body: JSON.stringify(loginData),
     });
 
-    const parsedRes = await res.json();
-    console.log(parsedRes);
-    cookies().set('session-cookie', parsedRes.token, { secure: true })
+    const parsedRes :LoginUserResponse = await res.json();
+    cookies().set('session-cookie', parsedRes.accessToken, { secure: true })
+    return parsedRes.professional;
   } catch (error) {
     console.log(error);
   }
