@@ -3,6 +3,7 @@ import { Plus_Jakarta_Sans } from "next/font/google";
 import "../globals.css";
 import { cn } from "@/lib/utils";
 import ProfessionalSidebar from "@/components/ProfessionalSidebar";
+import Navbar from "./components/Navbar";
 
 const PlusFont = Plus_Jakarta_Sans({
   subsets: ["latin"],
@@ -23,9 +24,14 @@ export default function ProfessionalLayout({
   return (
     <section className="bg-dark-400 grid grid-cols-[20%,80%] h-screen min-h-screen">
       {/* sidebar */}
-     <ProfessionalSidebar/>
+      <ProfessionalSidebar />
       {/* content */}
-      <div className="bg-dark-200 m-3 p-1 rounded-r-lg">{children}</div>
+      <div className="flex flex-col bg-dark-200 m-3 py-1 px-4 rounded-r-lg">
+        <div className="my-3">
+          <Navbar />
+        </div>
+        {children}
+      </div>
     </section>
   );
 }
