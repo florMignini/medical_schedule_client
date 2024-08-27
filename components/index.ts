@@ -1,5 +1,6 @@
 export * from './DinamicForm';
 export * from './forms/ProfessionalLoginForm';
+export * from './ProfessionalSidebar';
 export * from './SubmitButton';
 export * from './theme-provider';
 export * from './ui/button';

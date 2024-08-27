@@ -4,8 +4,15 @@ import WelcomeImage from "../public/assets/welcome.jpg";
 import { FaGithub } from "react-icons/fa";
 import ProfessionalLoginForm from "@/components/forms/ProfessionalLoginForm";
 import Link from "next/link";
+import { cookies } from "next/headers";
+import { redirect } from "next/navigation";
 
 export default function Home() {
+  const cookieStore = cookies()
+  const sessionToken = cookieStore.get("session-cookie")
+  if(sessionToken){
+    redirect('/professional')
+  }
   return (
     <div className="flex h-screen max-h-screen">
       {/* Left section */}
