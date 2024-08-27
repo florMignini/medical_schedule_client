@@ -1,5 +1,9 @@
-export default function ProfessionalPage(){
-    return(
-        <h1>Hello Professional</h1>
-    )
+import React from 'react'
+
+const ProfessionalDashboard = () => {
+  return (
+    <div>ProfessionalDashboard</div>
+  )
 }
+
+export default ProfessionalDashboard

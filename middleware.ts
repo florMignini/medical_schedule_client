@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 
 const publicRoutes = ["/"];
-const privateRoutes = ["/professional", "/professional/dashboard"];
+const privateRoutes = ["/professional", "/professional/patients", "/professional/institutions"];
 
 export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
@@ -21,5 +21,5 @@ if (privateRoutes.includes(pathname) && !token) {
 }
 
 export const config = {
-  matcher: ["/professional", "/professional/dashboard", "/"],
+  matcher: ["/professional", "/professional/patients", "/professional/institutions"],
 };
