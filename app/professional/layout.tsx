@@ -22,7 +22,7 @@ export default function ProfessionalLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <section className="bg-dark-400 grid grid-cols-[20%,80%] h-screen min-h-screen">
+    <section className="bg-dark-400 grid grid-cols-[15%,85%] h-screen min-h-screen">
       {/* sidebar */}
       <ProfessionalSidebar />
       {/* content */}

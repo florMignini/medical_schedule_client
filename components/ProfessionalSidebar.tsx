@@ -8,13 +8,14 @@ const ProfessionalSidebar = () => {
   return (
     <aside className="sidebar flex items-center justify-start flex-col">
       {/* Logo */}
-      <div className="flex items-start justify-center h-24 w-full">
+      <div className="w-full flex flex-col items-center justify-start h-36 opacity-65">
         <Image
           src={Logo}
           alt="Medical_Schedule_logo"
-          width={1000}
-          height={1000}
+          width={40}
+          height={40}
         />
+        <p className="text-12-semibold text-white">Medical Schedule</p>
       </div>
       <div className="w-full flex flex-col items-center justify-center mx-auto gap-2">
         {ProfessionalSidebarData.map((item, index) => (
