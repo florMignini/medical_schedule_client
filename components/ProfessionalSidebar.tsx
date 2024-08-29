@@ -3,19 +3,32 @@ import Link from "next/link";
 import Icon from "../components/ui/icon";
 import { ProfessionalSidebarData } from "../data/ProfessionalSidebarData";
 import Logo from "../public/assets/medical_schedule-logo.svg";
+import HamburguerMenu from "../public/assets/icons/hamburger-sidebar.svg";
+import CloseMenu from "../public/assets/icons/close.svg";
 const ProfessionalSidebar = () => {
-
   return (
     <aside className="sidebar flex items-center justify-start flex-col">
       {/* Logo */}
       <div className="w-full flex flex-col items-center justify-start h-36 opacity-65">
-        <Image
-          src={Logo}
-          alt="Medical_Schedule_logo"
-          width={40}
-          height={40}
-        />
-        <p className="text-12-semibold text-white">Medical Schedule</p>
+        {/* hamburg menu only lg or lower */}
+        <button className="lg:hidden text-white hover:opacity-65">
+          <Icon
+            src={HamburguerMenu}
+            alt="hamburguer-menu-icon"
+            width={30}
+            height={30}
+          />
+          <Icon src={CloseMenu} alt="close-menu-icon" width={30} height={30} />
+        </button>
+        <button className="hidden lg:flex flex-col items-center justify-center ">
+          <Image
+            src={Logo}
+            alt="Medical_Schedule_logo"
+            width={40}
+            height={40}
+          />
+          <p className="text-12-semibold text-white">Medical Schedule</p>
+        </button>
       </div>
       <div className="w-full flex flex-col items-center justify-center mx-auto gap-2">
         {ProfessionalSidebarData.map((item, index) => (
