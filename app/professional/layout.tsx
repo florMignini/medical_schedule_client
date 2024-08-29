@@ -24,7 +24,7 @@ export default function ProfessionalLayout({
   return (
     <section className="flex flex-col bg-dark-400 h-screen min-h-screen">
       {/* content */}
-      <div className=" bg-dark-200 m-3 py-1 px-4 rounded-r-lg">
+      <div className=" bg-dark-200 m-3 py-1 px-4 rounded-lg">
         <Navbar />
         {children}
       </div>

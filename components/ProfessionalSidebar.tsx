@@ -11,7 +11,7 @@ const ProfessionalSidebar = () => {
           <Link
             href={item.path}
             key={index}
-            className="h-12 w-full flex gap-2 pl-2 items-center text-light-200 opacity-65 hover:bg-dark-500 rounded-lg"
+            className="h-12 w-full flex gap-2 items-center text-light-200 opacity-65 hover:bg-dark-500 rounded-lg"
           >
             <Icon
               src={item.icon.src}

@@ -2,12 +2,12 @@ import ProfessionalSidebar from "@/components/ProfessionalSidebar";
 
 const ProfessionalDashboard = () => {
   return (
-    <section className="w-full h-[100%] xl:grid xl:grid-cols-[15%,85%] mx-auto text-white opacity-65">
+    <section className="w-full min-h-screen grid grid-col-1 lg:grid-cols-[15%,85%] mx-auto text-white opacity-65">
       {/* sidebar */}
-      <div>
+      <div className="hidden lg:block">
         <ProfessionalSidebar />
       </div>
-      <div>
+      <div className="grid grid-col-[50%,50%]">
         {/* information side */}
         <div className="flex flex-col gap-4">
           {/* patient section */}
