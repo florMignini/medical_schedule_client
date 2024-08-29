@@ -22,14 +22,10 @@ export default function ProfessionalLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <section className="bg-dark-400 grid grid-cols-[15%,85%] h-screen min-h-screen">
-      {/* sidebar */}
-      <ProfessionalSidebar />
+    <section className="flex flex-col bg-dark-400 h-screen min-h-screen">
       {/* content */}
-      <div className="flex flex-col bg-dark-200 m-3 py-1 px-4 rounded-r-lg">
-        <div className="my-3">
-          <Navbar />
-        </div>
+      <div className=" bg-dark-200 m-3 py-1 px-4 rounded-r-lg">
+        <Navbar />
         {children}
       </div>
     </section>
