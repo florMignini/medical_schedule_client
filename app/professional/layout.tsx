@@ -1,9 +1,6 @@
 import type { Metadata } from "next";
 import { Plus_Jakarta_Sans } from "next/font/google";
 import "../globals.css";
-import { cn } from "@/lib/utils";
-import ProfessionalSidebar from "@/components/ProfessionalSidebar";
-import Navbar from "./components/Navbar";
 
 const PlusFont = Plus_Jakarta_Sans({
   subsets: ["latin"],
@@ -12,7 +9,7 @@ const PlusFont = Plus_Jakarta_Sans({
 });
 
 export const metadata: Metadata = {
-  title: "Medical Schedule personal profile ",
+  title: "Medical Schedule personal profile",
   description: "personal dashboard and patient access",
 };
 
@@ -22,10 +19,9 @@ export default function ProfessionalLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <section className="flex flex-col bg-dark-400 h-screen min-h-screen">
+    <section className="flex flex-col bg-dark-400">
       {/* content */}
-      <div className=" bg-dark-200 m-3 py-1 px-4 rounded-lg">
-        <Navbar />
+      <div className=" bg-dark-200 m-3 py-1 px-4 rounded-lg h-screen min-h-screen">
         {children}
       </div>
     </section>

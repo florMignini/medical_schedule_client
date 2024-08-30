@@ -29,7 +29,7 @@
 @layer utilities {
   /* ===== UTILITIES */
   .sidebar {
-    @apply remove-scrollbar w-full flex-col overflow-auto px-1 py-10;
+    @apply remove-scrollbar w-full flex-col overflow-auto px-1 py-1;
   }
 
   .left-sidebar {
