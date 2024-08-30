@@ -1,11 +1,12 @@
 import Icon from "../components/ui/icon"
 import Link from "next/link";
 import { ProfessionalSidebarData } from "../data/ProfessionalSidebarData";
+import { toggleSideI } from "@/interfaces";
 
-const ProfessionalSidebar = () => {
+
+const ProfessionalSidebar = ({isOpen}:toggleSideI) => {
   return (
-    <aside className="sidebar flex items-center justify-start flex-col">
-      
+    <aside className="hidden lg:flex sidebar items-center justify-start flex-col">
       <div className="w-full flex flex-col items-center justify-center mx-auto gap-2">
         {ProfessionalSidebarData.map((item, index) => (
           <Link

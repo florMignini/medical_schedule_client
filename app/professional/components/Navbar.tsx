@@ -3,22 +3,32 @@ import Icon from "../../../components/ui/icon";
 import Logo from "../../../public/assets/medical_schedule-logo.svg";
 import HamburguerMenu from "../../../public/assets/icons/hamburger-sidebar.svg";
 import CloseMenu from "../../../public/assets/icons/close.svg";
-const Navbar = () => {
+import { toggleSideI } from "@/interfaces";
+
+const Navbar = ({ isOpen, toggleSidebar }: toggleSideI) => {
+  console.log(isOpen)
   return (
-    <nav className="w-full grid grid-cols-[50%,50%] h-20 py-3">
+    <nav className="w-full grid grid-cols-[50%,50%] h-24 py-3">
       {/* hamburg menu only lg or lower */}
-      <button className="lg:hidden text-white hover:opacity-65 flex">
-        <Icon
-          src={HamburguerMenu}
-          alt="hamburguer-menu-icon"
-          width={30}
-          height={30}
-        />
-        <Icon src={CloseMenu} alt="close-menu-icon" width={30} height={30} />
+      <button
+        className="lg:hidden text-white hover:opacity-65 flex"
+        onClick={toggleSidebar}
+      >
+        {" "}
+        {isOpen ? (
+          <Icon src={CloseMenu} alt="close-menu-icon" width={30} height={30} />
+        ) : (
+          <Icon
+            src={HamburguerMenu}
+            alt="hamburguer-menu-icon"
+            width={30}
+            height={30}
+          />
+        )}
       </button>
-      <button className="hidden lg:flex ">
+      <button className="hidden lg:flex">
         {/* Logo */}
-        <div className="flex flex-col items-center justify-center">
+        <div className="pl-3 flex flex-col items-center justify-center">
           <Image
             src={Logo}
             alt="Medical_Schedule_logo"
