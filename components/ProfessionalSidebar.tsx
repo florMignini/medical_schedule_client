@@ -1,12 +1,17 @@
-import Icon from "../components/ui/icon"
+import Icon from "../components/ui/icon";
 import Link from "next/link";
 import { ProfessionalSidebarData } from "../data/ProfessionalSidebarData";
 import { toggleSideI } from "@/interfaces";
 
-
-const ProfessionalSidebar = ({isOpen}:toggleSideI) => {
+const ProfessionalSidebar = ({ isOpen }: toggleSideI) => {
   return (
-    <aside className="hidden lg:flex sidebar items-center justify-start flex-col">
+    <aside
+      className={` ${
+        isOpen
+          ? "fixed inset-y-0 left-0 w-64 bg-gray-800 text-white transform translate-x-0"
+          : "hidden lg:flex sidebar items-center justify-start flex-col -translate-x-full"
+      } transition-transform duration-300 ease-in-out lg:translate-x-0`}
+    >
       <div className="w-full flex flex-col items-center justify-center mx-auto gap-2">
         {ProfessionalSidebarData.map((item, index) => (
           <Link
