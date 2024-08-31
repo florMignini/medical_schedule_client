@@ -2,7 +2,7 @@ import React from 'react'
 
 const ProfessionalDashboard = () => {
   return (
-    <div className="grid grid-col-[50%,50%] py-5">
+    <div className="grid grid-col-[50%,50%]">
     {/* information side */}
     <div className="flex flex-col gap-4">
       {/* patient section */}

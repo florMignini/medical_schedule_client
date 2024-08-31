@@ -6,7 +6,7 @@ import { toggleSideI } from "@/interfaces";
 
 const Navbar = ({ isOpen, toggleSidebar }: toggleSideI) => {
   return (
-    <nav className="w-full grid grid-cols-[50%,50%] h-24 py-3">
+    <nav className="w-full grid grid-cols-[50%,50%] h-44 py-3">
       {/* hamburg menu only lg or lower */}
       <button
         className="lg:hidden text-white hover:opacity-65 flex"
@@ -33,10 +33,7 @@ const Navbar = ({ isOpen, toggleSidebar }: toggleSideI) => {
       </button>
 
       <div className="flex flex-col w-[50%] text-white opacity-65">
-        <h2 className="text-18-bold">Bienvenido</h2>
-        <p className="text-12-regular opacity-20">
-          Hola, Leandro bienvenido otra vez.
-        </p>
+        <h2 className="text-16-bold">future search section</h2>
       </div>
     </nav>
   );

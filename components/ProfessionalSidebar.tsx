@@ -17,7 +17,11 @@ const ProfessionalSidebar = ({ isOpen, toggleSidebar }: toggleSideI) => {
     >
       {isOpen && (
         <div className="w-full pt-2 px-5 flex items-center justify-between">
-          <div className="flex flex-col items-center justify-center">
+          <Link 
+          href='/professional/dashboard'
+          className="flex flex-col items-center justify-center"
+          onClick={toggleSidebar}
+          >
             <Image
               src={Logo}
               alt="medical-schedule-logo"
@@ -25,7 +29,7 @@ const ProfessionalSidebar = ({ isOpen, toggleSidebar }: toggleSideI) => {
               width={40}
             />
             <p className="text-[10px]">medical schedule</p>
-          </div>
+          </Link>
           <button className="flex" onClick={toggleSidebar}>
             <Icon src={CloseIcon} alt="close-icon" width={30} height={30} />
           </button>
@@ -45,6 +49,7 @@ const ProfessionalSidebar = ({ isOpen, toggleSidebar }: toggleSideI) => {
                 ? "justify-center hover:scale-110 hover:font-extrabold"
                 : "opacity-65 hover:bg-dark-500 rounded-lg pl-2"
             }`}
+            onClick={toggleSidebar}
           >
             <Icon
               src={item.icon.src}
