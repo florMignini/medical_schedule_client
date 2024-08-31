@@ -28,13 +28,13 @@ const ProfessionalDashboard = ({
   }, []);
 
   return (
-    <section className="grid grid-rows-[30%,70%] lg:grid-rows-[40%,60%] gap-5 text-white">
+    <section className="h-screen min-h-screen grid grid-rows-[10%,90%] gap-5 text-white">
       {/* top - navbar */}
       <Navbar toggleSidebar={toggleSidebar} isOpen={isOpen} />
       {/* bottom - sidebar & main */}
       <div className="flex-1 lg:grid lg:grid-cols-[20%,80%]">
         {/* leftside */}
-        <ProfessionalSidebar toggleSidebar={toggleSidebar} isOpen={isOpen} />
+        <ProfessionalSidebar toggleSidebar={toggleSidebar} isOpen={isOpen} setIsOpen={setIsOpen} />
 
         {/* rightside */}
         <div className="">{children}</div>

@@ -3,10 +3,11 @@ import Icon from "../../../components/ui/icon";
 import Logo from "../../../public/assets/medical_schedule-logo.svg";
 import HamburguerMenu from "../../../public/assets/icons/hamburger-sidebar.svg";
 import { toggleSideI } from "@/interfaces";
+import Link from "next/link";
 
 const Navbar = ({ isOpen, toggleSidebar }: toggleSideI) => {
   return (
-    <nav className="w-full grid grid-cols-[50%,50%] h-44 py-3">
+    <nav className="w-full h-20 grid grid-cols-[50%,50%] py-3">
       {/* hamburg menu only lg or lower */}
       <button
         className="lg:hidden text-white hover:opacity-65 flex"
@@ -19,9 +20,9 @@ const Navbar = ({ isOpen, toggleSidebar }: toggleSideI) => {
           height={30}
         />
       </button>
-      <button className="hidden lg:flex">
+      <Link href="/professional/dashboard" className="hidden lg:flex">
         {/* Logo */}
-        <div className="pl-3 flex flex-col items-center justify-center">
+        <div className="pl-8 flex flex-col items-center justify-center">
           <Image
             src={Logo}
             alt="Medical_Schedule_logo"
@@ -30,7 +31,7 @@ const Navbar = ({ isOpen, toggleSidebar }: toggleSideI) => {
           />
           <p className="text-12-semibold text-white">Medical Schedule</p>
         </div>
-      </button>
+      </Link>
 
       <div className="flex flex-col w-[50%] text-white opacity-65">
         <h2 className="text-16-bold">future search section</h2>

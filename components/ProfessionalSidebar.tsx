@@ -6,7 +6,11 @@ import { ProfessionalSidebarData } from "../data/ProfessionalSidebarData";
 import CloseIcon from "../public/assets/icons/close.svg";
 import { toggleSideI } from "@/interfaces";
 
-const ProfessionalSidebar = ({ isOpen, toggleSidebar }: toggleSideI) => {
+const ProfessionalSidebar = ({
+  isOpen,
+  toggleSidebar,
+  setIsOpen,
+}: toggleSideI) => {
   return (
     <aside
       className={` ${
@@ -17,10 +21,10 @@ const ProfessionalSidebar = ({ isOpen, toggleSidebar }: toggleSideI) => {
     >
       {isOpen && (
         <div className="w-full pt-2 px-5 flex items-center justify-between">
-          <Link 
-          href='/professional/dashboard'
-          className="flex flex-col items-center justify-center"
-          onClick={toggleSidebar}
+          <Link
+            href="/professional/dashboard"
+            className="flex flex-col items-center justify-center"
+            onClick={() => setIsOpen(false)}
           >
             <Image
               src={Logo}
@@ -49,7 +53,7 @@ const ProfessionalSidebar = ({ isOpen, toggleSidebar }: toggleSideI) => {
                 ? "justify-center hover:scale-110 hover:font-extrabold"
                 : "opacity-65 hover:bg-dark-500 rounded-lg pl-2"
             }`}
-            onClick={toggleSidebar}
+            onClick={() => setIsOpen(false)}
           >
             <Icon
               src={item.icon.src}
