@@ -8,10 +8,12 @@ import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 
 export default function Home() {
-  const cookieStore = cookies()
-  const sessionToken = cookieStore.get("session-cookie")
-  if(sessionToken){
-    redirect('/professional')
+  const cookieStore = cookies();
+  const sessionToken = cookieStore.get("session-cookie");
+  if (sessionToken) {
+    redirect("/professional/dashboard");
+  } else {
+    redirect("/");
   }
   return (
     <div className="flex h-screen max-h-screen">
@@ -45,11 +47,11 @@ export default function Home() {
       </section>
       {/* Right section */}
       <Image
-      src={WelcomeImage}
-      height={1000}
-      width={1000}
-      alt="welcome-page-image"
-      className="side-img max-w-[50%]"
+        src={WelcomeImage}
+        height={1000}
+        width={1000}
+        alt="welcome-page-image"
+        className="side-img max-w-[50%]"
       />
     </div>
   );
