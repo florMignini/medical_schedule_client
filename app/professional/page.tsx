@@ -32,7 +32,7 @@ const ProfessionalDashboard = ({
       {/* top - navbar */}
       <Navbar toggleSidebar={toggleSidebar} isOpen={isOpen} />
       {/* bottom - sidebar & main */}
-      <div className="flex-1 lg:grid lg:grid-cols-[20%,80%]">
+      <div className="flex-1 lg:grid lg:grid-cols-[20%,80%] xl:grid-cols-[15%,85%]">
         {/* leftside */}
         <ProfessionalSidebar toggleSidebar={toggleSidebar} isOpen={isOpen} setIsOpen={setIsOpen} />
 

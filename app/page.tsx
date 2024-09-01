@@ -10,11 +10,11 @@ import { redirect } from "next/navigation";
 export default function Home() {
   const cookieStore = cookies();
   const sessionToken = cookieStore.get("session-cookie");
-  if (sessionToken) {
-    redirect("/professional/dashboard");
-  } else {
-    redirect("/");
-  }
+  // if (sessionToken) {
+  //   redirect("/professional/dashboard");
+  // } else {
+  //   redirect("/");
+  // }
   return (
     <div className="flex h-screen max-h-screen">
       {/* Left section */}

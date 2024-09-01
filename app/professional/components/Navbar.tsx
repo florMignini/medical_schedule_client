@@ -22,14 +22,13 @@ const Navbar = ({ isOpen, toggleSidebar }: toggleSideI) => {
       </button>
       <Link href="/professional/dashboard" className="hidden lg:flex">
         {/* Logo */}
-        <div className="pl-8 flex flex-col items-center justify-center">
+        <div className="pl-2 flex flex-col items-center justify-center">
           <Image
             src={Logo}
             alt="Medical_Schedule_logo"
-            width={40}
-            height={40}
+            width={180}
+            height={180}
           />
-          <p className="text-12-semibold text-white">Medical Schedule</p>
         </div>
       </Link>
 

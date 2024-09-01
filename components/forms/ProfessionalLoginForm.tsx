@@ -39,7 +39,7 @@ const ProfessionalLoginform = () => {
     setLoading(true);
     try {
       const res = await loginUser(value);
-      res ? router.push("/professional") : router.push("/");
+      res ? router.push("/professional/dashboard") : router.push("/");
     } catch (error) {
       console.error(error);
       setLoading(false);

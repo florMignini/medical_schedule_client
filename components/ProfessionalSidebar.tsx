@@ -23,16 +23,15 @@ const ProfessionalSidebar = ({
         <div className="w-full pt-2 px-5 flex items-center justify-between">
           <Link
             href="/professional/dashboard"
-            className="flex flex-col items-center justify-center"
+            className="p-2 flex flex-col items-center justify-center"
             onClick={() => setIsOpen(false)}
           >
             <Image
               src={Logo}
               alt="medical-schedule-logo"
-              height={40}
-              width={40}
+              height={180}
+              width={180}
             />
-            <p className="text-[10px]">medical schedule</p>
           </Link>
           <button className="flex" onClick={toggleSidebar}>
             <Icon src={CloseIcon} alt="close-icon" width={30} height={30} />
