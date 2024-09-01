@@ -22,7 +22,7 @@ export default function ProfessionalLayout({
   return (
     <section className="flex flex-col bg-dark-400">
       {/* content */}
-      <div className=" bg-dark-200 m-3 py-1 px-4 rounded-lg h-screen min-h-screen">
+      <div className=" bg-dark-200 m-3 p-1 rounded-lg h-screen min-h-screen">
         <ProfessionalDashboard
         children={children}
         />

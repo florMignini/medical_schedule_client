@@ -1,12 +1,13 @@
 import type { Metadata } from "next";
-import { Plus_Jakarta_Sans } from "next/font/google";
+import { Roboto } from "next/font/google";
 import "./globals.css";
 import { cn } from "@/lib/utils";
 
-const PlusFont = Plus_Jakarta_Sans({
+const PlusFont = Roboto({
   subsets: ["latin"],
-  weight: ["300", "400", "500", "600", "700"],
+  weight: ["100", "300", "400", "500", "700"],
   variable: "--font-plus",
+  display: "swap", // Ensure font is loaded asynchronously to avoid FOIT (Flash of Invisible Text)
 });
 
 export const metadata: Metadata = {
