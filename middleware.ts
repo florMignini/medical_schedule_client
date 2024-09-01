@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 
 const publicRoutes = ["/"];
-const privateRoutes = ["/professional", "/professional/patients", "/professional/institutions"];
+const privateRoutes = ["/professional/dashboard", "/professional/patients", "/professional/institutions"];
 
 export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
@@ -9,7 +9,7 @@ export function middleware(request: NextRequest) {
   const token = request.cookies.get("session-cookie")?.value;
 
 if (publicRoutes.includes(pathname) && token) {
-  return NextResponse.redirect(new URL("/professional", request.url));
+  return NextResponse.redirect(new URL("/professional/dashboard", request.url));
 }
 
 if (privateRoutes.includes(pathname) && !token) {
@@ -21,5 +21,5 @@ if (privateRoutes.includes(pathname) && !token) {
 }
 
 export const config = {
-  matcher: ["/professional", "/professional/patients", "/professional/institutions"],
+  matcher: ["/professional/dashboard", "/professional/patients", "/professional/institutions"],
 };
