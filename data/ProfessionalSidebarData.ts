@@ -1,4 +1,4 @@
-import person from "../public/assets/icons/user.svg"
+import person from "../public/assets/icons/users.svg"
 import institute from "../public/assets/icons/institute.svg"
 export const ProfessionalSidebarData =  [
       {

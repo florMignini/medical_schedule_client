@@ -183,7 +183,6 @@
   .text-12-semibold {
     @apply text-[12px] leading-[16px] font-semibold;
   }
-
   /* =====  SHADCN OVERRIDES */
   .shad-primary-btn {
     @apply bg-green-500 text-white !important;
