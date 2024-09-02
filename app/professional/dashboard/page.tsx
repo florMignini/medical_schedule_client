@@ -6,9 +6,9 @@ import WelcomeGif from "../../../public/assets/medical-welcome.gif";
 const ProfessionalDashboard = () => {
   return (
     <>
-      <div className="flex h-auto flex-col lg:grid lg:grid-cols-[60%,40%] xl:grid-cols-[70%,30%] gap-1">
+      <div className="flex h-auto flex-col lg:grid lg:grid-cols-[70%,30%] xl:grid-cols-[70%,30%] gap-1">
         {/* information side */}
-        <div className="flex flex-col gap-4 ">
+        <div className="flex flex-col gap-4">
           {/* Welcome section */}
           <div className="w-[99%] grid grid-cols-[60%,40%] py-2 px-5 bg-dark-400 rounded-md">
             {/* Welcome */}
