@@ -20,7 +20,7 @@ const ProfessionalDashboard = () => {
                 {/* Message */}
                 <div className="w-[90%] flex flex-col gap-2 pb-1">
                     <h1 className="text-24-bold capitalize">Buen dia Dr. Lastname</h1>
-                    <p className="text-14-thin opacity-55 capitalize">que tengas un lindo DiaDeLaSemana</p>
+                    <p className="text-12-regular text-light-200 capitalize">que tengas un lindo DiaDeLaSemana</p>
                 </div>
             </div>
             {/* gif */}

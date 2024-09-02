@@ -6,7 +6,7 @@ import { z } from "zod";
 import { Form } from "@/components/ui/form";
 import DinamicForm from "../DinamicForm";
 
-import UserIcon from "../../public/assets/icons/user.svg";
+import UserIcon from "../../public/assets/icons/user-shield.svg";
 import PasswordIcon from "../../public/assets/icons/security-password.svg";
 import SubmitButton from "../SubmitButton";
 import { useState } from "react";
