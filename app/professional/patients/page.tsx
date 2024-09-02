@@ -1,6 +1,7 @@
 import Icon from "@/components/ui/icon";
 import userImage from "../../../public/assets/icons/users.svg";
 import plusImage from "../../../public/assets/icons/plus.svg";
+import Link from "next/link";
 
 const PatientsPage = () => {
   return (
@@ -20,7 +21,9 @@ const PatientsPage = () => {
           </div>
         </div>
         <div className="flex items-center justify-end">
-          <button className="flex items-center justify-center gap-2 bg-emerald-400 p-1 rounded-lg cursor-pointer hover:scale-105 active:outline-none">
+          <Link className="flex items-center justify-center gap-2 bg-emerald-400 p-1 rounded-lg cursor-pointer hover:scale-105 active:outline-none"
+          href="/professional/patient-registration"
+          >
             <Icon
               src={plusImage}
               alt="add-patient-icon"
@@ -28,7 +31,7 @@ const PatientsPage = () => {
               height={20}
             />
             <p className="text-dark-200">Agregar paciente</p>
-          </button>
+          </Link>
         </div>
       </div>
     </section>
