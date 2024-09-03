@@ -1,21 +1,25 @@
 "use client";
-
+import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { z } from "zod";
+import Image from "next/image";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { z } from "zod";
-import { Form } from "@/components/ui/form";
+import { Form, FormControl } from "@/components/ui/form";
 import DinamicForm from "../DinamicForm";
-
-import UserIcon from "../../public/assets/icons/user-verification.svg";
-import PasswordIcon from "../../public/assets/icons/security-password.svg";
-import PencilIcon from "../../public/assets/icons/pencil.svg";
 import SubmitButton from "../SubmitButton";
-import { useState } from "react";
-import { loginFormValidation } from "@/lib";
-import { useRouter } from "next/navigation";
-import { FormFieldType } from "./ProfessionalLoginForm";
-import Image from "next/image";
 import Icon from "../ui/icon";
+import { Label } from "../ui";
+import { loginFormValidation } from "@/lib";
+import { FormFieldType } from "./ProfessionalLoginForm";
+import { genderOptions } from "@/data";
+import phoneIcon from "../../public/assets/icons/phone.svg";
+import UserIcon from "../../public/assets/icons/user-verification.svg";
+
+import PencilIcon from "../../public/assets/icons/pencil.svg";
+import mailIcon from "../../public/assets/icons/email.svg";
+
+import { RadioGroup, RadioGroupItem } from "../ui/radio-group";
 
 const PatientRegistrationForm = () => {
   const [loading, setLoading] = useState(false);
@@ -67,52 +71,94 @@ const PatientRegistrationForm = () => {
           </div>
           {/* rightside */}
           <div className="w-[95%]">
-            <DinamicForm
-              fieldType={FormFieldType.INPUT}
-              control={form.control}
-              name="fullname"
-              label="Nombre Completo"
-            />
-            {/* email & phone number */}
-            <div className="flex gap-2">
+            {/* firstname & lastname */}
+            <div className="flex gap-2 mb-2">
               <DinamicForm
                 fieldType={FormFieldType.INPUT}
                 control={form.control}
-                name="username"
-                label="cellphone"
-                placeholder="Usuario o Email"
-                iconSrc={UserIcon}
-                iconAlt="user-icon"
+                name="firstName"
+                label="Nombre/s"
               />
               <DinamicForm
                 fieldType={FormFieldType.INPUT}
                 control={form.control}
-                name="username"
-                label="gender"
-                placeholder="Usuario o Email"
-                iconSrc={UserIcon}
-                iconAlt="user-icon"
+                name="lastName"
+                label="Apellido/s"
               />
             </div>
-             {/* birthdate & gender */}
-             <div className="flex gap-2">
+            {/* address & occupation */}
+            <div className="flex gap-2 mb-2">
               <DinamicForm
                 fieldType={FormFieldType.INPUT}
                 control={form.control}
-                name="username"
-                label="cellphone"
-                placeholder="Usuario o Email"
-                iconSrc={UserIcon}
-                iconAlt="user-icon"
+                name="address"
+                label="Dirección"
               />
               <DinamicForm
                 fieldType={FormFieldType.INPUT}
                 control={form.control}
-                name="username"
-                label="gender"
-                placeholder="Usuario o Email"
-                iconSrc={UserIcon}
-                iconAlt="user-icon"
+                name="occupation"
+                label="Ocupación"
+              />
+            </div>
+            {/* email & phone number */}
+            <div className="flex gap-2 mb-2">
+              <DinamicForm
+                fieldType={FormFieldType.INPUT}
+                control={form.control}
+                name="email"
+                label="Email"
+                placeholder="paciente@email.com"
+                iconSrc={mailIcon}
+                iconAlt="user-email"
+              />
+              <DinamicForm
+                fieldType={FormFieldType.PHONE_INPUT}
+                control={form.control}
+                name="phone"
+                label="Numero de teléfono"
+                placeholder="(0223) 1-234567"
+                iconSrc={phoneIcon}
+                iconAlt="phone-icon"
+              />
+            </div>
+            {/* birthdate & gender */}
+            <div className="flex gap-2 mb-2">
+              <DinamicForm
+                fieldType={FormFieldType.DATE_PICKER}
+                control={form.control}
+                name="birthDate"
+                label="Fecha de Nacimiento"
+                placeholder="dd/MM/YYYY"
+
+              />
+              <DinamicForm
+                fieldType={FormFieldType.SKELETON}
+                control={form.control}
+                name="gender"
+                label="Genero"
+                renderSkeleton={(field) => (
+                  <FormControl>
+                    <RadioGroup
+                      className="flex h-11 xl:justify-between"
+                      onValueChange={field.onChange}
+                      defaultValue={field.value}
+                    >
+                      {genderOptions.map((gender: string) => (
+                        <div key={gender} className="radio-group gap-1">
+                          <RadioGroupItem
+                            value={gender}
+                            id={gender}
+                          />
+                          <Label
+                          htmlFor={gender}
+                          className="cursor-pointer"
+                          >{gender}</Label>
+                        </div>
+                      ))}
+                    </RadioGroup>
+                  </FormControl>
+                )}
               />
             </div>
           </div>

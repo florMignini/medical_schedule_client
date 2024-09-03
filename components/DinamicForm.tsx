@@ -1,6 +1,11 @@
 "use client";
 
+import Image from "next/image";
 import { Control } from "react-hook-form";
+import DatePicker from "react-datepicker";
+
+import "react-datepicker/dist/react-datepicker.css";
+import "react-phone-number-input/style.css";
 import {
   FormControl,
   FormDescription,
@@ -11,10 +16,8 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { FormFieldType } from "./forms";
-import Image from "next/image";
-import "react-phone-number-input/style.css";
 import PhoneInput from "react-phone-number-input";
-
+import calendarIcon from "../public/assets/icons/calendar.svg";
 interface CustomProperty {
   control: Control<any>;
   fieldType: FormFieldType;
@@ -37,7 +40,7 @@ const DinamicField = ({
   field: any;
   props: CustomProperty;
 }) => {
-  const { fieldType, iconAlt, iconSrc, placeholder } = props;
+  const { fieldType, iconAlt, iconSrc, placeholder, showTimeSelect, dateFormat, renderSkeleton } = props;
 
   switch (props.fieldType) {
     case FormFieldType.INPUT:
@@ -73,6 +76,24 @@ const DinamicField = ({
           className="input-phone"
         />
       );
+    case FormFieldType.DATE_PICKER:
+      return (
+        <div className="flex rounded-md border border-dark-500 bg-dark-400">
+          <Image src={calendarIcon} alt="calendar-icon" height={24} width={24} className="ml-2" />
+          <FormControl>
+          <DatePicker selected={field.value} onChange={(date) => field.onChange(date)} 
+            dateFormat={dateFormat ?? 'dd/MM/yyyy'}
+            showTimeSelect={showTimeSelect ?? false}
+            wrapperClassName="date-picker"
+            timeInputLabel="Time:"
+            />
+          </FormControl>
+        </div>
+      );
+    case FormFieldType.SKELETON:
+      return renderSkeleton ? renderSkeleton(field) : null
+      default:
+      break;
   }
 };
 const DinamicForm = (props: CustomProperty) => {
