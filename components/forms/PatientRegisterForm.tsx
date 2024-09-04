@@ -49,7 +49,7 @@ const PatientRegistrationForm = () => {
           <div className="h-5 border-x-2 border-white" />
           <h1 className="text-16-semibold">Información Personal</h1>
         </div>
-        <div className="mb-5 space-y-4 grid grid-cols-[30%,70%] ">
+        <div className="mb-5 space-y-4 flex flex-wrap items-center justify-center lg:grid lg:grid-cols-[30%,70%] ">
           {/* left side */}
           <div className="flex items-start justify-center py-4">
             <Image
@@ -102,7 +102,7 @@ const PatientRegistrationForm = () => {
               />
             </div>
             {/* email & phone number */}
-            <div className="flex gap-2 mb-2">
+            <div className="flex flex-col md:flex-row gap-2 mb-2">
               <DinamicForm
                 fieldType={FormFieldType.INPUT}
                 control={form.control}

@@ -1,1 +1,1 @@
-export const genderOptions = ["M", "F", "X", "Prefiero no decirlo"]
+export const genderOptions = ["M", "F", "X"]
