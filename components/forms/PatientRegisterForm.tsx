@@ -45,122 +45,152 @@ const PatientRegistrationForm = () => {
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6 flex-1">
         {/* patient personal information */}
-        <div className="flex px-6 gap-2">
-          <div className="h-5 border-x-2 border-white" />
-          <h1 className="text-16-semibold">Información Personal</h1>
-        </div>
-        <div className="mb-5 space-y-4 flex flex-wrap items-center justify-center lg:grid lg:grid-cols-[30%,70%] ">
-          {/* left side */}
-          <div className="flex items-start justify-center py-4">
-            <Image
-              src={UserIcon}
-              alt="user-photo-placeholder"
-              width={100}
-              height={100}
-            />
-            <div className="h-[100%] flex items-start justify-end pt-[35%]">
-              <button className="w-7 h-7 rounded-full cursor-pointer bg-dark-400 p-1">
-                <Icon
-                  src={PencilIcon}
-                  alt="pencil-icon"
-                  width={18}
-                  height={18}
+        <div className="mb-10">
+          {/* head */}
+          <div className="flex px-2 gap-2 mb-5">
+            <div className="h-5 border-x-2 border-white" />
+            <h1 className="text-16-semibold">Información Personal</h1>
+          </div>
+          {/* forms */}
+          <div className="mb-5 space-y-4 flex flex-wrap items-center justify-center lg:grid lg:grid-cols-[30%,70%] ">
+            {/* left side */}
+            <div className="flex items-start justify-center py-4">
+              <Image
+                src={UserIcon}
+                alt="user-photo-placeholder"
+                width={100}
+                height={100}
+              />
+              <div className="h-[100%] flex items-start justify-end pt-[35%]">
+                <button className="w-7 h-7 rounded-full cursor-pointer bg-dark-400 p-1">
+                  <Icon
+                    src={PencilIcon}
+                    alt="pencil-icon"
+                    width={18}
+                    height={18}
+                  />
+                </button>
+              </div>
+            </div>
+            {/* rightside */}
+            <div className="w-[95%]">
+              {/* firstname & lastname */}
+              <div className="flex gap-2 mb-2">
+                <DinamicForm
+                  fieldType={FormFieldType.INPUT}
+                  control={form.control}
+                  name="firstName"
+                  label="Nombre/s"
                 />
-              </button>
+                <DinamicForm
+                  fieldType={FormFieldType.INPUT}
+                  control={form.control}
+                  name="lastName"
+                  label="Apellido/s"
+                />
+              </div>
+              {/* address & occupation */}
+              <div className="flex gap-2 mb-2">
+                <DinamicForm
+                  fieldType={FormFieldType.INPUT}
+                  control={form.control}
+                  name="address"
+                  label="Dirección"
+                  placeholder="Av. Independencia 1111, Mar del Plata"
+                />
+                <DinamicForm
+                  fieldType={FormFieldType.INPUT}
+                  control={form.control}
+                  name="occupation"
+                  label="Ocupación"
+                  placeholder="Ingeniero en software"
+                />
+              </div>
+              {/* email & phone number */}
+              <div className="flex flex-col md:flex-row gap-2 mb-2">
+                <DinamicForm
+                  fieldType={FormFieldType.INPUT}
+                  control={form.control}
+                  name="email"
+                  label="Email"
+                  placeholder="paciente@email.com"
+                  iconSrc={mailIcon}
+                  iconAlt="user-email"
+                />
+                <DinamicForm
+                  fieldType={FormFieldType.PHONE_INPUT}
+                  control={form.control}
+                  name="phone"
+                  label="Numero de teléfono"
+                  placeholder="(0223) 1-234567"
+                  iconSrc={phoneIcon}
+                  iconAlt="phone-icon"
+                />
+              </div>
+              {/* birthdate & gender */}
+              <div className="flex gap-2 mb-2">
+                <DinamicForm
+                  fieldType={FormFieldType.DATE_PICKER}
+                  control={form.control}
+                  name="birthDate"
+                  label="Fecha de Nacimiento"
+                  placeholder="dd/MM/YYYY"
+                />
+                <DinamicForm
+                  fieldType={FormFieldType.SKELETON}
+                  control={form.control}
+                  name="gender"
+                  label="Genero"
+                  renderSkeleton={(field) => (
+                    <FormControl>
+                      <RadioGroup
+                        className="flex h-11 xl:justify-between"
+                        onValueChange={field.onChange}
+                        defaultValue={field.value}
+                      >
+                        {genderOptions.map((gender: string) => (
+                          <div key={gender} className="radio-group gap-1">
+                            <RadioGroupItem value={gender} id={gender} />
+                            <Label htmlFor={gender} className="cursor-pointer">
+                              {gender}
+                            </Label>
+                          </div>
+                        ))}
+                      </RadioGroup>
+                    </FormControl>
+                  )}
+                />
+              </div>
             </div>
           </div>
-          {/* rightside */}
-          <div className="w-[95%]">
-            {/* firstname & lastname */}
-            <div className="flex gap-2 mb-2">
-              <DinamicForm
-                fieldType={FormFieldType.INPUT}
-                control={form.control}
-                name="firstName"
-                label="Nombre/s"
-              />
-              <DinamicForm
-                fieldType={FormFieldType.INPUT}
-                control={form.control}
-                name="lastName"
-                label="Apellido/s"
-              />
-            </div>
-            {/* address & occupation */}
-            <div className="flex gap-2 mb-2">
-              <DinamicForm
-                fieldType={FormFieldType.INPUT}
-                control={form.control}
-                name="address"
-                label="Dirección"
-              />
-              <DinamicForm
-                fieldType={FormFieldType.INPUT}
-                control={form.control}
-                name="occupation"
-                label="Ocupación"
-              />
-            </div>
-            {/* email & phone number */}
-            <div className="flex flex-col md:flex-row gap-2 mb-2">
-              <DinamicForm
-                fieldType={FormFieldType.INPUT}
-                control={form.control}
-                name="email"
-                label="Email"
-                placeholder="paciente@email.com"
-                iconSrc={mailIcon}
-                iconAlt="user-email"
-              />
-              <DinamicForm
-                fieldType={FormFieldType.PHONE_INPUT}
-                control={form.control}
-                name="phone"
-                label="Numero de teléfono"
-                placeholder="(0223) 1-234567"
-                iconSrc={phoneIcon}
-                iconAlt="phone-icon"
-              />
-            </div>
-            {/* birthdate & gender */}
-            <div className="flex gap-2 mb-2">
-              <DinamicForm
-                fieldType={FormFieldType.DATE_PICKER}
-                control={form.control}
-                name="birthDate"
-                label="Fecha de Nacimiento"
-                placeholder="dd/MM/YYYY"
+        </div>
 
-              />
-              <DinamicForm
-                fieldType={FormFieldType.SKELETON}
-                control={form.control}
-                name="gender"
-                label="Genero"
-                renderSkeleton={(field) => (
-                  <FormControl>
-                    <RadioGroup
-                      className="flex h-11 xl:justify-between"
-                      onValueChange={field.onChange}
-                      defaultValue={field.value}
-                    >
-                      {genderOptions.map((gender: string) => (
-                        <div key={gender} className="radio-group gap-1">
-                          <RadioGroupItem
-                            value={gender}
-                            id={gender}
-                          />
-                          <Label
-                          htmlFor={gender}
-                          className="cursor-pointer"
-                          >{gender}</Label>
-                        </div>
-                      ))}
-                    </RadioGroup>
-                  </FormControl>
-                )}
-              />
-            </div>
+        {/* medical records */}
+        <div className="mb-10">
+          {/* head */}
+          <div className="flex px-2 gap-2 mb-5">
+            <div className="h-5 border-x-2 border-white" />
+            <h1 className="text-16-semibold capitalize">registros médicos</h1>
+          </div>
+          {/* forms */}
+          <div className="px-[1.2rem]">
+            {/* ensurance_provider & ensurance_policy_number */}
+          <div className="flex gap-2 mb-2">
+            <DinamicForm
+              fieldType={FormFieldType.INPUT}
+              control={form.control}
+              name="insurance_provider"
+              label="Cobertura Médica"
+              placeholder="PAMI"
+            />
+            <DinamicForm
+              fieldType={FormFieldType.INPUT}
+              control={form.control}
+              name="insurance_policy_number"
+              label="Número de Afiliado"
+              placeholder="123456789012/00"
+            />
+          </div>
           </div>
         </div>
         {/* 
