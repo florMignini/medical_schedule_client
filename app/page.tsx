@@ -7,7 +7,6 @@ import Link from "next/link";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 
-
 export default function Home() {
   const cookieStore = cookies();
   const sessionToken = cookieStore.get("session-cookie");
@@ -48,6 +47,7 @@ export default function Home() {
       </section>
       {/* Right section */}
       <Image
+        unoptimized
         src={WelcomeImage}
         height={1000}
         width={1000}

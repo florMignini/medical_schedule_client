@@ -1,0 +1,1 @@
+export const AllergiesType = ["Alimentos", "Drogas/Medicamentos","Ambientales/Estacionales", "Contacto", "Otras"]

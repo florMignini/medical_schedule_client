@@ -12,7 +12,7 @@ import Icon from "../ui/icon";
 import { Label } from "../ui";
 import { loginFormValidation } from "@/lib";
 import { FormFieldType } from "./ProfessionalLoginForm";
-import { genderOptions } from "@/data";
+import { AllergiesType, booleanOption, genderOptions } from "@/data";
 import phoneIcon from "../../public/assets/icons/phone.svg";
 import UserIcon from "../../public/assets/icons/user-verification.svg";
 
@@ -20,9 +20,11 @@ import PencilIcon from "../../public/assets/icons/pencil.svg";
 import mailIcon from "../../public/assets/icons/email.svg";
 
 import { RadioGroup, RadioGroupItem } from "../ui/radio-group";
+import { Select, SelectItem } from "../ui/select";
 
 const PatientRegistrationForm = () => {
   const [loading, setLoading] = useState(false);
+  const [allergiesType, setAllergiesType] = useState("")
   const router = useRouter();
   const form = useForm<z.infer<typeof loginFormValidation>>({
     resolver: zodResolver(loginFormValidation),
@@ -40,7 +42,7 @@ const PatientRegistrationForm = () => {
       setLoading(false);
     }
   }
-
+console.log(form.getValues)
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6 flex-1">
@@ -175,22 +177,94 @@ const PatientRegistrationForm = () => {
           {/* forms */}
           <div className="px-[1.2rem]">
             {/* ensurance_provider & ensurance_policy_number */}
-          <div className="flex gap-2 mb-2">
-            <DinamicForm
-              fieldType={FormFieldType.INPUT}
-              control={form.control}
-              name="insurance_provider"
-              label="Cobertura Médica"
-              placeholder="PAMI"
-            />
-            <DinamicForm
-              fieldType={FormFieldType.INPUT}
-              control={form.control}
-              name="insurance_policy_number"
-              label="Número de Afiliado"
-              placeholder="123456789012/00"
-            />
-          </div>
+            <div className="flex gap-2 mb-2">
+              <DinamicForm
+                fieldType={FormFieldType.INPUT}
+                control={form.control}
+                name="insurance_provider"
+                label="Cobertura Médica"
+                placeholder="PAMI"
+              />
+              <DinamicForm
+                fieldType={FormFieldType.INPUT}
+                control={form.control}
+                name="insurance_policy_number"
+                label="Número de Afiliado"
+                placeholder="123456789012/00"
+              />
+            </div>
+            {/* smoker & ex-smoker */}
+            <div className="flex gap-2 mb-2">
+              {/* smoker */}
+              <DinamicForm
+                fieldType={FormFieldType.SKELETON}
+                control={form.control}
+                name="fumador"
+                label="Fumador"
+                renderSkeleton={(field) => (
+                  <FormControl>
+                    <RadioGroup
+                      className="flex h-11 xl:justify-between"
+                      onValueChange={field.onChange}
+                      defaultValue={field.value}
+                    >
+                      {booleanOption.map((bool: string) => (
+                        <div key={bool} className="radio-group gap-1">
+                          <RadioGroupItem value={bool} id={bool} />
+                          <Label htmlFor={bool} className="cursor-pointer">
+                            {bool}
+                          </Label>
+                        </div>
+                      ))}
+                    </RadioGroup>
+                  </FormControl>
+                )}
+              />
+              {/* ex-smoker */}
+              <DinamicForm
+                fieldType={FormFieldType.SKELETON}
+                control={form.control}
+                name="ex-fumador"
+                label="Ex-Fumador"
+                renderSkeleton={(field) => (
+                  <FormControl>
+                    <RadioGroup
+                      className="flex h-11 xl:justify-between"
+                      onValueChange={field.onChange}
+                      defaultValue={field.value}
+                    >
+                      {booleanOption.map((bool: string) => (
+                        <div key={bool} className="radio-group gap-1">
+                          <RadioGroupItem value={bool} id={bool} />
+                          <Label htmlFor={bool} className="cursor-pointer">
+                            {bool}
+                          </Label>
+                        </div>
+                      ))}
+                    </RadioGroup>
+                  </FormControl>
+                )}
+              />
+            </div>
+            {/* allergies */}
+            <div className="flex gap-2 mb-2">
+              <DinamicForm
+                fieldType={FormFieldType.SELECT}
+                control={form.control}
+                name="allergies"
+                label="Alergias"
+                placeholder="Seleccione tipo de alergia"
+              >
+                {AllergiesType.map((allergie) => (
+                  <SelectItem key={allergie} value={allergie}>
+                    <button className="flex items-center justify-start pl-2 cursor-pointer text-white"
+                    >
+                      <p className="text-14-regular text-white">{allergie}</p>
+                    </button>
+                  </SelectItem>
+                ))}
+              </DinamicForm>
+            </div>
           </div>
         </div>
         {/* 
