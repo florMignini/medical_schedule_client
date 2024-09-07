@@ -12,19 +12,27 @@ import Icon from "../ui/icon";
 import { Label } from "../ui";
 import { loginFormValidation } from "@/lib";
 import { FormFieldType } from "./ProfessionalLoginForm";
-import { AllergiesType, booleanOption, genderOptions } from "@/data";
+import { AllergiesType,AllergiesDescription, booleanOption, genderOptions } from "@/data";
 import phoneIcon from "../../public/assets/icons/phone.svg";
 import UserIcon from "../../public/assets/icons/user-verification.svg";
-
+import DropdownIcon from "../../public/assets/icons/arrowDown.svg";
 import PencilIcon from "../../public/assets/icons/pencil.svg";
 import mailIcon from "../../public/assets/icons/email.svg";
 
 import { RadioGroup, RadioGroupItem } from "../ui/radio-group";
 import { Select, SelectItem } from "../ui/select";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuRadioGroup,
+  DropdownMenuRadioItem,
+  DropdownMenuTrigger,
+} from "../ui/dropdown-menu";
+import DinamicAllergieContent from "../DinamicAllergieContent";
 
 const PatientRegistrationForm = () => {
   const [loading, setLoading] = useState(false);
-  const [allergiesType, setAllergiesType] = useState("")
+  const [allergiesType, setAllergiesType] = useState("");
   const router = useRouter();
   const form = useForm<z.infer<typeof loginFormValidation>>({
     resolver: zodResolver(loginFormValidation),
@@ -42,7 +50,7 @@ const PatientRegistrationForm = () => {
       setLoading(false);
     }
   }
-console.log(form.getValues)
+
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6 flex-1">
@@ -146,7 +154,7 @@ console.log(form.getValues)
                   renderSkeleton={(field) => (
                     <FormControl>
                       <RadioGroup
-                        className="flex h-11 xl:justify-between"
+                        className="flex h-14 xl:justify-between"
                         onValueChange={field.onChange}
                         defaultValue={field.value}
                       >
@@ -204,7 +212,7 @@ console.log(form.getValues)
                 renderSkeleton={(field) => (
                   <FormControl>
                     <RadioGroup
-                      className="flex h-11 xl:justify-between"
+                      className="flex h-14 xl:justify-between"
                       onValueChange={field.onChange}
                       defaultValue={field.value}
                     >
@@ -229,7 +237,7 @@ console.log(form.getValues)
                 renderSkeleton={(field) => (
                   <FormControl>
                     <RadioGroup
-                      className="flex h-11 xl:justify-between"
+                      className="flex h-14 xl:justify-between"
                       onValueChange={field.onChange}
                       defaultValue={field.value}
                     >
@@ -248,22 +256,46 @@ console.log(form.getValues)
             </div>
             {/* allergies */}
             <div className="flex gap-2 mb-2">
-              <DinamicForm
-                fieldType={FormFieldType.SELECT}
-                control={form.control}
-                name="allergies"
-                label="Alergias"
-                placeholder="Seleccione tipo de alergia"
-              >
-                {AllergiesType.map((allergie) => (
-                  <SelectItem key={allergie} value={allergie}>
-                    <button className="flex items-center justify-start pl-2 cursor-pointer text-white"
+              {/* allergies type */}
+              <div className="flex w-[30%] rounded-md border border-dark-500 gap-2 p-1 outline-none bg-dark-400 flex-col">
+                <DropdownMenu>
+                  <DropdownMenuTrigger className="flex items-center justify-center gap-2">
+                    Alérgias
+                    <Icon
+                      src={DropdownIcon}
+                      alt="dropdown-icon"
+                      width={18}
+                      height={18}
+                    />
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent className="ml-5 w-full flex items-center justify-start">
+                    <DropdownMenuRadioGroup
+                      value={allergiesType}
+                      onValueChange={setAllergiesType}
+                      className="flex w-full flex-col items-center gap-1 rounded-md  border-dark-500 bg-dark-400
+                      text-white text-ellipsis"
                     >
-                      <p className="text-14-regular text-white">{allergie}</p>
-                    </button>
-                  </SelectItem>
-                ))}
-              </DinamicForm>
+                      {AllergiesType.map((allergie) => (
+                        <DropdownMenuRadioItem value={allergie}
+                        className="w-[90%] flex items-center justify-start pl-6"
+                        >
+                          {allergie}
+                        </DropdownMenuRadioItem>
+                      ))}
+                    </DropdownMenuRadioGroup>
+                  </DropdownMenuContent>
+                </DropdownMenu>
+                <p className="text-16-semibold mx-auto">{allergiesType}</p>
+              </div>
+              <div>
+                {
+                  allergiesType ? (
+                    <DinamicAllergieContent
+                    allergiesType={allergiesType}
+                    />
+                  ) : null
+                }
+              </div>
             </div>
           </div>
         </div>
