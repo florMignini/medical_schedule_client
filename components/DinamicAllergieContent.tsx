@@ -10,23 +10,25 @@ import { FormControl, Label } from "./ui";
 import { RadioGroup, RadioGroupItem } from "./ui/radio-group";
 import { FormFieldType } from "./forms";
 import { Textarea } from "./ui/textarea";
+import { useState } from "react";
 
 
 const DinamicAllergieContent = ({ allergiesType, form }: any) => {
   const renderSwitch = (allergie: string) => {
-
+const [optionSelected, setOptionSelected] = useState("")
+console.log(optionSelected)
     switch (allergie) {
       case "Alimentos":
         return (
           <FormControl>
                 <RadioGroup
                   className="flex flex-wrap  xl:justify-between"
-                  // onValueChange={field.onChange}
-                  // defaultValue={field.value}
-                >
+                 >
                  
                   {foodAllergies.map((allergie: string) => (
-                    <div key={allergie} className="radio-group gap-1">
+                    <div key={allergie} 
+                    onChange={() => setOptionSelected(allergie)}
+                    className="radio-group gap-1">
                       <RadioGroupItem value={allergie} id={allergie} />
                       <Label htmlFor={allergie} className="cursor-pointer">
                         {allergie}
@@ -41,11 +43,11 @@ const DinamicAllergieContent = ({ allergiesType, form }: any) => {
           <FormControl>
                 <RadioGroup
                   className="flex flex-wrap  xl:justify-between"
-                  // onValueChange={field.onChange}
-                  // defaultValue={field.value}
-                >
+                  >
                   {medAllergies.map((allergie: string) => (
-                    <div key={allergie} className="radio-group gap-1">
+                    <div key={allergie} 
+                    onChange={() => setOptionSelected(allergie)}
+                    className="radio-group gap-1">
                       <RadioGroupItem value={allergie} id={allergie} />
                       <Label htmlFor={allergie} className="cursor-pointer">
                         {allergie}
@@ -60,11 +62,11 @@ const DinamicAllergieContent = ({ allergiesType, form }: any) => {
           <FormControl>
           <RadioGroup
             className="flex flex-wrap  xl:justify-between"
-            // onValueChange={field.onChange}
-            // defaultValue={field.value}
-          >
+            >
             {environmentAllergies.map((allergie: string) => (
-              <div key={allergie} className="radio-group gap-1">
+              <div key={allergie} 
+              onChange={() => setOptionSelected(allergie)}
+              className="radio-group gap-1">
                 <RadioGroupItem value={allergie} id={allergie} />
                 <Label htmlFor={allergie} className="cursor-pointer">
                   {allergie}
@@ -79,11 +81,11 @@ const DinamicAllergieContent = ({ allergiesType, form }: any) => {
           <FormControl>
           <RadioGroup
             className="flex flex-wrap  xl:justify-between"
-            // onValueChange={field.onChange}
-            // defaultValue={field.value}
           >
             {contactAllergies.map((allergie: string) => (
-              <div key={allergie} className="radio-group gap-1">
+              <div key={allergie} 
+              onChange={() => setOptionSelected(allergie)}
+              className="radio-group gap-1">
                 <RadioGroupItem value={allergie} id={allergie} />
                 <Label htmlFor={allergie} className="cursor-pointer">
                   {allergie}
@@ -103,6 +105,7 @@ const DinamicAllergieContent = ({ allergiesType, form }: any) => {
       default:
         return <div>No Option Selected</div>;
     }
+  
   };
   return <div>{renderSwitch(allergiesType)}</div>;
 };
