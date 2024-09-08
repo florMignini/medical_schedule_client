@@ -97,7 +97,7 @@ const DinamicAllergieContent = ({ allergiesType, form }: any) => {
         return (
           <Textarea
             placeholder="Otras alergias."
-            className="w-full flex flex-1 bg-dark-400 text-white"
+            className="w-full flex flex-1 bg-dark-400 text-white outline-none"
           />
         );
       default:
