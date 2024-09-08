@@ -12,7 +12,12 @@ import Icon from "../ui/icon";
 import { Label } from "../ui";
 import { loginFormValidation } from "@/lib";
 import { FormFieldType } from "./ProfessionalLoginForm";
-import { AllergiesType,AllergiesDescription, booleanOption, genderOptions } from "@/data";
+import {
+  AllergiesType,
+  AllergiesDescription,
+  booleanOption,
+  genderOptions,
+} from "@/data";
 import phoneIcon from "../../public/assets/icons/phone.svg";
 import UserIcon from "../../public/assets/icons/user-verification.svg";
 import DropdownIcon from "../../public/assets/icons/arrowDown.svg";
@@ -257,7 +262,7 @@ const PatientRegistrationForm = () => {
             {/* allergies */}
             <div className="flex gap-2 mb-2">
               {/* allergies type */}
-              <div className="flex w-[30%] rounded-md border border-dark-500 gap-2 p-1 outline-none bg-dark-400 flex-col">
+              <div className="flex w-[50%] h-14 rounded-md border border-dark-500 gap-2 p-1 outline-none bg-dark-400 flex-col">
                 <DropdownMenu>
                   <DropdownMenuTrigger className="flex items-center justify-center gap-2">
                     Alérgias
@@ -276,8 +281,9 @@ const PatientRegistrationForm = () => {
                       text-white text-ellipsis"
                     >
                       {AllergiesType.map((allergie) => (
-                        <DropdownMenuRadioItem value={allergie}
-                        className="w-[90%] flex items-center justify-start pl-6"
+                        <DropdownMenuRadioItem
+                          value={allergie}
+                          className="w-[90%] flex items-center justify-start pl-6"
                         >
                           {allergie}
                         </DropdownMenuRadioItem>
@@ -285,16 +291,16 @@ const PatientRegistrationForm = () => {
                     </DropdownMenuRadioGroup>
                   </DropdownMenuContent>
                 </DropdownMenu>
-                <p className="text-16-semibold mx-auto">{allergiesType}</p>
               </div>
-              <div>
-                {
-                  allergiesType ? (
+              <div className="flex w-[50%]">
+                {allergiesType ? (
+                  <div className=" rounded-md border border-dark-500 gap-2 p-1 outline-none bg-dark-400 flex-col">
                     <DinamicAllergieContent
-                    allergiesType={allergiesType}
+                      allergiesType={allergiesType}
+                      form={form}
                     />
-                  ) : null
-                }
+                  </div>
+                ) : null}
               </div>
             </div>
           </div>
