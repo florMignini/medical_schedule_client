@@ -262,9 +262,9 @@ const PatientRegistrationForm = () => {
             {/* allergies */}
             <div className="flex gap-2 mb-2">
               {/* allergies type */}
-              <div className="flex w-[50%] h-14 rounded-md border border-dark-500 gap-2 p-1 outline-none bg-dark-400 flex-col">
+              <div className="flex w-[50%] h-14 rounded-md items-center justify-center border border-dark-500 gap-2 p-1 outline-none bg-dark-400 flex-col">
                 <DropdownMenu>
-                  <DropdownMenuTrigger className="flex items-center justify-center gap-2">
+                  <DropdownMenuTrigger className="flex items-center justify-center gap-2 outline-none">
                     Alérgias
                     <Icon
                       src={DropdownIcon}
@@ -291,6 +291,7 @@ const PatientRegistrationForm = () => {
                     </DropdownMenuRadioGroup>
                   </DropdownMenuContent>
                 </DropdownMenu>
+                      <p className="text-16-semibold">{allergiesType}</p>
               </div>
               <div className="flex w-[50%]">
                 {allergiesType ? (
