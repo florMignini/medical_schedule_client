@@ -52,7 +52,7 @@ const DinamicField = ({
     dateFormat,
     renderSkeleton,
   } = props;
-console.log(field)
+
   switch (props.fieldType) {
     case FormFieldType.INPUT:
       return (

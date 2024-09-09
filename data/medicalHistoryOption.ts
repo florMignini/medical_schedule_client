@@ -1,0 +1,1 @@
+export const medicalHistory =["Clínico", "Hematológico", "Oncológico", "Quirurgíco", "Otro"]

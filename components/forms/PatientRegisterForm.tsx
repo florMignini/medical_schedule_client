@@ -18,6 +18,7 @@ import {
   booleanOption,
   genderOptions,
   identificationType,
+  medicalHistory,
 } from "@/data";
 import phoneIcon from "../../public/assets/icons/phone.svg";
 import UserIcon from "../../public/assets/icons/user-verification.svg";
@@ -39,6 +40,7 @@ import FileUploader from "../FileUploader";
 const PatientRegistrationForm = () => {
   const [loading, setLoading] = useState(false);
   const [allergiesType, setAllergiesType] = useState("");
+  const [medicalHistoryType, setMedicalHistoryType] = useState("");
   const [identityType, setIdentityType] = useState("");
   const router = useRouter();
   const form = useForm<z.infer<typeof loginFormValidation>>({
@@ -243,14 +245,14 @@ const PatientRegistrationForm = () => {
               <DinamicForm
                 fieldType={FormFieldType.INPUT}
                 control={form.control}
-                name="insurance_provider"
+                name="insuranceProvider"
                 label="Cobertura Médica"
                 placeholder="PAMI"
               />
               <DinamicForm
                 fieldType={FormFieldType.INPUT}
                 control={form.control}
-                name="insurance_policy_number"
+                name="insurancePolicyNumber"
                 label="Número de Afiliado"
                 placeholder="123456789012/00"
               />
@@ -261,7 +263,7 @@ const PatientRegistrationForm = () => {
               <DinamicForm
                 fieldType={FormFieldType.SKELETON}
                 control={form.control}
-                name="fumador"
+                name="smoker"
                 label="Fumador"
                 renderSkeleton={(field) => (
                   <FormControl>
@@ -286,7 +288,7 @@ const PatientRegistrationForm = () => {
               <DinamicForm
                 fieldType={FormFieldType.SKELETON}
                 control={form.control}
-                name="ex-fumador"
+                name="exSmoker"
                 label="Ex-Fumador"
                 renderSkeleton={(field) => (
                   <FormControl>
@@ -309,9 +311,9 @@ const PatientRegistrationForm = () => {
               />
             </div>
             {/* allergies */}
-            <div className="flex gap-2 mb-2">
+            <div className="w-[100%] flex flex-col justify-end md:flex-row gap-2 mb-2">
               {/* allergies type */}
-              <div className="flex w-[50%] h-14 rounded-md items-center justify-center border border-dark-500 gap-2 p-1 outline-none bg-dark-400 flex-col">
+              <div className="flex w-[40%] rounded-md items-center justify-center border border-dark-500 gap-2 p-1 outline-none bg-dark-400 flex-col">
                 <DropdownMenu>
                   <DropdownMenuTrigger className="flex items-center justify-center gap-2 outline-none">
                     Alérgias
@@ -342,8 +344,9 @@ const PatientRegistrationForm = () => {
                 </DropdownMenu>
                 <p className="text-16-semibold">{allergiesType}</p>
               </div>
-              <div className="flex w-[50%]">
-                {/* choose specific allergie */}
+
+              {/* choose specific allergie */}
+              <div className="w-[60%] flex">
                 {allergiesType ? (
                   <div className=" rounded-md border border-dark-500 gap-2 p-1 outline-none bg-dark-400 flex-col">
                     <DinamicAllergieContent
@@ -358,17 +361,59 @@ const PatientRegistrationForm = () => {
             <div className="flex gap-2 mb-2">
               <DinamicForm
                 control={form.control}
-                name="current_medication"
+                name="currentMedication"
                 label="Medicamentos Actuales"
                 placeholder="Ex: Prednisone, Amoxicilina, Paracetamol"
                 fieldType={FormFieldType.TEXTAREA}
               />
               <DinamicForm
                 control={form.control}
-                name="family_medical_history"
+                name="familyMedicalHistory"
                 label="Antecedentes Familiares"
                 placeholder="Diabetes, Cáncer..."
                 fieldType={FormFieldType.TEXTAREA}
+              />
+            </div>
+            {/* medical history */}
+            <div className="flex flex-col justify-end md:flex-row gap-2 mb-2">
+              <div className="flex w-[40%] rounded-md items-center justify-center border border-dark-500 gap-2 p-1 outline-none bg-dark-400 flex-col">
+                <DropdownMenu>
+                  <DropdownMenuTrigger className="flex items-center justify-center gap-1 outline-none">
+                    Antecedentes Médicos
+                    <Icon
+                      src={DropdownIcon}
+                      alt="dropdown-icon"
+                      width={18}
+                      height={18}
+                    />
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent className="ml-5 w-full flex items-center justify-start">
+                    <DropdownMenuRadioGroup
+                      value={medicalHistoryType}
+                      onValueChange={setMedicalHistoryType}
+                      className="flex w-full flex-col items-center gap-1 rounded-md  border-dark-500 bg-dark-400
+                      text-white text-ellipsis"
+                    >
+                      {medicalHistory.map((history: string) => (
+                        <DropdownMenuRadioItem
+                          value={history}
+                          className="w-[90%] flex items-center justify-start pl-6"
+                        >
+                          {history}
+                        </DropdownMenuRadioItem>
+                      ))}
+                    </DropdownMenuRadioGroup>
+                  </DropdownMenuContent>
+                  <p>{medicalHistoryType}</p>
+                </DropdownMenu>
+              </div>
+              {/* add relevant information */}
+              <DinamicForm
+                fieldType={FormFieldType.TEXTAREA}
+                control={form.control}
+                name="pastMedicalHistory"
+                label="Observaciones/Comentarios"
+                placeholder="Agregar comentarios/observaciones relevantes"
               />
             </div>
           </div>
