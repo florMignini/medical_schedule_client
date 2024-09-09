@@ -1,5 +1,6 @@
 export * from './DinamicAllergieContent';
 export * from './DinamicForm';
+export * from './FileUploader';
 export * from './forms/PatientRegisterForm';
 export * from './forms/ProfessionalLoginForm';
 export * from './ProfessionalSidebar';
@@ -13,3 +14,4 @@ export * from './ui/input';
 export * from './ui/label';
 export * from './ui/radio-group';
 export * from './ui/select';
+export * from './ui/textarea';
