@@ -1,0 +1,1 @@
+export const identificationType = ['DNI', 'Libreta de enrolamiento', 'pasaporte']

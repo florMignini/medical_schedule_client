@@ -17,6 +17,7 @@ import {
   AllergiesDescription,
   booleanOption,
   genderOptions,
+  identificationType,
 } from "@/data";
 import phoneIcon from "../../public/assets/icons/phone.svg";
 import UserIcon from "../../public/assets/icons/user-verification.svg";
@@ -35,10 +36,10 @@ import {
 import DinamicAllergieContent from "../DinamicAllergieContent";
 import FileUploader from "../FileUploader";
 
-
 const PatientRegistrationForm = () => {
   const [loading, setLoading] = useState(false);
   const [allergiesType, setAllergiesType] = useState("");
+  const [identityType, setIdentityType] = useState("");
   const router = useRouter();
   const form = useForm<z.infer<typeof loginFormValidation>>({
     resolver: zodResolver(loginFormValidation),
@@ -78,15 +79,15 @@ const PatientRegistrationForm = () => {
                 height={100}
               />
               <div className="h-[100%] flex items-start justify-end pt-[35%]">
-              <DinamicForm
+                <DinamicForm
                   fieldType={FormFieldType.SKELETON}
                   control={form.control}
                   name="patient_photo"
                   renderSkeleton={(field) => (
                     <FormControl>
                       <FileUploader
-                      files = {field.value}
-                      onChange={field.onChange}
+                        files={field.value}
+                        onChange={field.onChange}
                       />
                     </FormControl>
                   )}
@@ -142,10 +143,52 @@ const PatientRegistrationForm = () => {
                   fieldType={FormFieldType.PHONE_INPUT}
                   control={form.control}
                   name="phone"
-                  label="Numero de teléfono"
+                  label="Número de teléfono"
                   placeholder="(0223) 1-234567"
                   iconSrc={phoneIcon}
                   iconAlt="phone-icon"
+                />
+              </div>
+              {/* identification type & identification number */}
+              <div className="flex flex-col justify-end md:flex-row gap-2 mb-2">
+                <div className="flex w-[40%] rounded-md items-center justify-center border border-dark-500 gap-2 p-1 outline-none bg-dark-400 flex-col">
+                  <DropdownMenu>
+                    <DropdownMenuTrigger className="flex items-center justify-center gap-1 outline-none">
+                      Tipo de Documento
+                      <Icon
+                        src={DropdownIcon}
+                        alt="dropdown-icon"
+                        width={18}
+                        height={18}
+                      />
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent className="ml-5 w-full flex items-center justify-start">
+                      <DropdownMenuRadioGroup
+                        value={identityType}
+                        onValueChange={setIdentityType}
+                        className="flex w-full flex-col items-center gap-1 rounded-md  border-dark-500 bg-dark-400
+                      text-white text-ellipsis"
+                      >
+                        {identificationType.map((ID: string) => (
+                          <DropdownMenuRadioItem
+                            value={ID}
+                            className="w-[90%] flex items-center justify-start pl-6"
+                          >
+                            {ID}
+                          </DropdownMenuRadioItem>
+                        ))}
+                      </DropdownMenuRadioGroup>
+                    </DropdownMenuContent>
+                    <p>{identityType}</p>
+                  </DropdownMenu>
+                </div>
+
+                <DinamicForm
+                  fieldType={FormFieldType.INPUT}
+                  control={form.control}
+                  name="identification-number"
+                  label="Número de Documento"
+                  placeholder="33 333 333"
                 />
               </div>
               {/* birthdate & gender */}
@@ -165,7 +208,7 @@ const PatientRegistrationForm = () => {
                   renderSkeleton={(field) => (
                     <FormControl>
                       <RadioGroup
-                        className="flex h-14 xl:justify-between"
+                        className="flex h-12 xl:justify-between"
                         onValueChange={field.onChange}
                         defaultValue={field.value}
                       >
@@ -223,7 +266,7 @@ const PatientRegistrationForm = () => {
                 renderSkeleton={(field) => (
                   <FormControl>
                     <RadioGroup
-                      className="flex h-14 xl:justify-between"
+                      className="flex h-12 xl:justify-between"
                       onValueChange={field.onChange}
                       defaultValue={field.value}
                     >
@@ -248,7 +291,7 @@ const PatientRegistrationForm = () => {
                 renderSkeleton={(field) => (
                   <FormControl>
                     <RadioGroup
-                      className="flex h-14 xl:justify-between"
+                      className="flex h-12 xl:justify-between"
                       onValueChange={field.onChange}
                       defaultValue={field.value}
                     >
