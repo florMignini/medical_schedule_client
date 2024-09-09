@@ -20,6 +20,7 @@ import PhoneInput from "react-phone-number-input";
 import calendarIcon from "../public/assets/icons/calendar.svg";
 import { Select, SelectContent, SelectTrigger, SelectValue } from "./ui/select";
 import { Textarea } from "./ui/textarea";
+import { Checkbox } from "./ui/checkbox";
 interface CustomProperty {
   control: Control<any>;
   fieldType: FormFieldType;
@@ -51,7 +52,7 @@ const DinamicField = ({
     dateFormat,
     renderSkeleton,
   } = props;
-
+console.log(field)
   switch (props.fieldType) {
     case FormFieldType.INPUT:
       return (
@@ -135,6 +136,22 @@ const DinamicField = ({
         </FormControl>
       );
     case FormFieldType.CHECKBOX:
+      return (
+        <FormControl>
+          <div className="flex items-center gap-1">
+            <Checkbox
+              id={props.name}
+              checked={field.value}
+              onCheckedChange={field.onChange}
+            />
+            <label htmlFor={props.name}
+            className="checkbox-label"
+            >
+              {props.label}
+            </label>
+          </div>
+        </FormControl>
+      );
     case FormFieldType.SKELETON:
       return renderSkeleton ? renderSkeleton(field) : null;
     default:
