@@ -294,6 +294,7 @@ const PatientRegistrationForm = () => {
                       <p className="text-16-semibold">{allergiesType}</p>
               </div>
               <div className="flex w-[50%]">
+                {/* choose specific allergie */}
                 {allergiesType ? (
                   <div className=" rounded-md border border-dark-500 gap-2 p-1 outline-none bg-dark-400 flex-col">
                     <DinamicAllergieContent

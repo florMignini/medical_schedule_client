@@ -19,6 +19,7 @@ import { FormFieldType } from "./forms";
 import PhoneInput from "react-phone-number-input";
 import calendarIcon from "../public/assets/icons/calendar.svg";
 import { Select, SelectContent, SelectTrigger, SelectValue } from "./ui/select";
+import { Textarea } from "./ui/textarea";
 interface CustomProperty {
   control: Control<any>;
   fieldType: FormFieldType;
@@ -72,6 +73,17 @@ const DinamicField = ({
             />
           </FormControl>
         </div>
+      );
+    case FormFieldType.TEXTAREA:
+      return (
+        <FormControl>
+          <Textarea
+            placeholder={placeholder}
+            {...field}
+            className="shad-textArea"
+            disabled={props.disable}
+          />
+        </FormControl>
       );
     case FormFieldType.PHONE_INPUT:
       return (
