@@ -291,7 +291,7 @@ const PatientRegistrationForm = () => {
                     </DropdownMenuRadioGroup>
                   </DropdownMenuContent>
                 </DropdownMenu>
-                      <p className="text-16-semibold">{allergiesType}</p>
+                <p className="text-16-semibold">{allergiesType}</p>
               </div>
               <div className="flex w-[50%]">
                 {/* choose specific allergie */}
@@ -305,6 +305,73 @@ const PatientRegistrationForm = () => {
                 ) : null}
               </div>
             </div>
+            {/* current medication */}
+            <div className="flex gap-2 mb-2">
+              <DinamicForm
+                control={form.control}
+                name="current_medication"
+                label="Medicamentos Actuales"
+                placeholder="Ex: Prednisone, Amoxicilina, Paracetamol"
+                fieldType={FormFieldType.TEXTAREA}
+              />
+              <DinamicForm
+                control={form.control}
+                name="family_medical_history"
+                label="Antecedentes Familiares"
+                placeholder="Diabetes, Cáncer..."
+                fieldType={FormFieldType.TEXTAREA}
+              />
+            </div>
+          </div>
+        </div>
+
+        {/* anthropometric measurements */}
+        <div className="mb-10">
+          {/* head */}
+          <div className="flex px-2 gap-2 mb-5">
+            <div className="h-5 border-x-2 border-white" />
+            <h1 className="text-16-semibold capitalize">
+              Medidas Antropométricas
+            </h1>
+          </div>
+          <div className="flex gap-2 mb-2">
+            <DinamicForm
+              name="patient_height"
+              control={form.control}
+              placeholder="Altura"
+              label="Altura"
+              fieldType={FormFieldType.INPUT}
+            />
+            <DinamicForm
+              name="patient_weight"
+              control={form.control}
+              placeholder="Peso"
+              label="Peso"
+              fieldType={FormFieldType.INPUT}
+            />
+            <DinamicForm
+              name="patient_body_mass_index"
+              control={form.control}
+              placeholder="IMC"
+              label="IMC"
+              fieldType={FormFieldType.INPUT}
+            />
+            <DinamicForm
+              name="patient_body_fat_percentage"
+              control={form.control}
+              placeholder="Porcentaje de grasa corporal"
+              label="Porcentaje de grasa corporal"
+              fieldType={FormFieldType.INPUT}
+            />
+          </div>
+          <div className="flex gap-2 mb-2">
+            <DinamicForm
+              name="Observations/Comments"
+              control={form.control}
+              placeholder="Observaciones/Comentarios"
+              label="Observaciones/Comentarios"
+              fieldType={FormFieldType.TEXTAREA}
+            />
           </div>
         </div>
         {/* 
