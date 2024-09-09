@@ -1,3 +1,4 @@
+import { useMemo, useState } from "react";
 import {
   contactAllergies,
   environmentAllergies,
@@ -9,12 +10,11 @@ import DinamicForm from "./DinamicForm";
 import { FormControl, Label } from "./ui";
 import { RadioGroup, RadioGroupItem } from "./ui/radio-group";
 import { FormFieldType } from "./forms";
-import { Textarea } from "./ui/textarea";
-import { useState } from "react";
 
 const DinamicAllergieContent = ({ allergiesType, form }: any) => {
   const renderSwitch = (allergie: string) => {
     const [optionSelected, setOptionSelected] = useState("");
+    useMemo(() => setOptionSelected(""), [allergiesType]);
 
     switch (allergie) {
       case "Alimentos":
@@ -27,19 +27,21 @@ const DinamicAllergieContent = ({ allergiesType, form }: any) => {
                   onChange={() => setOptionSelected(allergie)}
                   className="radio-group gap-1"
                 >
-                  <RadioGroupItem value={allergie} id={allergie} />
-                  <Label htmlFor={allergie} className="cursor-pointer">
-                    {allergie}
-                  </Label>
+                  <DinamicForm
+                    name={allergie}
+                    control={form.control}
+                    fieldType={FormFieldType.CHECKBOX}
+                    label={allergie}
+                  />
                 </div>
               ))}
               {optionSelected === "Otro" ? (
-               <DinamicForm
-               control={form.control}
-               name="another_food_allergie"
-               fieldType={FormFieldType.TEXTAREA}
-               placeholder="Otro..."
-               />
+                <DinamicForm
+                  control={form.control}
+                  name="another_food_allergie"
+                  fieldType={FormFieldType.TEXTAREA}
+                  placeholder="Otro..."
+                />
               ) : null}
             </RadioGroup>
           </FormControl>
@@ -54,19 +56,21 @@ const DinamicAllergieContent = ({ allergiesType, form }: any) => {
                   onChange={() => setOptionSelected(allergie)}
                   className="radio-group gap-1"
                 >
-                  <RadioGroupItem value={allergie} id={allergie} />
-                  <Label htmlFor={allergie} className="cursor-pointer">
-                    {allergie}
-                  </Label>
+                  <DinamicForm
+                    name={allergie}
+                    control={form.control}
+                    fieldType={FormFieldType.CHECKBOX}
+                    label={allergie}
+                  />
                 </div>
               ))}
               {optionSelected === "Otro" ? (
-               <DinamicForm
-               control={form.control}
-               name="another_drug_allergie"
-               fieldType={FormFieldType.TEXTAREA}
-               placeholder="Otro..."
-               />
+                <DinamicForm
+                  control={form.control}
+                  name="another_drug_allergie"
+                  fieldType={FormFieldType.TEXTAREA}
+                  placeholder="Otro..."
+                />
               ) : null}
             </RadioGroup>
           </FormControl>
@@ -81,18 +85,20 @@ const DinamicAllergieContent = ({ allergiesType, form }: any) => {
                   onChange={() => setOptionSelected(allergie)}
                   className="radio-group gap-1"
                 >
-                  <RadioGroupItem value={allergie} id={allergie} />
-                  <Label htmlFor={allergie} className="cursor-pointer">
-                    {allergie}
-                  </Label>
+                  <DinamicForm
+                    name={allergie}
+                    control={form.control}
+                    fieldType={FormFieldType.CHECKBOX}
+                    label={allergie}
+                  />
                 </div>
               ))}
               {optionSelected === "Otro" ? (
                 <DinamicForm
-                control={form.control}
-                name="another_ambiental_allergie"
-                fieldType={FormFieldType.TEXTAREA}
-                placeholder="Otro..."
+                  control={form.control}
+                  name="another_ambiental_allergie"
+                  fieldType={FormFieldType.TEXTAREA}
+                  placeholder="Otro..."
                 />
               ) : null}
             </RadioGroup>
@@ -108,18 +114,20 @@ const DinamicAllergieContent = ({ allergiesType, form }: any) => {
                   onChange={() => setOptionSelected(allergie)}
                   className="radio-group gap-1"
                 >
-                  <RadioGroupItem value={allergie} id={allergie} />
-                  <Label htmlFor={allergie} className="cursor-pointer">
-                    {allergie}
-                  </Label>
+                  <DinamicForm
+                    name={allergie}
+                    control={form.control}
+                    fieldType={FormFieldType.CHECKBOX}
+                    label={allergie}
+                  />
                 </div>
               ))}
               {optionSelected === "Otro" ? (
                 <DinamicForm
-                control={form.control}
-                name="another_contact_allergie"
-                fieldType={FormFieldType.TEXTAREA}
-                placeholder="Otro..."
+                  control={form.control}
+                  name="another_contact_allergie"
+                  fieldType={FormFieldType.TEXTAREA}
+                  placeholder="Otro..."
                 />
               ) : null}
             </RadioGroup>
@@ -128,11 +136,11 @@ const DinamicAllergieContent = ({ allergiesType, form }: any) => {
       case "Otras":
         return (
           <DinamicForm
-                control={form.control}
-                name="other_allergie"
-                fieldType={FormFieldType.TEXTAREA}
-                placeholder="Otro..."
-                />
+            control={form.control}
+            name="other_allergie"
+            fieldType={FormFieldType.TEXTAREA}
+            placeholder="Otro..."
+          />
         );
       default:
         return <div>No Option Selected</div>;

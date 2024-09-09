@@ -21,7 +21,6 @@ import {
 import phoneIcon from "../../public/assets/icons/phone.svg";
 import UserIcon from "../../public/assets/icons/user-verification.svg";
 import DropdownIcon from "../../public/assets/icons/arrowDown.svg";
-import PencilIcon from "../../public/assets/icons/pencil.svg";
 import mailIcon from "../../public/assets/icons/email.svg";
 
 import { RadioGroup, RadioGroupItem } from "../ui/radio-group";
@@ -34,6 +33,8 @@ import {
   DropdownMenuTrigger,
 } from "../ui/dropdown-menu";
 import DinamicAllergieContent from "../DinamicAllergieContent";
+import FileUploader from "../FileUploader";
+
 
 const PatientRegistrationForm = () => {
   const [loading, setLoading] = useState(false);
@@ -77,14 +78,19 @@ const PatientRegistrationForm = () => {
                 height={100}
               />
               <div className="h-[100%] flex items-start justify-end pt-[35%]">
-                <button className="w-7 h-7 rounded-full cursor-pointer bg-dark-400 p-1">
-                  <Icon
-                    src={PencilIcon}
-                    alt="pencil-icon"
-                    width={18}
-                    height={18}
-                  />
-                </button>
+              <DinamicForm
+                  fieldType={FormFieldType.SKELETON}
+                  control={form.control}
+                  name="patient_photo"
+                  renderSkeleton={(field) => (
+                    <FormControl>
+                      <FileUploader
+                      files = {field.value}
+                      onChange={field.onChange}
+                      />
+                    </FormControl>
+                  )}
+                />
               </div>
             </div>
             {/* rightside */}
