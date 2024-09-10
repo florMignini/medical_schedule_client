@@ -1,5 +1,5 @@
 import { z } from "zod";
-export const PatientFormValidation = z.object({
+export const patientsRegisterValidation = z.object({
   // personal
   firstName: z
     .string()
@@ -30,8 +30,8 @@ export const PatientFormValidation = z.object({
   identificationNumber: z.string().optional(),
   emergencyContactName: z
     .string()
-    .min(2, "Contact name must be at least 2 characters")
-    .max(50, "Contact name must be at most 50 characters"),
+    .min(6, "Nombre de Contacto debe tener al menos 6 caracteres")
+    .max(50, "Nombre de Contacto debe tener como máximo 50 caracteres"),
   emergencyContactNumber: z
     .string()
     .refine(
@@ -46,8 +46,13 @@ export const PatientFormValidation = z.object({
   insurancePolicyNumber: z.string(),
   smoker: z.enum(["Si", "No"]),
   exSmoker: z.enum(["Si", "No"]),
-//   allergies: z.string().optional(),
+  allergies: z.string().optional(),
   currentMedication: z.string().optional(),
   familyMedicalHistory: z.string().optional(),
   pastMedicalHistory: z.string().optional(),
+  patientHeight: z.string().optional(),
+  patientWeight: z.string().optional(),
+  patientBMI: z.string().optional(),
+  patientBFP: z.string().optional(),
+  ObservationsComments: z.string().optional(),
 });

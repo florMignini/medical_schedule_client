@@ -10,7 +10,7 @@ import DinamicForm from "../DinamicForm";
 import SubmitButton from "../SubmitButton";
 import Icon from "../ui/icon";
 import { Label } from "../ui";
-import { loginFormValidation } from "@/lib";
+import { loginFormValidation, patientsRegisterValidation } from "@/lib";
 import { FormFieldType } from "./ProfessionalLoginForm";
 import {
   AllergiesType,
@@ -19,6 +19,7 @@ import {
   genderOptions,
   identificationType,
   medicalHistory,
+  Gender,
 } from "@/data";
 import phoneIcon from "../../public/assets/icons/phone.svg";
 import UserIcon from "../../public/assets/icons/user-verification.svg";
@@ -39,19 +40,40 @@ import FileUploader from "../FileUploader";
 
 const PatientRegistrationForm = () => {
   const [loading, setLoading] = useState(false);
+  const router = useRouter();
+  
+  // dropdown states
   const [allergiesType, setAllergiesType] = useState("");
   const [medicalHistoryType, setMedicalHistoryType] = useState("");
   const [identityType, setIdentityType] = useState("");
-  const router = useRouter();
-  const form = useForm<z.infer<typeof loginFormValidation>>({
-    resolver: zodResolver(loginFormValidation),
+
+  const form = useForm<z.infer<typeof patientsRegisterValidation>>({
+    resolver: zodResolver(patientsRegisterValidation),
     defaultValues: {
-      username: "",
-      password: "",
+      firstName: "", 
+      lastName: "", 
+      address: "", 
+      occupation: "", 
+      email: "", 
+      phone: "", 
+      birthDate: new Date(Date.now()), 
+      gender: "M" as Gender, 
+      identificationType: "", 
+      identificationNumber: "", 
+      emergencyContactName: "", 
+      emergencyContactNumber: "", 
+      insuranceProvider: "", 
+      insurancePolicyNumber: "", 
+      smoker: "No", 
+      exSmoker: "No", 
+      allergies: "", 
+      currentMedication: "", 
+      familyMedicalHistory: "", 
+      pastMedicalHistory: "", 
     },
   });
 
-  async function onSubmit(value: z.infer<typeof loginFormValidation>) {
+  async function onSubmit(value: z.infer<typeof patientsRegisterValidation>) {
     setLoading(true);
     try {
     } catch (error) {
@@ -227,7 +249,7 @@ const PatientRegistrationForm = () => {
                   )}
                 />
               </div>
-              {/* firstname & lastname */}
+              {/* emergency contact name & emergency contact number */}
               <div className="flex gap-2 mb-2">
                 <DinamicForm
                   fieldType={FormFieldType.INPUT}
@@ -251,6 +273,7 @@ const PatientRegistrationForm = () => {
         </div>
 
         {/* medical records */}
+        {/* //! BLOOD TYPE AND FACTOR ADD */}
         <div className="mb-10">
           {/* head */}
           <div className="flex px-2 gap-2 mb-5">
@@ -449,37 +472,37 @@ const PatientRegistrationForm = () => {
           </div>
           <div className="flex gap-2 mb-2">
             <DinamicForm
-              name="patient_height"
+              name="patientHeight"
               control={form.control}
               placeholder="Altura"
               label="Altura"
               fieldType={FormFieldType.INPUT}
             />
             <DinamicForm
-              name="patient_weight"
+              name="patientWeight"
               control={form.control}
               placeholder="Peso"
               label="Peso"
               fieldType={FormFieldType.INPUT}
             />
             <DinamicForm
-              name="patient_body_mass_index"
+              name="patientBMI"
               control={form.control}
               placeholder="IMC"
               label="IMC"
               fieldType={FormFieldType.INPUT}
             />
             <DinamicForm
-              name="patient_body_fat_percentage"
+              name="patientBFP"
               control={form.control}
-              placeholder="Porcentaje de grasa corporal"
+              placeholder="(%)"
               label="Porcentaje de grasa corporal"
               fieldType={FormFieldType.INPUT}
             />
           </div>
           <div className="flex gap-2 mb-2">
             <DinamicForm
-              name="Observations/Comments"
+              name="ObservationsComments"
               control={form.control}
               placeholder="Observaciones/Comentarios"
               label="Observaciones/Comentarios"
