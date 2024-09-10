@@ -227,6 +227,25 @@ const PatientRegistrationForm = () => {
                   )}
                 />
               </div>
+              {/* firstname & lastname */}
+              <div className="flex gap-2 mb-2">
+                <DinamicForm
+                  fieldType={FormFieldType.INPUT}
+                  control={form.control}
+                  name="emergencyContactName"
+                  label="Nombre de Contacto en caso de Emergencia"
+                  placeholder="Juan Perez"
+                />
+                <DinamicForm
+                  fieldType={FormFieldType.PHONE_INPUT}
+                  control={form.control}
+                  name="emergencyContactNumber"
+                  label="Número de Contacto en caso de Emergencia"
+                  placeholder="(0223) 1-234567"
+                  iconSrc={phoneIcon}
+                  iconAlt="phone-icon"
+                />
+              </div>
             </div>
           </div>
         </div>

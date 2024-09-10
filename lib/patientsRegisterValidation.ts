@@ -28,6 +28,16 @@ export const PatientFormValidation = z.object({
   gender: z.enum(["M", "F", "X"]),
   identificationType: z.string().optional(),
   identificationNumber: z.string().optional(),
+  emergencyContactName: z
+    .string()
+    .min(2, "Contact name must be at least 2 characters")
+    .max(50, "Contact name must be at most 50 characters"),
+  emergencyContactNumber: z
+    .string()
+    .refine(
+      (emergencyContactNumber) => /^\+\d{10,15}$/.test(emergencyContactNumber),
+      "Invalid phone number"
+    ),
   // medical
   insuranceProvider: z
     .string()
@@ -40,14 +50,4 @@ export const PatientFormValidation = z.object({
   currentMedication: z.string().optional(),
   familyMedicalHistory: z.string().optional(),
   pastMedicalHistory: z.string().optional(),
-  emergencyContactName: z
-    .string()
-    .min(2, "Contact name must be at least 2 characters")
-    .max(50, "Contact name must be at most 50 characters"),
-  emergencyContactNumber: z
-    .string()
-    .refine(
-      (emergencyContactNumber) => /^\+\d{10,15}$/.test(emergencyContactNumber),
-      "Invalid phone number"
-    ),
 });
