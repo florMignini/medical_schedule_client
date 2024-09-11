@@ -20,6 +20,8 @@ import {
   identificationType,
   medicalHistory,
   Gender,
+  bloodType,
+  bloodFactor,
 } from "@/data";
 import phoneIcon from "../../public/assets/icons/phone.svg";
 import UserIcon from "../../public/assets/icons/user-verification.svg";
@@ -273,7 +275,6 @@ const PatientRegistrationForm = () => {
         </div>
 
         {/* medical records */}
-        {/* //! BLOOD TYPE AND FACTOR ADD */}
         <div className="mb-10">
           {/* head */}
           <div className="flex px-2 gap-2 mb-5">
@@ -344,6 +345,59 @@ const PatientRegistrationForm = () => {
                           <RadioGroupItem value={bool} id={bool} />
                           <Label htmlFor={bool} className="cursor-pointer">
                             {bool}
+                          </Label>
+                        </div>
+                      ))}
+                    </RadioGroup>
+                  </FormControl>
+                )}
+              />
+            </div>
+             {/* smoker & ex-smoker */}
+             <div className="flex gap-2 mb-2">
+              {/* bloodType */}
+              <DinamicForm
+                fieldType={FormFieldType.SKELETON}
+                control={form.control}
+                name="bloodType"
+                label="Grupo Sanguíneo"
+                renderSkeleton={(field) => (
+                  <FormControl>
+                    <RadioGroup
+                      className="flex h-12 xl:justify-between"
+                      onValueChange={field.onChange}
+                      defaultValue={field.value}
+                    >
+                      {bloodType.map((type: string) => (
+                        <div key={type} className="radio-group gap-1">
+                          <RadioGroupItem value={type} id={type} />
+                          <Label htmlFor={type} className="cursor-pointer">
+                            {type}
+                          </Label>
+                        </div>
+                      ))}
+                    </RadioGroup>
+                  </FormControl>
+                )}
+              />
+              {/* bloodFactor */}
+              <DinamicForm
+                fieldType={FormFieldType.SKELETON}
+                control={form.control}
+                name="bloodFactor"
+                label="Factor"
+                renderSkeleton={(field) => (
+                  <FormControl>
+                    <RadioGroup
+                      className="flex h-12 xl:justify-between"
+                      onValueChange={field.onChange}
+                      defaultValue={field.value}
+                    >
+                      {bloodFactor.map((factor: string) => (
+                        <div key={factor} className="radio-group gap-1">
+                          <RadioGroupItem value={factor} id={factor} />
+                          <Label htmlFor={factor} className="cursor-pointer">
+                            {factor}
                           </Label>
                         </div>
                       ))}
