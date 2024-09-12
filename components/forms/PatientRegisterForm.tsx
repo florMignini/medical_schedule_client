@@ -24,6 +24,7 @@ import {
   bloodFactor,
 } from "@/data";
 import phoneIcon from "../../public/assets/icons/phone.svg";
+import closeIcon from "../../public/assets/icons/close.svg";
 import UserIcon from "../../public/assets/icons/user-verification.svg";
 import DropdownIcon from "../../public/assets/icons/arrowDown.svg";
 import mailIcon from "../../public/assets/icons/email.svg";
@@ -43,7 +44,8 @@ import FileUploader from "../FileUploader";
 const PatientRegistrationForm = () => {
   const [loading, setLoading] = useState(false);
   const router = useRouter();
-  
+  const [isThereAnImage, setIsTthereAnImage] = useState<boolean>(false);
+
   // dropdown states
   const [allergiesType, setAllergiesType] = useState("");
   const [medicalHistoryType, setMedicalHistoryType] = useState("");
@@ -52,38 +54,58 @@ const PatientRegistrationForm = () => {
   const form = useForm<z.infer<typeof patientsRegisterValidation>>({
     resolver: zodResolver(patientsRegisterValidation),
     defaultValues: {
-      firstName: "", 
-      lastName: "", 
-      address: "", 
-      occupation: "", 
-      email: "", 
-      phone: "", 
-      birthDate: new Date(Date.now()), 
-      gender: "M" as Gender, 
-      identificationType: "", 
-      identificationNumber: "", 
-      emergencyContactName: "", 
-      emergencyContactNumber: "", 
-      insuranceProvider: "", 
-      insurancePolicyNumber: "", 
-      smoker: "No", 
-      exSmoker: "No", 
-      allergies: "", 
-      currentMedication: "", 
-      familyMedicalHistory: "", 
-      pastMedicalHistory: "", 
+      firstName: "",
+      lastName: "",
+      patientPhoto: [],
+      address: "",
+      occupation: "",
+      email: "",
+      phone: "",
+      birthDate: new Date(Date.now()),
+      gender: "M" as Gender,
+      identificationType: "",
+      identificationNumber: "",
+      emergencyContactName: "",
+      emergencyContactNumber: "",
+      insuranceProvider: "",
+      insurancePolicyNumber: "",
+      smoker: "No",
+      exSmoker: "No",
+      allergies: "",
+      currentMedication: "",
+      familyMedicalHistory: "",
+      pastMedicalHistory: "",
+      patientHeight: "",
+      patientWeight: "",
+      patientBMI: "",
+      patientBFP: "",
+      ObservationsComments: "",
     },
   });
 
-  async function onSubmit(value: z.infer<typeof patientsRegisterValidation>) {
+  async function onSubmit(values: z.infer<typeof patientsRegisterValidation>) {
     setLoading(true);
+    let formData;
+    if (values.patientPhoto && values.patientPhoto.length > 0) {
+      const blobFile = new Blob([values.patientPhoto[0]], {
+        type: values.patientPhoto?.[0]?.type,
+      });
+      formData = new FormData();
+      formData.append('blobFile', blobFile)
+      formData.append('fileName', values.patientPhoto[0]?.name)
+    }
     try {
+      const patientData = {
+        ...values,
+        birthDate: new Date(values.birthDate),
+        patientPhoto: formData
+      }
     } catch (error) {
       console.error(error);
       setLoading(false);
     }
   }
-
+  console.log(isThereAnImage);
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6 flex-1">
@@ -98,27 +120,65 @@ const PatientRegistrationForm = () => {
           <div className="mb-5 space-y-4 flex flex-wrap items-center justify-center lg:grid lg:grid-cols-[30%,70%] ">
             {/* left side */}
             <div className="flex items-start justify-center py-4">
-              <Image
-                src={UserIcon}
-                alt="user-photo-placeholder"
-                width={100}
-                height={100}
-              />
-              <div className="h-[100%] flex items-start justify-end pt-[35%]">
-                <DinamicForm
-                  fieldType={FormFieldType.SKELETON}
-                  control={form.control}
-                  name="patient_photo"
-                  renderSkeleton={(field) => (
-                    <FormControl>
-                      <FileUploader
-                        files={field.value}
-                        onChange={field.onChange}
-                      />
-                    </FormControl>
-                  )}
-                />
-              </div>
+              {isThereAnImage ? (
+                <div className="w-full h-[100%] flex-col flex items-start justify-end pt-0">
+                  <button
+                    className="w-full flex items-center justify-end"
+                    onClick={() => setIsTthereAnImage(false)}
+                  >
+                    <Icon
+                      src={closeIcon}
+                      alt="close-icon"
+                      height={30}
+                      width={30}
+                    />
+                  </button>
+                  <DinamicForm
+                    fieldType={FormFieldType.SKELETON}
+                    control={form.control}
+                    name="patientPhoto"
+                    renderSkeleton={(field) => (
+                      <FormControl>
+                        <FileUploader
+                          files={
+                            isThereAnImage ? field.value : (field.value = [])
+                          }
+                          onChange={field.onChange}
+                        />
+                      </FormControl>
+                    )}
+                  />
+                </div>
+              ) : (
+                <>
+                  <Image
+                    src={UserIcon}
+                    alt="user-photo-placeholder"
+                    width={100}
+                    height={100}
+                  />
+                  <div
+                    className="h-[100%] flex items-start justify-end pt-[35%]"
+                    onClick={() => setIsTthereAnImage(true)}
+                  >
+                    <DinamicForm
+                      fieldType={FormFieldType.SKELETON}
+                      control={form.control}
+                      name="patientPhoto"
+                      renderSkeleton={(field) => (
+                        <FormControl>
+                          <FileUploader
+                            files={
+                              isThereAnImage ? field.value : (field.value = [])
+                            }
+                            onChange={field.onChange}
+                          />
+                        </FormControl>
+                      )}
+                    />
+                  </div>
+                </>
+              )}
             </div>
             {/* rightside */}
             <div className="w-[95%]">
@@ -353,8 +413,8 @@ const PatientRegistrationForm = () => {
                 )}
               />
             </div>
-             {/* smoker & ex-smoker */}
-             <div className="flex gap-2 mb-2">
+            {/* smoker & ex-smoker */}
+            <div className="flex gap-2 mb-2">
               {/* bloodType */}
               <DinamicForm
                 fieldType={FormFieldType.SKELETON}

@@ -9,6 +9,7 @@ export const patientsRegisterValidation = z.object({
     .string()
     .min(6, "El apellido debe tener al menos 6 caracteres")
     .max(50, "El apellido debe tener como máximo 50 caracteres"),
+  patientPhoto: z.custom<File[]>().optional(),
   address: z
     .string()
     .min(6, "Dirección debe tener al menos 6 caracteres")
@@ -50,6 +51,7 @@ export const patientsRegisterValidation = z.object({
   currentMedication: z.string().optional(),
   familyMedicalHistory: z.string().optional(),
   pastMedicalHistory: z.string().optional(),
+  // anthropometric measurements
   patientHeight: z.string().optional(),
   patientWeight: z.string().optional(),
   patientBMI: z.string().optional(),
