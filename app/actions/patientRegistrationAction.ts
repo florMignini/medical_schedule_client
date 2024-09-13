@@ -1,6 +1,5 @@
 "use server";
-import { Gender } from "@/data";
-
+import { Gender, AllergiesType, identificationType } from "@/data";
 import { cookies } from "next/headers";
 
 interface IPatientData {
@@ -13,14 +12,15 @@ interface IPatientData {
   phone: "";
   birthDate: any;
   gender: Gender;
-  identificationType: "";
-  identificationNumber: "";
+  identificationType: typeof identificationType;
+  identityNumber: "";
   emergencyContactName: "";
   emergencyContactNumber: "";
   insuranceProvider: "";
   insurancePolicyNumber: "";
   smoker: "No";
   exSmoker: "No";
+  allergiesType: typeof AllergiesType;
   allergies: "";
   currentMedication: "";
   familyMedicalHistory: "";

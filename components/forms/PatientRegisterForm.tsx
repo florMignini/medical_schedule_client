@@ -17,7 +17,7 @@ import {
   AllergiesDescription,
   booleanOption,
   genderOptions,
-  identificationType,
+  IdentificationType,
   medicalHistory,
   Gender,
   bloodType,
@@ -49,7 +49,7 @@ const PatientRegistrationForm = () => {
   // dropdown states
   const [allergiesType, setAllergiesType] = useState("");
   const [medicalHistoryType, setMedicalHistoryType] = useState("");
-  const [identityType, setIdentityType] = useState("");
+  const [identificationType, setIdentificationType] = useState("");
 
   const form = useForm<z.infer<typeof patientsRegisterValidation>>({
     resolver: zodResolver(patientsRegisterValidation),
@@ -63,14 +63,15 @@ const PatientRegistrationForm = () => {
       phone: "",
       birthDate: new Date(Date.now()),
       gender: "M" as Gender,
-      identificationType: "",
-      identificationNumber: "",
+      identificationType: "DNI" as any,
+      identityNumber: "",
       emergencyContactName: "",
       emergencyContactNumber: "",
       insuranceProvider: "",
       insurancePolicyNumber: "",
       smoker: "No",
       exSmoker: "No",
+      allergiesType: "Otras",
       allergies: "",
       currentMedication: "",
       familyMedicalHistory: "",
@@ -250,12 +251,12 @@ const PatientRegistrationForm = () => {
                     </DropdownMenuTrigger>
                     <DropdownMenuContent className="ml-5 w-full flex items-center justify-start">
                       <DropdownMenuRadioGroup
-                        value={identityType}
-                        onValueChange={setIdentityType}
+                        value={identificationType}
+                        onValueChange={setIdentificationType}
                         className="flex w-full flex-col items-center gap-1 rounded-md  border-dark-500 bg-dark-400
                       text-white text-ellipsis"
                       >
-                        {identificationType.map((ID: string) => (
+                        {IdentificationType.map((ID: string) => (
                           <DropdownMenuRadioItem
                             value={ID}
                             className="w-[90%] flex items-center justify-start pl-6"
@@ -265,7 +266,7 @@ const PatientRegistrationForm = () => {
                         ))}
                       </DropdownMenuRadioGroup>
                     </DropdownMenuContent>
-                    <p>{identityType}</p>
+                    <p>{identificationType}</p>
                   </DropdownMenu>
                 </div>
 

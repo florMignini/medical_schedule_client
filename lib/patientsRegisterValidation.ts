@@ -27,8 +27,8 @@ export const patientsRegisterValidation = z.object({
     ),
   birthDate: z.coerce.date(),
   gender: z.enum(["M", "F", "X"]),
-  identificationType: z.string().optional(),
-  identificationNumber: z.string().optional(),
+  identificationType: z.enum(['DNI', 'Libreta de enrolamiento', 'pasaporte']),
+  identityNumber: z.string().optional(),
   emergencyContactName: z
     .string()
     .min(6, "Nombre de Contacto debe tener al menos 6 caracteres")
@@ -47,6 +47,7 @@ export const patientsRegisterValidation = z.object({
   insurancePolicyNumber: z.string(),
   smoker: z.enum(["Si", "No"]),
   exSmoker: z.enum(["Si", "No"]),
+  allergiesType: z.enum(["Alimentos", "Drogas/Medicamentos","Ambientales/Estacionales", "Contacto", "Otras"]),
   allergies: z.string().optional(),
   currentMedication: z.string().optional(),
   familyMedicalHistory: z.string().optional(),
