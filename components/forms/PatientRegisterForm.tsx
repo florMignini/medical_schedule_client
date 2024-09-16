@@ -7,7 +7,6 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { Form, FormControl } from "@/components/ui/form";
 import DinamicForm from "../DinamicForm";
-import SubmitButton from "../SubmitButton";
 import Icon from "../ui/icon";
 import { Label } from "../ui";
 import { loginFormValidation, patientsRegisterValidation } from "@/lib";
@@ -16,12 +15,15 @@ import {
   AllergiesType,
   AllergiesDescription,
   booleanOption,
-  genderOptions,
   IdentificationType,
-  medicalHistory,
+  MedicalHistory,
   Gender,
   bloodType,
   bloodFactor,
+  medicalHistory,
+  genderOptions,
+  BooleanOption,
+  AllergiesTypeEnum,
 } from "@/data";
 import phoneIcon from "../../public/assets/icons/phone.svg";
 import closeIcon from "../../public/assets/icons/close.svg";
@@ -40,6 +42,8 @@ import {
 } from "../ui/dropdown-menu";
 import DinamicAllergieContent from "../DinamicAllergieContent";
 import FileUploader from "../FileUploader";
+import { patientRegistration } from "@/app/actions";
+import SubmitButton from "../SubmitButton";
 
 const PatientRegistrationForm = () => {
   const [loading, setLoading] = useState(false);
@@ -63,19 +67,23 @@ const PatientRegistrationForm = () => {
       phone: "",
       birthDate: new Date(Date.now()),
       gender: "M" as Gender,
-      identificationType: "DNI" as any,
+      identificationType: "DNI",
       identityNumber: "",
       emergencyContactName: "",
       emergencyContactNumber: "",
       insuranceProvider: "",
       insurancePolicyNumber: "",
-      smoker: "No",
-      exSmoker: "No",
-      allergiesType: "Otras",
+      smoker: "NO" as BooleanOption,
+      exSmoker: "NO" as BooleanOption,
+      bloodType: "A" ,
+      bloodFactor: "Positivo",
+      allergiesType: "Alimentos" as AllergiesTypeEnum,
       allergies: "",
-      currentMedication: "",
       familyMedicalHistory: "",
       pastMedicalHistory: "",
+      currentMedication: "",
+      medicalHistory: "",
+      medicalHistoryType: "Clinico",
       patientHeight: "",
       patientWeight: "",
       patientBMI: "",
@@ -83,8 +91,9 @@ const PatientRegistrationForm = () => {
       ObservationsComments: "",
     },
   });
-
+console.log(form.formState.errors)
   async function onSubmit(values: z.infer<typeof patientsRegisterValidation>) {
+    console.log(values)
     setLoading(true);
     let formData;
     if (values.patientPhoto && values.patientPhoto.length > 0) {
@@ -101,12 +110,15 @@ const PatientRegistrationForm = () => {
         birthDate: new Date(values.birthDate),
         patientPhoto: formData
       }
+      console.log(patientData)
+      const response = await patientRegistration(patientData)
+      console.log(response)
     } catch (error) {
       console.error(error);
       setLoading(false);
     }
   }
-  console.log(isThereAnImage);
+
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6 flex-1">
@@ -483,6 +495,7 @@ const PatientRegistrationForm = () => {
                   </DropdownMenuTrigger>
                   <DropdownMenuContent className="ml-5 w-full flex items-center justify-start">
                     <DropdownMenuRadioGroup
+                    
                       value={allergiesType}
                       onValueChange={setAllergiesType}
                       className="flex w-full flex-col items-center gap-1 rounded-md  border-dark-500 bg-dark-400
@@ -490,6 +503,7 @@ const PatientRegistrationForm = () => {
                     >
                       {AllergiesType.map((allergie) => (
                         <DropdownMenuRadioItem
+                        key={allergie}
                           value={allergie}
                           className="w-[90%] flex items-center justify-start pl-6"
                         >
@@ -625,8 +639,8 @@ const PatientRegistrationForm = () => {
             />
           </div>
         </div>
-        {/* 
-        <SubmitButton loading={loading}>Ingresar</SubmitButton> */}
+        <SubmitButton
+        loading={loading}>Agregar Paciente</SubmitButton>
       </form>
     </Form>
   );
