@@ -167,11 +167,12 @@ const DinamicForm = (props: CustomProperty) => {
       render={({ field }) => (
         <FormItem className="flex-1">
           {fieldType !== FormFieldType.CHECKBOX && label && (
-            <FormLabel className="text-14-regular text-dark-700">
+            <FormLabel className="shad-input-label text-14-regular text-dark-700">
               {label}
             </FormLabel>
           )}
           <DinamicField field={field} props={props} />
+          <FormMessage className="shad-error"/>
         </FormItem>
       )}
     />
