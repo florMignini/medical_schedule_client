@@ -5,9 +5,9 @@ import Link from "next/link";
 
 const PatientsPage = () => {
   return (
-    <section className="w-full flex flex-col items-center justify-center gap-2">
+    <section className="w-full h-screen flex flex-col items-center justify-start gap-2">
       {/* Title */}
-      <div className="flex w-[90%] h-10 items-center justify-start px-2">
+      <div className="flex w-[90%] h-10 items-start justify-start px-2">
         <h1 className="text-24-bold text-start">Pacientes</h1>
       </div>
 
