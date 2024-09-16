@@ -14,7 +14,7 @@ export enum MedicalHistory {
  Otro = "Otro",
 }
 
-export const bloodType = ["A", "B", "AB","0"]
+export const bloodType = ["A", "B", "AB","O"]
 export enum BloodType {
  A = "A",
  B = "B",

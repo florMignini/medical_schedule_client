@@ -75,7 +75,7 @@ const PatientRegistrationForm = () => {
       insurancePolicyNumber: "",
       smoker: "NO" as BooleanOption,
       exSmoker: "NO" as BooleanOption,
-      bloodType: "A" ,
+      bloodType: "A",
       bloodFactor: "Positivo",
       allergiesType: "Alimentos" as AllergiesTypeEnum,
       allergies: "",
@@ -89,12 +89,11 @@ const PatientRegistrationForm = () => {
       patientBMI: "",
       patientBFP: "",
       ObservationsComments: "",
-      isActive: true
+      isActive: true,
     },
   });
-console.log(form.formState.errors)
+  console.log(form.formState.errors);
   async function onSubmit(values: z.infer<typeof patientsRegisterValidation>) {
-
     setLoading(true);
     let formData;
     if (values.patientPhoto && values.patientPhoto.length > 0) {
@@ -102,20 +101,21 @@ console.log(form.formState.errors)
         type: values.patientPhoto?.[0]?.type,
       });
       formData = new FormData();
-      formData.append('blobFile', blobFile)
-      formData.append('fileName', values.patientPhoto[0]?.name)
+      formData.append("blobFile", blobFile);
+      formData.append("fileName", values.patientPhoto[0]?.name);
     }
     try {
       const patientData = {
         ...values,
         birthDate: new Date(values.birthDate),
         patientPhoto: formData,
-        isActive: true
+        isActive: true,
+      };
+      const response = await patientRegistration(patientData);
+      if (response) {
+        form.reset();
+        setLoading(false);
       }
-      console.log(patientData)
-      const response = await patientRegistration(patientData)
-      console.log(response)
-      setLoading(false);
     } catch (error) {
       console.error(error);
     }
@@ -287,7 +287,7 @@ console.log(form.formState.errors)
                 <DinamicForm
                   fieldType={FormFieldType.INPUT}
                   control={form.control}
-                  name="identification-number"
+                  name="identityNumber"
                   label="Número de Documento"
                   placeholder="33 333 333"
                 />
@@ -497,7 +497,6 @@ console.log(form.formState.errors)
                   </DropdownMenuTrigger>
                   <DropdownMenuContent className="ml-5 w-full flex items-center justify-start">
                     <DropdownMenuRadioGroup
-                    
                       value={allergiesType}
                       onValueChange={setAllergiesType}
                       className="flex w-full flex-col items-center gap-1 rounded-md  border-dark-500 bg-dark-400
@@ -505,7 +504,7 @@ console.log(form.formState.errors)
                     >
                       {AllergiesType.map((allergie) => (
                         <DropdownMenuRadioItem
-                        key={allergie}
+                          key={allergie}
                           value={allergie}
                           className="w-[90%] flex items-center justify-start pl-6"
                         >
@@ -641,8 +640,7 @@ console.log(form.formState.errors)
             />
           </div>
         </div>
-        <SubmitButton
-        loading={loading}>Agregar Paciente</SubmitButton>
+        <SubmitButton loading={loading}>Agregar Paciente</SubmitButton>
       </form>
     </Form>
   );

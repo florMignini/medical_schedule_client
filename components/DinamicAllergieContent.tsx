@@ -28,7 +28,7 @@ const DinamicAllergieContent = ({ allergiesType, form }: any) => {
                   className="radio-group gap-1"
                 >
                   <DinamicForm
-                    name={allergie}
+                    name="allergies"
                     control={form.control}
                     fieldType={FormFieldType.CHECKBOX}
                     label={allergie}
@@ -38,7 +38,7 @@ const DinamicAllergieContent = ({ allergiesType, form }: any) => {
               {optionSelected === "Otro" ? (
                 <DinamicForm
                   control={form.control}
-                  name="another_food_allergie"
+                  name="allergies"
                   fieldType={FormFieldType.TEXTAREA}
                   placeholder="Otro..."
                 />
@@ -57,7 +57,7 @@ const DinamicAllergieContent = ({ allergiesType, form }: any) => {
                   className="radio-group gap-1"
                 >
                   <DinamicForm
-                    name={allergie}
+                    name="allergies"
                     control={form.control}
                     fieldType={FormFieldType.CHECKBOX}
                     label={allergie}
@@ -67,7 +67,7 @@ const DinamicAllergieContent = ({ allergiesType, form }: any) => {
               {optionSelected === "Otro" ? (
                 <DinamicForm
                   control={form.control}
-                  name="another_drug_allergie"
+                  name="allergies"
                   fieldType={FormFieldType.TEXTAREA}
                   placeholder="Otro..."
                 />
@@ -86,7 +86,7 @@ const DinamicAllergieContent = ({ allergiesType, form }: any) => {
                   className="radio-group gap-1"
                 >
                   <DinamicForm
-                    name={allergie}
+                    name="allergies"
                     control={form.control}
                     fieldType={FormFieldType.CHECKBOX}
                     label={allergie}
@@ -96,7 +96,7 @@ const DinamicAllergieContent = ({ allergiesType, form }: any) => {
               {optionSelected === "Otro" ? (
                 <DinamicForm
                   control={form.control}
-                  name="another_ambiental_allergie"
+                  name="allergies"
                   fieldType={FormFieldType.TEXTAREA}
                   placeholder="Otro..."
                 />
@@ -115,7 +115,7 @@ const DinamicAllergieContent = ({ allergiesType, form }: any) => {
                   className="radio-group gap-1"
                 >
                   <DinamicForm
-                    name={allergie}
+                    name="allergies"
                     control={form.control}
                     fieldType={FormFieldType.CHECKBOX}
                     label={allergie}
@@ -125,7 +125,7 @@ const DinamicAllergieContent = ({ allergiesType, form }: any) => {
               {optionSelected === "Otro" ? (
                 <DinamicForm
                   control={form.control}
-                  name="another_contact_allergie"
+                  name="allergies"
                   fieldType={FormFieldType.TEXTAREA}
                   placeholder="Otro..."
                 />
@@ -137,7 +137,7 @@ const DinamicAllergieContent = ({ allergiesType, form }: any) => {
         return (
           <DinamicForm
             control={form.control}
-            name="other_allergie"
+            name="allergies"
             fieldType={FormFieldType.TEXTAREA}
             placeholder="Otro..."
           />
