@@ -89,11 +89,12 @@ const PatientRegistrationForm = () => {
       patientBMI: "",
       patientBFP: "",
       ObservationsComments: "",
+      isActive: true
     },
   });
 console.log(form.formState.errors)
   async function onSubmit(values: z.infer<typeof patientsRegisterValidation>) {
-    console.log(values)
+
     setLoading(true);
     let formData;
     if (values.patientPhoto && values.patientPhoto.length > 0) {
@@ -108,14 +109,15 @@ console.log(form.formState.errors)
       const patientData = {
         ...values,
         birthDate: new Date(values.birthDate),
-        patientPhoto: formData
+        patientPhoto: formData,
+        isActive: true
       }
       console.log(patientData)
       const response = await patientRegistration(patientData)
       console.log(response)
+      setLoading(false);
     } catch (error) {
       console.error(error);
-      setLoading(false);
     }
   }
 

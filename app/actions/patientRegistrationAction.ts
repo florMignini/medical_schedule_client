@@ -38,6 +38,7 @@ interface IPatient {
   patientWeight: string;
   patientBMI: string;
   patientBFP: string;
+  isActive: boolean
 }
 
 export async function patientRegistration(patientData: any) {
@@ -53,6 +54,7 @@ export async function patientRegistration(patientData: any) {
     });
 
     const parsedRes = await res.json();
+    console.log(parsedRes)
     return parsedRes;
   } catch (error) {
     console.log(error);
