@@ -22,7 +22,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={cn('min-h-screen bg-dark-300 font-sans antialiased', PlusFont.variable)}>{children}</body>
+      <body className={cn('h-auto bg-dark-300 font-sans antialiased', PlusFont.variable)}>{children}</body>
     </html>
   );
 }

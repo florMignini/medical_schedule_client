@@ -28,7 +28,7 @@ const ProfessionalDashboard = ({
   }, []);
 
   return (
-    <section className="h-screen grid grid-rows-[10%,90%] gap-1 text-white">
+    <section className="h-auto grid grid-rows-[10%,90%] gap-1 text-white">
       {/* top - navbar */}
       <Navbar toggleSidebar={toggleSidebar} isOpen={isOpen} />
       {/* bottom - sidebar & main */}
@@ -36,7 +36,7 @@ const ProfessionalDashboard = ({
         {/* leftside */}
         <ProfessionalSidebar toggleSidebar={toggleSidebar} isOpen={isOpen} setIsOpen={setIsOpen} />
         {/* rightside */}
-        <div className="">{children}</div>
+        <div className="h-auto">{children}</div>
       </div>
     </section>
   );

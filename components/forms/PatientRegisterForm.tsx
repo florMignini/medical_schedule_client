@@ -123,7 +123,7 @@ const PatientRegistrationForm = () => {
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6 flex-1">
+      <form onSubmit={form.handleSubmit(onSubmit)} className="h-full space-y-6 flex-1 mb-24 pb-3">
         {/* patient personal information */}
         <div className="mb-10">
           {/* head */}
@@ -640,7 +640,10 @@ const PatientRegistrationForm = () => {
             />
           </div>
         </div>
-        <SubmitButton loading={loading}>Agregar Paciente</SubmitButton>
+
+        <SubmitButton 
+        className="w-fit h-10 py-1 px-2 border border-spacing-1 rounded-lg"
+        loading={loading}>Agregar Paciente</SubmitButton>
       </form>
     </Form>
   );
