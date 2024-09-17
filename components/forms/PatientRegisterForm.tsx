@@ -54,7 +54,7 @@ const PatientRegistrationForm = () => {
   const [allergiesType, setAllergiesType] = useState("");
   const [medicalHistoryType, setMedicalHistoryType] = useState("");
   const [identificationType, setIdentificationType] = useState("");
-
+ 
   const form = useForm<z.infer<typeof patientsRegisterValidation>>({
     resolver: zodResolver(patientsRegisterValidation),
     defaultValues: {
