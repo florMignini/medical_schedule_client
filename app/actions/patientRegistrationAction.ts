@@ -63,6 +63,9 @@ export async function patientRegistration({ patientPhoto, ...patient }: any) {
       );
       file = await storage.createFile(BUCKET_ID!, ID.unique(), inputFile)
     }
+    let patientRegistrationData = {
+      patientPhotoUrl: file ? `${ENDPOINT}/storage/buckets/${BUCKET_ID}/files/${file?.$id}/view?project=${PROJECT_ID}` : `https://static.vecteezy.com/system/resources/thumbnails/037/336/395/small_2x/user-profile-flat-illustration-avatar-person-icon-gender-neutral-silhouette-profile-picture-free-vector.jpg`,
+      ...patient}
     const res = await fetch(
       `http://localhost:3001/api/patients/patient-registration`,
       {
@@ -70,14 +73,12 @@ export async function patientRegistration({ patientPhoto, ...patient }: any) {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({
-          patientPhotoUrl: `${ENDPOINT}/storage/buckets/${BUCKET_ID}/files/${file?.$id}/view?project=${PROJECT_ID}`,
-          ...patient}),
+        body: JSON.stringify(patientRegistrationData),
       }
     );
 
     const parsedRes = await res.json();
-    console.log(parsedRes);
+    // console.log(parsedRes);
     return parsedRes;
   } catch (error) {
     console.log(error);
