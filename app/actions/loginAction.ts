@@ -6,6 +6,11 @@ interface IloginData {
     username: string;
     password: string;
 }
+type ErrorType = {
+  message:string;
+  statusCode: number;
+  error: string;
+}
 
 export async function loginUser(loginData:IloginData
 ) {
@@ -20,9 +25,11 @@ export async function loginUser(loginData:IloginData
     });
 
     const parsedRes :LoginUserResponse = await res.json();
+    console.log(parsedRes)
     cookies().set('session-cookie', parsedRes.accessToken, { secure: true })
     return parsedRes.professional;
   } catch (error) {
-    console.log(error);
+    const typedError: ErrorType = error as ErrorType;
+    console.log(typedError);
   }
 }
