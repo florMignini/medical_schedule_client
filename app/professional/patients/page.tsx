@@ -77,8 +77,8 @@ const PatientsPage = async () => {
                     <Image
                       src={patient.patientPhotoUrl}
                       alt="patient-profile-photo"
-                      width={20}
-                      height={20}
+                      width={40}
+                      height={40}
                       className="rounded-full"
                     />
                     <p className="text-white text-14-medium">
