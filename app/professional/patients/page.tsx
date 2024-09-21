@@ -14,7 +14,8 @@ import {
 } from "@/components/ui/table";
 import { IPatientsResponse } from "@/interfaces";
 import Image from "next/image";
-
+import MailIcon from "../../../public/assets/icons/email.svg";
+import PhoneIcon from "../../../public/assets/icons/phone.svg";
 const PatientsPage = async () => {
   let data = await fetch(`http://localhost:3001/api/patients/get-all-patients`);
   let patients = await data.json();
@@ -86,12 +87,30 @@ const PatientsPage = async () => {
                   </Link>
                 </TableCell>
                 <TableCell key={patient.phone}>
-                  <Link href="/" className="text-white text-14-medium">
+                  <Link
+                    href="/"
+                    className="text-white text-14-medium flex gap-1"
+                  >
+                    <Icon
+                      src={PhoneIcon}
+                      alt="phone-Icon"
+                      width={20}
+                      height={20}
+                    />
                     {patient.phone}
                   </Link>
                 </TableCell>
                 <TableCell key={patient.email}>
-                  <Link href="/" className="text-white text-14-medium">
+                  <Link
+                    href="/"
+                    className="text-white text-14-medium flex gap-1"
+                  >
+                    <Icon
+                      src={MailIcon}
+                      alt="Mail-Icon"
+                      width={20}
+                      height={20}
+                    />
                     {patient.email}
                   </Link>
                 </TableCell>
