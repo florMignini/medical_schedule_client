@@ -71,7 +71,7 @@ const PatientsPage = async () => {
               <>
                 <TableCell key={patient.identityNumber}>
                   <Link
-                    href="/"
+                    href={`/professional/patients/${patient.id}/info`}
                     className="flex gap-1 items-center justify-start"
                   >
                     <Image
@@ -88,7 +88,7 @@ const PatientsPage = async () => {
                 </TableCell>
                 <TableCell key={patient.phone}>
                   <Link
-                    href="/"
+                    href={`/professional/patients/${patient.id}/info`}
                     className="text-white text-14-medium flex gap-1"
                   >
                     <Icon
@@ -102,7 +102,7 @@ const PatientsPage = async () => {
                 </TableCell>
                 <TableCell key={patient.email}>
                   <Link
-                    href="/"
+                    href={`/professional/patients/${patient.id}/info`}
                     className="text-white text-14-medium flex gap-1"
                   >
                     <Icon
@@ -115,7 +115,7 @@ const PatientsPage = async () => {
                   </Link>
                 </TableCell>
                 <TableCell key={patient.address}>
-                  <Link href="/" className="text-white text-14-medium">
+                  <Link href={`/professional/patients/${patient.id}/info`} className="text-white text-14-medium">
                     {patient.address}
                   </Link>
                 </TableCell>
