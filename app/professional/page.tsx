@@ -10,6 +10,7 @@ const ProfessionalDashboard = ({
 }>) => {
   // mobile side menu state & handler
   const [isOpen, setIsOpen] = useState(false);
+  const [todayDate, setTodayDate] = useState<string>();
   const toggleSidebar = () => setIsOpen(!isOpen);
   // //update to false in width < 768
   useEffect(() => {

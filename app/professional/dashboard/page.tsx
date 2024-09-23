@@ -1,42 +1,99 @@
 import Image from "next/image";
+import Link from "next/link";
 import Icon from "@/components/ui/icon";
 import EditIcon from "../../../public/assets/icons/pencil.svg";
+import MailIcon from "../../../public/assets/icons/email.svg";
+import PhoneIcon from "../../../public/assets/icons/phone.svg";
 import User from "../../../public/assets/profile-doctor.jpg";
-import WelcomeGif from "../../../public/assets/medical-welcome.gif";
-const ProfessionalDashboard = () => {
+
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import { IPatientsResponse } from "@/interfaces";
+import WelcomeSection from "../components/WelcomeSection";
+
+const ProfessionalDashboard = async() => {
+  // fetch all patients
+  let data = await fetch(`http://localhost:3001/api/patients/get-all-patients`);
+  let patients = await data.json();
+
   return (
     <section className="w-full h-screen flex flex-col items-center justify-start gap-2">
-      <div className="flex h-auto flex-col lg:grid lg:grid-cols-[70%,30%] xl:grid-cols-[70%,30%] gap-1">
+      <div className="w-[95%] flex h-auto flex-col lg:grid lg:grid-cols-[70%,30%] xl:grid-cols-[70%,30%] gap-1">
         {/* information side */}
         <div className="flex flex-col gap-4">
           {/* Welcome section */}
-          <div className="w-[99%] grid grid-cols-[60%,40%] py-2 px-5 bg-dark-400 rounded-md">
-            {/* Welcome */}
-            <div className="w-full flex flex-col items-start pl-1 justify-between gap-1">
-              {/* date */}
-                <div className="w-36 h-7 px-2 flex items-center rounded-md bg-dark-500">
-                      <h1>Today Date</h1>
-                </div>
-                {/* Message */}
-                <div className="w-[90%] flex flex-col gap-2 pb-1">
-                    <h1 className="text-24-bold capitalize">Buen dia Dr. Lastname</h1>
-                    <p className="text-12-regular text-light-200 capitalize">que tengas un lindo DiaDeLaSemana</p>
-                </div>
-            </div>
-            {/* gif */}
-            <div className="w-full flex items-center justify-end">
-              <Image
-                src={WelcomeGif}
-                alt="welcome-gif"
-                width={200}
-                height={200}
-                className="rounded-md"
-              />
-            </div>
-          </div>
+         <WelcomeSection/>
           {/* patient section */}
           <div className="w-[99%] bg-dark-400 rounded-md">
             <p className="p-3 font-bold">Pacientes</p>
+            {/* patients table */}
+      <Table>
+        <TableHeader>
+          <TableRow>
+            <TableHead>Nombre Completo</TableHead>
+            <TableHead>Teléfono</TableHead>
+            <TableHead>Email</TableHead>
+            <TableHead>Dirección</TableHead>
+          </TableRow>
+        </TableHeader>
+        <TableBody>
+          <TableRow>
+            {patients.map((patient: IPatientsResponse) => (
+              <>
+                <TableCell key={patient.identityNumber}>
+                  <Link
+                    href={`/professional/patients/${patient.id}/info`}
+                    className="flex gap-1 items-center justify-start"
+                  >
+                    <Image
+                      src={patient.patientPhotoUrl}
+                      alt="patient-profile-photo"
+                      width={40}
+                      height={40}
+                      className="rounded-full"
+                    />
+                    <p className="text-white text-14-medium">
+                      {`${patient.firstName} ${patient.lastName}`}
+                    </p>
+                  </Link>
+                </TableCell>
+                <TableCell key={patient.phone}>
+                  <Link
+                    href={`/professional/patients/${patient.id}/info`}
+                    className="text-white text-14-medium flex gap-1"
+                  >
+                    <Icon
+                      src={PhoneIcon}
+                      alt="phone-Icon"
+                      width={20}
+                      height={20}
+                    />
+                    {patient.phone}
+                  </Link>
+                </TableCell>
+                <TableCell key={patient.email}>
+                  <Link
+                    href={`/professional/patients/${patient.id}/info`}
+                    className="text-white text-14-medium flex gap-1"
+                  >
+                    <Icon
+                      src={MailIcon}
+                      alt="Mail-Icon"
+                      width={20}
+                      height={20}
+                    />
+                    {patient.email}
+                  </Link>
+                </TableCell>
+                <TableCell key={patient.address}>
+                  <Link href={`/professional/patients/${patient.id}/info`} className="text-white text-14-medium">
+                    {patient.address}
+                  </Link>
+                </TableCell>
+              </>
+            ))}
+          </TableRow>
+        </TableBody>
+      </Table>
           </div>
 
           {/* institutions section */}
