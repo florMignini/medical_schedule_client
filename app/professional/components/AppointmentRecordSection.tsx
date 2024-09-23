@@ -1,3 +1,4 @@
+import { IPatientsResponse } from '@/interfaces'
 import React from 'react'
 
 const AppointmentRecordSection = () => {
