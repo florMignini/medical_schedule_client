@@ -52,8 +52,8 @@ console.log(dinamicPage)
             {/* left side */}
             <div className="w-[50%] flex flex-col">
               <h1 className="text-18-bold">{`${patientInfo.firstName} ${patientInfo.lastName}`}</h1>
-              <p className="opacity-50 text-16-regular">
-                <strong>{patientInfo.identificationType}: </strong>
+              <p className="text-gray-500 font-light text-base">
+                <strong className="font-bold">{patientInfo.identificationType}: </strong>
                 {patientInfo.identityNumber}
               </p>
             </div>
@@ -78,7 +78,7 @@ console.log(dinamicPage)
               className={clsx(
                 'font-light text-sm',
                 dinamicPage === data.name
-                  ? 'text-blue-500 underline-offset-2  underline-blue-500' // Active link styles
+                  ? 'text-blue-500 underline   underline-blue-500 font-bold' // Active link styles
                   : 'text-gray-500 hover:text-white' // Inactive link styles
               )}
               >
