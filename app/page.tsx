@@ -31,7 +31,7 @@ export default function Home() {
           {/* login form */}
           <ProfessionalLoginForm />
           {/* Copyright */}
-          <div className="text-14-regular mt-10 flex flex-col gap-2 xl:text-left">
+          <div className="text-14-regular mt-5 flex flex-col gap-2 xl:text-left">
             <p>
               © {new Date().getFullYear()} Medical_Schedule. All rights
               reserved.

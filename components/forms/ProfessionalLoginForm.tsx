@@ -9,7 +9,7 @@ import DinamicForm from "../DinamicForm";
 import UserIcon from "../../public/assets/icons/user-shield.svg";
 import PasswordIcon from "../../public/assets/icons/security-password.svg";
 import SubmitButton from "../SubmitButton";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { loginFormValidation } from "@/lib";
 import { useRouter } from "next/navigation";
 import { loginUser } from "@/app/actions";
@@ -27,6 +27,7 @@ export enum FormFieldType {
 const ProfessionalLoginform = () => {
   const [loading, setLoading] = useState(false);
 
+
   const router = useRouter();
   const form = useForm<z.infer<typeof loginFormValidation>>({
     resolver: zodResolver(loginFormValidation),
@@ -35,18 +36,23 @@ const ProfessionalLoginform = () => {
       password: "",
     },
   });
-
+  
   async function onSubmit(value: z.infer<typeof loginFormValidation>) {
     setLoading(true);
     try {
       const res = await loginUser(value);
+      localStorage.setItem('infoProfSession', JSON.stringify({
+        firstname: res?.firstName,
+        lastname: res?.lastName,
+        id: res?.id,
+      }))
       res ? router.push("/professional/dashboard") : router.push("/");
     } catch (error:any) {
       console.error(error);
       setLoading(false);
     }
   }
-
+ 
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6 flex-1">

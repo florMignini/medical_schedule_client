@@ -25,7 +25,6 @@ export async function loginUser(loginData:IloginData
     });
 
     const parsedRes :LoginUserResponse = await res.json();
-    console.log(parsedRes)
     cookies().set('session-cookie', parsedRes.accessToken, { secure: true })
     return parsedRes.professional;
   } catch (error) {

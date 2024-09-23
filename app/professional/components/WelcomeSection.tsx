@@ -6,11 +6,18 @@ import { getDate } from '@/utils/getDate';
 
 const WelcomeSection = () => {
 const [todayDate, setTodayDate] = useState<string>()
+const [infoProfSession, setInfoProfSession] = useState<any>();
     useEffect(() => {
       let date = getDate()
       setTodayDate(date)
     }, [])
-    
+     useEffect(() => {
+       let profData = localStorage.getItem('infoProfSession');
+       if (profData) {
+         setInfoProfSession(JSON.parse(profData));
+       }
+     }, []);
+    console.log(infoProfSession)
   return (
     <div className="w-[99%] grid grid-cols-[60%,40%] py-2 px-5 bg-dark-400 rounded-md">
     {/* Welcome */}
@@ -21,8 +28,8 @@ const [todayDate, setTodayDate] = useState<string>()
         </div>
         {/* Message */}
         <div className="w-[90%] flex flex-col gap-2 pb-1">
-            <h1 className="text-24-bold capitalize">Bienvenido Dr. Lastname</h1>
-            <p className="text-12-regular text-light-200 capitalize">{`que tengas un lindo ${todayDate}`}</p>
+            <h1 className="text-24-bold capitalize">{`Bienvenido Dr. ${infoProfSession.lastname}`}</h1>
+            <p className="text-12-regular text-light-200 capitalize">{`que tengas un lindo ${todayDate ? todayDate : `...`}`}</p>
         </div>
     </div>
     {/* gif */}
