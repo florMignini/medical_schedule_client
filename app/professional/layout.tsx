@@ -20,9 +20,9 @@ export default function ProfessionalLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <section className="h-auto min-h-screen flex flex-col bg-dark-400 py-2">
+    <section className="flex flex-col bg-dark-400 py-2">
       {/* content */}
-      <div className=" bg-dark-200 m-3 p-1 rounded-lg h-auto">
+      <div className="bg-dark-200 m-3 p-1 rounded-lg ">
         <ProfessionalDashboard
         children={children}
         />

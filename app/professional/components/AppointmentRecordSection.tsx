@@ -1,9 +1,9 @@
-import { IPatientsResponse } from '@/interfaces'
-import React from 'react'
 
 const AppointmentRecordSection = () => {
   return (
-    <div>AppointmentRecordSection</div>
+    <section className="w-full h-auto flex flex-col items-center justify-start gap-2">
+      <h1>Appointment record section</h1>
+    </section>
   )
 }
 

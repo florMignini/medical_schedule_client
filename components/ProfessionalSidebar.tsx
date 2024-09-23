@@ -15,7 +15,7 @@ const ProfessionalSidebar = ({
     <aside
       className={` ${
         isOpen
-          ? "fixed inset-y-0 left-0 w-64 md:w-[50%] backdrop-blur-lg text-white transform translate-x-0"
+          ? "fixed inset-y-0 left-0 w-64 md:w-[50%] backdrop-blur-lg z-50 text-white transform translate-x-0"
           : "hidden lg:flex  items-center justify-start flex-col -translate-x-full"
       } transition-transform duration-500 ease-in-out lg:translate-x-0`}
     >

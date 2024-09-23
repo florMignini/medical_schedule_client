@@ -16,9 +16,9 @@ export default function Home() {
   //   redirect("/");
   // }
   return (
-    <div className="flex h-screen max-h-screen">
+    <div className="flex ">
       {/* Left section */}
-      <section className="remove-scrollbar container my-auto text-white">
+      <section className="remove-scrollbar  my-auto text-white">
         {/* Logo */}
         <div className="sub-container max-w-[496px]">
           <Image
@@ -31,7 +31,7 @@ export default function Home() {
           {/* login form */}
           <ProfessionalLoginForm />
           {/* Copyright */}
-          <div className="text-14-regular mt-10 flex flex-col gap-2 xl:text-left">
+          <div className="text-14-regular mt-5 flex flex-col gap-2 xl:text-left">
             <p>
               © {new Date().getFullYear()} Medical_Schedule. All rights
               reserved.

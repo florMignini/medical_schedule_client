@@ -10,6 +10,7 @@ const ProfessionalDashboard = ({
 }>) => {
   // mobile side menu state & handler
   const [isOpen, setIsOpen] = useState(false);
+  const [todayDate, setTodayDate] = useState<string>();
   const toggleSidebar = () => setIsOpen(!isOpen);
   // //update to false in width < 768
   useEffect(() => {
@@ -28,7 +29,7 @@ const ProfessionalDashboard = ({
   }, []);
 
   return (
-    <section className="h-auto grid grid-rows-[8%,92%] gap-1 text-white">
+    <section className=" grid grid-rows-[8%,92%] gap-5 text-white">
       {/* top - navbar */}
       <Navbar toggleSidebar={toggleSidebar} isOpen={isOpen} />
       {/* bottom - sidebar & main */}

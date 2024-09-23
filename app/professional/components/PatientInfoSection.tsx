@@ -1,12 +1,11 @@
 import { IPatientsResponse } from "@/interfaces";
-import { Input } from "@/components";
 import { Label } from "@radix-ui/react-label";
 
 export const PatientInfoSection = (patientInfo: IPatientsResponse) => {
 
   const { address, gender, phone, email, occupation, bloodType, bloodFactor, emergencyContactName, emergencyContactNumber, allergies, allergiesType, smoker, exSmoker, insurancePolicyNumber, insuranceProvider, patientBFP, patientBMI, patientHeight, patientWeight, pastMedicalHistory, medicalHistoryType, familyMedicalHistory, medicalHistory  } = patientInfo;
   return (
-    <section className="w-full flex flex-col items-center justify-start gap-3">
+    <section className="w-full h-auto flex flex-col items-center justify-start gap-3">
       {/* patient personal information */}
       <div className="w-[95%] h-auto flex flex-col items-start justify-start bg-dark-400 px-2 py-3 rounded-md">
         {/* title */}

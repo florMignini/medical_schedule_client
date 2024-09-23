@@ -1,13 +1,12 @@
-import PatientRegisterForm from "@/components/forms/PatientRegisterForm"
-
+import PatientRegisterForm from "@/components/forms/PatientRegisterForm";
 
 const PatientRegistration = () => {
   // TODO: bring user info
   return (
-    
-      <PatientRegisterForm/>
-   
-  )
-}
+    <section className="w-full h-screen flex flex-col items-center justify-start gap-2">
+      <PatientRegisterForm />
+    </section>
+  );
+};
 
-export default PatientRegistration
+export default PatientRegistration;
