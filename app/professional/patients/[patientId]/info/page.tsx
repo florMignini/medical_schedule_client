@@ -90,14 +90,20 @@ console.log(dinamicPage)
       </div>
       {/* dinamic rendering components */}
       <div
-      className="pt-5"
+      className="w-full pt-5"
       >
       {dinamicPage === 'Informacion del Paciente' ? (
-        <PatientInfoSection/>
+        <PatientInfoSection
+        {...patientInfo}
+        />
       ) : dinamicPage === 'Historial de Citas' ? (
-        <AppointmentRecordSection/>
+        <AppointmentRecordSection
+        
+        />
       ) : dinamicPage === 'Resultados Lab' ? (
-        <LabResultSection/>
+        <LabResultSection
+        
+        />
       ) : (
         <div>Unknown dinamicPage</div>
       )}
