@@ -7,6 +7,9 @@ import Icon from "@/components/ui/icon";
 import Link from "next/link";
 import { DinamicPage } from "@/data";
 import clsx from "clsx";
+import { PatientInfoSection } from "@/app/professional/components";
+import AppointmentRecordSection from "@/app/professional/components/AppointmentRecordSection";
+import LabResultSection from "@/app/professional/components/LabResultSection";
 
 const PatientInfo = () => {
   const { patientId } = useParams<{ patientId: string }>();
@@ -26,6 +29,7 @@ const PatientInfo = () => {
   //  skeleton
   if (!patientInfo) return <div>Loading...</div>;
 console.log(patientInfo)
+console.log(dinamicPage)
   return (
     <section className="w-full h-screen flex flex-col items-center justify-start gap-2">
       {/* Title */}
@@ -33,9 +37,9 @@ console.log(patientInfo)
         <h1 className="text-18-bold text-start">Paciente</h1>
       </div>
       {/* top section */}
-      <div className="w-[95%] h-auto flex flex-col bg-dark-400 gap-1 rounded-md">
+      <div className="w-[95%] h-auto flex flex-col bg-dark-400 gap-5 rounded-md">
         {/* top */}
-        <div className="w-[100%] h-auto px-2 py-3 grid grid-cols-[20%,80%] ">
+        <div className="w-[100%] h-auto px-2 pt-3 grid grid-cols-[20%,80%] ">
           <Image
             src={patientInfo.patientPhotoUrl}
             alt="patient-photo"
@@ -59,19 +63,13 @@ console.log(patientInfo)
                 className="w-[50%] flex items-center justify-center bg-blue-700 p-1 rounded-lg cursor-pointer hover:scale-105 active:outline-none"
                 href="/professional/patient-registration"
               >
-                {/* <Icon
-              src={plusImage}
-              alt="add-patient-icon"
-              width={15}
-              height={15}
-            /> */}
                 <p className="text-white text-14-medium">Crear Cita</p>
               </Link>
             </div>
           </div>
         </div>
         {/* info nav */}
-        <div className="w-[100%] flex items-center justify-start gap-5 py-4 px-3"
+        <div className="w-[100%] flex items-center justify-start gap-5 pb-2 px-3"
         >
           {
             DinamicPage.map((data)=>(
@@ -89,6 +87,20 @@ console.log(patientInfo)
             ))
           }
         </div>
+      </div>
+      {/* dinamic rendering components */}
+      <div
+      className="pt-5"
+      >
+      {dinamicPage === 'Informacion del Paciente' ? (
+        <PatientInfoSection/>
+      ) : dinamicPage === 'Historial de Citas' ? (
+        <AppointmentRecordSection/>
+      ) : dinamicPage === 'Resultados Lab' ? (
+        <LabResultSection/>
+      ) : (
+        <div>Unknown dinamicPage</div>
+      )}
       </div>
     </section>
   );
