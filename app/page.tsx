@@ -16,9 +16,9 @@ export default function Home() {
   //   redirect("/");
   // }
   return (
-    <div className="flex h-screen max-h-screen">
+    <div className="flex ">
       {/* Left section */}
-      <section className="remove-scrollbar container my-auto text-white">
+      <section className="remove-scrollbar  my-auto text-white">
         {/* Logo */}
         <div className="sub-container max-w-[496px]">
           <Image

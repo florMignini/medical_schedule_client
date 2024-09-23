@@ -123,7 +123,7 @@ const PatientRegistrationForm = () => {
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="h-full space-y-6 flex-1 mb-24 pb-3">
+      <form onSubmit={form.handleSubmit(onSubmit)} className="w-[99%] h-full space-y-6 flex-1 mb-24 pb-3">
         {/* patient personal information */}
         <div className="mb-10">
           {/* head */}
