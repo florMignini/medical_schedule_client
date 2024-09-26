@@ -50,10 +50,13 @@ interface IPatient {
   patientBFP: string;
   isActive: boolean;
 }
-
+interface IIDs{
+  professional: string;
+  patient: string;
+}
 export async function patientRegistration({ patientPhoto, ...patient }: any) {
   "use server";
-  console.log(patient);
+
   try {
     let file;
     if (patientPhoto) {
@@ -83,4 +86,19 @@ export async function patientRegistration({ patientPhoto, ...patient }: any) {
   } catch (error) {
     console.log(error);
   }
+}
+
+export async function createProfessionalPatientRelation (IDs: IIDs) {
+  const res = await fetch(
+    `http://localhost:3001/api/professional/add-patient-relation`,
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(IDs),
+    }
+  );
+
+  const parsedRes = await res.json();
 }

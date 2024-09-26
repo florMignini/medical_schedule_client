@@ -6,8 +6,14 @@ const nextConfig = {
             protocol: 'https',
             hostname: 'cloud.appwrite.io',
             port: '',
-            pathname: '/my-bucket/**',
+            pathname: '/**',
           },
+          {
+            protocol: 'https',
+            hostname: 'static.vecteezy.com',
+            port: '',
+            pathname: '/**',
+          }
         ],
       },
 };

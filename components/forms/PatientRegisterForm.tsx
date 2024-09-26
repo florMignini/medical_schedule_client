@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { z } from "zod";
 import Image from "next/image";
@@ -32,7 +32,7 @@ import DropdownIcon from "../../public/assets/icons/arrowDown.svg";
 import mailIcon from "../../public/assets/icons/email.svg";
 
 import { RadioGroup, RadioGroupItem } from "../ui/radio-group";
-import { Select, SelectItem } from "../ui/select";
+
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -42,14 +42,22 @@ import {
 } from "../ui/dropdown-menu";
 import DinamicAllergieContent from "../DinamicAllergieContent";
 import FileUploader from "../FileUploader";
-import { patientRegistration } from "@/app/actions";
+import { createProfessionalPatientRelation, patientRegistration } from "@/app/actions";
 import SubmitButton from "../SubmitButton";
 
 const PatientRegistrationForm = () => {
   const [loading, setLoading] = useState(false);
   const router = useRouter();
   const [isThereAnImage, setIsTthereAnImage] = useState<boolean>(false);
-
+  const [profData, setProfData] = useState<any>({})
+//get professional id
+useEffect(() => {
+  const profData = localStorage.getItem("infoProfSession")
+  if (profData) {
+    setProfData(JSON.parse(profData));
+  }
+}, [])
+const { id } = profData!
   // dropdown states
   const [allergiesType, setAllergiesType] = useState("");
   const [medicalHistoryType, setMedicalHistoryType] = useState("");
@@ -112,9 +120,18 @@ const PatientRegistrationForm = () => {
         isActive: true,
       };
       const response = await patientRegistration(patientData);
+      
+       if(profData){
+        const IDs = {
+          professional: profData.id,
+          patient: response.id
+        }
+        const data = await  createProfessionalPatientRelation(IDs)
+       }
       if (response) {
         form.reset();
         setLoading(false);
+        router.push("/professional/patients");
       }
     } catch (error) {
       console.error(error);

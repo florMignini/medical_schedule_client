@@ -2,7 +2,6 @@ import Icon from "@/components/ui/icon";
 import userImage from "../../../public/assets/icons/users.svg";
 import plusImage from "../../../public/assets/icons/plus.svg";
 import Link from "next/link";
-import { useEffect, useState } from "react";
 import { fetchPatients } from "@/app/actions";
 import {
   Table,
@@ -16,8 +15,13 @@ import { IPatientsResponse } from "@/interfaces";
 import Image from "next/image";
 import MailIcon from "../../../public/assets/icons/email.svg";
 import PhoneIcon from "../../../public/assets/icons/phone.svg";
+
 const PatientsPage = async () => {
-  let data = await fetch(`http://localhost:3001/api/patients/get-all-patients`);
+ 
+  let data = await fetch(
+    `http://localhost:3001/api/patients/get-all-patients`,
+    { cache: "no-cache" }
+  );
   let patients = await data.json();
 
   return (
@@ -66,62 +70,59 @@ const PatientsPage = async () => {
           </TableRow>
         </TableHeader>
         <TableBody>
-          <TableRow>
-            {patients.map((patient: IPatientsResponse) => (
-              <>
-                <TableCell key={patient.identityNumber}>
-                  <Link
-                    href={`/professional/patients/${patient.id}/info`}
-                    className="flex gap-1 items-center justify-start"
-                  >
-                    <Image
-                      src={patient.patientPhotoUrl}
-                      alt="patient-profile-photo"
-                      width={40}
-                      height={40}
-                      className="rounded-full"
-                    />
-                    <p className="text-white text-14-medium">
-                      {`${patient.firstName} ${patient.lastName}`}
-                    </p>
-                  </Link>
-                </TableCell>
-                <TableCell key={patient.phone}>
-                  <Link
-                    href={`/professional/patients/${patient.id}/info`}
-                    className="text-white text-14-medium flex gap-1"
-                  >
-                    <Icon
-                      src={PhoneIcon}
-                      alt="phone-Icon"
-                      width={20}
-                      height={20}
-                    />
-                    {patient.phone}
-                  </Link>
-                </TableCell>
-                <TableCell key={patient.email}>
-                  <Link
-                    href={`/professional/patients/${patient.id}/info`}
-                    className="text-white text-14-medium flex gap-1"
-                  >
-                    <Icon
-                      src={MailIcon}
-                      alt="Mail-Icon"
-                      width={20}
-                      height={20}
-                    />
-                    {patient.email}
-                  </Link>
-                </TableCell>
-                <TableCell key={patient.address}>
-                  <Link href={`/professional/patients/${patient.id}/info`} className="text-white text-14-medium">
-                    {patient.address}
-                  </Link>
-                </TableCell>
-              </>
-            ))}
-          </TableRow>
+          {patients.map((patient: IPatientsResponse) => (
+            <TableRow key={patient.id}>
+              <TableCell>
+                <Link
+                  href={`/professional/patients/${patient.id}/info`}
+                  className="flex gap-1 items-center justify-start"
+                >
+                  <Image
+                    src={patient.patientPhotoUrl}
+                    alt="patient-profile-photo"
+                    width={40}
+                    height={40}
+                    className="rounded-full"
+                  />
+                  <p className="text-white text-14-medium">
+                    {`${patient.firstName} ${patient.lastName}`}
+                  </p>
+                </Link>
+              </TableCell>
+              <TableCell>
+                <Link
+                  href={`/professional/patients/${patient.id}/info`}
+                  className="text-white text-14-medium flex gap-1"
+                >
+                  <Icon
+                    src={PhoneIcon}
+                    alt="phone-Icon"
+                    width={20}
+                    height={20}
+                  />
+                  {patient.phone}
+                </Link>
+              </TableCell>
+              <TableCell>
+                <Link
+                  href={`/professional/patients/${patient.id}/info`}
+                  className="text-white text-14-medium flex gap-1"
+                >
+                  <Icon src={MailIcon} alt="Mail-Icon" width={20} height={20} />
+                  {patient.email}
+                </Link>
+              </TableCell>
+              <TableCell>
+                <Link
+                  href={`/professional/patients/${patient.id}/info`}
+                  className="text-white text-14-medium"
+                >
+                  {patient.address}
+                </Link>
+              </TableCell>
+              {/* </> */}
+            </TableRow>
+          ))}
         </TableBody>
       </Table>
     </section>
