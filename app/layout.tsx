@@ -1,4 +1,6 @@
 import type { Metadata } from "next";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 import { Roboto } from "next/font/google";
 import "./globals.css";
 import { cn } from "@/lib/utils";
@@ -14,7 +16,8 @@ export const metadata: Metadata = {
   title: "Medical Schedule App",
   description: "Patients and activities organizer for medical professionals",
 };
-
+// Create a tanStank client
+const queryClient = new QueryClient();
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -22,7 +25,18 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={cn('h-auto bg-dark-300 font-sans antialiased', PlusFont.variable)}>{children}</body>
+      // Provide the client to your App
+      <QueryClientProvider client={queryClient}>
+        <body
+          className={cn(
+            "h-auto bg-dark-300 font-sans antialiased",
+            PlusFont.variable
+          )}
+        >
+          {children}
+        </body>
+        <ReactQueryDevtools />
+      </QueryClientProvider>
     </html>
   );
 }
