@@ -11,10 +11,11 @@ const WelcomeSection = () => {
   const [infoProfSession, setInfoProfSession] = useState<any>();
   const [todayDate, setTodayDate] = useState<string>();
   // effect for week day
+  console.log(todayDay)
   useEffect(() => {
     let date = getDay();
     setTodayDay(date);
-  }, []);
+  }, [infoProfSession]);
   // effect for prof session info
   useEffect(() => {
     let profData = localStorage.getItem("infoProfSession");
@@ -53,6 +54,7 @@ useEffect(() => {
       {/* gif */}
       <div className="w-full flex items-center justify-end">
         <Image
+        unoptimized
           src={WelcomeGif}
           alt="welcome-gif"
           width={200}
