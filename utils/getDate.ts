@@ -1,7 +1,7 @@
 export  function getDay() {
-  const dayOfWeek = ["Domingo", "Lunes", "Martes", "Miércoles", "Sábado"]
-    const today = new Date();
-    const day = today.getDay();
+  const dayOfWeek = [ "Domingo", "Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado"]
+  const today = new Date();
+  const day = today.getDay();
     return dayOfWeek[day];
   }
 

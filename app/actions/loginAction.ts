@@ -17,10 +17,11 @@ export async function loginUser(loginData:IloginData
 ) {
 'use server'
   try {
-    const res:LoginUserResponse = await apiServer.post(`/auth/login`, loginData);
-
-    cookies().set('session-cookie', res.accessToken, { secure: true })
-    return res.professional;
+    const {data} = await apiServer.post(`/auth/login`, loginData);
+    
+    cookies().set('session-cookie', data?.accessToken, { secure: true })
+    console.log(data)
+    return data.professional;
   } catch (error) {
     const typedError: ErrorType = error as ErrorType;
     console.log(typedError);
