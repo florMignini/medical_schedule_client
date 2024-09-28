@@ -2,7 +2,7 @@ import Icon from "@/components/ui/icon";
 import userImage from "../../../public/assets/icons/users.svg";
 import plusImage from "../../../public/assets/icons/plus.svg";
 import Link from "next/link";
-import { fetchPatients } from "@/app/actions";
+
 import {
   Table,
   TableBody,

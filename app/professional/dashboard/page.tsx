@@ -6,13 +6,23 @@ import MailIcon from "../../../public/assets/icons/email.svg";
 import PhoneIcon from "../../../public/assets/icons/phone.svg";
 import User from "../../../public/assets/profile-doctor.jpg";
 
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
 import { IPatientsResponse } from "@/interfaces";
 import WelcomeSection from "../components/WelcomeSection";
 
-const ProfessionalDashboard = async() => {
+const ProfessionalDashboard = async () => {
   // fetch all patients
-  let data = await fetch(`http://localhost:3001/api/patients/get-all-patients`);
+  let data = await fetch(
+    `http://localhost:3001/api/patients/get-all-patients`,
+    { cache: "no-cache" }
+  );
   let patients = await data.json();
 
   return (
@@ -21,79 +31,82 @@ const ProfessionalDashboard = async() => {
         {/* information side */}
         <div className="flex flex-col gap-4">
           {/* Welcome section */}
-         <WelcomeSection/>
+          <WelcomeSection />
           {/* patient section */}
           <div className="w-[99%] bg-dark-400 rounded-md">
             <p className="p-3 font-bold">Pacientes</p>
             {/* patients table */}
-      <Table>
-        <TableHeader>
-          <TableRow>
-            <TableHead>Nombre Completo</TableHead>
-            <TableHead>Teléfono</TableHead>
-            <TableHead>Email</TableHead>
-            <TableHead>Dirección</TableHead>
-          </TableRow>
-        </TableHeader>
-        <TableBody>
-          <TableRow>
-            {patients.map((patient: IPatientsResponse) => (
-              <>
-                <TableCell key={patient.identityNumber}>
-                  <Link
-                    href={`/professional/patients/${patient.id}/info`}
-                    className="flex gap-1 items-center justify-start"
-                  >
-                    <Image
-                      src={patient.patientPhotoUrl}
-                      alt="patient-profile-photo"
-                      width={40}
-                      height={40}
-                      className="rounded-full"
-                    />
-                    <p className="text-white text-14-medium">
-                      {`${patient.firstName} ${patient.lastName}`}
-                    </p>
-                  </Link>
-                </TableCell>
-                <TableCell key={patient.phone}>
-                  <Link
-                    href={`/professional/patients/${patient.id}/info`}
-                    className="text-white text-14-medium flex gap-1"
-                  >
-                    <Icon
-                      src={PhoneIcon}
-                      alt="phone-Icon"
-                      width={20}
-                      height={20}
-                    />
-                    {patient.phone}
-                  </Link>
-                </TableCell>
-                <TableCell key={patient.email}>
-                  <Link
-                    href={`/professional/patients/${patient.id}/info`}
-                    className="text-white text-14-medium flex gap-1"
-                  >
-                    <Icon
-                      src={MailIcon}
-                      alt="Mail-Icon"
-                      width={20}
-                      height={20}
-                    />
-                    {patient.email}
-                  </Link>
-                </TableCell>
-                <TableCell key={patient.address}>
-                  <Link href={`/professional/patients/${patient.id}/info`} className="text-white text-14-medium">
-                    {patient.address}
-                  </Link>
-                </TableCell>
-              </>
-            ))}
-          </TableRow>
-        </TableBody>
-      </Table>
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableHead>Nombre Completo</TableHead>
+                  <TableHead>Teléfono</TableHead>
+                  <TableHead>Email</TableHead>
+                  <TableHead>Dirección</TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                <TableRow>
+                  {patients.map((patient: IPatientsResponse) => (
+                    <>
+                      <TableCell key={patient.identityNumber}>
+                        <Link
+                          href={`/professional/patients/${patient.id}/info`}
+                          className="flex gap-1 items-center justify-start"
+                        >
+                          <Image
+                            src={patient.patientPhotoUrl}
+                            alt="patient-profile-photo"
+                            width={40}
+                            height={40}
+                            className="rounded-full"
+                          />
+                          <p className="text-white text-14-medium">
+                            {`${patient.firstName} ${patient.lastName}`}
+                          </p>
+                        </Link>
+                      </TableCell>
+                      <TableCell key={patient.phone}>
+                        <Link
+                          href={`/professional/patients/${patient.id}/info`}
+                          className="text-white text-14-medium flex gap-1"
+                        >
+                          <Icon
+                            src={PhoneIcon}
+                            alt="phone-Icon"
+                            width={20}
+                            height={20}
+                          />
+                          {patient.phone}
+                        </Link>
+                      </TableCell>
+                      <TableCell key={patient.email}>
+                        <Link
+                          href={`/professional/patients/${patient.id}/info`}
+                          className="text-white text-14-medium flex gap-1"
+                        >
+                          <Icon
+                            src={MailIcon}
+                            alt="Mail-Icon"
+                            width={20}
+                            height={20}
+                          />
+                          {patient.email}
+                        </Link>
+                      </TableCell>
+                      <TableCell key={patient.address}>
+                        <Link
+                          href={`/professional/patients/${patient.id}/info`}
+                          className="text-white text-14-medium"
+                        >
+                          {patient.address}
+                        </Link>
+                      </TableCell>
+                    </>
+                  ))}
+                </TableRow>
+              </TableBody>
+            </Table>
           </div>
 
           {/* institutions section */}
