@@ -11,7 +11,6 @@ const WelcomeSection = () => {
   const [infoProfSession, setInfoProfSession] = useState<any>();
   const [todayDate, setTodayDate] = useState<string>();
   // effect for week day
-  console.log(todayDay)
   useEffect(() => {
     let date = getDay();
     setTodayDay(date);
