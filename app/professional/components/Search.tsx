@@ -1,0 +1,22 @@
+import Icon from "@/components/ui/icon";
+import { Input } from "@/components/ui/input";
+import searchIcon from "../../../public/assets/icons/search.svg";
+
+const Search = () => {
+  return (
+    <div className="w-[99%] h-auto flex items-center justify-center mx-auto">
+      <div className="w-[80%] grid grid-cols-[20%,80%] align-middle justify-center bg-dark-400 rounded-lg opacity-50">
+        <button className="w-[90%] flex items-center justify-center">
+          <Icon src={searchIcon} alt="search-icon" width={20} height={20} />
+        </button>
+        <Input
+          type="text"
+          placeholder="search anything"
+          className="w-[90%] h-10 bg-transparent border-none focus:outline-none active:outline-none"
+        />
+      </div>
+    </div>
+  );
+};
+
+export default Search;

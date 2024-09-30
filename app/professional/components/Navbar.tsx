@@ -4,6 +4,7 @@ import Logo from "../../../public/assets/medical_schedule-logo.svg";
 import HamburguerMenu from "../../../public/assets/icons/hamburger-sidebar.svg";
 import { toggleSideI } from "@/interfaces";
 import Link from "next/link";
+import Search from "./Search";
 
 const Navbar = ({ isOpen, toggleSidebar }: toggleSideI) => {
   return (
@@ -32,9 +33,9 @@ const Navbar = ({ isOpen, toggleSidebar }: toggleSideI) => {
         </div>
       </Link>
 
-      <div className="flex flex-col w-[50%] text-white opacity-65">
-        <h2 className="text-16-bold">future search section</h2>
-      </div>
+      
+        <Search/>
+      
     </nav>
   );
 };
