@@ -11,18 +11,21 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { IPatientsResponse } from "@/interfaces";
+ // Assuming the interface is located in a file named IPatientsResponse.ts in the interfaces folder
 import Image from "next/image";
 import MailIcon from "../../../public/assets/icons/email.svg";
 import PhoneIcon from "../../../public/assets/icons/phone.svg";
+import { apiServer } from "@/api/api-server";
+import { cookies } from "next/headers";
+import { Patient, PatientsIncluded, ProfessionalInformation } from "@/interfaces";
 
 const PatientsPage = async () => {
  
-  let data = await fetch(
-    `http://localhost:3001/api/patients/get-all-patients`,
-    { cache: "no-cache" }
-  );
-  let patients = await data.json();
+  const cookieStore = cookies()
+  const professionalId = cookieStore.get("professional-id")?.value
+
+  let { data }: { data: ProfessionalInformation } = await apiServer.get(`/professional/get-professional/${professionalId}`);
+  const { patientsIncluded }: { patientsIncluded: PatientsIncluded[] } = data;
 
   return (
     <section className="w-full h-screen flex flex-col items-center justify-start gap-2">
@@ -36,9 +39,9 @@ const PatientsPage = async () => {
         <div className="flex items-center justify-start gap-2">
           <Icon src={userImage} alt="user-icon-image" height={25} width={25} />
           <div className="flex items-center justify-start gap-1">
-            <h1 className="text-18-bold text-dark-500">{patients.length}</h1>
+            <h1 className="text-18-bold text-dark-500">{patientsIncluded.length}</h1>
             <p className="text-18-bold">
-              {patients.length < 2 ? `paciente` : `pacientes`}
+              {patientsIncluded.length < 2 ? `paciente` : `pacientes`}
             </p>
           </div>
         </div>
@@ -70,7 +73,7 @@ const PatientsPage = async () => {
           </TableRow>
         </TableHeader>
         <TableBody>
-          {patients.map((patient: IPatientsResponse) => (
+          {patientsIncluded.map(({patient}: PatientsIncluded) => (
             <TableRow key={patient.id}>
               <TableCell>
                 <Link
