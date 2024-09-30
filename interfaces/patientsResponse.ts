@@ -1,4 +1,12 @@
-export interface IPatientsResponse {
+
+export interface ProfessionalPatient {
+    id:        string;
+    createdAt: Date;
+    updatedAt: Date;
+    patient:   Patient[];
+}
+
+export interface Patient {
     id:                     string;
     createdAt:              Date;
     updatedAt:              Date;
