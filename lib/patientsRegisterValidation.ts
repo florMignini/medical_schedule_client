@@ -50,7 +50,7 @@ export const patientsRegisterValidation = z.object({
   bloodType: z.enum(["A", "B", "AB", "0"]),
   bloodFactor: z.enum(["Positivo", "Negativo"]),
   // medical history
-  allergiesType: z.enum(["Alimentos", "Drogas/Medicamentos","Ambientales/Estacionales", "Contacto", "Otras"]),
+  allergic: z.enum(["SI", "NO"]),
   allergies: z.string().optional(),
   familyMedicalHistory: z.string().optional(),
   pastMedicalHistory: z.string().optional(),

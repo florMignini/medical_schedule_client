@@ -40,29 +40,30 @@ import {
   DropdownMenuRadioItem,
   DropdownMenuTrigger,
 } from "../ui/dropdown-menu";
-import DinamicAllergieContent from "../DinamicAllergieContent";
 import FileUploader from "../FileUploader";
-import { createProfessionalPatientRelation, patientRegistration } from "@/app/actions";
+import {
+  createProfessionalPatientRelation,
+  patientRegistration,
+} from "@/app/actions";
 import SubmitButton from "../SubmitButton";
 
 const PatientRegistrationForm = () => {
   const [loading, setLoading] = useState(false);
   const router = useRouter();
   const [isThereAnImage, setIsTthereAnImage] = useState<boolean>(false);
-  const [profData, setProfData] = useState<any>({})
-//get professional id
-useEffect(() => {
-  const profData = localStorage.getItem("infoProfSession")
-  if (profData) {
-    setProfData(JSON.parse(profData));
-  }
-}, [])
-const { id } = profData!
+  const [profData, setProfData] = useState<any>({});
+  //get professional id
+  useEffect(() => {
+    const profData = localStorage.getItem("infoProfSession");
+    if (profData) {
+      setProfData(JSON.parse(profData));
+    }
+  }, []);
+  const { id } = profData!;
   // dropdown states
-  const [allergiesType, setAllergiesType] = useState("");
   const [medicalHistoryType, setMedicalHistoryType] = useState("");
   const [identificationType, setIdentificationType] = useState("");
- 
+
   const form = useForm<z.infer<typeof patientsRegisterValidation>>({
     resolver: zodResolver(patientsRegisterValidation),
     defaultValues: {
@@ -85,7 +86,7 @@ const { id } = profData!
       exSmoker: "NO" as BooleanOption,
       bloodType: "A",
       bloodFactor: "Positivo",
-      allergiesType: "Alimentos" as AllergiesTypeEnum,
+      allergic: "NO" as BooleanOption,
       allergies: "",
       familyMedicalHistory: "",
       pastMedicalHistory: "",
@@ -100,7 +101,7 @@ const { id } = profData!
       isActive: true,
     },
   });
-  console.log(form.formState.errors);
+
   async function onSubmit(values: z.infer<typeof patientsRegisterValidation>) {
     setLoading(true);
     let formData;
@@ -120,14 +121,14 @@ const { id } = profData!
         isActive: true,
       };
       const response = await patientRegistration(patientData);
-      
-       if(profData){
+
+      if (profData) {
         const IDs = {
           professional: profData.id,
-          patient: response.id
-        }
-        const data = await  createProfessionalPatientRelation(IDs)
-       }
+          patient: response.id,
+        };
+        const data = await createProfessionalPatientRelation(IDs);
+      }
       if (response) {
         form.reset();
         setLoading(false);
@@ -140,7 +141,10 @@ const { id } = profData!
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="w-[99%] h-full space-y-6 flex-1 mb-24 pb-3">
+      <form
+        onSubmit={form.handleSubmit(onSubmit)}
+        className="w-[99%] h-full space-y-6 flex-1 mb-24 pb-3"
+      >
         {/* patient personal information */}
         <div className="mb-10">
           {/* head */}
@@ -445,7 +449,7 @@ const { id } = profData!
                 )}
               />
             </div>
-            {/* smoker & ex-smoker */}
+            {/* bloodtype & bloodfactor */}
             <div className="flex gap-2 mb-2">
               {/* bloodType */}
               <DinamicForm
@@ -499,52 +503,40 @@ const { id } = profData!
               />
             </div>
             {/* allergies */}
-            <div className="w-[100%] flex flex-col justify-end md:flex-row gap-2 mb-2">
+            <div className="flex gap-2 mb-2">
               {/* allergies type */}
-              <div className="flex w-[40%] rounded-md items-center justify-center border border-dark-500 gap-2 p-1 outline-none bg-dark-400 flex-col">
-                <DropdownMenu>
-                  <DropdownMenuTrigger className="flex items-center justify-center gap-2 outline-none">
-                    Alérgias
-                    <Icon
-                      src={DropdownIcon}
-                      alt="dropdown-icon"
-                      width={18}
-                      height={18}
-                    />
-                  </DropdownMenuTrigger>
-                  <DropdownMenuContent className="ml-5 w-full flex items-center justify-start">
-                    <DropdownMenuRadioGroup
-                      value={allergiesType}
-                      onValueChange={setAllergiesType}
-                      className="flex w-full flex-col items-center gap-1 rounded-md  border-dark-500 bg-dark-400
-                      text-white text-ellipsis"
+              <DinamicForm
+                fieldType={FormFieldType.SKELETON}
+                control={form.control}
+                name="allergic"
+                label="Alergico/a"
+                renderSkeleton={(field) => (
+                  <FormControl>
+                    <RadioGroup
+                      className="flex h-12 xl:justify-between"
+                      onValueChange={field.onChange}
+                      defaultValue={field.value}
                     >
-                      {AllergiesType.map((allergie) => (
-                        <DropdownMenuRadioItem
-                          key={allergie}
-                          value={allergie}
-                          className="w-[90%] flex items-center justify-start pl-6"
-                        >
-                          {allergie}
-                        </DropdownMenuRadioItem>
+                      {booleanOption.map((bool: string) => (
+                        <div key={bool} className="radio-group gap-1">
+                          <RadioGroupItem value={bool} id={bool} />
+                          <Label htmlFor={bool} className="cursor-pointer">
+                            {bool}
+                          </Label>
+                        </div>
                       ))}
-                    </DropdownMenuRadioGroup>
-                  </DropdownMenuContent>
-                </DropdownMenu>
-                <p className="text-16-semibold">{allergiesType}</p>
-              </div>
-
+                    </RadioGroup>
+                  </FormControl>
+                )}
+              />
               {/* choose specific allergie */}
-              <div className="w-[60%] flex">
-                {allergiesType ? (
-                  <div className=" rounded-md border border-dark-500 gap-2 p-1 outline-none bg-dark-400 flex-col">
-                    <DinamicAllergieContent
-                      allergiesType={allergiesType}
-                      form={form}
-                    />
-                  </div>
-                ) : null}
-              </div>
+              <DinamicForm
+                control={form.control}
+                name="allergies"
+                label="Enumere Alergias"
+                placeholder="Ex: Polen, Penicilina, Mani, Otros"
+                fieldType={FormFieldType.TEXTAREA}
+              />
             </div>
             {/* current medication */}
             <div className="flex gap-2 mb-2">
@@ -658,9 +650,12 @@ const { id } = profData!
           </div>
         </div>
 
-        <SubmitButton 
-        className="w-fit h-10 py-1 px-2 border border-spacing-1 rounded-lg"
-        loading={loading}>Agregar Paciente</SubmitButton>
+        <SubmitButton
+          className="w-fit h-10 py-1 px-2 border border-spacing-1 rounded-lg"
+          loading={loading}
+        >
+          Agregar Paciente
+        </SubmitButton>
       </form>
     </Form>
   );

@@ -1,9 +1,10 @@
-import { IPatientsResponse } from "@/interfaces";
+
+import { Patient } from "@/interfaces";
 import { Label } from "@radix-ui/react-label";
 
-export const PatientInfoSection = (patientInfo: IPatientsResponse) => {
+export const PatientInfoSection = (patientInfo: Patient) => {
 
-  const { address, gender, phone, email, occupation, bloodType, bloodFactor, emergencyContactName, emergencyContactNumber, allergies, allergiesType, smoker, exSmoker, insurancePolicyNumber, insuranceProvider, patientBFP, patientBMI, patientHeight, patientWeight, pastMedicalHistory, medicalHistoryType, familyMedicalHistory, medicalHistory  } = patientInfo;
+  const { address, gender, phone, email, occupation, bloodType, bloodFactor, emergencyContactName, emergencyContactNumber, allergies, allergic, smoker, exSmoker, insurancePolicyNumber, insuranceProvider, patientBFP, patientBMI, patientHeight, patientWeight, pastMedicalHistory, medicalHistoryType, familyMedicalHistory, medicalHistory  } = patientInfo;
   return (
     <section className="w-full h-auto flex flex-col items-center justify-start gap-3">
       {/* patient personal information */}
@@ -142,9 +143,9 @@ export const PatientInfoSection = (patientInfo: IPatientsResponse) => {
               htmlFor="allergiesType"
               className="font-light text-[13px] text-gray-500"
             >
-              Tipo de Alergia
+              Alergico/a
             </Label>
-            <h6 className="text-[14px]">{allergiesType}</h6>
+            <h6 className="text-[14px]">{allergic}</h6>
           </div>
           {/* allegies */}
           <div className="flex flex-col">

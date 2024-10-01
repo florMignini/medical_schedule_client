@@ -29,7 +29,7 @@ export interface Patient {
     exSmoker:               string;
     bloodType:              string;
     bloodFactor:            string;
-    allergiesType:          string;
+    allergic:          string;
     allergies:              string;
     familyMedicalHistory:   string;
     medicalHistory:         string;

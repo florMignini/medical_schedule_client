@@ -32,7 +32,6 @@ const Search = () => {
     setResult([]);
   };
 
-  console.log(value);
   return (
     <div className="w-[99%] h-auto flex flex-col items-center justify-center mx-auto">
       {/* search section */}
