@@ -2,7 +2,7 @@
 import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 import Image from "next/image";
-import { IPatientsResponse } from "@/interfaces";
+
 import Link from "next/link";
 import { DinamicPage } from "@/data";
 import clsx from "clsx";
@@ -10,10 +10,11 @@ import { PatientInfoSection } from "@/app/professional/components";
 import AppointmentRecordSection from "@/app/professional/components/AppointmentRecordSection";
 import LabResultSection from "@/app/professional/components/LabResultSection";
 import { Skeleton } from "@/components/ui/skeleton";
+import { Patient } from "@/interfaces";
 
 const PatientInfo = () => {
   const { patientId } = useParams<{ patientId: string }>();
-  const [patientInfo, setPatientInfo] = useState<IPatientsResponse>();
+  const [patientInfo, setPatientInfo] = useState<Patient>();
 
   useEffect(() => {
     async function fetchPatientInfo() {
@@ -75,9 +76,9 @@ const PatientInfo = () => {
             <div className="w-[45%] h-auto flex items-end justify-center">
               <Link
                 className="w-[50%] flex items-center justify-center bg-blue-700 p-1 rounded-lg cursor-pointer hover:scale-105 active:outline-none"
-                href="/professional/patient-registration"
+                href={`/professional/patients/${patientId}/new-appointment`}
               >
-                <p className="text-white text-14-medium">Crear Cita</p>
+                <p className="text-white text-14-medium">Crear Turno</p>
               </Link>
             </div>
           </div>

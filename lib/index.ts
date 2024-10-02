@@ -1,3 +1,4 @@
+export * from './appointmentValidation';
 export * from './appwrite.config';
 export * from './loginValidation';
 export * from './patientsRegisterValidation';
