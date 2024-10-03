@@ -1,3 +1,4 @@
+export * from './appointmentAction';
 export * from './fetchPatients';
 export * from './loginAction';
 export * from './patientRegistrationAction';
