@@ -1,5 +1,6 @@
 "use server";
-import { IPatientsResponse } from "@/interfaces";
+
+import { Patient } from "@/interfaces";
 
 export async function fetchPatients() {
 'use server'
@@ -11,7 +12,7 @@ export async function fetchPatients() {
       },
     });
 
-    const parsedRes : IPatientsResponse[] = await res.json();
+    const parsedRes : Patient[] = await res.json();
     console.log(parsedRes)
     return parsedRes;
   } catch (error) {
