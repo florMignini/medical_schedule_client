@@ -9,6 +9,7 @@ import SubmitButton from "../SubmitButton";
 import { useRouter } from "next/navigation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { getAppointmentSchema } from "@/lib";
+import { createAppointment, createPatientAppointmentRelation, createProfessionalAppointmentRelation } from "@/app/actions";
 
 type AppointmentType = "create" | "cancel" | "schedule";
 type professionalDataType = {
@@ -56,6 +57,21 @@ const NewAppointmentForm = ({
           patientId: patientId,
           professionalId: professionalId?.id,
         };
+        const response = await createAppointment(appointmentData);
+
+        if (professionalId) {
+          const professionalIDs = {
+            professional: professionalId.id,
+            appointment: response.id,
+          };
+          const profData = await createProfessionalAppointmentRelation(professionalIDs);
+        }
+
+        const patientsIDs = {
+          patient: patientId,
+          appointment: response.id,
+        }
+        const patientData = await createPatientAppointmentRelation(patientsIDs)
       }
     } catch (error: any) {
       console.error(error);

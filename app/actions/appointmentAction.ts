@@ -4,6 +4,10 @@ interface IIDs{
   professional: string;
   appointment: string;
 }
+interface IpatientIDs{
+  patient: string;
+  appointment: string;
+}
 export async function createAppointment(appointmentData: ICreateAppointment) {
     "use server";
     try {
@@ -28,9 +32,9 @@ export async function createAppointment(appointmentData: ICreateAppointment) {
     );
   }
 
-  export async function createPatientAppointmentRelation (IDs: IIDs) {
+  export async function createPatientAppointmentRelation (IDs: IpatientIDs) {
     const res = await apiServer.post(
-      `/patient/add-appointment-relation`,
+      `/patients/add-appointment-relation`,
       {
         method: "POST",
         headers: {
