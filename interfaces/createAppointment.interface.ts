@@ -1,7 +1,7 @@
 export interface ICreateAppointment {
-    schedule: string,
-    reason: string,
-    notes: string,
+    schedule: Date,
+    reason: string | undefined,
+    notes: string | undefined,
     patientId: string,
     professionalId: string,
 }

@@ -1,6 +1,9 @@
 import { apiServer } from "@/api/api-server";
 import { ICreateAppointment } from "@/interfaces";
-
+interface IIDs{
+  professional: string;
+  appointment: string;
+}
 export async function createAppointment(appointmentData: ICreateAppointment) {
     "use server";
     try {
@@ -10,4 +13,30 @@ export async function createAppointment(appointmentData: ICreateAppointment) {
     } catch (error) {
       console.log(error);
     }
+  }
+
+  export async function createProfessionalAppointmentRelation (IDs: IIDs) {
+    const res = await apiServer.post(
+      `/professional/add-appointment-relation`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(IDs),
+      }
+    );
+  }
+
+  export async function createPatientAppointmentRelation (IDs: IIDs) {
+    const res = await apiServer.post(
+      `/patient/add-appointment-relation`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(IDs),
+      }
+    );
   }
