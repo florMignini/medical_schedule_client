@@ -3,5 +3,5 @@ export interface ICreateAppointment {
     reason: string | undefined,
     notes: string | undefined,
     patientId: string,
-    professionalId: string,
+    professionalId: string | undefined,
 }
