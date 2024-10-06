@@ -57,8 +57,8 @@ const NewAppointmentForm = ({
         schedule: new Date(values.schedule),
         reason: values.reason,
         notes: values.notes,
-        patientId: patientId,
-        professionalId: professionalId?.id,
+        // patientId: patientId,
+        // professionalId: professionalId?.id,
       };
       const response = await createAppointment(appointmentData);
 
@@ -71,13 +71,12 @@ const NewAppointmentForm = ({
         const profData = await createProfessionalAppointmentRelation(
           professionalIDs
         );
-
         const patientsIDs = {
           patient: patientId,
           appointment: response?.id,
         };
-        console.log(patientsIDs);
         const patientData = await createPatientAppointmentRelation(patientsIDs);
+      
         form.reset();
         setLoading(false);
         router.push("/professional/patients");
