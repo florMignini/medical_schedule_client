@@ -1,3 +1,4 @@
+export * from './appointment.interface';
 export * from './createAppointment.interface';
 export * from './loginUserResponse';
 export * from './patientsResponse';

@@ -17,6 +17,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import {
+  AppointmentsIncluded,
   Patient,
   PatientsIncluded,
   ProfessionalInformation,
@@ -32,6 +33,8 @@ const ProfessionalDashboard = async () => {
     `/professional/get-professional/${professionalId}`
   );
   const { patientsIncluded }: { patientsIncluded: PatientsIncluded[] } = data;
+  const { appointmentsIncluded }: { appointmentsIncluded: AppointmentsIncluded[] } = data;
+  console.log(appointmentsIncluded)
   return (
     <section className="w-full h-screen flex flex-col items-center justify-start gap-2">
       <div className="w-[95%] flex h-auto flex-col lg:grid lg:grid-cols-[70%,30%] xl:grid-cols-[70%,30%] gap-1">
