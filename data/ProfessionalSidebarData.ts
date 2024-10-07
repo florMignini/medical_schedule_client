@@ -1,5 +1,6 @@
 import person from "../public/assets/icons/users.svg"
 import institute from "../public/assets/icons/institute.svg"
+import calendar from "../public/assets/icons/calendar.svg"
 export const ProfessionalSidebarData =  [
       {
         label: "Pacientes",
@@ -11,9 +12,9 @@ export const ProfessionalSidebarData =  [
         icon: institute,
         path: "/professional/institutions",
       },
-    //   {
-    //     label: "Mis Citas",
-    //     icon: "event",
-    //     path: "/professional/appointments",
-    //   },
+      {
+        label: "Mis Citas",
+        icon: calendar,
+        path: "/professional/appointments",
+      },
     ];

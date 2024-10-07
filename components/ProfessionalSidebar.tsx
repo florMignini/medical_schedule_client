@@ -47,7 +47,7 @@ const ProfessionalSidebar = ({
           <Link
             href={item.path}
             key={index}
-            className={`w-[90%] flex gap-1 items-center text-light-200 h-12 ${
+            className={`w-[90%] flex gap-1 items-center mx-auto text-light-200 h-12 ${
               isOpen
                 ? "justify-center hover:scale-110 hover:font-extrabold"
                 : "opacity-65 pl-1 hover:bg-dark-500 rounded-lg"

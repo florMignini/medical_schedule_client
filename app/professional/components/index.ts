@@ -1,3 +1,4 @@
+export * from './AppointmentDetail';
 export * from './AppointmentRecordSection';
 export * from './LabResultSection';
 export * from './Navbar';
