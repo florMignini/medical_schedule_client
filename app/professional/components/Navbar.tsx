@@ -8,7 +8,7 @@ import Search from "./Search";
 
 const Navbar = ({ isOpen, toggleSidebar }: toggleSideI) => {
   return (
-    <nav className="w-full md:w-[99%] h-20 grid grid-cols-[50%,50%] py-3 mx-auto">
+    <nav className="w-full h-20 grid grid-cols-[50%,50%] mx-auto bg-dark-400 rounded-lg">
       {/* hamburg menu only lg or lower */}
       <button
         className="w-[15%] lg:hidden text-white pl-4 hover:opacity-65 flex"

@@ -1,3 +1,4 @@
+"use client"
 import Icon from "../components/ui/icon";
 import Link from "next/link";
 import Image from "next/image";
@@ -5,19 +6,23 @@ import Logo from "../public/assets/medical_schedule-logo.svg";
 import { ProfessionalSidebarData } from "../data/ProfessionalSidebarData";
 import CloseIcon from "../public/assets/icons/close.svg";
 import { toggleSideI } from "@/interfaces";
+import { usePathname } from "next/navigation";
+import { cn } from "@/lib";
 
 const ProfessionalSidebar = ({
   isOpen,
   toggleSidebar,
   setIsOpen,
 }: toggleSideI) => {
+
+  const pathname = usePathname()
   return (
     <aside
       className={` ${
         isOpen
           ? "fixed inset-y-0 left-0 w-64 md:w-[50%] backdrop-blur-lg z-50 text-white transform translate-x-0"
-          : "hidden lg:flex  items-center justify-start flex-col -translate-x-full"
-      } transition-transform duration-500 ease-in-out lg:translate-x-0`}
+          : "hidden lg:flex  items-center justify-start flex-col -translate-x-full bg-dark-400 rounded-lg"
+      } transition-transform duration-500 ease-in-out lg:translate-x-0 min-h-screen`}
     >
       {isOpen && (
         <div className="w-full pt-2 px-5 flex items-center justify-between">
@@ -39,7 +44,7 @@ const ProfessionalSidebar = ({
         </div>
       )}
       <div
-        className={`w-full flex flex-col items-center justify-center mx-auto gap-2 ${
+        className={`w-full pt-2 flex flex-col items-center justify-center mx-auto gap-2 ${
           isOpen ? "py-16" : ""
         }`}
       >
@@ -47,11 +52,16 @@ const ProfessionalSidebar = ({
           <Link
             href={item.path}
             key={index}
-            className={`w-[90%] flex gap-1 items-center mx-auto text-light-200 h-12 ${
+            className={cn(
+              `w-[90%] flex gap-1 items-center mx-auto text-light-200 h-12 ${
               isOpen
                 ? "justify-center hover:scale-110 hover:font-extrabold"
                 : "opacity-65 pl-1 hover:bg-dark-500 rounded-lg"
-            }`}
+            } ${
+            pathname === item.path ? "bg-white/40 rounded-lg" : ""
+            }`
+            
+            )}
             onClick={() => setIsOpen(false)}
           >
             <Icon

@@ -35,7 +35,7 @@ const Search = () => {
   return (
     <div className="w-[99%] h-auto flex flex-col items-center justify-center mx-auto">
       {/* search section */}
-      <div className="w-[80%] grid grid-cols-[20%,80%] align-middle justify-center bg-dark-400 rounded-lg opacity-50">
+      <div className="w-[80%] grid grid-cols-[20%,80%] align-middle justify-center bg-dark-200/80 rounded-lg ">
         <button className="w-[90%] flex items-center justify-center">
           <Icon src={searchIcon} alt="search-icon" width={20} height={20} />
         </button>
