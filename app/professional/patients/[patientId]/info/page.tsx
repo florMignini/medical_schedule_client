@@ -7,7 +7,7 @@ import Link from "next/link";
 import { DinamicPage } from "@/data";
 import clsx from "clsx";
 import { PatientInfoSection } from "@/app/professional/components";
-import AppointmentRecordSection from "@/app/professional/components/AppointmentRecordSection";
+import AppointmentRecordSection from "@/app/professional/components/Calendar";
 import LabResultSection from "@/app/professional/components/LabResultSection";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Patient } from "@/interfaces";

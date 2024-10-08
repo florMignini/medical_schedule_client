@@ -1,5 +1,5 @@
 export * from './AppointmentDetail';
-export * from './AppointmentRecordSection';
+export * from './Calendar';
 export * from './LabResultSection';
 export * from './Navbar';
 export * from './PatientInfoSection';
