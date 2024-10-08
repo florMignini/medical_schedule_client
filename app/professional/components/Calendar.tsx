@@ -20,8 +20,14 @@ import { apiServer } from "@/api/api-server";
 const Calendar = ({ appointments }: any) => {
   const [currentMonth, setCurrentMonth] = useState(dayjs().month());
   const [currentYear, setCurrentYear] = useState(dayjs().year());
+  // loading state
   const [loading, setLoading] = useState<boolean>(false);
-  const [appointment, setAppointment] = useState<Appointment | null>(null);
+  // appointment info
+  const [appointment, setAppointment] = useState<Appointment>();
+  // patient info
+  const [patient, setPatient] = useState<PatientsIncluded>();
+
+  //  calendar data & methods ----------------
   const daysInMonth = dayjs(`${currentYear}-${currentMonth + 1}`).daysInMonth();
   const startDay = dayjs(`${currentYear}-${currentMonth + 1}-01`).day();
 
@@ -34,18 +40,23 @@ const Calendar = ({ appointments }: any) => {
     setCurrentMonth((prev) => (prev === 11 ? 0 : prev + 1));
     if (currentMonth === 11) setCurrentYear((prev) => prev + 1);
   };
+
+  //-----------------------------------------
+  // get appointment detail action
   const getAppointmentDetail = async (appointmentId: string): Promise<void> => {
     setLoading(true);
     try {
-      const { data } = await apiServer(`/api/appointments/${appointmentId}`);
+      const { data } = await apiServer(`/appointment/get-appointment/${appointmentId}`);
       setAppointment(data);
+      setPatient(data.patientsIncluded[0].patient)
       setLoading(false);
     } catch (error) {
       console.error(error);
       setLoading(false);
     }
   };
-
+console.log(appointment)
+console.log(patient)
   return (
     <div className="w-[90%] p-4 h-screen">
       {/* top section */}
@@ -126,26 +137,7 @@ const Calendar = ({ appointments }: any) => {
                           </SheetDescription>
                         </SheetHeader>
                         <div className="grid gap-4 py-4">
-                          <div className="grid grid-cols-4 items-center gap-4">
-                            <Label htmlFor="name" className="text-right">
-                              Name
-                            </Label>
-                            <Input
-                              id="name"
-                              value="Pedro Duarte"
-                              className="col-span-3"
-                            />
-                          </div>
-                          <div className="grid grid-cols-4 items-center gap-4">
-                            <Label htmlFor="username" className="text-right">
-                              Username
-                            </Label>
-                            <Input
-                              id="username"
-                              value="@peduarte"
-                              className="col-span-3"
-                            />
-                          </div>
+                         {/* here goes the form */}
                         </div>
                         <SheetFooter>
                           <SheetClose asChild>
