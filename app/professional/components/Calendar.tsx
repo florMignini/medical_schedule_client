@@ -34,13 +34,11 @@ const Calendar = ({ appointments }: any) => {
     setCurrentMonth((prev) => (prev === 11 ? 0 : prev + 1));
     if (currentMonth === 11) setCurrentYear((prev) => prev + 1);
   };
-  const getAppointmentDetail = async (appointmentId: string) => {
+  const getAppointmentDetail = async (appointmentId: string): Promise<void> => {
     setLoading(true);
     try {
-      // const {data} = await apiServer(`/api/appointments/${appointmentId}`);
-      
-      // setAppointment(data);
-      console.log(appointmentId)
+      const { data } = await apiServer(`/api/appointments/${appointmentId}`);
+      setAppointment(data);
       setLoading(false);
     } catch (error) {
       console.error(error);
