@@ -11,7 +11,7 @@ const Navbar = ({ isOpen, toggleSidebar }: toggleSideI) => {
     <nav className="w-full h-20 grid grid-cols-[50%,50%] mx-auto bg-dark-400 rounded-lg">
       {/* hamburg menu only lg or lower */}
       <button
-        className="w-[15%] lg:hidden text-white pl-4 hover:opacity-65 flex"
+        className="w-[15%] lg:hidden flex items-center justify-center text-white pl-4 hover:opacity-65"
         onClick={toggleSidebar}
       >
         <Icon

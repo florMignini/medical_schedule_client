@@ -1,4 +1,3 @@
-export * from './AppointmentDetail';
 export * from './Calendar';
 export * from './LabResultSection';
 export * from './Navbar';
