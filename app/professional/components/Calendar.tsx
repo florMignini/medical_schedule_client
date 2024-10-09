@@ -14,8 +14,9 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
-import { Appointment, PatientsIncluded } from "@/interfaces";
+import { Appointment, Patient, PatientsIncluded } from "@/interfaces";
 import { apiServer } from "@/api/api-server";
+import Image from "next/image";
 
 const Calendar = ({ appointments }: any) => {
   const [currentMonth, setCurrentMonth] = useState(dayjs().month());
@@ -25,7 +26,7 @@ const Calendar = ({ appointments }: any) => {
   // appointment info
   const [appointment, setAppointment] = useState<Appointment>();
   // patient info
-  const [patient, setPatient] = useState<PatientsIncluded>();
+  const [patient, setPatient] = useState<Patient>();
 
   //  calendar data & methods ----------------
   const daysInMonth = dayjs(`${currentYear}-${currentMonth + 1}`).daysInMonth();
@@ -46,17 +47,19 @@ const Calendar = ({ appointments }: any) => {
   const getAppointmentDetail = async (appointmentId: string): Promise<void> => {
     setLoading(true);
     try {
-      const { data } = await apiServer(`/appointment/get-appointment/${appointmentId}`);
+      const { data } = await apiServer(
+        `/appointment/get-appointment/${appointmentId}`
+      );
       setAppointment(data);
-      setPatient(data.patientsIncluded[0].patient)
+      setPatient(data.patientsIncluded[0].patient);
       setLoading(false);
     } catch (error) {
       console.error(error);
       setLoading(false);
     }
   };
-console.log(appointment)
-console.log(patient)
+  // console.log(appointment)
+  // console.log(patient)
   return (
     <div className="w-[90%] p-4 h-screen">
       {/* top section */}
@@ -126,18 +129,87 @@ console.log(patient)
                           </p>
                         </button>
                       </SheetTrigger>
-                      <SheetContent className="text-dark-700 backdrop backdrop-blur-sm">
-                        <SheetHeader className="pt-16">
-                          <SheetTitle className="font-bold text-2xl">
-                            Detalles del Turno
-                          </SheetTitle>
-                          <SheetDescription>
-                            Make changes to your profile here. Click save when
-                            you're done.
-                          </SheetDescription>
-                        </SheetHeader>
-                        <div className="grid gap-4 py-4">
-                         {/* here goes the form */}
+                      <SheetContent className="text-dark-700 backdrop backdrop-blur-sm pt-16">
+                        {/* Header Section */}
+                        <div className="w-[100%] h-auto flex items-center justify-center border-[1px] border-dark-600 p-2 rounded-lg text-dark-600">
+                          <div className="w-[30%]">
+                            <Image
+                              src={patient?.patientPhotoUrl ?? ""}
+                              width={70}
+                              height={70}
+                              alt="patient-profile-picture"
+                              className="rounded-full "
+                            />
+                          </div>
+                          <div className="w-[70%]">
+                            <SheetTitle className="font-light text-sm">
+                              Nombre del Paciente
+                            </SheetTitle>
+                            <SheetDescription>
+                              <h1 className="text-3xl font-bold">{`${patient?.firstName} ${patient?.lastName}`}</h1>
+                            </SheetDescription>
+                          </div>
+                        </div>
+                        <div className="flex flex-wrap gap-4 py-4">
+                          {/* here goes the form */}
+                          <div className="w-[90%] flex items-center gap-2 justify-start">
+                            <div className="h-5 border-x-[2px] text-dark-600" />
+                            <p className="font-medium text-sm">
+                              Información General
+                            </p>
+                          </div>
+                          {/* Info */}
+                          <div className="w-[100%] h-auto flex items-center justify-start">
+                            <div>
+                              <Label
+                                htmlFor="patient-name"
+                                className="font-light text-[13px] text-gray-500"
+                              >
+                                Teléfono
+                              </Label>
+                              <Input
+                                id="patient-name"
+                                type="text"
+                                disabled
+                                value={`${patient?.phone}`}
+                                className="border-none bg-transparent text-white font-semibold"
+                              />
+                            </div>
+                            <div>
+                              <Label
+                                htmlFor="patient-name"
+                                className="font-light text-[13px] text-gray-500"
+                              >
+                                Género
+                              </Label>
+                              <Input
+                                id="patient-name"
+                                type="text"
+                                disabled
+                                value={`${
+                                  patient?.gender === "M"
+                                    ? "Masculino"
+                                    : "Femenino"
+                                }`}
+                                className="border-none bg-transparent text-white font-semibold"
+                              />
+                            </div>
+                            <div>
+                              <Label
+                                htmlFor="patient-name"
+                                className="font-light text-[13px] text-gray-500"
+                              >
+                                Email
+                              </Label>
+                              <Input
+                                id="patient-name"
+                                type="text"
+                                disabled
+                                value={`${patient?.email}`}
+                                className="border-none bg-transparent text-white font-semibold"
+                              />
+                            </div>
+                          </div>
                         </div>
                         <SheetFooter>
                           <SheetClose asChild>
