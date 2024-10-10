@@ -60,6 +60,10 @@ const Calendar = ({ appointments }: any) => {
   };
   // console.log(appointment)
   // console.log(patient)
+  const today = dayjs(new Date());
+  const dateOfBirth = dayjs(patient?.birthDate);
+  const age = today.diff(dateOfBirth, "month");
+
   return (
     <div className="w-[90%] p-4 h-screen">
       {/* top section */}
@@ -150,40 +154,75 @@ const Calendar = ({ appointments }: any) => {
                             </SheetDescription>
                           </div>
                         </div>
-                        <div className="flex flex-wrap gap-4 py-4">
-                          {/* here goes the form */}
+                        {/* General Information Section */}
+                        <div className="flex flex-wrap gap-4 py-2">
+                          {/* title */}
                           <div className="w-[90%] flex items-center gap-2 justify-start">
-                            <div className="h-5 border-x-[2px] text-dark-600" />
+                            <div className="h-3 border-x-[2px] text-dark-600" />
                             <p className="font-medium text-sm">
                               Información General
                             </p>
                           </div>
                           {/* Info */}
+                          {/* edad proovedor salud */}
                           <div className="w-[100%] h-auto flex items-center justify-start">
                             <div>
                               <Label
-                                htmlFor="patient-name"
-                                className="font-light text-[13px] text-gray-500"
+                                htmlFor="patient-age"
+                                className="p-0 font-light text-[13px] text-gray-500"
                               >
-                                Teléfono
+                                Edad
                               </Label>
                               <Input
-                                id="patient-name"
+                                id="patient-age"
                                 type="text"
                                 disabled
-                                value={`${patient?.phone}`}
-                                className="border-none bg-transparent text-white font-semibold"
+                                value={`${age}`}
+                                className="p-0 border-none bg-transparent text-white font-semibold"
                               />
                             </div>
                             <div>
                               <Label
-                                htmlFor="patient-name"
-                                className="font-light text-[13px] text-gray-500"
+                                htmlFor="patient-insuranceProvider&Number"
+                                className="p-0 font-light text-[13px] text-gray-500"
+                              >
+                                Proveedor de Salud - Número de Seguro
+                              </Label>
+                              <Input
+                                id="patient-insuranceProvider&Number"
+                                type="text"
+                                disabled
+                                value={`${patient?.insuranceProvider} ${patient?.insurancePolicyNumber}`}
+                                className="p-0 border-none bg-transparent text-white font-semibold"
+                              />
+                            </div>
+                          </div>
+                          {/* Telefono y genero */}
+                          <div className="w-[100%] h-auto flex items-center justify-start">
+                            <div>
+                              <Label
+                                htmlFor="patient-phone"
+                                className="font-light p-0 text-[13px] text-gray-500"
+                              >
+                                Teléfono
+                              </Label>
+                              <Input
+                                id="patient-phone"
+                                type="text"
+                                disabled
+                                value={`${patient?.phone}`}
+                                className="p-0 border-none bg-transparent text-white font-semibold"
+                              />
+                            </div>
+                            <div>
+                              <Label
+                                htmlFor="patient-gender"
+                                className="p-0 font-light text-[13px] text-gray-500"
                               >
                                 Género
                               </Label>
                               <Input
-                                id="patient-name"
+                                id="patient-gender"
                                 type="text"
                                 disabled
                                 value={`${
@@ -191,24 +230,53 @@ const Calendar = ({ appointments }: any) => {
                                     ? "Masculino"
                                     : "Femenino"
                                 }`}
-                                className="border-none bg-transparent text-white font-semibold"
+                                className="p-0 border-none bg-transparent text-white font-semibold"
+                              />
+                            </div>
+                          </div>
+                          {/* Direccion y Ocupacion */}
+                          <div className="w-[100%] h-auto flex items-center justify-start">
+                            <div>
+                              <Label
+                                htmlFor="patient-address"
+                                className="font-light text-[13px] p-0 text-gray-500"
+                              >
+                                Dirección
+                              </Label>
+                              <Input
+                                id="patient-address"
+                                type="text"
+                                disabled
+                                value={`${patient?.address}`}
+                                className="p-0 border-none bg-transparent text-white font-semibold"
                               />
                             </div>
                             <div>
                               <Label
-                                htmlFor="patient-name"
-                                className="font-light text-[13px] text-gray-500"
+                                htmlFor="patient-occupation"
+                                className="font-light p-0 text-[13px] text-gray-500"
                               >
-                                Email
+                                Ocupación
                               </Label>
                               <Input
-                                id="patient-name"
+                                id="patient-occupation"
                                 type="text"
                                 disabled
-                                value={`${patient?.email}`}
-                                className="border-none bg-transparent text-white font-semibold"
+                                value={`${patient?.occupation}`}
+                                className="border-none bg-transparent text-white font-semibold p-0"
                               />
                             </div>
+                          </div>
+                        </div>
+                        <div className=" border-b-[1px] w-full border-x-[2px] text-dark-600" />
+                        {/* Patient Medical History */}
+                        <div className="w-[100%] flex items-center justify-start">
+                          {/* title */}
+                        <div className="w-[90%] flex items-center gap-2 justify-start pt-2">
+                            <div className="h-3 border-x-[2px] text-dark-600" />
+                            <p className="font-medium text-sm">
+                              Consultas Previas
+                            </p>
                           </div>
                         </div>
                         <SheetFooter>
