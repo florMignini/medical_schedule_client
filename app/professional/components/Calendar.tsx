@@ -17,8 +17,17 @@ import {
 import { Appointment, Patient, PatientsIncluded } from "@/interfaces";
 import { apiServer } from "@/api/api-server";
 import Image from "next/image";
+import Link from "next/link";
+import DinamicForm from "@/components/DinamicForm";
+import { NewPastAppointmentSchema } from "@/lib";
+import { Form, useForm } from "react-hook-form";
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { FormFieldType } from "@/components/forms/ProfessionalLoginForm";
+import PastAppointmentForm from "@/components/forms/PastAppointmentForm";
 
 const Calendar = ({ appointments }: any) => {
+ 
   const [currentMonth, setCurrentMonth] = useState(dayjs().month());
   const [currentYear, setCurrentYear] = useState(dayjs().year());
   // loading state
@@ -58,6 +67,8 @@ const Calendar = ({ appointments }: any) => {
       setLoading(false);
     }
   };
+
+ 
   // console.log(appointment)
   // console.log(patient)
   const today = dayjs(new Date());
@@ -109,6 +120,7 @@ const Calendar = ({ appointments }: any) => {
           );
 
           return (
+
             <div key={day} className="h-32 p-1 border rounded-md text-center">
               <h1 className="font-bold text-dark-700">{day}</h1>
               {dayEvents.length > 0 && (
@@ -133,9 +145,12 @@ const Calendar = ({ appointments }: any) => {
                           </p>
                         </button>
                       </SheetTrigger>
-                      <SheetContent className="text-dark-700 backdrop backdrop-blur-sm pt-16">
+                      <SheetContent className="h-screen text-dark-700 backdrop backdrop-blur-sm pt-10">
                         {/* Header Section */}
-                        <div className="w-[100%] h-auto flex items-center justify-center border-[1px] border-dark-600 p-2 rounded-lg text-dark-600">
+                        <Link
+                          href={`/professional/patients/${patient?.id}/info`}
+                          className="w-[100%] h-auto flex items-center justify-center border-[1px] border-dark-600 p-1 rounded-lg text-dark-600"
+                        >
                           <div className="w-[30%]">
                             <Image
                               src={patient?.patientPhotoUrl ?? ""}
@@ -153,7 +168,7 @@ const Calendar = ({ appointments }: any) => {
                               <h1 className="text-3xl font-bold">{`${patient?.firstName} ${patient?.lastName}`}</h1>
                             </SheetDescription>
                           </div>
-                        </div>
+                        </Link>
                         {/* General Information Section */}
                         <div className="flex flex-wrap gap-4 py-2">
                           {/* title */}
@@ -164,7 +179,7 @@ const Calendar = ({ appointments }: any) => {
                             </p>
                           </div>
                           {/* Info */}
-                          {/* edad proovedor salud */}
+                          {/* age & insuranceProvider&Number */}
                           <div className="w-[100%] h-auto flex items-center justify-start">
                             <div>
                               <Label
@@ -197,7 +212,7 @@ const Calendar = ({ appointments }: any) => {
                               />
                             </div>
                           </div>
-                          {/* Telefono y genero */}
+                          {/* Phone y Email */}
                           <div className="w-[100%] h-auto flex items-center justify-start">
                             <div>
                               <Label
@@ -219,69 +234,65 @@ const Calendar = ({ appointments }: any) => {
                                 htmlFor="patient-gender"
                                 className="p-0 font-light text-[13px] text-gray-500"
                               >
-                                Género
+                                Email
                               </Label>
                               <Input
                                 id="patient-gender"
                                 type="text"
                                 disabled
-                                value={`${
-                                  patient?.gender === "M"
-                                    ? "Masculino"
-                                    : "Femenino"
-                                }`}
+                                value={`${patient?.email}`}
                                 className="p-0 border-none bg-transparent text-white font-semibold"
-                              />
-                            </div>
-                          </div>
-                          {/* Direccion y Ocupacion */}
-                          <div className="w-[100%] h-auto flex items-center justify-start">
-                            <div>
-                              <Label
-                                htmlFor="patient-address"
-                                className="font-light text-[13px] p-0 text-gray-500"
-                              >
-                                Dirección
-                              </Label>
-                              <Input
-                                id="patient-address"
-                                type="text"
-                                disabled
-                                value={`${patient?.address}`}
-                                className="p-0 border-none bg-transparent text-white font-semibold"
-                              />
-                            </div>
-                            <div>
-                              <Label
-                                htmlFor="patient-occupation"
-                                className="font-light p-0 text-[13px] text-gray-500"
-                              >
-                                Ocupación
-                              </Label>
-                              <Input
-                                id="patient-occupation"
-                                type="text"
-                                disabled
-                                value={`${patient?.occupation}`}
-                                className="border-none bg-transparent text-white font-semibold p-0"
                               />
                             </div>
                           </div>
                         </div>
                         <div className=" border-b-[1px] w-full border-x-[2px] text-dark-600" />
                         {/* Patient Medical History */}
-                        <div className="w-[100%] flex items-center justify-start">
+                        <div className="w-[100%] flex items-center justify-start py-3">
                           {/* title */}
-                        <div className="w-[90%] flex items-center gap-2 justify-start pt-2">
+                          <div className="w-[90%] flex items-center gap-2 justify-start ">
                             <div className="h-3 border-x-[2px] text-dark-600" />
                             <p className="font-medium text-sm">
                               Consultas Previas
                             </p>
                           </div>
+                          {/* past appointments */}
+                          <div></div>
                         </div>
+                        <div className=" border-b-[1px] w-full border-x-[2px] text-dark-600" />
+                        {/* actual appointment data */}
+                        <div className="w-[100%] flex flex-col items-center justify-start py-3">
+                          {/* title */}
+                          <div className="w-full flex items-center gap-2 justify-start pt-2">
+                            <div className="h-3 border-x-[2px] text-dark-600" />
+                            <p className="font-medium text-sm">
+                              Consulta Actual
+                            </p>
+                          </div>
+                          {/* appointment reason & details */}
+                          <div className="w-[100%] flex flex-col">
+                                <div className="px-1 py-2">
+                                  <Label
+                                  htmlFor="appointment-reason"
+                                className="p-0 font-light text-[13px] text-gray-500"
+                                  >Motivo de la consulta</Label>
+                                  <Input
+                                    id="appointment-reason"
+                                    type="text"
+                                    disabled
+                                    value={`${appointment?.reason}`}
+                                    className="p-0 border-none bg-transparent text-white font-semibold"
+                                  />
+                                </div>
+                            
+                               <PastAppointmentForm/>
+                          
+                          </div>
+                        </div>
+
                         <SheetFooter>
                           <SheetClose asChild>
-                            <Button type="submit">Save changes</Button>
+                            {/* <Button type="submit">Finalizar Consulta</Button> */}
                           </SheetClose>
                         </SheetFooter>
                       </SheetContent>
