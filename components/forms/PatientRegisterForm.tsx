@@ -9,7 +9,7 @@ import { Form, FormControl } from "@/components/ui/form";
 import DinamicForm from "../DinamicForm";
 import Icon from "../ui/icon";
 import { Label } from "../ui";
-import { loginFormValidation, patientsRegisterValidation } from "@/lib";
+import { patientsRegisterValidation } from "@/lib";
 import { FormFieldType } from "./ProfessionalLoginForm";
 import {
   AllergiesType,

@@ -11,6 +11,7 @@ import AppointmentRecordSection from "@/app/professional/components/Calendar";
 import LabResultSection from "@/app/professional/components/LabResultSection";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Patient } from "@/interfaces";
+import PastAppointments from "@/app/professional/components/PastAppointments";
 
 const PatientInfo = () => {
   const { patientId } = useParams<{ patientId: string }>();
@@ -105,7 +106,7 @@ const PatientInfo = () => {
         {dinamicPage === "Informacion del Paciente" ? (
           <PatientInfoSection {...patientInfo} />
         ) : dinamicPage === "Historial de Citas" ? (
-          <AppointmentRecordSection />
+          <PastAppointments/>
         ) : dinamicPage === "Resultados Lab" ? (
           <LabResultSection />
         ) : (
