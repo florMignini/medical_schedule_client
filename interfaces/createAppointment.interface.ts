@@ -5,3 +5,8 @@ export interface ICreateAppointment {
     // patientId: string,
     // professionalId: string | undefined,
 }
+
+export interface ICreatePastAppointment {
+    details?: string | undefined;
+    appointmentFileAttached?: FormData | undefined;
+}
