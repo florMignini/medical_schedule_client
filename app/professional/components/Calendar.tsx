@@ -27,7 +27,6 @@ import { FormFieldType } from "@/components/forms/ProfessionalLoginForm";
 import PastAppointmentForm from "@/components/forms/PastAppointmentForm";
 
 const Calendar = ({ appointments }: any) => {
- 
   const [currentMonth, setCurrentMonth] = useState(dayjs().month());
   const [currentYear, setCurrentYear] = useState(dayjs().year());
   // loading state
@@ -68,7 +67,6 @@ const Calendar = ({ appointments }: any) => {
     }
   };
 
- 
   // console.log(appointment)
   // console.log(patient)
   const today = dayjs(new Date());
@@ -120,7 +118,6 @@ const Calendar = ({ appointments }: any) => {
           );
 
           return (
-
             <div key={day} className="h-32 p-1 border rounded-md text-center">
               <h1 className="font-bold text-dark-700">{day}</h1>
               {dayEvents.length > 0 && (
@@ -271,22 +268,24 @@ const Calendar = ({ appointments }: any) => {
                           </div>
                           {/* appointment reason & details */}
                           <div className="w-[100%] flex flex-col">
-                                <div className="px-1 py-2">
-                                  <Label
-                                  htmlFor="appointment-reason"
+                            <div className="px-1 py-2">
+                              <Label
+                                htmlFor="appointment-reason"
                                 className="p-0 font-light text-[13px] text-gray-500"
-                                  >Motivo de la consulta</Label>
-                                  <Input
-                                    id="appointment-reason"
-                                    type="text"
-                                    disabled
-                                    value={`${appointment?.reason}`}
-                                    className="p-0 border-none bg-transparent text-white font-semibold"
-                                  />
-                                </div>
-                            
-                               <PastAppointmentForm/>
-                          
+                              >
+                                Motivo de la consulta
+                              </Label>
+                              <Input
+                                id="appointment-reason"
+                                type="text"
+                                disabled
+                                value={`${appointment?.reason}`}
+                                className="p-0 border-none bg-transparent text-white font-semibold"
+                              />
+                            </div>
+
+                            <PastAppointmentForm 
+                            patient={patient} />
                           </div>
                         </div>
 

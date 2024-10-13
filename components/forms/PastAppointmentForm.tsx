@@ -14,8 +14,13 @@ import closeIcon from "../../public/assets/icons/close.svg";
 import uploadIcon from "../../public/assets/icons/upload.svg";
 import FileUploader from "../FileUploader";
 import Image from "next/image";
+import { Patient } from "@/interfaces";
+import { createPatientPastAppointmentRelation } from "@/app/actions";
+import router from "next/navigation";
+import { createPastAppointment } from "@/app/actions/pastAppointmentAction";
 
-const PastAppointmentForm = () => {
+const PastAppointmentForm = ({ patient }: any) => {
+  console.log(patient);
   const [loading, setLoading] = useState(false);
   const [isThereAnImage, setIsTthereAnImage] = useState<boolean>(false);
   const form = useForm<z.infer<typeof NewPastAppointmentSchema>>({
@@ -31,38 +36,39 @@ const PastAppointmentForm = () => {
   async function onSubmit(values: z.infer<typeof NewPastAppointmentSchema>) {
     setLoading(true);
     let formData;
-    // if (values.patientPhoto && values.patientPhoto.length > 0) {
-    //   const blobFile = new Blob([values.patientPhoto[0]], {
-    //     type: values.patientPhoto?.[0]?.type,
-    //   });
-    //   formData = new FormData();
-    //   formData.append("blobFile", blobFile);
-    //   formData.append("fileName", values.patientPhoto[0]?.name);
-    // }
-    // try {
-    //   const patientData = {
-    //     ...values,
-    //     birthDate: new Date(values.birthDate),
-    //     patientPhoto: formData,
-    //     isActive: true,
-    //   };
-    //   const response = await patientRegistration(patientData);
+    if (
+      values.appointmentFileAttached &&
+      values.appointmentFileAttached.length > 0
+    ) {
+      const blobFile = new Blob([values.appointmentFileAttached[0]], {
+        type: values.appointmentFileAttached?.[0]?.type,
+      });
+      formData = new FormData();
+      formData.append("blobFile", blobFile);
+      formData.append("fileName", values.appointmentFileAttached[0]?.name);
+    }
+    try {
+      const pastAppointmentData = {
+        ...values,
+        appointmentFileAttached: formData,
+      };
+      const response = await createPastAppointment(pastAppointmentData);
 
-    //   if (profData) {
-    //     const IDs = {
-    //       professional: profData.id,
-    //       patient: response.id,
-    //     };
-    //     const data = await createProfessionalPatientRelation(IDs);
-    //   }
-    //   if (response) {
-    //     form.reset();
-    //     setLoading(false);
-    //     router.push("/professional/patients");
-    //   }
-    // } catch (error) {
-    //   console.error(error);
-    // }
+      if (patient) {
+        const IDs = {
+          patient: patient.id,
+          pastAppointment: response.id,
+        };
+        const data = await createPatientPastAppointmentRelation(IDs);
+      }
+      if (response) {
+        form.reset();
+        setLoading(false);
+        router.redirect("/professional/patients");
+      }
+    } catch (error) {
+      console.error(error);
+    }
   }
 
   // -------------------------------------
