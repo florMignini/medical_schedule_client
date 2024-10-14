@@ -67,8 +67,8 @@ const Calendar = ({ appointments }: any) => {
     }
   };
 
-  // console.log(appointment)
-  // console.log(patient)
+  console.log(appointment)
+  console.log(patient)
   const today = dayjs(new Date());
   const dateOfBirth = dayjs(patient?.birthDate);
   const age = today.diff(dateOfBirth, "month");
@@ -285,7 +285,9 @@ const Calendar = ({ appointments }: any) => {
                             </div>
 
                             <PastAppointmentForm 
-                            patient={patient} />
+                            patient={patient}
+                            appointment={appointment}
+                            />
                           </div>
                         </div>
 

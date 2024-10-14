@@ -19,7 +19,8 @@ export const ScheduleAppointmentSchema = z.object({
 
 export const NewPastAppointmentSchema = z.object({
   details: z.string().optional(),
-  appointmentFileAttached: z.custom<File[]>().optional(),
+  reason: z.string().optional(),
+  patientAttachedFilesUrl: z.custom<File[]>().optional(),
 });
 
 export const CancelAppointmentSchema = z.object({

@@ -16,18 +16,20 @@ import FileUploader from "../FileUploader";
 import Image from "next/image";
 import { Patient } from "@/interfaces";
 import { createPatientPastAppointmentRelation } from "@/app/actions";
-import router from "next/navigation";
+import router, { useRouter } from "next/navigation";
 import { createPastAppointment } from "@/app/actions/pastAppointmentAction";
 
-const PastAppointmentForm = ({ patient }: any) => {
-  console.log(patient);
+const PastAppointmentForm = ({ patient, appointment }: any) => {
+  const router = useRouter()
+
   const [loading, setLoading] = useState(false);
   const [isThereAnImage, setIsTthereAnImage] = useState<boolean>(false);
   const form = useForm<z.infer<typeof NewPastAppointmentSchema>>({
     resolver: zodResolver(NewPastAppointmentSchema),
     defaultValues: {
+      reason: "",
       details: "",
-      appointmentFileAttached: [],
+      patientAttachedFilesUrl: [],
     },
   });
   // -------------------------------------
@@ -37,34 +39,35 @@ const PastAppointmentForm = ({ patient }: any) => {
     setLoading(true);
     let formData;
     if (
-      values.appointmentFileAttached &&
-      values.appointmentFileAttached.length > 0
+      values.patientAttachedFilesUrl &&
+      values.patientAttachedFilesUrl.length > 0
     ) {
-      const blobFile = new Blob([values.appointmentFileAttached[0]], {
-        type: values.appointmentFileAttached?.[0]?.type,
+      const blobFile = new Blob([values.patientAttachedFilesUrl[0]], {
+        type: values.patientAttachedFilesUrl?.[0]?.type,
       });
       formData = new FormData();
       formData.append("blobFile", blobFile);
-      formData.append("fileName", values.appointmentFileAttached[0]?.name);
+      formData.append("fileName", values.patientAttachedFilesUrl[0]?.name);
     }
     try {
       const pastAppointmentData = {
         ...values,
-        appointmentFileAttached: formData,
+        reason: appointment.reason,
+        patientAttachedFilesUrl: formData,
       };
+
       const response = await createPastAppointment(pastAppointmentData);
 
-      if (patient) {
+      if (response) {
         const IDs = {
-          patient: patient.id,
-          pastAppointment: response.id,
+          patient: patient.id!,
+          pastAppointments: response.id,
         };
         const data = await createPatientPastAppointmentRelation(IDs);
-      }
-      if (response) {
+      
         form.reset();
         setLoading(false);
-        router.redirect("/professional/patients");
+        router.push("/professional/patients");
       }
     } catch (error) {
       console.error(error);
@@ -90,13 +93,13 @@ const PastAppointmentForm = ({ patient }: any) => {
           fieldType={FormFieldType.TEXTAREA}
         />
         <div className="w-[100%] flex items-start justify-center">
-          {form?.getValues()?.appointmentFileAttached?.length! > 0 ? (
+          {form?.getValues()?.patientAttachedFilesUrl?.length! > 0 ? (
             <div className="size-16 flex-col flex items-start justify-end pt-0">
               <button
                 className="size-4 flex items-center justify-end"
                 onClick={() => {
                   setIsTthereAnImage(false);
-                  form.resetField("appointmentFileAttached");
+                  form.resetField("patientAttachedFilesUrl");
                 }}
               >
                 <Icon src={closeIcon} alt="close-icon" height={30} width={30} />
