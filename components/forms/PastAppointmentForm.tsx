@@ -67,7 +67,7 @@ const PastAppointmentForm = ({ patient, appointment }: any) => {
       
         form.reset();
         setLoading(false);
-        router.push("/professional/patients");
+        router.push(`/professional/appointments`);
       }
     } catch (error) {
       console.error(error);

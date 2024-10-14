@@ -79,7 +79,7 @@ const NewAppointmentForm = ({
       
         form.reset();
         setLoading(false);
-        router.push("/professional/patients");
+        router.push("/professional/appointments");
       }
     } catch (error: any) {
       console.error(error);

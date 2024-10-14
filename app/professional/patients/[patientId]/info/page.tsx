@@ -23,6 +23,7 @@ const PatientInfo = () => {
         `http://localhost:3001/api/patients/get-patient/${patientId}`
       );
       let data = await res.json();
+      console.log(data)
       setPatientInfo(data);
     }
     fetchPatientInfo();

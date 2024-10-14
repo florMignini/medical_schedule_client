@@ -67,7 +67,6 @@ const Calendar = ({ appointments }: any) => {
     }
   };
 
-  console.log(appointment)
   console.log(patient)
   const today = dayjs(new Date());
   const dateOfBirth = dayjs(patient?.birthDate);
