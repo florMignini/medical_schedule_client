@@ -23,7 +23,6 @@ const PatientInfo = () => {
         `http://localhost:3001/api/patients/get-patient/${patientId}`
       );
       let data = await res.json();
-      console.log(data)
       setPatientInfo(data);
     }
     fetchPatientInfo();
@@ -107,7 +106,9 @@ const PatientInfo = () => {
         {dinamicPage === "Informacion del Paciente" ? (
           <PatientInfoSection {...patientInfo} />
         ) : dinamicPage === "Historial de Citas" ? (
-          <PastAppointments/>
+          <PastAppointments
+          {...patientInfo}
+          />
         ) : dinamicPage === "Resultados Lab" ? (
           <LabResultSection />
         ) : (
