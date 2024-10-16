@@ -1,3 +1,4 @@
+import { Appointment } from "./appointment.interface";
 
 export interface ProfessionalPatient {
     id:        string;
@@ -42,4 +43,6 @@ export interface Patient {
     patientBMI:             string;
     patientBFP:             string;
     isActive:               boolean;
+    pastAppointmentsIncluded?: any[]
+    appointmentsIncluded?: any[]
 }
