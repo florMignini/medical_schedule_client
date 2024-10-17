@@ -20,6 +20,7 @@ export const ScheduleAppointmentSchema = z.object({
 export const NewPastAppointmentSchema = z.object({
   details: z.string().optional(),
   reason: z.string().optional(),
+  scheduled: z.coerce.date(),
   patientAttachedFilesUrl: z.custom<File[]>().optional(),
 });
 

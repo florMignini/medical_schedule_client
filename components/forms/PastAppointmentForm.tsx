@@ -21,7 +21,7 @@ import { createPastAppointment } from "@/app/actions/pastAppointmentAction";
 
 const PastAppointmentForm = ({ patient, appointment }: any) => {
   const router = useRouter()
-
+console.log(appointment)
   const [loading, setLoading] = useState(false);
   const [isThereAnImage, setIsTthereAnImage] = useState<boolean>(false);
   const form = useForm<z.infer<typeof NewPastAppointmentSchema>>({
@@ -29,6 +29,7 @@ const PastAppointmentForm = ({ patient, appointment }: any) => {
     defaultValues: {
       reason: "",
       details: "",
+      scheduled: new Date(),
       patientAttachedFilesUrl: [],
     },
   });
@@ -53,6 +54,7 @@ const PastAppointmentForm = ({ patient, appointment }: any) => {
       const pastAppointmentData = {
         ...values,
         reason: appointment.reason,
+        scheduled: appointment.schedule,
         patientAttachedFilesUrl: formData,
       };
 

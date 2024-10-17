@@ -9,5 +9,6 @@ export interface ICreateAppointment {
 export interface ICreatePastAppointment {
     details?: string | undefined;
     reason?: string | undefined;
+    scheduled: Date,
     patientAttachedFilesUrl?: FormData | string;
 }
