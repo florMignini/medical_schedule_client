@@ -51,7 +51,7 @@ const [loginError, setLoginError] = useState<string>()
         id: res?.id,
       }))
       if(typeof res === "string"){
-        setLoginError(`No existe el usuario ${value.username}`)
+        setLoginError(`No existe el usuario ${value.username} ó la contraseña es incorrecta`)
         setErrorTimed();
       }
       if(res === undefined){
@@ -76,7 +76,7 @@ const [loginError, setLoginError] = useState<string>()
           </h3>
           <p className="text-sm text-dark-700">Ingresar al sistema.</p>
           {
-            loginError ? <p className="text-16-regular text-red-800">{loginError}</p> : ""
+            loginError ? <p className="text-sm font-light text-red-800">{loginError}</p> : ""
           }
         </section>
         {/* username */}
