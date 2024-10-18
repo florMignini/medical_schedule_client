@@ -18,7 +18,7 @@ import fileIcon from "../../../public/assets/icons/fileAttachment.svg";
 import dayjs from "dayjs";
 const PastAppointments = (patientInfo: Patient) => {
   const [profInfo, setProfInfo] = useState<string | null>(null);
-  const { pastAppointmentsIncluded, appointmentsIncluded } = patientInfo!;
+  const { pastAppointmentsIncluded } = patientInfo!;
   console.log(pastAppointmentsIncluded);
   useEffect(() => {
     const proffessionalInfo = JSON.parse(
@@ -40,65 +40,68 @@ const PastAppointments = (patientInfo: Patient) => {
         </div>
         {/* past appointments cards section */}
         <div className="w-[100%] flex items-center justify-start flex-wrap gap-12 pt-5">
-          {patientInfo && patientInfo.appointmentsIncluded && patientInfo?.pastAppointmentsIncluded?.length > 0 ? (
+          { pastAppointmentsIncluded !== undefined && pastAppointmentsIncluded?.length > 0 ? (
             <Sheet>
               <SheetTrigger asChild>
                 {
-                  patientInfo?.pastAppointmentsIncluded.map(pastAppointment => (
-                    <button className="w-[250px] h-[100px] bg-dark-400/50 rounded-md px-4 py-3 flex flex-col items-center justify-center gap-2 text-dark-600 shadow-md shadow-dark-600 hover:scale-[1.01] hover:ease-in-out hover:transition-shadow">
-                  {/* date and hr */}
-                  <div className="w-[100%] flex flex-row items-center justify-start font-light text-xs gap-2">
-                    <Icon
-                      src={calendarIcon}
-                      alt="calendar-icon"
-                      width={20}
-                      height={20}
-                    />
-                    {/* <p>
-                      {dayjs(
-                        pastAppointment?.pastAppointments?.schedule
-                      ).format("DD MMMM  YYYY")}{" "}
-                      <strong className="text-white pl-2">|</strong>{" "}
-                    </p>
-                    <p>
-                      {dayjs(
-                        pastAppointment?.pastApppointments?.schedule
-                      ).format("HH:mm A")}
-                    </p> */}
-                  </div>
-                  {/* treatment notes */}
-                  <div className="w-[100%] flex flex-row items-center justify-start font-light text-xs gap-2">
-                    <Icon
-                      src={notesIcon}
-                      alt="notes-icon"
-                      width={20}
-                      height={20}
-                    />
-                    <p>
-                      {pastAppointment?.pastApppointments?.details}
-                    </p>
-                  </div>
-                  {/* file attachment */}
-                  <div className="w-[100%] flex flex-row items-center justify-start font-light text-xs gap-2">
-                    <Icon
-                      src={fileIcon}
-                      alt="file-icon"
-                      width={20}
-                      height={20}
-                    />
-                    <p>{`Analisis Adjuntos ${
-                      pastAppointment?.pastAppointments?.patientAttachedFilesUrl === null
-                        ? `(0)`
-                        : `(${pastAppointment?.pastAppointments?.patientAttachedFilesUrl?.length})`
-                    }`}</p>
-                  </div>
-                </button>
-                  ))
+                  pastAppointmentsIncluded.map((pastAppointment) => {
+                    return(
+                      (
+                        <button className="w-[250px] h-[100px] bg-dark-400/50 rounded-md px-4 py-3 flex flex-col items-center justify-center gap-2 text-dark-600 shadow-md shadow-dark-600 hover:scale-[1.01] hover:ease-in-out hover:transition-shadow">
+                          {/* date and hr */}
+                          <div className="w-[100%] flex flex-row items-center justify-start font-light text-xs gap-2">
+                            <Icon
+                              src={calendarIcon}
+                              alt="calendar-icon"
+                              width={20}
+                              height={20}
+                            />
+                            <p>
+                              {dayjs(
+                                pastAppointment?.pastAppointments?.scheduled
+                              ).format("DD MMMM  YYYY")}{" "}
+                              <strong className="text-white pl-2">|</strong>{" "}
+                            </p>
+                            <p>
+                              {dayjs(
+                                pastAppointment?.pastApppointments?.scheduled
+                              ).format("HH:mm A")}
+                            </p>
+                          </div>
+                          {/* treatment notes */}
+                          <div className="w-[100%] flex flex-row items-center justify-start font-light text-xs gap-2">
+                            <Icon
+                              src={notesIcon}
+                              alt="notes-icon"
+                              width={20}
+                              height={20}
+                            />
+                            <p>{pastAppointment?.pastApppointments?.details}</p>
+                          </div>
+                          {/* file attachment */}
+                          <div className="w-[100%] flex flex-row items-center justify-start font-light text-xs gap-2">
+                            <Icon
+                              src={fileIcon}
+                              alt="file-icon"
+                              width={20}
+                              height={20}
+                            />
+                            <p>{`Analisis Adjuntos ${
+                              pastAppointment?.pastAppointments
+                                ?.patientAttachedFilesUrl === null
+                                ? `(0)`
+                                : `(${pastAppointment?.pastAppointments?.patientAttachedFilesUrl?.length})`
+                            }`}</p>
+                          </div>
+                        </button>
+                      )
+                    )
+                  })
                 }
               </SheetTrigger>
               <SheetContent>
                 <SheetHeader>
-                  <SheetTitle>Edit profile</SheetTitle>
+                  <SheetTitle>Detalles de la Consulta</SheetTitle>
                   <SheetDescription>
                     Make changes to your profile here. Click save when you're
                     done.
