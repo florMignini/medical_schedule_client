@@ -18,7 +18,7 @@ export async function loginUser(loginData: IloginData) {
   try {
     const { data } = await apiServer.post(`/auth/login`, loginData);
 
-    cookies().set("session-cookie", data?.accessToken, { secure: true });
+    cookies().set("session-token", data?.accessToken, { secure: true });
     cookies().set("professional-id", data?.professional.id, { secure: true });
     return data.professional;
   } catch (error) {
