@@ -17,12 +17,11 @@ export async function loginUser(loginData: IloginData) {
   "use server";
   try {
     const { data } = await apiServer.post(`/auth/login`, loginData);
-
     cookies().set("session-token", data?.accessToken, { secure: true });
     cookies().set("professional-id", data?.professional.id, { secure: true });
     return data.professional;
-  } catch (error) {
-    const typedError: ErrorType = error as ErrorType;
-    console.log(typedError);
+  } catch (error:any) {
+    console.log(error.response.data.message);
+    return error.response.data.message
   }
 }

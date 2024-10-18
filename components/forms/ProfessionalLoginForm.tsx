@@ -26,7 +26,7 @@ export enum FormFieldType {
 
 const ProfessionalLoginform = () => {
   const [loading, setLoading] = useState(false);
-
+const [loginError, setLoginError] = useState<string>()
 
   const router = useRouter();
   const form = useForm<z.infer<typeof loginFormValidation>>({
@@ -36,6 +36,10 @@ const ProfessionalLoginform = () => {
       password: "",
     },
   });
+
+  const setErrorTimed = () => {
+    setTimeout(() => setLoginError(""), 3000);
+  }
   
   async function onSubmit(value: z.infer<typeof loginFormValidation>) {
     setLoading(true);
@@ -46,7 +50,17 @@ const ProfessionalLoginform = () => {
         lastname: res?.lastName,
         id: res?.id,
       }))
+      if(typeof res === "string"){
+        setLoginError(`No existe el usuario ${value.username}`)
+        setErrorTimed();
+      }
+      if(res === undefined){
+        setLoginError("Usuario ó Contraseña incorrectos")
+        setErrorTimed();
+      }
+      console.log(res)
       res ? router.push("/professional/dashboard") : router.push("/");
+      setLoading(false);
     } catch (error:any) {
       console.error(error);
       setLoading(false);
@@ -61,6 +75,9 @@ const ProfessionalLoginform = () => {
             Gestiona el seguimiento de pacientes de forma más eficiente.
           </h3>
           <p className="text-sm text-dark-700">Ingresar al sistema.</p>
+          {
+            loginError ? <p className="text-16-regular text-red-800">{loginError}</p> : ""
+          }
         </section>
         {/* username */}
         <DinamicForm
