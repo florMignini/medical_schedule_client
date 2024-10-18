@@ -75,9 +75,11 @@ const [loginError, setLoginError] = useState<string>()
             Gestiona el seguimiento de pacientes de forma más eficiente.
           </h3>
           <p className="text-sm text-dark-700">Ingresar al sistema.</p>
+          <div className="h-1">
           {
-            loginError ? <p className="text-sm font-light text-red-800">{loginError}</p> : ""
+            loginError ? <p className="text-sm font-light text-red-800">{loginError}</p> : <p></p>
           }
+          </div>
         </section>
         {/* username */}
         <DinamicForm
