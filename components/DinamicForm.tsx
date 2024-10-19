@@ -114,6 +114,7 @@ const DinamicField = ({
               onChange={(date) => field.onChange(date)}
               dateFormat={dateFormat ?? "dd/MM/yyyy"}
               showTimeSelect={showTimeSelect ?? false}
+              showYearDropdown
               wrapperClassName="date-picker"
               timeInputLabel="Time:"
             />
