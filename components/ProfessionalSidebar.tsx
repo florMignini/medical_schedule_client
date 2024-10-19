@@ -30,7 +30,7 @@ const ProfessionalSidebar = ({
       className={` ${
         isOpen
           ? "fixed inset-y-0 left-0 w-64 md:w-[50%] backdrop-blur-lg z-50 text-white transform translate-x-0"
-          : "hidden lg:flex  items-center justify-start flex-col -translate-x-full bg-dark-400 rounded-lg"
+          : "hidden lg:flex h-[94%] items-center justify-start flex-col -translate-x-full bg-dark-400 rounded-lg"
       } transition-transform duration-500 ease-in-out lg:translate-x-0 h-screen`}
     >
       {isOpen && (
@@ -53,7 +53,7 @@ const ProfessionalSidebar = ({
         </div>
       )}
       <div
-        className={`w-full pt-[20%] flex flex-col items-center justify-center mx-auto gap-2 ${
+        className={`w-full pt-[20%] flex flex-col items-center justify-between mx-auto gap-2 ${
           isOpen ? "py-16" : ""
         }`}
       >
@@ -62,7 +62,7 @@ const ProfessionalSidebar = ({
             href={item.path}
             key={index}
             className={cn(
-              `w-[90%] flex gap-1 items-center mx-auto text-light-200 h-12 ${
+              `w-[90%] flex gap-1 justify-start items-center mx-auto text-light-200 h-12 ${
               isOpen
                 ? "justify-center hover:scale-110 hover:font-extrabold"
                 : "opacity-65 pl-1 hover:bg-dark-500 rounded-lg"
@@ -83,7 +83,10 @@ const ProfessionalSidebar = ({
           </Link>
         ))}
       </div>
-      <button className="w-[90%] pt-[90%] mx-auto flex items-center justify-center gap-2"
+      <button
+      className={`w-[90%] mx-auto flex items-center justify-center gap-2 ${
+        isOpen ? "pt-[400px]" : "pt-[450px]"
+      }`}
       onClick={closeSession}
       >
         <Icon

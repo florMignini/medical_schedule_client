@@ -16,7 +16,7 @@ const Appointments = async() => {
 //   const { patientsIncluded }: { patientsIncluded: PatientsIncluded[] } = data;
   const { appointmentsIncluded }: { appointmentsIncluded: AppointmentsIncluded[] } = data;
   return (
-    <section className="w-full min-h-screen h-screen flex flex-col items-center justify-start gap-2">
+    <section className="w-full h-screen flex flex-col items-center justify-start gap-2">
          {/* Title */}
       <div className="flex w-[90%] h-10 items-start justify-start px-2">
         <h1 className="text-18-bold text-start">Reservaciones</h1>

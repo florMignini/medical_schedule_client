@@ -13,7 +13,7 @@ const PlusFont = Plus_Jakarta_Sans({
 
 export const metadata: Metadata = {
   title: "Medical Schedule personal profile",
-  description: "personal dashboard and patient access",
+  description: "personal dashboard and professional access",
 };
 
 export default function ProfessionalLayout({
