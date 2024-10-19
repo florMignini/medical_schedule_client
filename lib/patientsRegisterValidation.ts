@@ -47,7 +47,7 @@ export const patientsRegisterValidation = z.object({
   insurancePolicyNumber: z.string(),
   smoker: z.enum(["SI", "NO"]),
   exSmoker: z.enum(["SI", "NO"]),
-  bloodType: z.enum(["A", "B", "AB", "0"]),
+  bloodType: z.enum(["A", "B", "AB", "O"]),
   bloodFactor: z.enum(["Positivo", "Negativo"]),
   // medical history
   allergic: z.enum(["SI", "NO"]),

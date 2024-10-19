@@ -19,7 +19,7 @@ export enum BloodType {
  A = "A",
  B = "B",
  AB = "AB",
- O = "O",
+ O = "O"
 }
 export const bloodFactor = ["Positivo", "Negativo"]
 export enum BloodFactor {
