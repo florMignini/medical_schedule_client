@@ -11,6 +11,7 @@ type FileUploaderProps = {
   onChange: (files: File[]) => void;
 };
 const FileUploader = ({ files, onChange }: FileUploaderProps) => {
+
   const onDrop = useCallback((acceptedFiles: File[]) => {
     onChange(acceptedFiles);
   }, []);
@@ -25,7 +26,7 @@ const FileUploader = ({ files, onChange }: FileUploaderProps) => {
           alt="user-image"
           width={1000}
           height={1000}
-          className="max-h-[400px] top-0 overflow-hidden object-cover"
+          className="h-[50%] w-auto top-0 overflow-hidden object-cover"
         />
       ) : (
         <>

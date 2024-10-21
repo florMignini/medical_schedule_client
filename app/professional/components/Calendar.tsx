@@ -25,6 +25,7 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { FormFieldType } from "@/components/forms/ProfessionalLoginForm";
 import PastAppointmentForm from "@/components/forms/PastAppointmentForm";
+import { ScrollArea } from "@/components/ui/scroll-area";
 
 const Calendar = ({ appointments }: any) => {
   const [currentMonth, setCurrentMonth] = useState(dayjs().month());
@@ -140,9 +141,10 @@ const Calendar = ({ appointments }: any) => {
                           </p>
                         </button>
                       </SheetTrigger>
-                      <SheetContent className="h-screen text-dark-700 backdrop backdrop-blur-sm pt-10">
-                        {/* Header Section */}
-                        <Link
+                      <SheetContent className="w-full h-auto text-dark-700 backdrop backdrop-blur-sm pt-10">
+                      <ScrollArea className="h-full w-full p-1">
+                          {/* Header Section */}
+                          <Link
                           href={`/professional/patients/${patient?.id}/info`}
                           className="w-[100%] h-auto flex items-center justify-center border-[1px] border-dark-600 p-1 rounded-lg text-dark-600"
                         >
@@ -282,12 +284,16 @@ const Calendar = ({ appointments }: any) => {
                               />
                             </div>
 
+                            <div className="h-auto w-[100%]">
                             <PastAppointmentForm 
                             patient={patient}
                             appointment={appointment}
                             />
+                            </div>
+
                           </div>
                         </div>
+                      </ScrollArea>
 
                         <SheetFooter>
                           <SheetClose asChild>
