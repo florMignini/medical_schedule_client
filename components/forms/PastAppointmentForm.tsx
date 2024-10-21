@@ -77,10 +77,10 @@ console.log(appointment)
   }
 
   // -------------------------------------
-  // console.log(form.getValues().appointmentFileAttached);
+
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6 flex-1">
+      <form onSubmit={form.handleSubmit(onSubmit)} className="w-[100%] space-y-6 flex-1">
         {/* appointment detail */}
         <Label
           htmlFor="details"
@@ -95,13 +95,13 @@ console.log(appointment)
           fieldType={FormFieldType.TEXTAREA}
         />
         <div className="w-[100%] flex items-start justify-center">
-          {form?.getValues()?.patientAttachedFilesUrl?.length! > 0 ? (
-            <div className="size-16 flex-col flex items-start justify-end pt-0">
+          {form?.getValues()?.appointmentFileAttached?.length! > 0 ? (
+            <div className="w-full h-full  flex-col flex items-start justify-center pt-0 text-white">
               <button
                 className="size-4 flex items-center justify-end"
                 onClick={() => {
                   setIsTthereAnImage(false);
-                  form.resetField("patientAttachedFilesUrl");
+                  form.resetField("appointmentFileAttached");
                 }}
               >
                 <Icon src={closeIcon} alt="close-icon" height={30} width={30} />
@@ -111,7 +111,7 @@ console.log(appointment)
                 control={form.control}
                 name="appointmentFileAttached"
                 renderSkeleton={(field) => (
-                  <FormControl>
+                  <FormControl className="w-full">
                     <FileUploader
                       files={isThereAnImage ? field.value : (field.value = [])}
                       onChange={field.onChange}
@@ -122,7 +122,8 @@ console.log(appointment)
             </div>
           ) : (
             <>
-              <div className="" onClick={() => setIsTthereAnImage(true)}>
+              <div className="w-[100%]" onClick={() => setIsTthereAnImage(true)}
+                >
                 <Label
                   htmlFor="appointmentFileAttached"
                   className="p-0 font-light text-[13px] text-gray-500"
