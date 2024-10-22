@@ -7,16 +7,16 @@ import Link from "next/link";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 
-export default function Home() {
+export default function Home({ searchParams }: any) {
+  
+  const isAdmin = searchParams?.admin === "true";
   const cookieStore = cookies();
   const sessionToken = cookieStore.get("session-cookie");
-  // if (sessionToken) {
-  //   redirect("/professional/dashboard");
-  // } else {
-  //   redirect("/");
-  // }
+  
   return (
     <div className="flex w-[100%] h-[100%]">
+      {/* If admin Session */}
+      {/* {isAdmin && <PasskeyModal />} */}
       {/* Left section */}
       <section className="h-screen w-[100%] my-auto md:w-[50%] text-white px-2">
         {/* Logo */}
@@ -36,10 +36,17 @@ export default function Home() {
               © {new Date().getFullYear()} Medical_Schedule. All rights
               reserved.
             </p>
-            <div className="flex gap-2 items-center justify-start">
+            <div className="w-[100%] flex gap-2 items-center justify-between">
+              <Link href="https://github.com/florMignini" target="_blank"
+              className="flex items-center justify-center gap-2"
+              >
               <p>Contact us:</p>
-              <Link href="https://github.com/florMignini" target="_blank">
                 <FaGithub className="flex mb-1 h-6 w-fit" />
+              </Link>
+              <Link className="w-[20%] h-auto flex items-center justify-center px-2 py-1 border-none bg-black/30 rounded-lg "
+              href="/?admin=true"
+              >
+                <p className="text-white font-semibold">Admin</p>
               </Link>
             </div>
           </div>
