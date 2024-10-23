@@ -6,6 +6,7 @@ import ProfessionalLoginForm from "@/components/forms/ProfessionalLoginForm";
 import Link from "next/link";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
+import PasskeyModal from "./professional/components/PasskeyModal";
 
 export default function Home({ searchParams }: any) {
   
@@ -16,7 +17,7 @@ export default function Home({ searchParams }: any) {
   return (
     <div className="flex w-[100%] h-[100%]">
       {/* If admin Session */}
-      {/* {isAdmin && <PasskeyModal />} */}
+      {isAdmin && <PasskeyModal />}
       {/* Left section */}
       <section className="h-screen w-[100%] my-auto md:w-[50%] text-white px-2">
         {/* Logo */}
@@ -33,7 +34,7 @@ export default function Home({ searchParams }: any) {
           {/* Copyright */}
           <div className="text-14-regular mt-5 flex flex-col gap-2 xl:text-left">
             <p>
-              © {new Date().getFullYear()} Medical_Schedule. All rights
+              © {new Date().getFullYear()} Medical_Schedule <small>a product of </small> CRM Solution. All rights
               reserved.
             </p>
             <div className="w-[100%] flex gap-2 items-center justify-between">
