@@ -26,12 +26,12 @@ export default function DashboardLayout({
                 />
               </div>
             </div>
-            <div className="flex items-center">
-              {/* User Avatar */}
-              <div className="bg-blue-500 text-white p-2 rounded-full w-12 h-12 flex items-center justify-center">
-                FH
+        
+              {/* Admin Welcome */}
+              <div className=" text-white p-2 w-[50%] h-12 flex items-center justify-center">
+                <p className="w-[90%] flex flex-row items-center justify-center font-bold text-xl">Welcome Admin</p>
               </div>
-            </div>
+          
           </div>
         </div>
       </nav>

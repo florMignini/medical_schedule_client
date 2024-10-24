@@ -13,8 +13,8 @@ export interface ProfessionalInformation {
     phoneNumber:      number;
     email:            string;
     isActive:         boolean;
-    patientsIncluded: PatientsIncluded[];
-    appointmentsIncluded: AppointmentsIncluded[];
+    patientsIncluded?: PatientsIncluded[];
+    appointmentsIncluded?: AppointmentsIncluded[];
 }
 
 export interface PatientsIncluded {
