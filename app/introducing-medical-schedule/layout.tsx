@@ -24,8 +24,8 @@ export default function LandingPageLayout({
 }>) {
     const cookieStore = cookies();
     const professionalId = cookieStore.get("professional-id")?.value;
-    if (!professionalId) {
-        redirect("/")
+    if (professionalId) {
+        redirect("/professional/dashboard")
     }
     return (
         <section className="flex flex-col bg-dark-400 py-2">
