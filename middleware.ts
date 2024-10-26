@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 
-const publicRoutes = ["/"];
+const publicRoutes = ["/","/introducing-medical-schedule"];
 const privateRoutes = ["/professional/dashboard", "/professional/patients", "/professional/institutions"];
 
 export function middleware(request: NextRequest) {
@@ -13,7 +13,7 @@ if (publicRoutes.includes(pathname) && token) {
 }
 
 if (privateRoutes.includes(pathname) && !token) {
-  return NextResponse.redirect(new URL("/", request.url));
+  return NextResponse.redirect(new URL("/introducing-medical-schedule", request.url));
 }
 
   

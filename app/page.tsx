@@ -4,15 +4,11 @@ import WelcomeImage from "../public/assets/welcome.jpg";
 import { FaGithub } from "react-icons/fa";
 import ProfessionalLoginForm from "@/components/forms/ProfessionalLoginForm";
 import Link from "next/link";
-import { cookies } from "next/headers";
-import { redirect } from "next/navigation";
 import PasskeyModal from "./professional/components/PasskeyModal";
 
 export default function Home({ searchParams }: any) {
   
   const isAdmin = searchParams?.admin === "true";
-  const cookieStore = cookies();
-  const sessionToken = cookieStore.get("session-cookie");
   
   return (
     <div className="flex w-[100%] h-[100%]">
