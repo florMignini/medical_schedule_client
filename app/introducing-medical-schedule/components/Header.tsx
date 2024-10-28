@@ -1,10 +1,10 @@
 import Image from "next/image";
-import Logo from "@/public/assets/medical_schedule-logo.svg";
+import Logo from "@/public/assets/medical_schedule-transparent.png";
 import Link from "next/link";
 
 const Header = () => {
     return (
-        <header className="w-full h-[60px] border-b border-white/15 sticky top-0 backdrop-blur-lg">
+        <header className="w-full h-[60px] border-b border-white/15 sticky z-40 top-0 backdrop-blur-lg">
             {/* header */}
             <div className="w-[90%] mx-auto py-2 px-1 sm:px-5 flex items-center justify-between">
                 <div className="w-[50%] flex">
