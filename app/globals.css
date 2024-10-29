@@ -3,6 +3,12 @@
 @tailwind utilities;
 
 /* ========================================== TAILWIND STYLES */
+
+@layer components{
+  .logo-ticker-image{
+    @apply h-20 w-auto
+  }
+}
 @layer base {
   /* Remove scrollbar */
   .remove-scrollbar::-webkit-scrollbar {
