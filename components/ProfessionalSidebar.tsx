@@ -31,7 +31,7 @@ const ProfessionalSidebar = ({
         isOpen
           ? "fixed inset-y-0 left-0 w-64 md:w-[50%] backdrop-blur-lg z-50 text-white transform translate-x-0"
           : "hidden lg:flex h-[94%] items-center justify-start flex-col -translate-x-full bg-dark-400 rounded-lg"
-      } transition-transform duration-500 ease-in-out lg:translate-x-0 h-screen`}
+      } transition-transform mb-2 duration-500 ease-in-out lg:translate-x-0 h-screen`}
     >
       {isOpen && (
         <div className="w-full pt-2 px-5 flex items-center justify-between">

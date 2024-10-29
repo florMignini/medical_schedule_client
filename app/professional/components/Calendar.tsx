@@ -117,7 +117,7 @@ const Calendar = ({ appointments }: any) => {
           );
 
           return (
-            <div key={day} className="h-32 p-1 border rounded-md text-center">
+            <div key={day} className="h-20 p-1 border rounded-md text-center">
               <h1 className="font-bold text-dark-700">{day}</h1>
               {dayEvents.length > 0 && (
                 <div className="mt-2">

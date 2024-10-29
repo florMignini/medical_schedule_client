@@ -29,7 +29,7 @@ useEffect(() => {
 }, [])
 
   return (
-    <div className="w-[99%] grid grid-cols-[60%,40%] py-2 px-5 bg-dark-400 rounded-md ">
+    <div className="w-[99%] grid grid-cols-[60%,40%] py-2 px-5 border bg-transparent border-dark-400 rounded-md ">
       {/* Welcome */}
       <div className="w-full flex flex-col items-start pl-1 justify-evenly gap-1">
         {/* date */}

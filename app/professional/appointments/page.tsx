@@ -35,7 +35,7 @@ const Appointments = async() => {
        </div>
       </div>
       {/* Calendar section */}
-      <div className="w-full py-4">
+      <div className="w-full h-auto py-4">
       <Calendar
       appointments={appointmentsIncluded}
       />

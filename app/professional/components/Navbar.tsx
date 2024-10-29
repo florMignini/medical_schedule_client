@@ -21,6 +21,7 @@ const Navbar = ({ isOpen, toggleSidebar }: toggleSideI) => {
           height={30}
         />
       </button>
+      
       <Link href="/professional/dashboard" className="hidden lg:flex">
         {/* Logo */}
         <div className="pl-2 flex flex-col items-center justify-center">
@@ -35,6 +36,7 @@ const Navbar = ({ isOpen, toggleSidebar }: toggleSideI) => {
 
       
         <Search/>
+      
       
     </nav>
   );

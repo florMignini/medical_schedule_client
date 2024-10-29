@@ -37,13 +37,13 @@ const ProfessionalDashboard = async () => {
 
   return (
     <section className="w-full h-screen flex flex-col items-center justify-start gap-2">
-      <div className="w-[95%] flex h-auto flex-col lg:grid lg:grid-cols-[70%,30%] xl:grid-cols-[70%,30%] gap-1">
+      <div className="w-[99%] flex h-auto flex-col lg:grid lg:grid-cols-[70%,30%] xl:grid-cols-[70%,30%] gap-1">
         {/* information side */}
         <div className="flex flex-col gap-4">
           {/* Welcome section */}
           <WelcomeSection />
           {/* patient section */}
-          <div className="w-[99%] bg-dark-400 rounded-md flex flex-col">
+          <div className="w-[99%] border border-dark-400 rounded-md flex flex-col bg-transparent">
             <p className="p-3 font-bold">Pacientes</p>
             {/* patients table */}
             <Table>
@@ -118,7 +118,7 @@ const ProfessionalDashboard = async () => {
           </div>
 
           {/* institutions section */}
-          <div className="w-[99%] bg-dark-400 rounded-md">
+          <div className="w-[99%] border bg-transparent border-dark-400 rounded-md ">
             <p className="p-3 font-bold">Instituciones</p>
           </div>
         </div>
