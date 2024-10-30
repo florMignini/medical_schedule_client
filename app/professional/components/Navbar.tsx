@@ -8,10 +8,10 @@ import Search from "./Search";
 
 const Navbar = ({ isOpen, toggleSidebar }: toggleSideI) => {
   return (
-    <nav className="w-full h-20 grid grid-cols-[50%,50%] mx-auto bg-dark-400 rounded-lg">
+    <nav className="w-full md:hidden max-[490px]:h-14 max-[768px]:h-20 grid grid-cols-[50%,50%] mx-auto bg-dark-400 rounded-lg">
       {/* hamburg menu only lg or lower */}
       <button
-        className="w-[15%] lg:hidden flex items-center justify-center text-white pl-4 hover:opacity-65"
+        className="lg:hidden flex items-center justify-start text-white pl-4 hover:opacity-65"
         onClick={toggleSidebar}
       >
         <Icon
@@ -35,7 +35,7 @@ const Navbar = ({ isOpen, toggleSidebar }: toggleSideI) => {
       </Link>
 
       
-        <Search/>
+        {/*<Search/>*/}
       
       
     </nav>
