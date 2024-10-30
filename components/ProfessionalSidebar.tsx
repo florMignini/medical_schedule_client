@@ -62,12 +62,12 @@ const ProfessionalSidebar = ({
             href={item.path}
             key={index}
             className={cn(
-              `w-[90%] flex gap-1 justify-start items-center mx-auto text-light-200 h-12 ${
+              `w-[90%] flex gap-1 justify-start items-center text-light-200 text-xs h-8 my-2 ${
               isOpen
                 ? "justify-center hover:scale-110 hover:font-extrabold"
-                : "opacity-65 pl-1 hover:bg-dark-500 rounded-lg"
+                : "opacity-65 pl-1 hover:bg-dark-500 rounded-xl"
             } ${
-            pathname === item.path ? "bg-white/40 rounded-lg" : ""
+            pathname === item.path ? "bg-white/40 rounded-xl" : ""
             }`
             
             )}
@@ -76,10 +76,10 @@ const ProfessionalSidebar = ({
             <Icon
               src={item.icon.src}
               alt={item.icon.alt}
-              width={30}
-              height={30}
+              width={18}
+              height={18}
             />
-            <span className="text-16-regular">{item.label}</span>
+            <span className="text-sm">{item.label}</span>
           </Link>
         ))}
       </div>
