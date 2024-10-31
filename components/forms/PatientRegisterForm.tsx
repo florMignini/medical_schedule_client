@@ -293,6 +293,7 @@ const PatientRegistrationForm = () => {
                       >
                         {IdentificationType.map((ID: string) => (
                           <DropdownMenuRadioItem
+                              key={ID}
                             value={ID}
                             className="w-[90%] flex items-center justify-start pl-6"
                           >
@@ -577,6 +578,7 @@ const PatientRegistrationForm = () => {
                     >
                       {medicalHistory.map((history: string) => (
                         <DropdownMenuRadioItem
+                            key={history}
                           value={history}
                           className="w-[90%] flex items-center justify-start pl-6"
                         >

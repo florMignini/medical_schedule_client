@@ -22,7 +22,7 @@ const WelcomeSection = () => {
       setInfoProfSession(JSON.parse(profData));
     }
   }, []);
-//   effect for todays full date
+//   effect for todayjs full date
 useEffect(() => {
   let getTodayDate = getDate()
   setTodayDate(getTodayDate);
