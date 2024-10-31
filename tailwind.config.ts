@@ -45,6 +45,15 @@ const config = {
           600: "#76828D",
           700: "#ABB8C4",
         },
+        "card-bg": {
+          100: "#1B1D20"
+},
+        "card-hover": {
+          100: "#272B30"
+        },
+        "bg-color" : {
+          100: "#111415"
+        },
       },
       fontFamily: {
         sans: ["var(--font-plus)", ...fontFamily.sans],
