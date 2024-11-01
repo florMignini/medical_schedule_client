@@ -27,9 +27,9 @@ export default function ProfessionalLayout({
     redirect("/introducing-medical-schedule")
   }
   return (
-    <section className="flex flex-col bg-dark-400 py-2">
+    <section className="flex flex-col bg-dark-400 m-1">
       {/* content */}
-      <div className="bg-dark-200 m-3 p-1 rounded-lg ">
+      <div className="bg-dark-200 rounded-lg ">
         <ProfessionalDashboard
         children={children}
         />

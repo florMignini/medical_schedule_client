@@ -56,7 +56,7 @@ const ProfessionalSidebar = ({
             )}
             <Link
                 href="/professional/dashboard"
-                className="w-[90%] pt-5 pl-3 hidden sm:flex items-center justify-start"
+                className="w-[90%] pt-5 pl-3 hidden lg:flex items-center justify-start"
                 onClick={() => setIsOpen(false)}
             >
                 <Image
