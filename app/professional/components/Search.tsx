@@ -9,6 +9,7 @@ import { querySearch } from "@/app/actions";
 import { Patient } from "@/interfaces";
 import Link from "next/link";
 import Image from "next/image";
+import {usePathname} from "next/navigation";
 
 const Search = () => {
   const [query, setQuery] = useState<string>("");
@@ -16,6 +17,9 @@ const Search = () => {
   const value = useDebounce(query);
   const [result, setResult] = useState<any>([]);
 
+
+  // get route for specific search
+  const path = usePathname()
   //search
   useEffect(() => {
     const loadQuery = async () => {
@@ -33,9 +37,9 @@ const Search = () => {
   };
 
   return (
-    <div className="w-[99%] h-auto flex flex-col items-center justify-center mx-auto">
+    <div className="w-[99%] h-20 flex flex-col items-center justify-center mx-auto">
       {/* search section */}
-      <div className="w-[80%] grid grid-cols-[20%,80%] align-middle justify-center bg-dark-200/80 rounded-lg ">
+      <div className="w-[80%] grid grid-cols-[20%,80%] align-middle justify-center bg-card-bg-100 rounded-lg ">
         <button className="w-[90%] flex items-center justify-center">
           <Icon src={searchIcon} alt="search-icon" width={20} height={20} />
         </button>
@@ -51,7 +55,7 @@ const Search = () => {
       {/* result section */}
       <>
         {value && (
-          <div className="w-[80%] mt-1 rounded-md py-5 px-2 z-50 gap-2 bg-backdrop backdrop-blur-xl">
+          <div className="w-[80%] rounded-md py-5 px-2 z-50 gap-2 bg-backdrop backdrop-blur-xl">
             {result && result?.data?.length > 0 ? (
               result?.data.map((patient: Patient) => (
                 <Link

@@ -7,7 +7,7 @@ import {ProfessionalSidebarData} from "@/data";
 import CloseIcon from "../public/assets/icons/close.svg";
 import logOutIcon from "../public/assets/icons/logout.svg";
 import arrowRight from "../public/assets/icons/arrowRight.svg";
-import onlyLogo from "../public/assets/onlyIcon.png";
+import onlyLogo from "../public/assets/medical_schedule-transparent.png";
 import {toggleSideI} from "@/interfaces";
 import {usePathname} from "next/navigation";
 import {cn} from "@/lib";
@@ -62,8 +62,8 @@ const ProfessionalSidebar = ({
                 <Image
                     src={onlyLogo}
                     alt="medical-schedule-logo-icon"
-                    height={35}
-                    width={35}
+                    height={150}
+                    width={150}
                 />
             </Link>
             <div

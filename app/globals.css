@@ -190,6 +190,10 @@
   .text-12-semibold {
     @apply text-[12px] leading-[16px] font-semibold;
   }
+  /* ==== text gradient color */
+  .text-gradient{
+    @apply bg-gradient-to-b from-[#0B1E26] to-[#E7E7E7] text-transparent bg-clip-text
+  }
   /* =====  SHADCN OVERRIDES */
   .shad-primary-btn {
     @apply bg-green-500 text-white !important;
