@@ -1,12 +1,17 @@
 "use client";
+import { useEffect, useState } from "react";
 import Image from "next/image";
+import { Badge } from "@/components/ui/badge"
+import { getDate, getDay } from "@/utils/getDate";
 import WelcomeGif from "../../../public/assets/medical-welcome.gif";
 import Icon from "@/components/ui/icon";
-import { useEffect, useState } from "react";
-import { getDate, getDay } from "@/utils/getDate";
-import CalendarIcon from "../../../public/assets/icons/calendar.svg"
+import EditIcon from "../../../public/assets/icons/pencil.svg";
+import CalendarIcon from "../../../public/assets/icons/calendar.svg";
+import User from "../../../public/assets/profile-doctor.jpg";
+import { ProfessionalInformation } from "@/interfaces";
 
-const WelcomeSection = () => {
+const WelcomeSection = (professionalData: { professional: ProfessionalInformation; }) => {
+
   const [todayDay, setTodayDay] = useState<string>();
   const [infoProfSession, setInfoProfSession] = useState<any>();
   const [todayDate, setTodayDate] = useState<string>();
@@ -22,36 +27,83 @@ const WelcomeSection = () => {
       setInfoProfSession(JSON.parse(profData));
     }
   }, []);
-//   effect for todayjs full date
-useEffect(() => {
-  let getTodayDate = getDate()
-  setTodayDate(getTodayDate);
-}, [])
+  //   effect for todayjs full date
+  useEffect(() => {
+    let getTodayDate = getDate();
+    setTodayDate(getTodayDate);
+  }, []);
 
   return (
-    <div className="w-[99%] grid grid-cols-[60%,40%] py-2 px-5 bg-card-bg-100 rounded-md ">
-      {/* Welcome */}
-      <div className="w-full flex flex-col items-start pl-1 justify-evenly gap-1">
+    <div className="w-[90%] mx-auto h-auto grid grid-cols-[40%,60%] py-2 px-5 bg-card-bg-100 rounded-md ">
+      {/* profile section */}
+      <div className="w-[99%] h-auto flex items-start flex-col gap-3 px-2 py-1">
         {/* date */}
-        <div className="w-36 h-7 px-2 flex justify-around items-center rounded-md bg-dark-500 text">
-            <Icon
-            src={CalendarIcon}
-            alt="calendar-icon"
-            width={15}
-            height={15}
-            />
-          <h1 className="font-light ">{todayDate}</h1>
+        <div className="w-36 h-5 px-2 flex justify-start gap-1 text-gradient items-center">
+          <Image src={CalendarIcon} alt="calendar-icon" width={10} height={10} className="text-gradient" />
+          <h1 className="font-light text-[12px]">{todayDate}</h1>
         </div>
-        {/* Message */}
-        <div className="w-[90%] flex flex-col gap-2 pb-1">
-          <h1 className="text-24-bold capitalize">{`Bienvenido Dr. ${infoProfSession ? infoProfSession.lastname : "..."}`}</h1>
-          <p className="text-base font-light text-light-200 capitalize">{`que tengas un lindo ${
-            todayDay ? todayDay : `...`
-          }`}</p>
+        <Image
+          src={User}
+          width={200}
+          height={200}
+          priority
+          alt="professional-image"
+          className="flex items-center justify-center rounded-3xl"
+        />
+      </div>
+      {/* Welcome */}
+      <div className="w-full h-full flex flex-col items-start px-1 justify-center gap-1">
+        <div className="w-[95%] flex items-center justify-between text-gradient">
+          <div className="flex items-center justify-start flex-col">
+          <h1 className="text-2xl font-semibold ">{`${professionalData.professional.firstName} ${professionalData.professional.lastName}`}</h1>
+          <Badge 
+          className="w-[100%] flex items-center justify-start"
+          variant={professionalData.professional.isActive ? "secondary" : "destructive"}>{professionalData.professional.isActive ? "activo" : "inactivo"}</Badge>
+          </div>
+          <button className="flex w-[8] h-[8] p-2 rounded-full hover:bg-gradient-to-b from-black to-[#1B1D20] text-transparent hover:"
+          // onClick={()=>{edit page}}
+          >
+          <Image
+          src={EditIcon}
+          alt="edit-icon"
+          width={15}
+          height={15}
+          className="flex items-start justify-center"
+          />
+          </button>
         </div>
+        {/* professional and personal info */}
+        <div className="w-[95%] flex flex-col items-center justify-start">
+          {/* specialty */}
+            <div className="w-full h-8 flex items-center justify-between text-sm font-light">
+              <label className="font-bold">Especialidad:</label>
+              <input disabled
+              value={professionalData.professional.specialty}
+              className="bg-transparent borde-b-[1px] border-b-gray-500"
+              />
+            </div>
+             {/* phone Number */}
+             <div className="w-full h-8 flex items-center justify-between text-sm font-light">
+              <label className="font-bold">Teléfono:</label>
+              <input disabled
+              value={professionalData.professional.phoneNumber}
+              className="bg-transparent borde-b-[1px] border-b-gray-500"
+              />
+            </div>
+             {/* email */}
+             <div className="w-full h-8 flex items-center justify-between text-sm font-light">
+              <label className="font-bold">Especialidad:</label>
+              <input disabled
+              value={professionalData.professional.email}
+              className="bg-transparent borde-b-[1px] border-b-gray-500"
+              />
+            </div>
+        </div>
+        {/* patients total amount */}
+        {/* social media links */}
       </div>
       {/* gif */}
-      <div className="w-full flex items-center justify-end">
+      {/* <div className="w-full flex items-center justify-end">
         <Image
         unoptimized
           src={WelcomeGif}
@@ -60,7 +112,7 @@ useEffect(() => {
           height={200}
           className="rounded-md"
         />
-      </div>
+      </div> */}
     </div>
   );
 };
