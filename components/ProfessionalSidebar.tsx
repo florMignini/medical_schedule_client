@@ -93,7 +93,7 @@ const ProfessionalSidebar = ({
                             height={25}
                             className="pl-2"
                         />
-                        <span className="w-[80%] text-center text-sm">{item.label}</span>
+                        <span className="w-[80%] text-center text-base">{item.label}</span>
                         {
                             pathname === item.path && (
                                 <Icon src={arrowRight} alt={arrowRight}
