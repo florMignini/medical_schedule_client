@@ -34,7 +34,7 @@ const ProfessionalDashboard = ({
         <ProfessionalSidebar toggleSidebar={toggleSidebar} isOpen={isOpen} setIsOpen={setIsOpen} />
 
         {/* rightside */}
-        <div className="h-auto gap-3 flex flex-col">
+        <div className="h-screen gap-3 flex flex-col">
           <Navbar toggleSidebar={toggleSidebar} isOpen={isOpen} />
           {children}
         </div>

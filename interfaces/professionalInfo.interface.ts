@@ -16,6 +16,7 @@ export interface ProfessionalInformation {
   isActive: boolean;
   patientsIncluded?: PatientsIncluded[];
   appointmentsIncluded?: AppointmentsIncluded[];
+  institutionsIncluded?: any;
 }
 
 export interface PatientsIncluded {
