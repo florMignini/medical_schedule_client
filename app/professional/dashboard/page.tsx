@@ -50,14 +50,14 @@ const ProfessionalDashboard = async () => {
                 {/* information side */}
                 <div className="flex flex-col gap-2 my-auto">
                     {/*upper section*/}
-                    <div className="w-[80%] mx-auto grid grid-cols-[65%,35%]">
+                    <div className="w-[80%] mx-auto max-[780px]:flex max-[780px]:flex-col max-[780px]:gap-3 grid grid-cols-[65%,35%]">
                         <div className="">
                             <WelcomeSection professional={data}/>
                         </div>
                         {/* total patient and appointments */}
-                        <div className="flex flex-col items-start justify-start gap-2 my-auto">
+                        <div className="max-[780px]:flex-row flex flex-col items-start justify-start gap-2 my-auto">
                             <div
-                                className="w-[70%] h-[95px] grid grid-cols-[50%,50%] mx-auto border-[1px] border-gray-600 rounded-lg">
+                                className="max-[780px]:w-[40%] w-[70%] h-[95px] grid grid-cols-[50%,50%] mx-auto border-[1px] border-gray-600 rounded-lg">
                                 <div className="w-[90%] h-[90%] flex items-center justify-center">
                                     <Image
                                         src={user}
@@ -76,7 +76,7 @@ const ProfessionalDashboard = async () => {
                                 </div>
                             </div>
                             <div
-                                className="w-[70%] h-[95px] grid grid-cols-[50%,50%] mx-auto border-[1px] border-gray-600 rounded-lg">
+                                className="max-[780px]:w-[40%] w-[70%] h-[95px] grid grid-cols-[50%,50%] mx-auto border-[1px] border-gray-600 rounded-lg">
                                 <div className="w-[90%] h-[90%] flex items-center justify-center">
                                     <Image
                                         src={appointments}
