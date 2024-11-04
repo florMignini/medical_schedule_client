@@ -38,7 +38,7 @@ const WelcomeSection = (professionalData: {
   }, []);
 
   return (
-    <div className="w-[95%] mx-auto h-full grid grid-cols-[50%,50%] p-2 gap-3 bg-transparent shadow-[inset_0_-2px_4px_rgba(231,232,231,0.6)] rounded-lg">
+    <div className="w-[95%] mx-auto h-full grid grid-cols-[50%,50%] p-2 bg-transparent shadow-[inset_0_-2px_4px_rgba(231,232,231,0.6)] rounded-lg">
       {/* profile section */}
       <div className="w-[99%] h-auto flex items-start flex-col gap-5 px-2 py-1">
         {/* date */}

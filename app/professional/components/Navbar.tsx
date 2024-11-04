@@ -83,13 +83,23 @@ const Navbar = ({ isOpen, toggleSidebar }: toggleSideI) => {
           <div className="w-[100%] flex items-center justify-center">
             <div className=" w-[30%] flex items-center justify-start">
               <button onClick={() => router.back()}>
-                <Image src={leftArrow} alt={leftArrow} width={18} height={18} />
+                <Image src={leftArrow} alt="left-arrow" width={18} height={18} />
               </button>
               <p className="font-bold text-sm capitalize">{path}</p>
             </div>
-            <h2 className="w-[50%] text-[20px] capitalize text-gradient">
-              Bienvenid@, Dr. <strong>{professional?.lastname}</strong>
-            </h2>
+            <div className="text-[24px] text-start text-gradient text-clip font-medium">
+            {
+                professional?.gender === "M" ? (
+                  <h2 className="capitalize">
+                Bienvenido, Dr. <strong>{professional?.lastname}</strong>
+              </h2>
+                ):(
+                  <h2 className="capitalize">
+                Bienvenida, Dra. <strong>{professional?.lastname}</strong>
+              </h2>
+                )
+              }
+            </div>
           </div>
         </div>
         <div>

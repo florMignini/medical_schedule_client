@@ -46,7 +46,7 @@ const ProfessionalDashboard = async () => {
                 {/* information side */}
                 <div className="flex flex-col gap-2 my-auto">
                     {/*upper section*/}
-                    <div className="w-[100%] grid grid-cols-[65%,35%]">
+                    <div className="w-[80%] mx-auto grid grid-cols-[65%,35%]">
                         <div className="">
                             <WelcomeSection professional={data}/>
                         </div>
