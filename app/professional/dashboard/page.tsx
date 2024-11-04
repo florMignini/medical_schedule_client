@@ -91,7 +91,7 @@ const ProfessionalDashboard = async () => {
           {/*down section*/}
           <div className="flex flex-col gap-2 mt-2">
             {/* patient section */}
-            <div className="w-[99%] rounded-md flex flex-col bg-card-bg-100">
+            <div className="w-[99%] py-2 shadow-[inset_0_-2px_4px_rgba(231,232,231,0.6)] rounded-md flex flex-col">
               <div className="mx-auto mb-5 w-[99%] border-b-[1px]">
                 <p className="px-3 py-2 text-gradient font-semibold text-[18px]">
                   Pacientes
@@ -119,7 +119,7 @@ const ProfessionalDashboard = async () => {
                     <Link
                       key={patient.id}
                       href={`/professional/patients/${patient.id}/info`}
-                      className="w-[98%] mx-auto px-2 flex flex-wrap justify-start items-center border-b-[1px] border-gray-500 mb-1"
+                      className="w-[98%] mx-auto px-2 flex flex-wrap justify-start items-center border-b-[1px] border-gray-500 mb-1 hover:scale-[102%] hover:bg-card-hover-100 hover:rounded-lg"
                     >
                       <div
                         key={patient.identityNumber}
@@ -133,13 +133,13 @@ const ProfessionalDashboard = async () => {
                             height={40}
                             className="rounded-full bg-gradient-to-b from-black to-[#001E80]"
                           />
-                          <p className="text-white text-[14px] font-light">
+                          <p className="text-gray-500 text-[14px] font-semibold">
                             {`${patient.firstName} ${patient.lastName}`}
                           </p>
                         </div>
                       </div>
                       <div className="w-[25%] px-1 py-2" key={patient.phone}>
-                        <div className="text-white text-[14px] font-light flex gap-1">
+                        <div className="text-gray-600 text-[14px] font-normal flex gap-1">
                           <Icon
                             src={PhoneIcon}
                             alt="phone-Icon"
@@ -150,7 +150,7 @@ const ProfessionalDashboard = async () => {
                         </div>
                       </div>
                       <div className="w-[25%] px-1 py-2" key={patient.email}>
-                        <div className="text-white text-[14px] font-light flex gap-1">
+                        <div className="text-gray-600 text-[14px] font-normal flex gap-1">
                           <Icon
                             src={MailIcon}
                             alt="Mail-Icon"
@@ -161,7 +161,7 @@ const ProfessionalDashboard = async () => {
                         </div>
                       </div>
                       <div className="w-[25%] px-1 py-2" key={patient.address}>
-                        <div className="text-white text-[14px] font-light">
+                        <div className="text-gray-600 text-[14px] font-normal">
                           {patient.address}
                         </div>
                       </div>
@@ -172,7 +172,7 @@ const ProfessionalDashboard = async () => {
             </div>
 
             {/* institutions section */}
-            <div className="w-[99%] bg-card-bg-100 rounded-md ">
+            <div className="w-[99%] py-2 shadow-[inset_0_-2px_4px_rgba(231,232,231,0.6)] rounded-md flex flex-col">
               <p className="px-3 py-2 text-gradient font-semibold text-[18px]">
                 Instituciones
               </p>
