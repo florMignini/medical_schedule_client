@@ -73,7 +73,9 @@ const Navbar = ({ isOpen, toggleSidebar }: toggleSideI) => {
             </div>
           </div>
           <div className="w-[40%] lg:w-[50%] flex items-center justify-end">
-            <Search />
+            <Search
+            path={path}
+            />
           </div>
         </div>
       </div>
@@ -103,7 +105,9 @@ const Navbar = ({ isOpen, toggleSidebar }: toggleSideI) => {
           </div>
         </div>
         <div>
-          <Search />
+          <Search
+          path={path}
+          />
         </div>
       </div>
     </nav>

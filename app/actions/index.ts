@@ -5,4 +5,3 @@ export * from './fetchProfessionals';
 export * from './loginAction';
 export * from './pastAppointmentAction';
 export * from './patientRegistrationAction';
-export * from './querySearch';

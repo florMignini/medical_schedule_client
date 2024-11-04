@@ -31,7 +31,7 @@ const InstitutionsPage = async () => {
     `/professional/get-professional/${professionalId}`
   );
   // @ts-ignore
-  const { patientsIncluded }: { patientsIncluded: PatientsIncluded[] } = data;
+  const { institutionsIncluded }: { institutionsIncluded: any } = data;
 
   return (
     <section className="w-full h-screen flex flex-col items-center justify-start gap-2">
@@ -43,31 +43,40 @@ const InstitutionsPage = async () => {
       <div className="w-[90%] flex items-center justify-between my-5">
         {/* leftside */}
         <div className="w-[50%] flex items-center justify-start gap-2">
-          <Image src={institutionImage} alt="institution-icon-image" height={25} width={25} />
+          <Image
+            src={institutionImage}
+            alt="institution-icon-image"
+            height={25}
+            width={25}
+          />
           <div className="flex items-center justify-start gap-1">
             <h1 className="text-18-bold text-dark-500">
-              {patientsIncluded.length}
+              {institutionsIncluded.length}
             </h1>
             <p className="text-18-bold">
-              {patientsIncluded.length < 2 ? `institución` : `instituciones`}
+              {institutionsIncluded.length < 2 ? `institución` : `instituciones`}
             </p>
           </div>
         </div>
         {/* rightside */}
         <div className="w-[50%] flex items-center justify-end">
-          <Link
-            href="/professional/patient-registration"
-            className="flex items-center justify-center gap-2.5 p-2 border-[1px] border-gray-600 rounded-full hover:bg-gradient-to-b from-black to-[#807f7f] text-white text-center hover:opacity-50"
-          >
-            <p className="text-[14px] font-light text-gradient">agregar institución</p>
-            <Image
-              src={plusImage}
-              alt="plus-icon"
-              width={20}
-              height={20}
-              className="bg-[#807f7f] rounded-full bg-opacity-90"
-            />
-          </Link>
+          {data && data.institutionsIncluded?.length! === 0 ? null : (
+            <Link
+              href="/professional/patient-registration"
+              className="flex items-center justify-center gap-2.5 p-2 border-[1px] border-gray-600 rounded-full hover:bg-gradient-to-b from-black to-[#807f7f] text-white text-center hover:opacity-50"
+            >
+              <p className="text-[14px] font-light text-gradient">
+                agregar institución
+              </p>
+              <Image
+                src={plusImage}
+                alt="plus-icon"
+                width={20}
+                height={20}
+                className="bg-[#807f7f] rounded-full bg-opacity-90"
+              />
+            </Link>
+          )}
         </div>
       </div>
 
