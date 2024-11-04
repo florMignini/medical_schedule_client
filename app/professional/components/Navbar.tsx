@@ -13,6 +13,7 @@ type professionalType = {
   firstname: string;
   id: string;
   lastname: string;
+  gender: string;
 };
 const Navbar = ({ isOpen, toggleSidebar }: toggleSideI) => {
   const [professional, setprofessional] = useState<professionalType>();
@@ -58,9 +59,17 @@ const Navbar = ({ isOpen, toggleSidebar }: toggleSideI) => {
             </div>
             {/* welcome section */}
             <div className="w-[80%] md:w-[50%] text-[20px] xl:text-2xl text-start text-gradient text-clip font-medium">
-              <h2 className="capitalize">
-                Bienvenid@, Dr. <strong>{professional?.lastname}</strong>
+              {
+                professional?.gender === "M" ? (
+                  <h2 className="capitalize">
+                Bienvenido, Dr. <strong>{professional?.lastname}</strong>
               </h2>
+                ):(
+                  <h2 className="capitalize">
+                Bienvenida, Dra. <strong>{professional?.lastname}</strong>
+              </h2>
+                )
+              }
             </div>
           </div>
           <div className="w-[40%] lg:w-[50%] flex items-center justify-end">
@@ -69,7 +78,7 @@ const Navbar = ({ isOpen, toggleSidebar }: toggleSideI) => {
         </div>
       </div>
 
-      <div className="w-[90%] px-5 py-2 hidden lg:grid lg:grid-cols-[60%,40%] gap-2">
+      <div className="w-[100%] px-3 py-2 hidden lg:grid lg:grid-cols-[60%,40%] gap-2">
         <div className="w-[100%] flex items-center justify-start">
           <div className="w-[100%] flex items-center justify-center">
             <div className=" w-[30%] flex items-center justify-start">

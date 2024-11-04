@@ -48,6 +48,7 @@ const [loginError, setLoginError] = useState<string>()
       localStorage.setItem('infoProfSession', JSON.stringify({
         firstname: res?.firstName,
         lastname: res?.lastName,
+        gender: res?.gender,
         id: res?.id,
       }))
       if(typeof res === "string"){

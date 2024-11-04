@@ -38,7 +38,7 @@ const WelcomeSection = (professionalData: {
   }, []);
 
   return (
-    <div className="w-[95%] mx-auto h-full grid grid-cols-[40%,60%] py-2 px-5 gap-5 bg-transparent border-[1px] border-gray-600 rounded-lg">
+    <div className="w-[95%] mx-auto h-full grid grid-cols-[50%,50%] p-2 gap-3 bg-transparent shadow-[inset_0_-2px_4px_rgba(231,232,231,0.6)] rounded-lg">
       {/* profile section */}
       <div className="w-[99%] h-auto flex items-start flex-col gap-5 px-2 py-1">
         {/* date */}
@@ -52,16 +52,16 @@ const WelcomeSection = (professionalData: {
           />
           <h1 className="font-light text-[14px]">{todayDate}</h1>
         </div>
-        <div className="flex flex-col gap-3">
+        <div className="w-[100%] flex flex-col gap-3 items-center justify-center mx-auto">
           <Image
-            src={`https://avatar.iran.liara.run/public/job/doctor/male`}
+            src={(professionalData.professional.gender !== "" && professionalData.professional.gender === "M") ? `https://avatar.iran.liara.run/public/job/doctor/male` : `https://avatar.iran.liara.run/public/job/doctor/female`}
             width={200}
             height={200}
             priority
             alt="professional-image"
             className="flex items-center justify-center rounded-3xl"
           />
-          <div className="w-[95%] flex items-center justify-between px-3">
+          <div className="w-[80%] flex items-center justify-between px-3">
             <Link href="#"
             className="p-1 rounded-full hover:bg-gradient-to-b from-black to-[#807f7f] text-transparent text-center hover:opacity-50"
             >
