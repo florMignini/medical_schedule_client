@@ -54,7 +54,7 @@ const WelcomeSection = (professionalData: {
         </div>
         <div className="flex flex-col gap-3">
           <Image
-            src={User}
+            src={`https://avatar.iran.liara.run/public/job/doctor/male`}
             width={200}
             height={200}
             priority
@@ -160,17 +160,7 @@ const WelcomeSection = (professionalData: {
         {/* patients total amount */}
         {/* social media links */}
       </div>
-      {/* gif */}
-      {/* <div className="w-full flex items-center justify-end">
-        <Image
-        unoptimized
-          src={WelcomeGif}
-          alt="welcome-gif"
-          width={200}
-          height={200}
-          className="rounded-md"
-        />
-      </div> */}
+
     </div>
   );
 };

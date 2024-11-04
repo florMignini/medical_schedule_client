@@ -2,20 +2,26 @@
 const nextConfig = {
     images: {
         remotePatterns: [
-          {
-            protocol: 'https',
-            hostname: 'cloud.appwrite.io',
-            port: '',
-            pathname: '/**',
-          },
-          {
-            protocol: 'https',
-            hostname: 'static.vecteezy.com',
-            port: '',
-            pathname: '/**',
-          }
+            {
+                protocol: 'https',
+                hostname: 'cloud.appwrite.io',
+                port: '',
+                pathname: '/**',
+            },
+            {
+                protocol: 'https',
+                hostname: 'static.vecteezy.com',
+                port: '',
+                pathname: '/**',
+            },
+            {
+                protocol: "https",
+                hostname: "avatar.iran.liara.run",
+                port: "",
+                pathname: "/**"
+            }
         ],
-      },
+    },
 };
 
 export default nextConfig;
