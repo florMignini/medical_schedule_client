@@ -3,7 +3,8 @@ import { cookies } from "next/headers";
 import Image from "next/image";
 import Link from "next/link";
 import Icon from "@/components/ui/icon";
-
+import user from "../../../public/assets/icons/users.svg";
+import appointments from "../../../public/assets/icons/appointments.svg";
 import MailIcon from "../../../public/assets/icons/email.svg";
 import PhoneIcon from "../../../public/assets/icons/phone.svg";
 
@@ -37,16 +38,55 @@ const ProfessionalDashboard = async () => {
   const {
     appointmentsIncluded,
   }: { appointmentsIncluded: AppointmentsIncluded[] } = data;
-
+  console.log(data.patientsIncluded);
   return (
     <section className="w-full h-screen flex flex-col items-center justify-start gap-2">
       <div className="w-[99%] flex h-auto flex-col gap-1">
         {/* information side */}
-        <div className="grid grid-rows-[40%,60%] gap-2">
+        <div className="grid grid-rows-[40%,60%] gap-2 my-auto">
           {/*upper section*/}
-          <WelcomeSection
-            professional={data}
-          />
+          <div className="w-[100%] grid grid-cols-[65%,35%]">
+            <div>
+              <WelcomeSection professional={data} />
+            </div>
+            {/* total patient and appointments */}
+            <div className="flex flex-col items-start justify-start gap-2 my-auto">
+              <div className="w-[70%] h-[95px] grid grid-cols-[50%,50%] mx-auto border-[1px] border-gray-600 rounded-lg">
+                <div className="w-[90%] h-[90%] flex items-center justify-center">
+                  <Image
+                    src={user}
+                    alt="user-icon"
+                    width={10}
+                    height={10}
+                    className="w-[50%] h-[50%] flex p-2 rounded-full bg-gradient-to-b from-black to-[#807f7f] text-transparent text-center opacity-50"
+                  />
+                </div>
+                <div className="flex flex-col items-center justify-center text-base font-light text-white">
+                  <p className="w-[100%] text-start">Pacientes totales</p>
+                  <p className="w-[100%] font-bold text-gradient text-lg flex items-start">
+                    {data.patientsIncluded?.length}
+                  </p>
+                </div>
+              </div>
+              <div className="w-[70%] h-[95px] grid grid-cols-[50%,50%] mx-auto border-[1px] border-gray-600 rounded-lg">
+              <div className="w-[90%] h-[90%] flex items-center justify-center">
+                  <Image
+                    src={appointments}
+                    alt="appointments-icon"
+                    width={10}
+                    height={10}
+                    className="w-[50%] h-[50%] flex p-2 rounded-full bg-gradient-to-b from-black to-[#807f7f] text-transparent text-center opacity-50"
+                  />
+                </div>
+                <div className="flex flex-col items-center justify-center text-base font-light text-white">
+                  <p className="w-[100%] text-start">Citas totales</p>
+                  <p className="w-[100%] font-bold text-gradient text-lg flex items-start">
+                    {data.appointmentsIncluded?.length}
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
 
           {/*down section*/}
           <div className="flex flex-col gap-2 mt-2">
