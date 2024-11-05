@@ -13,7 +13,7 @@ const Appointments = async() => {
   let { data }: { data: ProfessionalInformation } = await apiServer.get(
     `/professional/get-professional/${professionalId}`
   );
-//   const { patientsIncluded }: { patientsIncluded: PatientsIncluded[] } = data;
+// @ts-ignore
   const { appointmentsIncluded }: { appointmentsIncluded: AppointmentsIncluded[] } = data ?? { appointmentsIncluded: [] };
   return (
     <section className="w-full h-screen flex flex-col items-center justify-start gap-2">

@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useMemo } from "react";
 import router, { useRouter } from "next/navigation";
 import { Form, FormControl } from "@/components/ui/form";
 import DinamicForm from "../DinamicForm";
@@ -19,13 +19,27 @@ import phoneIcon from "../../public/assets/icons/phone.svg";
 import UserIcon from "../../public/assets/icons/user-verification.svg";
 import DropdownIcon from "../../public/assets/icons/arrowDown.svg";
 import mailIcon from "../../public/assets/icons/email.svg";
+import { createNewInstitution, createProfessionalInstitutionRelation } from "@/app/actions";
+
+type professionalType = {
+    id: string;
+    firstName: string;
+    lastName: string;
+    gender: string;
+}
 
 const InstitutionRegisterForm = () => {
-
+const [professional, setProfessional] = useState<professionalType>()
+const [loading, setLoading] = useState(false);
+const [isThereAnImage, setIsTthereAnImage] = useState<boolean>(false);
     const router = useRouter()
 
-      const [loading, setLoading] = useState(false);
-      const [isThereAnImage, setIsTthereAnImage] = useState<boolean>(false);
+    useMemo(() => {
+     const data: professionalType = JSON.parse(localStorage.getItem("infoProfSession")!)
+     setProfessional(data)
+    }, [])
+
+
       const form = useForm<z.infer<typeof NewInstitutionSchema>>({
         resolver: zodResolver(NewInstitutionSchema),
         defaultValues: {
@@ -57,24 +71,25 @@ const InstitutionRegisterForm = () => {
         try {
           const newInstitutionData = {
             ...values,
-            patientAttachedFilesUrl: formData,
+            institutionImage: formData,
           };
-        // * action to create
-        //   const response = await createNewInstitution(newInstitutionData);
+        
+          const response = await createNewInstitution(newInstitutionData);
     
-        //   if (response) {
-        //     const IDs = {
-        // ! get professional from localStorage
-            //   professional: professional.id!,
-        //       institution: response.id,
-        //     };
-        // * action to create
-        //     const data = await createProfessionalInstitutionRelation(IDs);
+          if (response) {
+            const IDs = {
+        
+              professional: professional?.id!,
+              institution: response.id,
+            };
+        
+            const data = await createProfessionalInstitutionRelation(IDs);
           
             form.reset();
             setLoading(false);
             router.push(`/professional/institutions`);
-          }catch (error) {
+          }
+        }catch (error) {
           console.error(error);
         }
       }
@@ -154,8 +169,8 @@ const InstitutionRegisterForm = () => {
                 <DinamicForm
                   fieldType={FormFieldType.INPUT}
                   control={form.control}
-                  name="firstName"
-                  label="Nombre/s"
+                  name="name"
+                  label="Nombre de la institución"
                 />
                <DinamicForm
                   fieldType={FormFieldType.INPUT}
