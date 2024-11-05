@@ -62,7 +62,7 @@ const InstitutionsPage = async () => {
         <div className="w-[50%] flex items-center justify-end">
           {data && data.institutionsIncluded?.length! === 0 ? null : (
             <Link
-              href="/professional/patient-registration"
+              href="/professional/institution-registration"
               className="flex items-center justify-center gap-2.5 p-2 border-[1px] border-gray-600 rounded-full hover:bg-gradient-to-b from-black to-[#807f7f] text-white text-center hover:opacity-50"
             >
               <p className="text-[14px] font-light text-gradient">
