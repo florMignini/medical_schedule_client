@@ -1,8 +1,8 @@
 import Icon from "@/components/ui/icon";
 import institutionImage from "../../../public/assets/icons/institute.svg";
+import settingIcon from "../../../public/assets/icons/settings.svg"
 import plusImage from "../../../public/assets/icons/plus.svg";
 import Link from "next/link";
-
 import {
   Table,
   TableBody,
@@ -22,6 +22,9 @@ import {
   PatientsIncluded,
   ProfessionalInformation,
 } from "@/interfaces";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
+
+
 
 const InstitutionsPage = async () => {
   const cookieStore = cookies();
@@ -118,10 +121,11 @@ const InstitutionsPage = async () => {
             </div>
             <div className="w-full px-1 gap-2">
               {data.institutionsIncluded.map(({ institution }: any) => (
-                <Link
+                <div className="w-[100%] flex items-center justify-center">
+                  <Link
                   key={institution.id}
                   href={`/professional/patients/${institution.id}/info`}
-                  className="w-[98%] mx-auto px-2 flex justify-between border-b-[1px] border-gray-500 mb-1 hover:scale-[102%] hover:bg-card-hover-100 hover:rounded-lg"
+                  className="w-[90%] mx-auto px-2 flex justify-between border-b-[1px] border-gray-500 mb-1 hover:scale-[102%] hover:bg-card-hover-100 hover:rounded-lg"
                 >
                   <div
                     key={institution.id}
@@ -177,6 +181,37 @@ const InstitutionsPage = async () => {
                     </div>
                   </div>
                 </Link>
+                 <div className="w-[10%] flex items-center justify-center">
+                 <DropdownMenu>
+                  <DropdownMenuTrigger>
+                    <button className="w-[100%] p-2 rounded-full bg-transparent hover:bg-gray-400/10">
+                    <Image
+                    src={settingIcon}
+                    alt="setting-icon"
+                    width={20}
+                    height={20}
+                    />
+                    </button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent className="w-52 mr-1 bg-black/70 ">
+                  <DropdownMenuItem
+                  className="w-[90%] mx-auto"
+                  >
+                    <Link
+                    href="#"
+                    className="text-[16px] flex items-center justify-start text-white"
+                    >Editar</Link>
+                  </DropdownMenuItem>
+                  <DropdownMenuItem
+                  className="w-[90%] mx-auto"
+                  ><Link
+                  href="#"
+                  className="text-[16px] flex items-center justify-start text-red-400"
+                  >Eliminar</Link></DropdownMenuItem>
+                  </DropdownMenuContent>
+                </DropdownMenu>
+                 </div>
+                </div>
               ))}
             </div>
           </>
