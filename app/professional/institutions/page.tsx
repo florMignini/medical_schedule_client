@@ -3,14 +3,7 @@ import institutionImage from "../../../public/assets/icons/institute.svg";
 import settingIcon from "../../../public/assets/icons/settings.svg"
 import plusImage from "../../../public/assets/icons/plus.svg";
 import Link from "next/link";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 // Assuming the interface is located in a file named IPatientsResponse.ts in the interfaces folder
 import Image from "next/image";
 import MailIcon from "../../../public/assets/icons/email.svg";
@@ -22,7 +15,7 @@ import {
   PatientsIncluded,
   ProfessionalInformation,
 } from "@/interfaces";
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
+
 
 
 

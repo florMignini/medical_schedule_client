@@ -9,6 +9,7 @@ const config = {
     "./components/**/*.{ts,tsx}",
     "./app/**/*.{ts,tsx}",
     "./src/**/*.{ts,tsx}",
+    "./features/**/*.{js,ts,jsx,tsx}",
   ],
   prefix: "",
   theme: {
@@ -46,13 +47,13 @@ const config = {
           700: "#ABB8C4",
         },
         "card-bg": {
-          100: "#1B1D20"
-},
-        "card-hover": {
-          100: "#272B30"
+          100: "#1B1D20",
         },
-        "bg-color" : {
-          100: "#111415"
+        "card-hover": {
+          100: "#272B30",
+        },
+        "bg-color": {
+          100: "#111415",
         },
       },
       fontFamily: {

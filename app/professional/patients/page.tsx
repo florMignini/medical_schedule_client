@@ -1,16 +1,14 @@
 import Icon from "@/components/ui/icon";
 import userImage from "../../../public/assets/icons/users.svg";
 import plusImage from "../../../public/assets/icons/plus.svg";
+import settingIcon from "@/public/assets/icons/settings.svg"
 import Link from "next/link";
-
 import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 // Assuming the interface is located in a file named IPatientsResponse.ts in the interfaces folder
 import Image from "next/image";
 import MailIcon from "../../../public/assets/icons/email.svg";
@@ -109,7 +107,8 @@ const PatientsPage = async () => {
             </div>
             <div className="w-full px-1 gap-2">
               {patientsIncluded.map(({ patient }: PatientsIncluded) => (
-                <Link
+                <div className="w-[100%] flex items-center justify-center">
+                  <Link
                   key={patient.id}
                   href={`/professional/patients/${patient.id}/info`}
                   className="w-[98%] mx-auto px-2 flex justify-between border-b-[1px] border-gray-500 mb-1 hover:scale-[102%] hover:bg-card-hover-100 hover:rounded-lg"
@@ -168,6 +167,39 @@ const PatientsPage = async () => {
                     </div>
                   </div>
                 </Link>
+                <div className="w-[10%] flex items-center justify-center">
+                            <DropdownMenu>
+                              <DropdownMenuTrigger>
+                                <button className="w-[100%] p-2 rounded-full bg-transparent hover:bg-gray-400/10">
+                                  <Image
+                                    src={settingIcon}
+                                    alt="setting-icon"
+                                    width={20}
+                                    height={20}
+                                  />
+                                </button>
+                              </DropdownMenuTrigger>
+                              <DropdownMenuContent className="w-52 mr-1 bg-black/70 ">
+                                <DropdownMenuItem className="w-[90%] mx-auto">
+                                  <Link
+                                    href="#"
+                                    className="text-[16px] flex items-center justify-start text-white"
+                                  >
+                                    Editar
+                                  </Link>
+                                </DropdownMenuItem>
+                                <DropdownMenuItem className="w-[90%] mx-auto">
+                                  <Link
+                                    href="#"
+                                    className="text-[16px] flex items-center justify-start text-red-400"
+                                  >
+                                    Eliminar
+                                  </Link>
+                                </DropdownMenuItem>
+                              </DropdownMenuContent>
+                            </DropdownMenu>
+                          </div>
+                </div>
               ))}
             </div>
           </>

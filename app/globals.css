@@ -35,6 +35,7 @@
 
 @layer utilities {
   /* ===== UTILITIES */
+
   .sidebar {
     @apply remove-scrollbar w-full flex-col overflow-auto px-1 py-1;
   }
@@ -238,7 +239,12 @@
   .shad-select-content {
     @apply bg-dark-400 border-dark-500 !important;
   }
-
+  .AlertDialogContent {
+    @apply bg-light-200/50 shadow-light-200 shadow-md fixed top-[50%] left-[50%] -translate-x-[50%] w-[90%] max-w-[500px] max-h-[90%] p-[25px]
+  }
+  .AlertDialogContent:focus {
+    outline: none;
+  }
   .shad-dialog {
     @apply bg-dark-400 border-dark-500 !important;
   }
