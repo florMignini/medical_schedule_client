@@ -1,9 +1,26 @@
 import Icon from "@/components/ui/icon";
 import institutionImage from "../../../public/assets/icons/institute.svg";
-import settingIcon from "../../../public/assets/icons/settings.svg"
+import settingIcon from "../../../public/assets/icons/settings.svg";
 import plusImage from "../../../public/assets/icons/plus.svg";
 import Link from "next/link";
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogOverlay,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
 // Assuming the interface is located in a file named IPatientsResponse.ts in the interfaces folder
 import Image from "next/image";
 import MailIcon from "../../../public/assets/icons/email.svg";
@@ -15,9 +32,6 @@ import {
   PatientsIncluded,
   ProfessionalInformation,
 } from "@/interfaces";
-
-
-
 
 const InstitutionsPage = async () => {
   const cookieStore = cookies();
@@ -50,7 +64,9 @@ const InstitutionsPage = async () => {
               {institutionsIncluded.length}
             </h1>
             <p className="text-18-bold">
-              {institutionsIncluded.length < 2 ? `institución` : `instituciones`}
+              {institutionsIncluded.length < 2
+                ? `institución`
+                : `instituciones`}
             </p>
           </div>
         </div>
@@ -116,94 +132,119 @@ const InstitutionsPage = async () => {
               {data.institutionsIncluded.map(({ institution }: any) => (
                 <div className="w-[100%] flex items-center justify-center">
                   <Link
-                  key={institution.id}
-                  href={`/professional/patients/${institution.id}/info`}
-                  className="w-[90%] mx-auto px-2 flex justify-between border-b-[1px] border-gray-500 mb-1 hover:scale-[102%] hover:bg-card-hover-100 hover:rounded-lg"
-                >
-                  <div
                     key={institution.id}
-                    className="w-[25%] px-1 py-2 flex items-center justify-start"
+                    href={`/professional/patients/${institution.id}/info`}
+                    className="w-[90%] mx-auto px-2 flex justify-between border-b-[1px] border-gray-500 mb-1 hover:scale-[102%] hover:bg-card-hover-100 hover:rounded-lg"
                   >
-                    <div className="flex gap-1 items-center justify-start">
-                      <Image
-                        src={institution.institutionImage}
-                        alt="patient-profile-photo"
-                        width={40}
-                        height={40}
-                        className="rounded-full bg-gradient-to-b from-black to-[#001E80]"
-                      />
-                      <p className="text-gray-500 text-[14px] font-semibold">
-                        {`${institution.name}`}
-                      </p>
+                    <div
+                      key={institution.id}
+                      className="w-[25%] px-1 py-2 flex items-center justify-start"
+                    >
+                      <div className="flex gap-1 items-center justify-start">
+                        <Image
+                          src={institution.institutionImage}
+                          alt="patient-profile-photo"
+                          width={40}
+                          height={40}
+                          className="rounded-full bg-gradient-to-b from-black to-[#001E80]"
+                        />
+                        <p className="text-gray-500 text-[14px] font-semibold">
+                          {`${institution.name}`}
+                        </p>
+                      </div>
                     </div>
-                  </div>
-                  <div
-                    className="w-[25%] px-1 py-2 flex items-center justify-start"
-                    key={institution.phone}
-                  >
-                    <div className="text-gray-600 text-[14px] font-normal flex gap-1">
-                      <Icon
-                        src={PhoneIcon}
-                        alt="phone-Icon"
-                        width={20}
-                        height={20}
-                      />
-                      {institution.phone}
+                    <div
+                      className="w-[25%] px-1 py-2 flex items-center justify-start"
+                      key={institution.phone}
+                    >
+                      <div className="text-gray-600 text-[14px] font-normal flex gap-1">
+                        <Icon
+                          src={PhoneIcon}
+                          alt="phone-Icon"
+                          width={20}
+                          height={20}
+                        />
+                        {institution.phone}
+                      </div>
                     </div>
-                  </div>
-                  <div
-                    className="w-[25%] px-1 py-2 flex items-center justify-start"
-                    key={institution.email}
-                  >
-                    <div className="text-gray-600 text-[14px] font-normal flex gap-1">
-                      <Icon
-                        src={MailIcon}
-                        alt="Mail-Icon"
-                        width={20}
-                        height={20}
-                      />
-                      {institution.email}
+                    <div
+                      className="w-[25%] px-1 py-2 flex items-center justify-start"
+                      key={institution.email}
+                    >
+                      <div className="text-gray-600 text-[14px] font-normal flex gap-1">
+                        <Icon
+                          src={MailIcon}
+                          alt="Mail-Icon"
+                          width={20}
+                          height={20}
+                        />
+                        {institution.email}
+                      </div>
                     </div>
-                  </div>
-                  <div
-                    className="max-[650px]:hidden w-[25%] px-1 py-2 flex items-center justify-start"
-                    key={institution.address}
-                  >
-                    <div className="text-gray-600 text-[14px] font-normal">
-                      {institution.address}
+                    <div
+                      className="max-[650px]:hidden w-[25%] px-1 py-2 flex items-center justify-start"
+                      key={institution.address}
+                    >
+                      <div className="text-gray-600 text-[14px] font-normal">
+                        {institution.address}
+                      </div>
                     </div>
+                  </Link>
+                  <div className="w-[10%] flex items-center justify-center">
+                    <AlertDialog>
+                      <DropdownMenu>
+                        <DropdownMenuTrigger asChild>
+                          <button className="w-[100%] flex items-center justify-center  bg-transparent ">
+                            <Image
+                              src={settingIcon}
+                              alt="setting-icon"
+                              width={35}
+                              height={35}
+                              className="p-2 rounded-full hover:bg-gray-400/10"
+                            />
+                          </button>
+                        </DropdownMenuTrigger>
+                        <DropdownMenuContent className="w-52 mr-1 bg-black/70 ">
+                          <DropdownMenuItem className="w-[90%] mx-auto">
+                            <Link
+                              href={`/professional/institutions/${institution.id}/update`}
+                              className="text-[16px] flex items-center justify-start text-white"
+                            >
+                              Editar
+                            </Link>
+                          </DropdownMenuItem>
+                          <AlertDialogTrigger>
+                            <DropdownMenuItem className="w-[90%] mx-auto">
+                              <button className="text-[16px] flex items-center justify-start text-red-400">
+                                Eliminar
+                              </button>
+                            </DropdownMenuItem>
+                          </AlertDialogTrigger>
+                        </DropdownMenuContent>
+                      </DropdownMenu>
+                      <AlertDialogOverlay className="bg-transparent backdrop-blur-[2px]">
+                        <AlertDialogContent className="AlertDialogContent gap-5">
+                          <AlertDialogHeader className="w-[100%] gap-5 flex flex-col items-center justify-center">
+                            <AlertDialogTitle className="text-[24px] font-semibold">
+                              Estás seguro de eliminar la institución?
+                            </AlertDialogTitle>
+                            <AlertDialogDescription className="text-[18px] font-light ">
+                              Ésta acción no se puede deshacer y eliminaría toda
+                              la información relacionada a la institución
+                            </AlertDialogDescription>
+                          </AlertDialogHeader>
+                          <AlertDialogFooter>
+                            <AlertDialogCancel className="bg-black/15 text-light-200  outline-none">
+                              Cancel
+                            </AlertDialogCancel>
+                            <AlertDialogAction className="bg-black/15 text-light-200">
+                              Continue
+                            </AlertDialogAction>
+                          </AlertDialogFooter>
+                        </AlertDialogContent>
+                      </AlertDialogOverlay>
+                    </AlertDialog>
                   </div>
-                </Link>
-                 <div className="w-[10%] flex items-center justify-center">
-                 <DropdownMenu>
-                  <DropdownMenuTrigger>
-                    <button className="w-[100%] p-2 rounded-full bg-transparent hover:bg-gray-400/10">
-                    <Image
-                    src={settingIcon}
-                    alt="setting-icon"
-                    width={20}
-                    height={20}
-                    />
-                    </button>
-                  </DropdownMenuTrigger>
-                  <DropdownMenuContent className="w-52 mr-1 bg-black/70 ">
-                  <DropdownMenuItem
-                  className="w-[90%] mx-auto"
-                  >
-                    <Link
-                    href="#"
-                    className="text-[16px] flex items-center justify-start text-white"
-                    >Editar</Link>
-                  </DropdownMenuItem>
-                  <DropdownMenuItem
-                  className="w-[90%] mx-auto"
-                  ><Link
-                  href="#"
-                  className="text-[16px] flex items-center justify-start text-red-400"
-                  >Eliminar</Link></DropdownMenuItem>
-                  </DropdownMenuContent>
-                </DropdownMenu>
-                 </div>
                 </div>
               ))}
             </div>
