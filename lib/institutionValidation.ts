@@ -21,8 +21,8 @@ export const NewInstitutionSchema = z.object({
     .refine(
       (phone) => /^\+\d{10,15}$/.test(phone),
       "Número de teléfono inválido"
-    ),
-    email: z.string().email("Email inválido"),
+    ).optional(),
+    email: z.string().email("Email inválido").optional(),
     website: z.string().optional(),
     institutionImage: z.custom<File[]>().optional(),
   })

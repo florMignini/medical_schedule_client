@@ -32,11 +32,12 @@ interface CustomProperty {
   disable?: boolean;
   dateFormat?: string;
   showTimeSelect?: boolean;
+  defaultValue?: any;
   children?: React.ReactNode;
   renderSkeleton?: (field: any) => React.ReactNode;
 }
 
-const DinamicField = ({
+export const DinamicField = ({
   field,
   props,
 }: {
@@ -50,6 +51,7 @@ const DinamicField = ({
     placeholder,
     showTimeSelect,
     dateFormat,
+    defaultValue,
     renderSkeleton,
   } = props;
 
@@ -69,8 +71,12 @@ const DinamicField = ({
           <FormControl>
             <Input
               placeholder={placeholder}
-              {...field}
+              {
+                ...field !== undefined ? {...field} : {...defaultValue}
+              }
+              
               className="shad-input border-0"
+              defaultValue={defaultValue}
             />
           </FormControl>
         </div>
@@ -83,6 +89,7 @@ const DinamicField = ({
             {...field}
             className="shad-textArea"
             disabled={props.disable}
+            defaultValue={defaultValue}
           />
         </FormControl>
       );
@@ -96,6 +103,7 @@ const DinamicField = ({
           value={field.value as any | undefined}
           onChange={field.onChange}
           className="input-phone"
+          defaultValue={defaultValue}
         />
       );
     case FormFieldType.DATE_PICKER:
@@ -107,6 +115,7 @@ const DinamicField = ({
             height={24}
             width={24}
             className="ml-2"
+            defaultValue={defaultValue}
           />
           <FormControl>
             <DatePicker
