@@ -38,3 +38,33 @@ interface IIDs {
   export async function createProfessionalInstitutionRelation(IDs: IIDs) {
     const res = await apiServer.post(`/professional/add-institution-relation`,IDs);
   }
+
+
+  export async function updateInstitutionAction({institutionImage, ...institutionUpdate}: any) {
+    "use server";
+
+    try {
+      const {institutionId, ...rest} = institutionUpdate
+        let file;
+        if(institutionImage === "object" ){
+            const inputFile = InputFile.fromBuffer(
+                institutionImage?.get("blobFile") as Blob,
+                institutionImage?.get("fileName") as string
+            );
+            file = await storage.createFile(BUCKET_ID!, ID.unique(), inputFile);
+        }
+
+        const institutionUpdateData = {
+            institutionImage: file ? `${ENDPOINT}/storage/buckets/${BUCKET_ID}/files/${file?.$id}/view?project=${PROJECT_ID}` : `https://img.freepik.com/premium-photo/modern-hospital-building-exterior_641010-59451.jpg?w=900`,
+            ...rest}
+
+            const { data } = await apiServer.put(
+              `/institutions/update/${institutionId}`,
+              institutionUpdateData
+            );
+            console.log(data)
+            return data;
+        } catch (error:any) {
+            console.log(error.response);
+        }
+        }
