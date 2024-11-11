@@ -49,8 +49,9 @@ const ProfessionalProfileUpdateForm = (professionalInfo: any) => {
   // onSubmit form
 
   async function onSubmit(values: z.infer<typeof UpdateProfessionalSchema>) {
-    setLoading(true);
     
+    setLoading(true);
+
     let formData;
     if (values.userImage && values.userImage.length > 0) {
 
@@ -61,8 +62,8 @@ const ProfessionalProfileUpdateForm = (professionalInfo: any) => {
       formData = new FormData();
       formData.append("blobFile", blobFile);
       formData.append("fileName", values.userImage[0]?.name);
+
      }
-    try {
     const valuesUpdated = {
       firstName: professionalInfo.firstName,
       lastName: professionalInfo.lastName,
@@ -85,8 +86,8 @@ const ProfessionalProfileUpdateForm = (professionalInfo: any) => {
           ? professionalInfo.specialty
           : values.specialty,
     };
-    setLoading(false);
-   
+
+    try {
       const updateProfessionalData = {
         ...valuesUpdated,
         userImage:
@@ -224,7 +225,6 @@ const ProfessionalProfileUpdateForm = (professionalInfo: any) => {
                 name="password"
                 label="Contraseña"
                 type="password"
-                placeholder={`xxxxxxxxx`}
               />
             </div>
 
@@ -237,7 +237,6 @@ const ProfessionalProfileUpdateForm = (professionalInfo: any) => {
                 label="Email"
                 iconSrc={mailIcon}
                 iconAlt="user-email"
-                defaultValue={professionalInfo.email}
               />
               <DinamicForm
                 fieldType={FormFieldType.PHONE_INPUT}
@@ -246,7 +245,6 @@ const ProfessionalProfileUpdateForm = (professionalInfo: any) => {
                 label="Número de teléfono"
                 iconSrc={phoneIcon}
                 iconAlt="phone-icon"
-                defaultValue={professionalInfo.phoneNumber}
               />
             </div>
             {/* gender & specialty */}
@@ -281,7 +279,6 @@ const ProfessionalProfileUpdateForm = (professionalInfo: any) => {
                 control={form.control}
                 name="specialty"
                 label="Especialidad médica"
-                defaultValue={professionalInfo.specialty}
               />
             </div>
           </div>
