@@ -51,31 +51,36 @@ const Navbar = ({ isOpen, toggleSidebar }: toggleSideI) => {
         <div className="w-[100%] px-5 py-2 flex items-center justify-start gap-2">
           <div className="w-[60%] lg:w-[50%] flex items-center justify-start">
             {/* route section */}
-            <div className="hidden md:w-[30%] md:flex items-center justify-start gap-2">
+            <div className={`${
+              path === "dashboard"
+               ? "hidden md:w-[30%] md:flex items-center justify-start gap-2"
+                : "hidden md:w-[80%] md:flex items-center justify-start gap-2"
+            }`}>
               <button onClick={() => router.back()}>
                 <Image src={leftArrow} alt={leftArrow} width={18} height={18} />
               </button>
               <p className="font-bold text-sm capitalize">{path}</p>
             </div>
             {/* welcome section */}
-            <div className="w-[80%] md:w-[50%] text-[20px] xl:text-2xl text-start text-gradient text-clip font-medium">
-              {
-                professional?.gender === "M" ? (
-                  <h2 className="capitalize">
-                Bienvenido, Dr. <strong>{professional?.lastname}</strong>
-              </h2>
-                ):(
-                  <h2 className="capitalize">
-                Bienvenida, Dra. <strong>{professional?.lastname}</strong>
-              </h2>
-                )
-              }
+            <div
+              className={` ${
+                path === "dashboard"
+                  ? "w-[80%] md:w-[50%] text-[20px] xl:text-2xl text-start text-gradient text-clip font-medium"
+                  : "hidden"} `}
+            >
+              {professional?.gender === "M" ? (
+                <h2 className="capitalize">
+                  Bienvenido, Dr. <strong>{professional?.lastname}</strong>
+                </h2>
+              ) : (
+                <h2 className="capitalize">
+                  Bienvenida, Dra. <strong>{professional?.lastname}</strong>
+                </h2>
+              )}
             </div>
           </div>
           <div className="w-[40%] lg:w-[50%] flex items-center justify-end">
-            <Search
-            path={path}
-            />
+            <Search path={path} />
           </div>
         </div>
       </div>
@@ -83,31 +88,40 @@ const Navbar = ({ isOpen, toggleSidebar }: toggleSideI) => {
       <div className="w-[100%] px-3 py-2 hidden lg:grid lg:grid-cols-[60%,40%] gap-2">
         <div className="w-[100%] flex items-center justify-start">
           <div className="w-[100%] flex items-center justify-center">
-            <div className=" w-[30%] flex items-center justify-start">
+            <div className={`${
+              path === "dashboard"
+               ? " w-[30%] flex items-center justify-start"
+                : " w-[80%] flex items-center justify-start"
+            }`}>
               <button onClick={() => router.back()}>
-                <Image src={leftArrow} alt="left-arrow" width={18} height={18} />
+                <Image
+                  src={leftArrow}
+                  alt="left-arrow"
+                  width={18}
+                  height={18}
+                />
               </button>
               <p className="font-bold text-sm capitalize">{path}</p>
             </div>
-            <div className="text-[24px] text-start text-gradient text-clip font-medium">
-            {
-                professional?.gender === "M" ? (
-                  <h2 className="capitalize">
-                Bienvenido, Dr. <strong>{professional?.lastname}</strong>
-              </h2>
-                ):(
-                  <h2 className="capitalize">
-                Bienvenida, Dra. <strong>{professional?.lastname}</strong>
-              </h2>
-                )
-              }
+            <div className={`${
+              path === "dashboard"
+               ? "text-[24px] text-start text-gradient text-clip font-medium"
+                : "hidden"
+            }`}>
+              {professional?.gender === "M" ? (
+                <h2 className="capitalize">
+                  Bienvenido, Dr. <strong>{professional?.lastname}</strong>
+                </h2>
+              ) : (
+                <h2 className="capitalize">
+                  Bienvenida, Dra. <strong>{professional?.lastname}</strong>
+                </h2>
+              )}
             </div>
           </div>
         </div>
         <div>
-          <Search
-          path={path}
-          />
+          <Search path={path} />
         </div>
       </div>
     </nav>
