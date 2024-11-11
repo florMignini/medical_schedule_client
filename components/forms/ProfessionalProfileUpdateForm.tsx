@@ -18,10 +18,13 @@ import Image from "next/image";
 import phoneIcon from "../../public/assets/icons/phone.svg";
 import UserIcon from "../../public/assets/icons/user-verification.svg";
 import mailIcon from "../../public/assets/icons/email.svg";
-import { updateInstitutionAction } from "@/app/actions";
+import {
+  updateInstitutionAction,
+  updateProfessionalProfileAction,
+} from "@/app/actions";
 import { genderOptions } from "@/data";
 import { RadioGroup, RadioGroupItem } from "../ui/radio-group";
-
+import { toFormData } from "axios";
 
 const ProfessionalProfileUpdateForm = (professionalInfo: any) => {
   const [loading, setLoading] = useState(false);
@@ -39,7 +42,7 @@ const ProfessionalProfileUpdateForm = (professionalInfo: any) => {
       email: professionalInfo.email,
       gender: professionalInfo.gender,
       specialty: professionalInfo.specialty,
-      userImage: professionalInfo.userImage,
+      userImage: [],
     },
   });
   // -------------------------------------
@@ -47,19 +50,22 @@ const ProfessionalProfileUpdateForm = (professionalInfo: any) => {
 
   async function onSubmit(values: z.infer<typeof UpdateProfessionalSchema>) {
     setLoading(true);
+    
     let formData;
+    if (values.userImage && values.userImage.length > 0) {
 
-    if (values.userImage !== undefined) {
-      const blobFile = new Blob([values.userImage[0]], {
+        const blobFile = new Blob([values.userImage[0]], {
         type: values.userImage?.[0]?.type,
       });
+
       formData = new FormData();
       formData.append("blobFile", blobFile);
       formData.append("fileName", values.userImage[0]?.name);
-    }
+     }
+    try {
     const valuesUpdated = {
-      firstName:professionalInfo.firstName,
-      lastName:professionalInfo.lastName,
+      firstName: professionalInfo.firstName,
+      lastName: professionalInfo.lastName,
       username:
         values.username === undefined
           ? professionalInfo.username
@@ -79,23 +85,25 @@ const ProfessionalProfileUpdateForm = (professionalInfo: any) => {
           ? professionalInfo.specialty
           : values.specialty,
     };
-console.log(valuesUpdated)
-setLoading(false)
-    // try {
-    //   const updateInstitutionData = {
-    //     ...valuesUpdated,
-    //     userImage:
-    //       formData !== undefined ? formData : professionalInfo.userImage,
-    //   };
+    setLoading(false);
+   
+      const updateProfessionalData = {
+        ...valuesUpdated,
+        userImage:
+          formData !== undefined ? formData : professionalInfo.userImage,
+      };
 
-    //   const response = await updateInstitutionAction(updateInstitutionData);
-    //   if (response) {
-    //     setLoading(false);
-    //     router.push(`/professional/institutions`);
-    //   }
-    // } catch (error) {
-    //   console.error(error);
-    // }
+      const response = await updateProfessionalProfileAction(
+        updateProfessionalData
+      );
+
+      if (response) {
+        setLoading(false);
+        // router.push(`/professional/dashboard`);
+      }
+    } catch (error) {
+      console.error(error);
+    }
   }
 
   return (
@@ -163,7 +171,7 @@ setLoading(false)
                   <DinamicForm
                     fieldType={FormFieldType.SKELETON}
                     control={form.control}
-                    name="institutionImage"
+                    name="userImage"
                     renderSkeleton={(field) => (
                       <FormControl>
                         <FileUploader
@@ -208,7 +216,7 @@ setLoading(false)
                 control={form.control}
                 name="username"
                 label="Usuario"
-                defaultValue={professionalInfo.username}
+                disable
               />
               <DinamicForm
                 fieldType={FormFieldType.INPUT}
@@ -243,31 +251,31 @@ setLoading(false)
             </div>
             {/* gender & specialty */}
             <div className="flex flex-col md:flex-row gap-2 mb-2">
-            <DinamicForm
-                  fieldType={FormFieldType.SKELETON}
-                  control={form.control}
-                  name="gender"
-                  label="Genero"
-                  disable
-                  renderSkeleton={(field) => (
-                    <FormControl>
-                      <RadioGroup
-                        className="flex h-12 xl:justify-between"
-                        onValueChange={field.onChange}
-                        defaultValue={field.value}
-                      >
-                        {genderOptions.map((gender: string) => (
-                          <div key={gender} className="radio-group gap-1">
-                            <RadioGroupItem value={gender} id={gender} disabled/>
-                            <Label htmlFor={gender} className="cursor-pointer">
-                              {gender}
-                            </Label>
-                          </div>
-                        ))}
-                      </RadioGroup>
-                    </FormControl>
-                  )}
-                />
+              <DinamicForm
+                fieldType={FormFieldType.SKELETON}
+                control={form.control}
+                name="gender"
+                label="Genero"
+                disable
+                renderSkeleton={(field) => (
+                  <FormControl>
+                    <RadioGroup
+                      className="flex h-12 xl:justify-between"
+                      onValueChange={field.onChange}
+                      defaultValue={field.value}
+                    >
+                      {genderOptions.map((gender: string) => (
+                        <div key={gender} className="radio-group gap-1">
+                          <RadioGroupItem value={gender} id={gender} disabled />
+                          <Label htmlFor={gender} className="cursor-pointer">
+                            {gender}
+                          </Label>
+                        </div>
+                      ))}
+                    </RadioGroup>
+                  </FormControl>
+                )}
+              />
               <DinamicForm
                 fieldType={FormFieldType.INPUT}
                 control={form.control}
@@ -276,9 +284,8 @@ setLoading(false)
                 defaultValue={professionalInfo.specialty}
               />
             </div>
-            </div>
           </div>
-      
+        </div>
 
         <div className="w-full flex">
           <SubmitButton

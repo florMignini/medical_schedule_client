@@ -79,7 +79,6 @@ export const DinamicField = ({
               }
               type={type}
               className="shad-input border-0"
-              defaultValue={defaultValue}
               disabled={disable}
             />
           </FormControl>
