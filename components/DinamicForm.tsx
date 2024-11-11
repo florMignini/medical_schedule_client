@@ -22,6 +22,7 @@ import { Select, SelectContent, SelectTrigger, SelectValue } from "./ui/select";
 import { Textarea } from "./ui/textarea";
 import { Checkbox } from "./ui/checkbox";
 interface CustomProperty {
+  type?: string
   control: Control<any>;
   fieldType: FormFieldType;
   name: string;
@@ -46,6 +47,7 @@ export const DinamicField = ({
 }) => {
   const {
     fieldType,
+    type,
     iconAlt,
     iconSrc,
     placeholder,
@@ -53,6 +55,7 @@ export const DinamicField = ({
     dateFormat,
     defaultValue,
     renderSkeleton,
+    disable
   } = props;
 
   switch (props.fieldType) {
@@ -74,9 +77,10 @@ export const DinamicField = ({
               {
                 ...field !== undefined ? {...field} : {...defaultValue}
               }
-              
+              type={type}
               className="shad-input border-0"
               defaultValue={defaultValue}
+              disabled={disable}
             />
           </FormControl>
         </div>
@@ -96,7 +100,7 @@ export const DinamicField = ({
     case FormFieldType.PHONE_INPUT:
       return (
         <PhoneInput
-          defaultCountry="US"
+          defaultCountry="AR"
           placeholder={placeholder}
           international
           withCountryCallingCode
@@ -153,6 +157,7 @@ export const DinamicField = ({
               id={props.name}
               checked={field.value}
               onCheckedChange={field.onChange}
+              disabled={props.disable}
             />
             <label htmlFor={props.name}
             className="checkbox-label"

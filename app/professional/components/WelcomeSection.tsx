@@ -114,9 +114,9 @@ const WelcomeSection = (professionalData: {
               {professionalData.professional.isActive ? "activo" : "inactivo"}
             </Badge>
           </div>
-          <button
+          <Link
+          href={`/professional/update-profile`}
             className="flex w-[8] h-[8] p-2 rounded-full hover:bg-gradient-to-b from-black to-[#1B1D20] text-transparent hover:"
-            // onClick={()=>{edit page}}
           >
             <Image
               src={EditIcon}
@@ -125,7 +125,7 @@ const WelcomeSection = (professionalData: {
               height={15}
               className="flex items-start justify-center"
             />
-          </button>
+          </Link>
         </div>
         {/* professional and personal info */}
         <div className="w-[95%] flex flex-col items-center justify-start">
