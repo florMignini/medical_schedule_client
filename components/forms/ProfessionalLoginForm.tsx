@@ -98,6 +98,7 @@ const [loginError, setLoginError] = useState<string>()
           control={form.control}
           name="password"
           label="Ingrese su contraseña"
+          type="password"
           placeholder="Contraseña"
           iconSrc={PasswordIcon}
           iconAlt="password-icon"
