@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import Image from "next/image";
 import { usePathname, useRouter } from "next/navigation";
 import Icon from "../../../components/ui/icon";
@@ -8,26 +8,16 @@ import HamburguerMenu from "../../../public/assets/icons/hamburger-sidebar.svg";
 import { toggleSideI } from "@/interfaces";
 import Link from "next/link";
 import Search from "./Search";
+import { useLocalStorage } from "@/utils";
 
-type professionalType = {
-  firstname: string;
-  id: string;
-  lastname: string;
-  gender: string;
-};
 const Navbar = ({ isOpen, toggleSidebar }: toggleSideI) => {
-  const [professional, setprofessional] = useState<professionalType>();
+
   const router = useRouter();
   const pathname = usePathname();
   let path = pathname && pathname.split("/")[pathname.split("/").length - 1];
 
-  useMemo(() => {
-    // get professional data
-    const profData = localStorage.getItem("infoProfSession");
-    if (profData) {
-      setprofessional(JSON.parse(profData));
-    }
-  }, []);
+  const [storedValue] = useLocalStorage("infoProfSession")
+
   return (
     <nav className="w-full flex items-center justify-center h-24 mx-auto py-5 bg-transparent">
       {/* hamburg menu only lg or lower */}
@@ -68,13 +58,13 @@ const Navbar = ({ isOpen, toggleSidebar }: toggleSideI) => {
                   ? "w-[80%] md:w-[50%] text-[20px] xl:text-2xl text-start text-gradient text-clip font-medium"
                   : "hidden"} `}
             >
-              {professional?.gender === "M" ? (
+              {storedValue?.gender === "M" ? (
                 <h2 className="capitalize">
-                  Bienvenido, Dr. <strong>{professional?.lastname}</strong>
+                  Bienvenido, Dr. <strong>{storedValue?.lastname}</strong>
                 </h2>
               ) : (
                 <h2 className="capitalize">
-                  Bienvenida, Dra. <strong>{professional?.lastname}</strong>
+                  Bienvenida, Dra. <strong>{storedValue?.lastname}</strong>
                 </h2>
               )}
             </div>
@@ -108,13 +98,13 @@ const Navbar = ({ isOpen, toggleSidebar }: toggleSideI) => {
                ? "text-[24px] text-start text-gradient text-clip font-medium"
                 : "hidden"
             }`}>
-              {professional?.gender === "M" ? (
+              {storedValue?.gender === "M" ? (
                 <h2 className="capitalize">
-                  Bienvenido, Dr. <strong>{professional?.lastname}</strong>
+                  Bienvenido, Dr. <strong>{storedValue?.lastname}</strong>
                 </h2>
               ) : (
                 <h2 className="capitalize">
-                  Bienvenida, Dra. <strong>{professional?.lastname}</strong>
+                  Bienvenida, Dra. <strong>{storedValue?.lastname}</strong>
                 </h2>
               )}
             </div>
