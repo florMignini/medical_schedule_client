@@ -16,7 +16,7 @@ import FileUploader from "../FileUploader";
 import Image from "next/image";
 
 import { Patient } from "@/interfaces";
-import { updateInstitutionAction } from "@/app/actions";
+import { updateInstitutionAction, updatePatientProfileAction } from "@/app/actions";
 
 import { FormFieldType } from "./ProfessionalLoginForm";
 import {
@@ -197,23 +197,23 @@ const PatientProfileUpdateForm = (patientInfo: Patient) => {
         values.isActive === undefined ? patientInfo.isActive : values.isActive,
     };
 
-setLoading(false)
-    // try {
-    //   const updateInstitutionData = {
-    //     ...valuesUpdated,
-    //     patientId: patientInfo.id,
-    //     patientPhoto:
-    //       formData !== undefined ? formData : patientInfo.patientPhotoUrl,
-    //   };
 
-    //   const response = await updateInstitutionAction(updateInstitutionData);
-    //   if (response) {
-    //     setLoading(false);
-    //     router.push(`/professional/institutions`);
-    //   }
-    // } catch (error) {
-    //   console.error(error);
-    // }
+    try {
+      const updatePatientData = {
+        ...valuesUpdated,
+        patientId: patientInfo.id,
+        patientPhoto:
+          formData !== undefined ? formData : patientInfo.patientPhotoUrl,
+      };
+
+      const response = await updatePatientProfileAction(updatePatientData);
+      if (response) {
+        setLoading(false);
+        router.push(`/professional/patients/${patientInfo.id}/info`);
+      }
+    } catch (error) {
+      console.error(error);
+    }
   }
 
   return (

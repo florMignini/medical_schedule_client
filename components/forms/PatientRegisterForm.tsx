@@ -120,6 +120,7 @@ const PatientRegistrationForm = () => {
         patientPhoto: formData,
         isActive: true,
       };
+        // @ts-ignore
       const response = await patientRegistration(patientData);
 
       if (profData) {

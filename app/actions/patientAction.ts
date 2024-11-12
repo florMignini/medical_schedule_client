@@ -28,7 +28,7 @@ interface IPatient {
   occupation?: string;
   gender?: Gender;
   emergencyContactName?: string;
-  emergencyContactNumber?: number;
+  emergencyContactNumber?: string;
   // medical records
   insuranceProvider?: string;
   insurancePolicyNumber?: string;
@@ -40,7 +40,7 @@ interface IPatient {
   allergies?: string;
   familyMedicalHistory?: string;
   medicalHistory?: string;
-  medicalHistoryType?: MedicalHistory;
+  medicalHistoryType?: string | MedicalHistory;
   pastMedicalHistory?: string;
   currentMedication?: string;
   ObservationsComments?: string;
@@ -106,7 +106,7 @@ export async function patientRegistration({ patientPhoto, ...patient }: IPatient
         }
 
         const patientUpdateData = {
-          patientPhotoUrl: file ? `${ENDPOINT}/storage/buckets/${BUCKET_ID}/files/${file?.$id}/view?project=${PROJECT_ID}` : `https://img.freepik.com/premium-photo/modern-hospital-building-exterior_641010-59451.jpg?w=900`,
+          patientPhotoUrl: file ? `${ENDPOINT}/storage/buckets/${BUCKET_ID}/files/${file?.$id}/view?project=${PROJECT_ID}` : `https://static.vecteezy.com/system/resources/thumbnails/037/336/395/small_2x/user-profile-flat-illustration-avatar-person-icon-gender-neutral-silhouette-profile-picture-free-vector.jpg`,
             ...rest}
 
             const { data } = await apiServer.put(
