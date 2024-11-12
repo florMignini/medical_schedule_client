@@ -15,7 +15,7 @@ export interface Patient {
     lastName:               string;
     patientPhotoUrl:        string;
     identificationType:     string;
-    identityNumber:         string;
+    identificationNumber:         string;
     email:                  string;
     phone:                  string;
     birthDate:              Date;

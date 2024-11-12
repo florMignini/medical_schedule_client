@@ -13,48 +13,51 @@ import { booleanOption } from "@/data";
 import { InputFile } from "node-appwrite/file";
 import { BUCKET_ID, ENDPOINT, PROJECT_ID, storage } from "@/lib";
 import { ID } from "node-appwrite";
+import { apiServer } from "@/api/api-server";
 interface IPatient {
   // personal information
-  firstName: string;
-  lastName: string;
-  identificationType: IdentificationTypeEnum;
-  identityNumber: string;
-  patientPhotoUrl: string;
-  email: string;
-  phone: string;
-  birthDate: Date;
-  address: string;
-  occupation: string;
-  gender: Gender;
-  emergencyContactName: string;
-  emergencyContactNumber: number;
+  firstName?: string;
+  lastName?: string;
+  identificationType?: IdentificationTypeEnum;
+  identityNumber?: string;
+  patientPhotoUrl?: string;
+  email?: string;
+  phone?: string;
+  birthDate?: Date;
+  address?: string;
+  occupation?: string;
+  gender?: Gender;
+  emergencyContactName?: string;
+  emergencyContactNumber?: number;
   // medical records
-  insuranceProvider: string;
-  insurancePolicyNumber: string;
-  smoker: BooleanOption;
-  exSmoker: BooleanOption;
-  bloodType: BloodType;
-  bloodFactor: BloodFactor;
-  allergiesType: AllergiesTypeEnum;
+  insuranceProvider?: string;
+  insurancePolicyNumber?: string;
+  smoker?: BooleanOption;
+  exSmoker?: BooleanOption;
+  bloodType?: BloodType;
+  bloodFactor?: BloodFactor;
+  allergiesType?: AllergiesTypeEnum;
   allergies?: string;
   familyMedicalHistory?: string;
   medicalHistory?: string;
-  medicalHistoryType: MedicalHistory;
-  pastMedicalHistory: string;
+  medicalHistoryType?: MedicalHistory;
+  pastMedicalHistory?: string;
   currentMedication?: string;
-  ObservationsComments: string;
+  ObservationsComments?: string;
   // anthropometric measurements
-  patientHeight: string;
-  patientWeight: string;
-  patientBMI: string;
-  patientBFP: string;
-  isActive: boolean;
+  patientHeight?: string;
+  patientWeight?: string;
+  patientBMI?: string;
+  patientBFP?: string;
+  isActive?: boolean;
+  patientPhoto ?: any
+  patientId ?:string
 }
 interface IIDs{
   professional: string;
   patient: string;
 }
-export async function patientRegistration({ patientPhoto, ...patient }: any) {
+export async function patientRegistration({ patientPhoto, ...patient }: IPatient) {
   "use server";
 
   try {
@@ -87,6 +90,35 @@ export async function patientRegistration({ patientPhoto, ...patient }: any) {
     console.log(error);
   }
 }
+
+ export async function updatePatientProfileAction({patientPhoto, ...patientUpdate}: IPatient) {
+    "use server";
+
+    try {
+      const {patientId, ...rest} = patientUpdate
+        let file;
+        if(patientPhoto === "object" ){
+            const inputFile = InputFile.fromBuffer(
+                patientPhoto?.get("blobFile") as Blob,
+                patientPhoto?.get("fileName") as string
+            );
+            file = await storage.createFile(BUCKET_ID!, ID.unique(), inputFile);
+        }
+
+        const patientUpdateData = {
+          patientPhotoUrl: file ? `${ENDPOINT}/storage/buckets/${BUCKET_ID}/files/${file?.$id}/view?project=${PROJECT_ID}` : `https://img.freepik.com/premium-photo/modern-hospital-building-exterior_641010-59451.jpg?w=900`,
+            ...rest}
+
+            const { data } = await apiServer.put(
+              `/patients/update/${patientId}`,
+              patientUpdateData
+            );
+            console.log(data)
+            return data;
+        } catch (error:any) {
+            console.log(error.response);
+        }
+        }
 
 export async function createProfessionalPatientRelation (IDs: IIDs) {
   const res = await fetch(

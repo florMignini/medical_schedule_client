@@ -161,7 +161,7 @@ const ProfessionalDashboard = async () => {
                             className="w-[90%] mx-auto px-2 flex items-center justify-between border-b-[1px] border-gray-500 mb-1 hover:scale-[102%] hover:bg-card-hover-100 hover:rounded-lg"
                           >
                             <div
-                              key={patient.identityNumber}
+                              key={patient.identificationNumber}
                               className="w-[25%] px-1 py-2"
                             >
                               <div className="flex gap-1 items-center justify-start">
@@ -231,7 +231,7 @@ const ProfessionalDashboard = async () => {
                                 <DropdownMenuContent className="w-52 mr-1 bg-black/70 ">
                                   <DropdownMenuItem className="w-[90%] mx-auto">
                                     <Link
-                                      href="#"
+                                      href={`/professional/patients/${patient.id}/update`}
                                       className="text-[16px] flex items-center justify-start text-white"
                                     >
                                       Editar
@@ -405,7 +405,7 @@ const ProfessionalDashboard = async () => {
                                 <DropdownMenuContent className="w-52 mr-1 bg-black/70 ">
                                   <DropdownMenuItem className="w-[90%] mx-auto">
                                     <Link
-                                      href="#"
+                                      href={`/professional/institutions/${institution.id}/update`}
                                       className="text-[16px] flex items-center justify-start text-white"
                                     >
                                       Editar
