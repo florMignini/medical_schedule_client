@@ -122,6 +122,7 @@ export const DinamicField = ({
           />
           <FormControl>
             <DatePicker
+            disabled={disable}
               selected={field.value}
               onChange={(date) => field.onChange(date)}
               dateFormat={dateFormat ?? "dd/MM/yyyy"}

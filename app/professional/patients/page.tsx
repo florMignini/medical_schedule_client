@@ -107,9 +107,10 @@ const PatientsPage = async () => {
             </div>
             <div className="w-full px-1 gap-2">
               {patientsIncluded.map(({ patient }: PatientsIncluded) => (
-                <div className="w-[100%] flex items-center justify-center">
+                <div className="w-[100%] flex items-center justify-center"
+                key={patient.id}
+                >
                   <Link
-                  key={patient.id}
                   href={`/professional/patients/${patient.id}/info`}
                   className="w-[98%] mx-auto px-2 flex justify-between border-b-[1px] border-gray-500 mb-1 hover:scale-[102%] hover:bg-card-hover-100 hover:rounded-lg"
                 >
@@ -182,7 +183,7 @@ const PatientsPage = async () => {
                               <DropdownMenuContent className="w-52 mr-1 bg-black/70 ">
                                 <DropdownMenuItem className="w-[90%] mx-auto">
                                   <Link
-                                    href="#"
+                                    href={`/professional/patients/${patient.id}/update`}
                                     className="text-[16px] flex items-center justify-start text-white"
                                   >
                                     Editar

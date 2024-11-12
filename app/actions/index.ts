@@ -5,5 +5,5 @@ export * from './fetchProfessionals';
 export * from './institutionAction';
 export * from './loginAction';
 export * from './pastAppointmentAction';
-export * from './patientRegistrationAction';
+export * from './patientAction';
 export * from './professionalAction';
