@@ -73,7 +73,6 @@ const [isThereAnImage, setIsTthereAnImage] = useState<boolean>(false);
             ...values,
             institutionImage: formData,
           };
-        
           const response = await createNewInstitution(newInstitutionData);
     
           if (response) {

@@ -16,14 +16,6 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import {
-  AppointmentsIncluded,
-  Patient,
-  PatientsIncluded,
-  ProfessionalInformation,
-  ProfessionalPatient,
-} from "@/interfaces";
-import WelcomeSection from "../components/WelcomeSection";
-import {
   AlertDialog,
   AlertDialogAction,
   AlertDialogCancel,
@@ -35,6 +27,16 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
+import {
+  AppointmentsIncluded,
+  Patient,
+  PatientsIncluded,
+  ProfessionalInformation,
+  ProfessionalPatient,
+} from "@/interfaces";
+import WelcomeSection from "../components/WelcomeSection";
+
+import ConfigButton from "../components/ConfigButton";
 
 const ProfessionalDashboard = async () => {
   const cookieStore = cookies();
@@ -53,7 +55,8 @@ const ProfessionalDashboard = async () => {
   const {
     institutionsIncluded,
   }: { institutionsIncluded: AppointmentsIncluded[] } = data;
-
+  
+  
   return (
     <section className="w-full h-screen flex flex-col items-center justify-start gap-2">
       <div className="w-[99%] flex h-auto flex-col gap-1">
@@ -389,61 +392,7 @@ const ProfessionalDashboard = async () => {
                             </div>
                           </Link>
                           <div className="w-[10%] flex items-center justify-center">
-                            <AlertDialog>
-                              <DropdownMenu>
-                                <DropdownMenuTrigger asChild>
-                                  <button className="w-[100%] flex items-center justify-center  bg-transparent ">
-                                    <Image
-                                      src={settingIcon}
-                                      alt="setting-icon"
-                                      width={35}
-                                      height={35}
-                                      className="p-2 rounded-full hover:bg-gray-400/10"
-                                    />
-                                  </button>
-                                </DropdownMenuTrigger>
-                                <DropdownMenuContent className="w-52 mr-1 bg-black/70 ">
-                                  <DropdownMenuItem className="w-[90%] mx-auto">
-                                    <Link
-                                      href="#"
-                                      className="text-[16px] flex items-center justify-start text-white"
-                                    >
-                                      Editar
-                                    </Link>
-                                  </DropdownMenuItem>
-                                    <AlertDialogTrigger>
-                                  <DropdownMenuItem className="w-[90%] mx-auto">
-                                      <button className="text-[16px] flex items-center justify-start text-red-400">
-                                        Eliminar
-                                      </button>
-                                  </DropdownMenuItem>
-                                    </AlertDialogTrigger>
-                                </DropdownMenuContent>
-                              </DropdownMenu>
-                              <AlertDialogOverlay className="bg-transparent backdrop-blur-[2px]"
-                              >
-                                <AlertDialogContent className="AlertDialogContent gap-5">
-                                  <AlertDialogHeader className="w-[100%] gap-5 flex flex-col items-center justify-center">
-                                    <AlertDialogTitle className="text-[24px] font-semibold">
-                                      Estás seguro de eliminar la institución?
-                                    </AlertDialogTitle>
-                                    <AlertDialogDescription className="text-[18px] font-light ">
-                                      Ésta acción no se puede deshacer y
-                                      eliminaría toda la información relacionada
-                                      a la institución
-                                    </AlertDialogDescription>
-                                  </AlertDialogHeader>
-                                  <AlertDialogFooter>
-                                    <AlertDialogCancel className="bg-black/15 text-light-200  outline-none">
-                                      Cancel
-                                    </AlertDialogCancel>
-                                    <AlertDialogAction className="bg-black/15 text-light-200">
-                                      Continue
-                                    </AlertDialogAction>
-                                  </AlertDialogFooter>
-                                </AlertDialogContent>
-                              </AlertDialogOverlay>
-                            </AlertDialog>
+                            <ConfigButton id={ institution.id}/>
                           </div>
                         </div>
                       ))}
