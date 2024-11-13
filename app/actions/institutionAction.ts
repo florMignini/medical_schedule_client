@@ -62,7 +62,6 @@ interface IIDs {
               `/institutions/update/${institutionId}`,
               institutionUpdateData
             );
-            console.log(data)
             return data;
         } catch (error:any) {
             console.log(error.response);

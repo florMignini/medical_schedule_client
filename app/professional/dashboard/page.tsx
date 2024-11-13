@@ -16,14 +16,6 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import {
-  AppointmentsIncluded,
-  Patient,
-  PatientsIncluded,
-  ProfessionalInformation,
-  ProfessionalPatient,
-} from "@/interfaces";
-import WelcomeSection from "../components/WelcomeSection";
-import {
   AlertDialog,
   AlertDialogAction,
   AlertDialogCancel,
@@ -35,6 +27,16 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
+import {
+  AppointmentsIncluded,
+  Patient,
+  PatientsIncluded,
+  ProfessionalInformation,
+  ProfessionalPatient,
+} from "@/interfaces";
+import WelcomeSection from "../components/WelcomeSection";
+
+import ConfigButton from "../components/ConfigButton";
 
 const ProfessionalDashboard = async () => {
   const cookieStore = cookies();
@@ -53,7 +55,8 @@ const ProfessionalDashboard = async () => {
   const {
     institutionsIncluded,
   }: { institutionsIncluded: AppointmentsIncluded[] } = data;
-
+  
+  
   return (
     <section className="w-full h-screen flex flex-col items-center justify-start gap-2">
       <div className="w-[99%] flex h-auto flex-col gap-1">
@@ -389,6 +392,7 @@ const ProfessionalDashboard = async () => {
                             </div>
                           </Link>
                           <div className="w-[10%] flex items-center justify-center">
+<<<<<<< HEAD
                             <AlertDialog>
                               <DropdownMenu>
                                 <DropdownMenuTrigger asChild>
@@ -444,6 +448,9 @@ const ProfessionalDashboard = async () => {
                                 </AlertDialogContent>
                               </AlertDialogOverlay>
                             </AlertDialog>
+=======
+                            <ConfigButton id={ institution.id}/>
+>>>>>>> medical-institution
                           </div>
                         </div>
                       ))}
