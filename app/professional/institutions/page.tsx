@@ -32,6 +32,7 @@ import {
   PatientsIncluded,
   ProfessionalInformation,
 } from "@/interfaces";
+import ConfigButton from "../components/ConfigButton";
 
 const InstitutionsPage = async () => {
   const cookieStore = cookies();
@@ -98,7 +99,7 @@ const InstitutionsPage = async () => {
           <div className="w-[90%] flex items-center justify-center gap-10">
             <p>Aún no posee instituciones activas</p>
             <Link
-              href="/professional/patient-registration"
+              href="/professional/institution-registration"
               className="flex items-center justify-center gap-2.5 p-2 border-[1px] border-gray-600 rounded-full hover:bg-gradient-to-b from-black to-[#807f7f] text-white text-center hover:opacity-50"
             >
               <p className="text-[16px] font-bold text-gradient">agregar</p>
@@ -191,59 +192,7 @@ const InstitutionsPage = async () => {
                     </div>
                   </Link>
                   <div className="w-[10%] flex items-center justify-center">
-                    <AlertDialog>
-                      <DropdownMenu>
-                        <DropdownMenuTrigger asChild>
-                          <button className="w-[100%] flex items-center justify-center  bg-transparent ">
-                            <Image
-                              src={settingIcon}
-                              alt="setting-icon"
-                              width={35}
-                              height={35}
-                              className="p-2 rounded-full hover:bg-gray-400/10"
-                            />
-                          </button>
-                        </DropdownMenuTrigger>
-                        <DropdownMenuContent className="w-52 mr-1 bg-black/70 ">
-                          <DropdownMenuItem className="w-[90%] mx-auto">
-                            <Link
-                              href={`/professional/institutions/${institution.id}/update`}
-                              className="text-[16px] flex items-center justify-start text-white"
-                            >
-                              Editar
-                            </Link>
-                          </DropdownMenuItem>
-                          <AlertDialogTrigger>
-                            <DropdownMenuItem className="w-[90%] mx-auto">
-                              <button className="text-[16px] flex items-center justify-start text-red-400">
-                                Eliminar
-                              </button>
-                            </DropdownMenuItem>
-                          </AlertDialogTrigger>
-                        </DropdownMenuContent>
-                      </DropdownMenu>
-                      <AlertDialogOverlay className="bg-transparent backdrop-blur-[2px]">
-                        <AlertDialogContent className="AlertDialogContent gap-5">
-                          <AlertDialogHeader className="w-[100%] gap-5 flex flex-col items-center justify-center">
-                            <AlertDialogTitle className="text-[24px] font-semibold">
-                              Estás seguro de eliminar la institución?
-                            </AlertDialogTitle>
-                            <AlertDialogDescription className="text-[18px] font-light ">
-                              Ésta acción no se puede deshacer y eliminaría toda
-                              la información relacionada a la institución
-                            </AlertDialogDescription>
-                          </AlertDialogHeader>
-                          <AlertDialogFooter>
-                            <AlertDialogCancel className="bg-black/15 text-light-200  outline-none">
-                              Cancel
-                            </AlertDialogCancel>
-                            <AlertDialogAction className="bg-black/15 text-light-200">
-                              Continue
-                            </AlertDialogAction>
-                          </AlertDialogFooter>
-                        </AlertDialogContent>
-                      </AlertDialogOverlay>
-                    </AlertDialog>
+                    <ConfigButton id={institution.id} component={"institutions"}/>
                   </div>
                 </div>
               ))}

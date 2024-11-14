@@ -59,7 +59,6 @@ const [loginError, setLoginError] = useState<string>()
         setLoginError("Usuario ó Contraseña incorrectos")
         setErrorTimed();
       }
-      console.log(res)
       res ? router.push("/professional/dashboard") : router.push("/");
       setLoading(false);
     } catch (error:any) {

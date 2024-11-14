@@ -218,61 +218,7 @@ const ProfessionalDashboard = async () => {
                             </div>
                           </Link>
                           <div className="w-[10%] flex items-center justify-center">
-                          <AlertDialog>
-                              <DropdownMenu>
-                                <DropdownMenuTrigger asChild>
-                                  <button className="w-[100%] flex items-center justify-center  bg-transparent ">
-                                    <Image
-                                      src={settingIcon}
-                                      alt="setting-icon"
-                                      width={35}
-                                      height={35}
-                                      className="p-2 rounded-full hover:bg-gray-400/10"
-                                    />
-                                  </button>
-                                </DropdownMenuTrigger>
-                                <DropdownMenuContent className="w-52 mr-1 bg-black/70 ">
-                                  <DropdownMenuItem className="w-[90%] mx-auto">
-                                    <Link
-                                      href={`/professional/patients/${patient.id}/update`}
-                                      className="text-[16px] flex items-center justify-start text-white"
-                                    >
-                                      Editar
-                                    </Link>
-                                  </DropdownMenuItem>
-                                    <AlertDialogTrigger>
-                                  <DropdownMenuItem className="w-[90%] mx-auto">
-                                      <button className="text-[16px] flex items-center justify-start text-red-400">
-                                        Eliminar
-                                      </button>
-                                  </DropdownMenuItem>
-                                    </AlertDialogTrigger>
-                                </DropdownMenuContent>
-                              </DropdownMenu>
-                              <AlertDialogOverlay className="bg-transparent backdrop-blur-[2px]"
-                              >
-                                <AlertDialogContent className="AlertDialogContent gap-5">
-                                  <AlertDialogHeader className="w-[100%] gap-5 flex flex-col items-center justify-center">
-                                    <AlertDialogTitle className="text-[24px] font-semibold">
-                                      Estás seguro de eliminar el paciente?
-                                    </AlertDialogTitle>
-                                    <AlertDialogDescription className="text-[18px] font-light ">
-                                      Ésta acción no se puede deshacer y
-                                      eliminaría toda la información relacionada
-                                      al paciente
-                                    </AlertDialogDescription>
-                                  </AlertDialogHeader>
-                                  <AlertDialogFooter>
-                                    <AlertDialogCancel className="bg-black/15 text-light-200  outline-none">
-                                      Cancel
-                                    </AlertDialogCancel>
-                                    <AlertDialogAction className="bg-black/15 text-light-200">
-                                      Continue
-                                    </AlertDialogAction>
-                                  </AlertDialogFooter>
-                                </AlertDialogContent>
-                              </AlertDialogOverlay>
-                            </AlertDialog>
+                          <ConfigButton id={patient.id} component={"patients"}     />
                           </div>
                         </div>
                       ))}
@@ -392,65 +338,7 @@ const ProfessionalDashboard = async () => {
                             </div>
                           </Link>
                           <div className="w-[10%] flex items-center justify-center">
-<<<<<<< HEAD
-                            <AlertDialog>
-                              <DropdownMenu>
-                                <DropdownMenuTrigger asChild>
-                                  <button className="w-[100%] flex items-center justify-center  bg-transparent ">
-                                    <Image
-                                      src={settingIcon}
-                                      alt="setting-icon"
-                                      width={35}
-                                      height={35}
-                                      className="p-2 rounded-full hover:bg-gray-400/10"
-                                    />
-                                  </button>
-                                </DropdownMenuTrigger>
-                                <DropdownMenuContent className="w-52 mr-1 bg-black/70 ">
-                                  <DropdownMenuItem className="w-[90%] mx-auto">
-                                    <Link
-                                      href={`/professional/institutions/${institution.id}/update`}
-                                      className="text-[16px] flex items-center justify-start text-white"
-                                    >
-                                      Editar
-                                    </Link>
-                                  </DropdownMenuItem>
-                                    <AlertDialogTrigger>
-                                  <DropdownMenuItem className="w-[90%] mx-auto">
-                                      <button className="text-[16px] flex items-center justify-start text-red-400">
-                                        Eliminar
-                                      </button>
-                                  </DropdownMenuItem>
-                                    </AlertDialogTrigger>
-                                </DropdownMenuContent>
-                              </DropdownMenu>
-                              <AlertDialogOverlay className="bg-transparent backdrop-blur-[2px]"
-                              >
-                                <AlertDialogContent className="AlertDialogContent gap-5">
-                                  <AlertDialogHeader className="w-[100%] gap-5 flex flex-col items-center justify-center">
-                                    <AlertDialogTitle className="text-[24px] font-semibold">
-                                      Estás seguro de eliminar la institución?
-                                    </AlertDialogTitle>
-                                    <AlertDialogDescription className="text-[18px] font-light ">
-                                      Ésta acción no se puede deshacer y
-                                      eliminaría toda la información relacionada
-                                      a la institución
-                                    </AlertDialogDescription>
-                                  </AlertDialogHeader>
-                                  <AlertDialogFooter>
-                                    <AlertDialogCancel className="bg-black/15 text-light-200  outline-none">
-                                      Cancel
-                                    </AlertDialogCancel>
-                                    <AlertDialogAction className="bg-black/15 text-light-200">
-                                      Continue
-                                    </AlertDialogAction>
-                                  </AlertDialogFooter>
-                                </AlertDialogContent>
-                              </AlertDialogOverlay>
-                            </AlertDialog>
-=======
-                            <ConfigButton id={ institution.id}/>
->>>>>>> medical-institution
+                            <ConfigButton id={institution.id} component={"institutions"}/>
                           </div>
                         </div>
                       ))}

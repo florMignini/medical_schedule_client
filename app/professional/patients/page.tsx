@@ -20,6 +20,7 @@ import {
   PatientsIncluded,
   ProfessionalInformation,
 } from "@/interfaces";
+import ConfigButton from "../components/ConfigButton";
 
 const PatientsPage = async () => {
   const cookieStore = cookies();
@@ -115,7 +116,7 @@ const PatientsPage = async () => {
                   className="w-[98%] mx-auto px-2 flex justify-between border-b-[1px] border-gray-500 mb-1 hover:scale-[102%] hover:bg-card-hover-100 hover:rounded-lg"
                 >
                   <div
-                    key={patient.identityNumber}
+                    key={patient.identificationNumber}
                     className="w-[25%] px-1 py-2 flex items-center justify-start"
                   >
                     <div className="flex gap-1 items-center justify-start">
@@ -169,36 +170,7 @@ const PatientsPage = async () => {
                   </div>
                 </Link>
                 <div className="w-[10%] flex items-center justify-center">
-                            <DropdownMenu>
-                              <DropdownMenuTrigger>
-                                <button className="w-[100%] p-2 rounded-full bg-transparent hover:bg-gray-400/10">
-                                  <Image
-                                    src={settingIcon}
-                                    alt="setting-icon"
-                                    width={20}
-                                    height={20}
-                                  />
-                                </button>
-                              </DropdownMenuTrigger>
-                              <DropdownMenuContent className="w-52 mr-1 bg-black/70 ">
-                                <DropdownMenuItem className="w-[90%] mx-auto">
-                                  <Link
-                                    href={`/professional/patients/${patient.id}/update`}
-                                    className="text-[16px] flex items-center justify-start text-white"
-                                  >
-                                    Editar
-                                  </Link>
-                                </DropdownMenuItem>
-                                <DropdownMenuItem className="w-[90%] mx-auto">
-                                  <Link
-                                    href="#"
-                                    className="text-[16px] flex items-center justify-start text-red-400"
-                                  >
-                                    Eliminar
-                                  </Link>
-                                </DropdownMenuItem>
-                              </DropdownMenuContent>
-                            </DropdownMenu>
+                            <ConfigButton id={patient.id} component={"patients"}/>
                           </div>
                 </div>
               ))}
