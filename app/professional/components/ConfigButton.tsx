@@ -21,11 +21,22 @@ import Image from "next/image";
 import settingIcon from "@/public/assets/icons/settings.svg";
 import Link from "next/link";
 import { apiServer } from "@/api/api-server";
+import { useLocalStorage } from "@/utils";
+import { usePathname, useRouter } from "next/navigation";
 
-const ConfigButton = ({id}:any) => {
-    const deleteInstitution = async(id:string) => {
-        const {data} = await apiServer.delete(`/institutions/${id}`)
-        console.log(data)
+const ConfigButton = ({id, component}:any) => {
+  const pathname = usePathname();
+  const router = useRouter()
+  let path = pathname && pathname.split("/")[pathname.split("/").length - 1];
+  const [storedValue] =useLocalStorage("infoProfSession")
+
+    const deleteComponent = async(id:string) => {
+        const {data} = await apiServer.delete(`/${component}/${id}/${storedValue.id}`)
+        if(data.affected === 1 && path === "dashboard"){
+          router.push(`/professional/${component}`)
+        }else{
+          router.push(`/professional/dashboard`)
+        }
      }
   return (
     <AlertDialog>
@@ -77,7 +88,7 @@ const ConfigButton = ({id}:any) => {
                                       Cancel
                                     </AlertDialogCancel>
                                     <AlertDialogAction className="bg-black/15 text-light-200"
-                                    onClick={()=>deleteInstitution(id)}
+                                    onClick={()=>deleteComponent(id)}
                                     >
                                       Continue
                                     </AlertDialogAction>
