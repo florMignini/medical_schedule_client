@@ -34,7 +34,7 @@ const ProfessionalDashboard = ({
         <ProfessionalSidebar toggleSidebar={toggleSidebar} isOpen={isOpen} setIsOpen={setIsOpen} />
 
         {/* rightside */}
-        <div className="overflow-y-clip gap-3 flex-1 flex-col bg-white rounded-lg">
+        <div className="overflow-y-clip gap-3 flex-1 flex-col bg-[#F1F1FF] rounded-lg">
           <Navbar toggleSidebar={toggleSidebar} isOpen={isOpen} />
           {children}
         </div>

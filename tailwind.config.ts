@@ -46,8 +46,8 @@ const config = {
           600: "#76828D",
           700: "#ABB8C4",
         },
-        "card-bg": {
-          100: "#1B1D20",
+        "beige": {
+          100: "#F5EFEB",
         },
         "card-hover": {
           100: "#272B30",

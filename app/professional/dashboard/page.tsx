@@ -63,13 +63,13 @@ const ProfessionalDashboard = async () => {
         {/* information side */}
         <div className="flex flex-col gap-2 my-auto">
           {/*upper section*/}
-          <div className="w-[80%] mx-auto max-[780px]:flex max-[780px]:flex-col max-[780px]:gap-3 grid grid-cols-[65%,35%]">
+          <div className="w-[90%] mx-auto max-[780px]:flex max-[780px]:flex-col max-[780px]:gap-3 grid grid-cols-[65%,35%]">
             <div className="">
               <WelcomeSection professional={data} />
             </div>
             {/* total patient and appointments */}
-            <div className="max-[780px]:flex-row flex flex-col items-start justify-start gap-2 my-auto">
-              <div className="max-[780px]:w-[40%] w-[70%] h-[95px] grid grid-cols-[50%,50%] mx-auto border-[1px] border-gray-600 rounded-lg">
+            <div className="max-[780px]:w-[95%] max-[780px]:mx-auto max-[780px]:flex-row flex flex-col items-start justify-start gap-2 my-auto">
+              <div className="max-[780px]:w-[50%] w-[90%] h-[95px] grid xl:grid-cols-[30%,70%] grid-cols-[40%,60%] mx-auto shadow-[inset_0_-2px_10px_rgba(231,232,231,0.6)] rounded-lg bg-white text-black">
                 <div className="w-[90%] h-[90%] flex items-center justify-center">
                   <Image
                     src={user}
@@ -79,14 +79,14 @@ const ProfessionalDashboard = async () => {
                     className="w-[50%] h-[50%] flex p-2 rounded-full bg-gradient-to-b from-black to-[#807f7f] text-transparent text-center opacity-50"
                   />
                 </div>
-                <div className="flex flex-col items-center justify-center text-base font-light text-white">
-                  <p className="w-[100%] text-start">Pacientes totales</p>
+                <div className="flex flex-col items-center justify-center text-base font-light ">
+                  <p className="w-[100%] text-start font-semibold">Pacientes totales</p>
                   <p className="w-[100%] font-bold text-gradient text-lg flex items-start">
                     {data.patientsIncluded?.length}
                   </p>
                 </div>
               </div>
-              <div className="max-[780px]:w-[40%] w-[70%] h-[95px] grid grid-cols-[50%,50%] mx-auto border-[1px] border-gray-600 rounded-lg">
+              <div className="max-[780px]:w-[50%] w-[90%] h-[95px] grid xl:grid-cols-[30%,70%] grid-cols-[40%,60%] mx-auto shadow-[inset_0_-2px_10px_rgba(231,232,231,0.6)] rounded-lg bg-white text-black">
                 <div className="w-[90%] h-[90%] flex items-center justify-center">
                   <Image
                     src={appointments}
@@ -96,8 +96,8 @@ const ProfessionalDashboard = async () => {
                     className="w-[50%] h-[50%] flex p-2 rounded-full bg-gradient-to-b from-black to-[#807f7f] text-transparent text-center opacity-50"
                   />
                 </div>
-                <div className="flex flex-col items-center justify-center text-base font-light text-white">
-                  <p className="w-[100%] text-start">Citas totales</p>
+                <div className="flex flex-col items-center justify-center text-base font-light">
+                  <p className="w-[100%] text-start font-semibold">Citas totales</p>
                   <p className="w-[100%] font-bold text-gradient text-lg flex items-start">
                     {data.appointmentsIncluded?.length}
                   </p>
@@ -109,9 +109,9 @@ const ProfessionalDashboard = async () => {
           {/*down section*/}
           <div className="flex flex-col gap-2 mt-2">
             {/* patient section */}
-            <div className="w-[99%] py-4 px-3 shadow-[inset_0_-2px_4px_rgba(231,232,231,0.6)] rounded-md flex flex-col">
+            <div className="w-[99%] py-4 px-3 shadow-[inset_0_-2px_4px_rgba(231,232,231,0.6)] rounded-md flex flex-col bg-white">
               <div className="mx-auto mb-5 w-[99%] border-b-[1px]">
-                <p className="px-3 py-2 text-gradient font-semibold text-[18px]">
+                <p className="px-3 py-2 text-black font-semibold text-[18px]">
                   Pacientes
                 </p>
               </div>
@@ -122,9 +122,9 @@ const ProfessionalDashboard = async () => {
                     <p>Aún no posee pacientes activos</p>
                     <Link
                       href="/professional/patient-registration"
-                      className="flex items-center justify-center gap-2.5 p-2 border-[1px] border-gray-600 rounded-full hover:bg-gradient-to-b from-black to-[#807f7f] text-white text-center hover:opacity-50"
+                      className="flex items-center justify-center gap-2.5 p-2 border-[1px] border-gray-600 rounded-full hover:bg-gradient-to-b from-black to-[#807f7f] text-white text-center"
                     >
-                      <p className="text-[16px] font-bold text-gradient">
+                      <p className="text-[16px] font-bold text-gradient hover:text-white">
                         agregar
                       </p>
                       <Image
@@ -229,9 +229,9 @@ const ProfessionalDashboard = async () => {
             </div>
 
             {/* institutions section */}
-            <div className="w-[99%] py-4 px-3 shadow-[inset_0_-2px_4px_rgba(231,232,231,0.6)] rounded-md flex flex-col">
+            <div className="w-[99%] py-4 px-3 shadow-[inset_0_-2px_4px_rgba(231,232,231,0.6)] rounded-md flex flex-col bg-white">
               <div className="mx-auto mb-5 w-[99%] border-b-[1px]">
-                <p className="px-3 py-2 text-gradient font-semibold text-[18px]">
+                <p className="px-3 py-2 text-black font-semibold text-[18px]">
                   Instituciones
                 </p>
               </div>
@@ -242,9 +242,9 @@ const ProfessionalDashboard = async () => {
                     <p>Aún no posee instituciones activas</p>
                     <Link
                       href="/professional/institution-registration"
-                      className="flex items-center justify-center gap-2.5 p-2 border-[1px] border-gray-600 rounded-full hover:bg-gradient-to-b from-black to-[#807f7f] text-white text-center hover:opacity-50"
+                      className="flex items-center justify-center gap-2.5 p-2 border-[1px] border-gray-600 rounded-full hover:bg-gradient-to-b from-black to-[#807f7f] text-white text-center"
                     >
-                      <p className="text-[16px] font-bold text-gradient">
+                      <p className="text-[16px] font-bold text-gradient hover:text-white">
                         agregar
                       </p>
                       <Image

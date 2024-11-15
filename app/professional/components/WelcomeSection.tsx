@@ -38,9 +38,9 @@ const WelcomeSection = (professionalData: {
   }, []);
 
   return (
-    <div className="w-[95%] mx-auto h-full grid grid-cols-[50%,50%] p-2 bg-transparent shadow-[inset_0_-2px_4px_rgba(231,232,231,0.6)] rounded-lg">
+    <div className="w-[95%] mx-auto h-full grid grid-cols-[50%,50%] p-2 bg-white shadow-[inset_0_-2px_10px_rgba(231,232,231,0.6)] rounded-lg">
       {/* profile section */}
-      <div className="w-[99%] h-auto flex items-start flex-col gap-5 px-2 py-1">
+      <div className="w-[99%] h-auto  flex items-start flex-col gap-5 px-2 py-1">
         {/* date */}
         <div className="w-36 h-5 px-2 flex justify-start gap-1 text-gradient items-center">
           <Image
@@ -116,7 +116,7 @@ const WelcomeSection = (professionalData: {
           </div>
           <Link
           href={`/professional/update-profile`}
-            className="flex w-[8] h-[8] p-2 rounded-full hover:bg-gradient-to-b from-black to-[#1B1D20] text-transparent hover:"
+            className="flex w-[8] h-[8] p-2 rounded-full hover:bg-gradient-to-b from-black to-[#807f7f] text-transparent hover:opacity-50"
           >
             <Image
               src={EditIcon}
@@ -157,8 +157,6 @@ const WelcomeSection = (professionalData: {
             />
           </div>
         </div>
-        {/* patients total amount */}
-        {/* social media links */}
       </div>
 
     </div>
