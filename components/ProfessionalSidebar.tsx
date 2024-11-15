@@ -31,9 +31,9 @@ const ProfessionalSidebar = ({
         <aside
             className={` ${
                 isOpen
-                    ? "fixed inset-y-0 left-0 w-64 md:w-[50%] backdrop-blur-lg z-50 text-white transform translate-x-0"
-                    : "hidden lg:flex h-[94%] items-center justify-start flex-col -translate-x-full bg-card-bg-100 rounded-lg"
-            } transition-transform mb-2 duration-500 ease-in-out lg:translate-x-0 h-screen`}
+                    ? "fixed inset-y-0 left-0 w-64 md:w-[30%] backdrop-blur-lg z-50 transform translate-x-0"
+                    : "hidden lg:flex items-center justify-start flex-col -translate-x-full"
+            } transition-transform mb-2 duration-500 ease-in-out lg:translate-x-0 h-screen bg-[#5855B2] text-[#F5EFEB]`}
         >
             {isOpen && (
                 <div className="w-full pt-2 px-5 flex items-center justify-between">
@@ -60,7 +60,7 @@ const ProfessionalSidebar = ({
                 onClick={() => setIsOpen(false)}
             >
                 <Image
-                    src={onlyLogo}
+                    src={Logo}
                     alt="medical-schedule-logo-icon"
                     height={150}
                     width={150}
@@ -76,12 +76,12 @@ const ProfessionalSidebar = ({
                         href={item.path}
                         key={index}
                         className={cn(
-                            `w-[80%] flex gap-1 justify-start items-center text-white/50 text-xs h-8 my-2 px-2 ${
+                            `w-[80%] flex gap-1 justify-start items-center text-[#F5EFEB] text-xs h-8 my-2 px-2 ${
                                 isOpen
                                     ? "justify-center hover:scale-110 hover:font-extrabold"
                                     : "opacity-65 pl-1 hover:bg-card-hover-100 rounded-xl"
                             } ${
-                                pathname === item.path ? "bg-card-hover-100/90 rounded-xl text-white" : ""
+                                pathname === item.path ? "shadow-[#C8D9E6] shadow-sm rounded-xl text-[#F5EFEB] font-extrabold" : ""
                             }`
                         )}
                         onClick={() => setIsOpen(false)}
@@ -93,10 +93,10 @@ const ProfessionalSidebar = ({
                             height={25}
                             className="pl-2"
                         />
-                        <span className="w-[80%] text-center text-base">{item.label}</span>
+                        <span className="w-[80%] text-center text-base font-medium">{item.label}</span>
                         {
                             pathname === item.path && (
-                                <Icon src={arrowRight} alt={arrowRight}
+                                <Image src={arrowRight} alt={arrowRight}
                                       width={18}
                                       height={18}
                                 />
@@ -106,7 +106,7 @@ const ProfessionalSidebar = ({
                 ))}
             </div>
             <button
-                className={`w-[90%] text-light-200/50 text-sm mx-auto flex items-center justify-center gap-2 ${
+                className={`w-[90%] text-[#F5EFEB] text-sm mx-auto flex items-center justify-center gap-2 ${
                     isOpen ? "pt-[400px]" : "pt-[450px]"
                 }`}
                 onClick={closeSession}

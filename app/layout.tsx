@@ -25,7 +25,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className="h-screen">
+    <html lang="en">
       <body
         className={cn(
           "bg-bg-color-100 font-sans antialiased",
