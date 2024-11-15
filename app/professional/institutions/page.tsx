@@ -38,11 +38,9 @@ const InstitutionsPage = async () => {
   const cookieStore = cookies();
   const professionalId = cookieStore.get("professional-id")?.value;
 
-  let { data }: { data: ProfessionalInformation } = await apiServer.get(
-    `/professional/get-professional/${professionalId}`
+  const { data } = await apiServer.get(
+    `/institutions/get-all-institutions`
   );
-  // @ts-ignore
-  const { institutionsIncluded }: { institutionsIncluded: any } = data;
 
   return (
     <section className="w-full h-screen flex flex-col items-center justify-start gap-2">
@@ -62,10 +60,10 @@ const InstitutionsPage = async () => {
           />
           <div className="flex items-center justify-start gap-1">
             <h1 className="text-18-bold text-dark-500">
-              {institutionsIncluded.length}
+              {data.length}
             </h1>
             <p className="text-18-bold">
-              {institutionsIncluded.length < 2
+              {data.length < 2
                 ? `institución`
                 : `instituciones`}
             </p>
@@ -93,7 +91,7 @@ const InstitutionsPage = async () => {
         </div>
       </div>
 
-      {/* patients table */}
+      {/* institutions table */}
       <div className="w-[95%] py-4 px-3 shadow-[inset_0_-2px_4px_rgba(231,232,231,0.6)] rounded-md flex flex-col">
         {data && data.institutionsIncluded?.length! < 1 ? (
           <div className="w-[90%] flex items-center justify-center gap-10">
@@ -130,11 +128,12 @@ const InstitutionsPage = async () => {
               </p>
             </div>
             <div className="w-full px-1 gap-2">
-              {data.institutionsIncluded.map(({ institution }: any) => (
-                <div className="w-[100%] flex items-center justify-center">
+              {data && data.map(( institution : any) => (
+                <div className="w-[100%] flex items-center justify-center"
+                key={institution.id}
+                >
                   <Link
-                    key={institution.id}
-                    href={`/professional/patients/${institution.id}/info`}
+                    href={`#`}
                     className="w-[90%] mx-auto px-2 flex justify-between border-b-[1px] border-gray-500 mb-1 hover:scale-[102%] hover:bg-card-hover-100 hover:rounded-lg"
                   >
                     <div
@@ -169,7 +168,7 @@ const InstitutionsPage = async () => {
                       </div>
                     </div>
                     <div
-                      className="w-[25%] px-1 py-2 flex items-center justify-start"
+                      className="w-[25%] px-1 mx-auto py-2 flex items-center justify-start truncate"
                       key={institution.email}
                     >
                       <div className="text-gray-600 text-[14px] font-normal flex gap-1">
@@ -201,6 +200,7 @@ const InstitutionsPage = async () => {
         )}
       </div>
     </section>
+
   );
 };
 
