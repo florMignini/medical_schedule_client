@@ -50,7 +50,7 @@ const Search = ({ path }: any) => {
     <div className="relative w-[99%] h-auto flex flex-col items-center justify-center">
       <div className="absolute w-[99%] h-20 flex flex-col items-center justify-center lg:justify-end mx-auto">
         {/* search section */}
-        <div className="w-[100%] grid grid-cols-[15%,85%] align-middle justify-center bg-card-bg-100 rounded-3xl">
+        <div className="w-[100%] grid grid-cols-[15%,85%] align-middle justify-center bg-transparent rounded-2xl px-2 shadow-[inset_2px_-4px_10px_rgba(85,82,172,0.2)]">
           <button className="w-[90%] flex items-center justify-center">
             <Image src={searchIcon} alt="search-icon" width={15} height={15} />
           </button>
@@ -97,7 +97,7 @@ const Search = ({ path }: any) => {
                 </Link>
               ))
             ) : (
-              <p className="w-[100%] flex items-center justify-center text-base font-bold text-white">
+              <p className="w-[100%] flex items-center justify-center text-base font-bold text-[#5653AF]">
                 {" "}
                 No se encontraron resultados
               </p>
