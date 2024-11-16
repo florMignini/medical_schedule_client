@@ -150,7 +150,7 @@ const PatientRegistrationForm = () => {
         <div className="mb-10">
           {/* head */}
           <div className="flex px-2 gap-2 mb-5">
-            <div className="h-5 border-x-2 border-white" />
+            <div className="h-5 border-x-2 border-black" />
             <h1 className="text-16-semibold">Información Personal</h1>
           </div>
           {/* forms */}
@@ -220,7 +220,7 @@ const PatientRegistrationForm = () => {
             {/* rightside */}
             <div className="w-[95%]">
               {/* firstname & lastname */}
-              <div className="flex gap-2 mb-2">
+              <div className="flex gap-2 mb-2 flex-wrap">
                 <DinamicForm
                   fieldType={FormFieldType.INPUT}
                   control={form.control}
@@ -235,7 +235,7 @@ const PatientRegistrationForm = () => {
                 />
               </div>
               {/* address & occupation */}
-              <div className="flex gap-2 mb-2">
+              <div className="flex gap-2 mb-2 flex-wrap">
                 <DinamicForm
                   fieldType={FormFieldType.INPUT}
                   control={form.control}
@@ -274,7 +274,7 @@ const PatientRegistrationForm = () => {
               </div>
               {/* identification type & identification number */}
               <div className="flex flex-col justify-end md:flex-row gap-2 mb-2">
-                <div className="flex w-[40%] rounded-md items-center justify-center border border-dark-500 gap-2 p-1 outline-none bg-dark-400 flex-col">
+                <div className="flex w-[40%] rounded-md items-center justify-center border border-white gap-2 p-1 outline-none bg-[#E8E9E9] flex-col">
                   <DropdownMenu>
                     <DropdownMenuTrigger className="flex items-center justify-center gap-1 outline-none">
                       Tipo de Documento
@@ -289,8 +289,8 @@ const PatientRegistrationForm = () => {
                       <DropdownMenuRadioGroup
                         value={identificationType}
                         onValueChange={setIdentificationType}
-                        className="flex w-full flex-col items-center gap-1 rounded-md  border-dark-500 bg-dark-400
-                      text-white text-ellipsis"
+                        className="flex w-full flex-col items-center gap-1 rounded-md  border-white bg-[#E8E9E9]
+                      text-black text-ellipsis"
                       >
                         {IdentificationType.map((ID: string) => (
                           <DropdownMenuRadioItem
@@ -316,7 +316,7 @@ const PatientRegistrationForm = () => {
                 />
               </div>
               {/* birthdate & gender */}
-              <div className="flex gap-2 mb-2">
+              <div className="flex gap-2 mb-2 flex-wrap">
                 <DinamicForm
                   fieldType={FormFieldType.DATE_PICKER}
                   control={form.control}
@@ -350,7 +350,7 @@ const PatientRegistrationForm = () => {
                 />
               </div>
               {/* emergency contact name & emergency contact number */}
-              <div className="flex gap-2 mb-2">
+              <div className="flex gap-2 mb-2 flex-wrap">
                 <DinamicForm
                   fieldType={FormFieldType.INPUT}
                   control={form.control}
@@ -376,13 +376,13 @@ const PatientRegistrationForm = () => {
         <div className="mb-10">
           {/* head */}
           <div className="flex px-2 gap-2 mb-5">
-            <div className="h-5 border-x-2 border-white" />
+            <div className="h-5 border-x-2 border-black" />
             <h1 className="text-16-semibold capitalize">registros médicos</h1>
           </div>
           {/* forms */}
           <div className="px-[1.2rem]">
             {/* ensurance_provider & ensurance_policy_number */}
-            <div className="flex gap-2 mb-2">
+            <div className="flex gap-2 mb-2 flex-wrap">
               <DinamicForm
                 fieldType={FormFieldType.INPUT}
                 control={form.control}
@@ -399,7 +399,7 @@ const PatientRegistrationForm = () => {
               />
             </div>
             {/* smoker & ex-smoker */}
-            <div className="flex gap-2 mb-2">
+            <div className="flex gap-2 mb-2 flex-wrap">
               {/* smoker */}
               <DinamicForm
                 fieldType={FormFieldType.SKELETON}
@@ -452,7 +452,7 @@ const PatientRegistrationForm = () => {
               />
             </div>
             {/* bloodtype & bloodfactor */}
-            <div className="flex gap-2 mb-2">
+            <div className="flex gap-2 mb-2 flex-wrap">
               {/* bloodType */}
               <DinamicForm
                 fieldType={FormFieldType.SKELETON}
@@ -505,7 +505,7 @@ const PatientRegistrationForm = () => {
               />
             </div>
             {/* allergies */}
-            <div className="flex gap-2 mb-2">
+            <div className="flex gap-2 mb-2 flex-wrap">
               {/* allergies type */}
               <DinamicForm
                 fieldType={FormFieldType.SKELETON}
@@ -541,7 +541,7 @@ const PatientRegistrationForm = () => {
               />
             </div>
             {/* current medication */}
-            <div className="flex gap-2 mb-2">
+            <div className="flex gap-2 mb-2 flex-wrap">
               <DinamicForm
                 control={form.control}
                 name="currentMedication"
@@ -559,7 +559,7 @@ const PatientRegistrationForm = () => {
             </div>
             {/* medical history */}
             <div className="flex flex-col justify-end md:flex-row gap-2 mb-2">
-              <div className="flex w-[40%] rounded-md items-center justify-center border border-dark-500 gap-2 p-1 outline-none bg-dark-400 flex-col">
+              <div className="flex w-[40%] text-[13px] md:text-[16px] rounded-md items-center justify-center border border-white gap-2 p-1 outline-none bg-[#E8E9E9] flex-col">
                 <DropdownMenu>
                   <DropdownMenuTrigger className="flex items-center justify-center gap-1 outline-none">
                     Antecedentes Médicos
@@ -574,8 +574,8 @@ const PatientRegistrationForm = () => {
                     <DropdownMenuRadioGroup
                       value={medicalHistoryType}
                       onValueChange={setMedicalHistoryType}
-                      className="flex w-full flex-col items-center gap-1 rounded-md  border-dark-500 bg-dark-400
-                      text-white text-ellipsis"
+                      className="flex w-full flex-col items-center gap-1 rounded-md  border-white bg-[#E8E9E9]
+                      text-black text-ellipsis"
                     >
                       {medicalHistory.map((history: string) => (
                         <DropdownMenuRadioItem
@@ -607,12 +607,12 @@ const PatientRegistrationForm = () => {
         <div className="mb-10">
           {/* head */}
           <div className="flex px-2 gap-2 mb-5">
-            <div className="h-5 border-x-2 border-white" />
+            <div className="h-5 border-x-2 border-black" />
             <h1 className="text-16-semibold capitalize">
               Medidas Antropométricas
             </h1>
           </div>
-          <div className="flex gap-2 mb-2">
+          <div className="flex gap-2 mb-2 flex-wrap">
             <DinamicForm
               name="patientHeight"
               control={form.control}
@@ -642,7 +642,7 @@ const PatientRegistrationForm = () => {
               fieldType={FormFieldType.INPUT}
             />
           </div>
-          <div className="flex gap-2 mb-2">
+          <div className="flex gap-2 mb-2 flex-wrap">
             <DinamicForm
               name="ObservationsComments"
               control={form.control}

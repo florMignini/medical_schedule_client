@@ -61,7 +61,7 @@ export const DinamicField = ({
   switch (props.fieldType) {
     case FormFieldType.INPUT:
       return (
-        <div className="flex rounded-md border border-dark-500 bg-dark-400">
+        <div className="flex rounded-md border border-white bg-[#E8E9E9]">
           {props.iconSrc && (
             <Image
               src={iconSrc!}
@@ -111,7 +111,7 @@ export const DinamicField = ({
       );
     case FormFieldType.DATE_PICKER:
       return (
-        <div className="flex rounded-md border border-dark-500 bg-dark-400">
+        <div className="flex rounded-md border border-white bg-[#E8E9E9]">
           <Image
             src={calendarIcon}
             alt="calendar-icon"
@@ -182,7 +182,7 @@ const DinamicForm = (props: CustomProperty) => {
       render={({ field }) => (
         <FormItem className="flex-1">
           {fieldType !== FormFieldType.CHECKBOX && label && (
-            <FormLabel className="shad-input-label text-14-regular text-dark-700">
+            <FormLabel className="shad-input-label text-14-regular text-dark-700 truncate">
               {label}
             </FormLabel>
           )}

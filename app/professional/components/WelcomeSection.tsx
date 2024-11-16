@@ -42,7 +42,7 @@ const WelcomeSection = (professionalData: {
       {/* profile section */}
       <div className="w-[99%] h-auto  flex items-start flex-col gap-5 px-2 py-1">
         {/* date */}
-        <div className="w-36 h-5 px-2 flex justify-start gap-1 text-gradient items-center">
+        {/* <div className="w-36 h-5 px-2 flex justify-start gap-1 text-gradient items-center">
           <Image
             src={CalendarIcon}
             alt="calendar-icon"
@@ -51,7 +51,7 @@ const WelcomeSection = (professionalData: {
             className="text-gradient"
           />
           <h1 className="font-light text-[14px]">{todayDate}</h1>
-        </div>
+        </div> */}
         <div className="w-[100%] flex flex-col gap-3 items-center justify-center mx-auto">
           <Image
             src={(professionalData.professional.gender !== "" && professionalData.professional.gender === "M") ? `https://avatar.iran.liara.run/public/job/doctor/male` : `https://avatar.iran.liara.run/public/job/doctor/female`}
@@ -59,7 +59,7 @@ const WelcomeSection = (professionalData: {
             height={200}
             priority
             alt="professional-image"
-            className="flex items-center justify-center rounded-3xl"
+            className="flex items-center justify-center"
           />
           <div className="w-[80%] flex items-center justify-between px-3">
             <Link href="#"
@@ -99,10 +99,10 @@ const WelcomeSection = (professionalData: {
         </div>
       </div>
       {/* Welcome */}
-      <div className="w-full h-full flex flex-col items-start px-1 justify-center gap-1">
+      <div className="w-full h-full flex flex-col items-start px-1 py-3 justify-start gap-1">
         <div className="w-[95%] flex items-center justify-between text-gradient">
           <div className="flex items-center justify-start flex-col">
-            <h1 className="text-2xl font-semibold ">{`${professionalData.professional.firstName} ${professionalData.professional.lastName}`}</h1>
+            <h1 className="text-lg font-semibold text-black">{`${professionalData.professional.firstName} ${professionalData.professional.lastName}`}</h1>
             <Badge
               className="w-[100%] flex items-center justify-start"
               variant={
@@ -130,8 +130,8 @@ const WelcomeSection = (professionalData: {
         {/* professional and personal info */}
         <div className="w-[95%] flex flex-col items-center justify-start">
           {/* specialty */}
-          <div className="w-full h-8 flex items-center justify-start gap-2 text-sm font-light">
-            <label className="font-light text-gradient">Especialidad</label>
+          <div className="w-full h-8 flex items-center justify-start gap-2 text-xs font-medium">
+            <label className="text-black">Especialidad: </label>
             <input
               disabled
               value={professionalData.professional.specialty}
@@ -139,8 +139,8 @@ const WelcomeSection = (professionalData: {
             />
           </div>
           {/* phone Number */}
-          <div className="w-full h-8 flex items-center justify-start gap-2 text-sm font-light">
-            <label className="font-light text-gradient">Teléfono</label>
+          <div className="w-full h-8 flex items-center justify-start gap-2 text-xs font-medium">
+            <label className="text-black">Teléfono: </label>
             <input
               disabled
               value={professionalData.professional.phoneNumber}
@@ -148,8 +148,8 @@ const WelcomeSection = (professionalData: {
             />
           </div>
           {/* email */}
-          <div className="w-full h-8 flex items-center justify-start gap-2 text-sm font-light">
-            <label className="font-light text-gradient">Email</label>
+          <div className="w-full h-8 flex items-center justify-start gap-2 text-xs font-medium">
+            <label className="text-black">Email: </label>
             <input
               disabled
               value={professionalData.professional.email}

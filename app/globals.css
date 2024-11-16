@@ -104,7 +104,7 @@
 
   /* ==== FORM */
   .radio-group {
-    @apply flex h-full items-center gap-1 rounded-md border border-dashed border-dark-500 bg-dark-400 p-2 text-ellipsis;
+    @apply flex h-full items-center gap-1 rounded-md border border-dashed border-dark-500 bg-light-200 p-2 text-ellipsis;
   }
 
   .checkbox-label {
@@ -113,7 +113,7 @@
 
   /* ==== File Upload */
   .file-upload {
-    @apply text-12-regular flex cursor-pointer  flex-col items-center justify-center gap-3 rounded-md border border-dashed border-dark-500 bg-dark-400 p-1;
+    @apply text-12-regular flex cursor-pointer  flex-col items-center justify-center gap-3 rounded-md border border-dashed border-dark-500 bg-light-200 p-1;
   }
 
   .file-upload_label {
@@ -205,23 +205,23 @@
   }
 
   .shad-gray-btn {
-    @apply border border-dark-500 cursor-pointer bg-dark-400 text-white !important;
+    @apply border border-dark-500 cursor-pointer bg-light-200 text-black !important;
   }
 
   .shad-input-label {
-    @apply text-14-medium text-dark-700 !important;
+    @apply text-14-medium text-black !important;
   }
 
   .shad-input {
-    @apply bg-dark-400 placeholder:text-dark-600 border-dark-500 h-11 focus-visible:ring-0 focus-visible:ring-offset-0 !important;
+    @apply bg-light-200 placeholder:text-dark-600 border-white h-11 focus-visible:ring-0 focus-visible:ring-offset-0 text-dark-600 !important;
   }
 
   .shad-input-icon {
-    @apply bg-dark-400 placeholder:text-dark-600 border-dark-500 h-11 focus-visible:ring-0 focus-visible:ring-offset-0 !important;
+    @apply bg-light-200 placeholder:text-dark-600 border-white h-11 focus-visible:ring-0 focus-visible:ring-offset-0 !important;
   }
 
   .shad-textArea {
-    @apply bg-dark-400 placeholder:text-dark-600 border-dark-500 focus-visible:ring-0 focus-visible:ring-offset-0 !important;
+    @apply bg-light-200 placeholder:text-dark-600 border-white focus-visible:ring-0 focus-visible:ring-offset-0 !important;
   }
 
   .shad-combobox-item {
@@ -233,11 +233,11 @@
   }
 
   .shad-select-trigger {
-    @apply bg-dark-400  placeholder:text-dark-600 border-dark-500 h-11 focus:ring-0 focus:ring-offset-0 !important;
+    @apply bg-light-200  placeholder:text-dark-600 border-white h-11 focus:ring-0 focus:ring-offset-0 !important;
   }
 
   .shad-select-content {
-    @apply bg-dark-400 border-dark-500 !important;
+    @apply bg-light-200 border-white !important;
   }
   .AlertDialogContent {
     @apply bg-light-200/50 shadow-light-200 shadow-md fixed top-[50%] left-[50%] -translate-x-[50%] w-[90%] max-w-[500px] max-h-[90%] p-[25px]
@@ -246,7 +246,7 @@
     outline: none;
   }
   .shad-dialog {
-    @apply bg-dark-400 border-dark-500 !important;
+    @apply bg-light-200 border-white !important;
   }
 
   .shad-dialog button {
@@ -274,11 +274,11 @@
   }
 
   .shad-otp-slot {
-    @apply text-36-bold justify-center flex border border-dark-500 rounded-lg size-16 gap-4 !important;
+    @apply text-36-bold justify-center flex border border-white rounded-lg size-16 gap-4 !important;
   }
 
   .shad-alert-dialog {
-    @apply space-y-5 bg-dark-400 border-dark-500 outline-none !important;
+    @apply space-y-5 bg-light-200 border-white outline-none !important;
   }
 
   .shad-sheet-content button {
@@ -287,12 +287,12 @@
 
   /* =====  REACT PHONE NUMBER INPUT OVERRIDES */
   .input-phone {
-    @apply mt-2 h-11 rounded-md px-3 text-sm border bg-dark-400 placeholder:text-dark-600 border-dark-500 !important;
+    @apply mt-2 h-11 rounded-md px-3 text-sm border bg-light-200 placeholder:text-white border-white !important;
   }
 
   /* =====  REACT DATE PICKER OVERRIDES */
   .date-picker {
-    @apply overflow-hidden border-transparent w-full placeholder:text-dark-600  h-11 text-14-medium rounded-md px-3 outline-none !important;
+    @apply overflow-hidden border-transparent w-full placeholder:text-dark-600  h-11 text-14-medium rounded-md px-3 outline-none bg-[#E8E9E9] !important;
   }
 }
 
@@ -317,28 +317,28 @@
 .react-datepicker__current-month,
 .react-datepicker__day-name,
 .react-datepicker-time__header {
-  color: #ffffff !important;
+  color: #E8E9E9 !important;
 }
 
 .react-datepicker__triangle {
-  fill: #1a1d21 !important;
-  color: #1a1d21 !important;
-  stroke: #1a1d21 !important;
+  fill: #E8E9E9 !important;
+  color: #E8E9E9 !important;
+  stroke: #E8E9E9 !important;
 }
 
 .react-datepicker__time-list-item:hover {
-  background-color: #363a3d !important;
+  background-color: #E8E9E9 !important;
 }
 
 .react-datepicker__input-container input {
-  background-color: #1a1d21 !important;
+  background-color: #E8E9E9 !important;
   width: 100%;
   outline: none;
 }
 
 .react-datepicker__day--selected {
   background-color: #24ae7c !important;
-  color: #ffffff !important;
+  color: #1a1d21 !important;
   border-radius: 4px;
 }
 
@@ -347,7 +347,7 @@
 }
 
 .react-datepicker__time-container {
-  border-left: 1px solid #363a3d !important;
+  border-left: 1px solid #E8E9E9 !important;
 }
 
 .react-datepicker__time-list-item {
@@ -356,8 +356,8 @@
 }
 .react-datepicker__year-dropdown {
   color: #ffffff !important;
-  background-color: #1a1d21 !important;
-  border-color: #363a3d !important;
+  background-color: #E8E9E9 !important;
+  border-color: #a4a5a5 !important;
 }
 
 
@@ -365,11 +365,11 @@
 .PhoneInputInput {
   outline: none;
   margin-left: 4px;
-  background: #1a1d21;
+  background: #E8E9E9;
   font-size: 14px;
   font-weight: 500;
 }
 
 .PhoneInputInput::placeholder {
-  color: #1a1d21;
+  color: #E8E9E9;
 }
