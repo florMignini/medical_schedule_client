@@ -55,7 +55,7 @@ const Navbar = ({ isOpen, toggleSidebar }: toggleSideI) => {
             <div
               className={` ${
                 path === "dashboard"
-                  ? "w-[80%] md:w-[50%] text-[20px] xl:text-2xl text-start text-gradient text-clip font-medium"
+                  ? "w-[80%] md:w-[50%] text-[20px] xl:text-2xl text-start text-[#5653AF] text-clip font-medium"
                   : "hidden"} `}
             >
               {storedValue?.gender === "M" ? (
