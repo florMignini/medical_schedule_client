@@ -215,7 +215,7 @@ const [isThereAnImage, setIsTthereAnImage] = useState<boolean>(false);
 
       <div className="w-full flex">
       <SubmitButton
-        className="w-[95%] mx-auto border-[1px] border-gray-600 hover:bg-gradient-to-b from-black to-[#807f7f] text-white text-center hover:opacity-50 p-2 rounded-lg ease-in-out"
+        className="w-[95%] mx-auto border-[1px] border-gray-600 bg-gradient-to-b from-black to-[#807f7f] text-white hover:bg-gradient-to-b hover:from-white hover:to-[#222222] hover:text-[#1c1c1c] text-center p-2 rounded-lg"
         loading={loading}
       >
         Agregar Institución

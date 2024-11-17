@@ -9,8 +9,8 @@ type btnData = {
 const AddButton = ( {text, to} : btnData) => {
   return (
     <Link
-      href="/professional/institution-registration"
-      className="flex items-center justify-center gap-2.5 p-2 border-[1px] border-gray-600 rounded-full bg-gradient-to-b from-black to-[#807f7f] text-white text-center hover:bg-gradient-to-b hover:from-white hover:to-[#222222]"
+      href={to}
+      className="transition duration-200 ease-in-out flex items-center justify-center gap-2.5 p-1 border-[1px] border-gray-600 rounded-full bg-gradient-to-b from-black to-[#807f7f] text-white text-center hover:bg-gradient-to-b hover:from-white hover:to-[#222222] hover:text-[#1c1c1c]"
     >
       <p className="text-[14px] font-medium">
         {text ? `agregar ${text}` : `agregar`}

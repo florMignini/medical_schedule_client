@@ -21,6 +21,7 @@ import {
   ProfessionalInformation,
 } from "@/interfaces";
 import ConfigButton from "../components/ConfigButton";
+import AddButton from "../components/AddButton";
 
 const PatientsPage = async () => {
   const cookieStore = cookies();
@@ -54,40 +55,18 @@ const PatientsPage = async () => {
         </div>
         {/* rightside */}
         <div className="w-[50%] flex items-center justify-end">
-          <Link
-            href="/professional/patient-registration"
-            className="flex items-center justify-center gap-2.5 p-2 border-[1px] border-gray-600 rounded-full hover:bg-gradient-to-b from-black to-[#807f7f] text-white text-center hover:opacity-50"
-          >
-            <p className="text-[14px] font-light text-gradient">agregar paciente</p>
-            <Image
-              src={plusImage}
-              alt="plus-icon"
-              width={20}
-              height={20}
-              className="bg-[#807f7f] rounded-full bg-opacity-90"
+        <AddButton
+            text="paciente"
+            to="/professional/patient-registration"
             />
-          </Link>
         </div>
       </div>
 
       {/* patients table */}
-      <div className="w-[95%] py-4 px-3 shadow-[inset_0_-2px_4px_rgba(231,232,231,0.6)] rounded-md flex flex-col">
+      <div className="w-[95%] py-4 px-3 bg-white shadow-[inset_0px_-2px_3px_rgba(73,73,73,0.2)] rounded-lg flex flex-col">
         {data && data.patientsIncluded?.length! < 1 ? (
-          <div className="w-[90%] flex items-center justify-center gap-10">
+          <div className="w-[90%] flex font-semibold items-center justify-center gap-10">
             <p>Aún no posee pacientes activos</p>
-            <Link
-              href="/professional/patient-registration"
-              className="flex items-center justify-center gap-2.5 p-2 border-[1px] border-gray-600 rounded-full hover:bg-gradient-to-b from-black to-[#807f7f] text-white text-center hover:opacity-50"
-            >
-              <p className="text-[16px] font-bold text-gradient">agregar</p>
-              <Image
-                src={plusImage}
-                alt="plus-icon"
-                width={20}
-                height={20}
-                className="bg-[#807f7f] rounded-full bg-opacity-90"
-              />
-            </Link>
           </div>
         ) : (
           <>

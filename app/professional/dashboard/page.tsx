@@ -245,16 +245,16 @@ const ProfessionalDashboard = async () => {
                   <>
                     {/*header*/}
                     <div className="w-[99%] px-3 flex items-center justify-between border-b-[1px] mb-3 border-b-gray-500">
-                      <p className="w-[25%] h-10 text-sm font-medium text-gradient text-start">
+                      <p className="w-[25%] max-[690px]:w-[50%] h-10 text-sm font-medium text-gradient text-start">
                         institucion
                       </p>
-                      <p className="w-[25%] h-10 text-sm font-medium text-gradient text-start">
+                      <p className="w-[25%] max-[690px]:w-[50%] h-10 text-sm font-medium text-gradient text-start">
                         Teléfono
                       </p>
-                      <p className="w-[25%] h-10 text-sm font-medium text-gradient text-start">
+                      <p className="w-[25%] h-10 text-sm font-medium text-gradient text-start max-[690px]:hidden">
                         Mail
                       </p>
-                      <p className="w-[25%] h-10 text-sm font-medium text-gradient text-start max-[650px]:hidden">
+                      <p className="w-[25%] h-10 text-sm font-medium text-gradient text-start max-[690px]:hidden">
                         Dirección
                       </p>
                     </div>
@@ -270,7 +270,7 @@ const ProfessionalDashboard = async () => {
                           >
                             <div
                               key={institution.id}
-                              className="w-[25%] px-1 py-2"
+                              className="w-[25%] max-[690px]:w-[50%] px-1 py-2"
                             >
                               <div className="flex gap-1 items-center justify-start">
                                 <Image
@@ -280,13 +280,13 @@ const ProfessionalDashboard = async () => {
                                   height={40}
                                   className="rounded-full bg-gradient-to-b from-black to-[#001E80]"
                                 />
-                                <p className="text-[14px] font-semibold">
+                                <p className="text-[14px] font-semibold truncate">
                                   {`${institution.name}`}
                                 </p>
                               </div>
                             </div>
                             <div
-                              className="w-[25%] px-1 py-2"
+                              className="w-[25%] max-[690px]:w-[50%] px-1 py-2"
                               key={institution.phone}
                             >
                               <div className="text-[14px] font-normal flex gap-1">
@@ -298,10 +298,10 @@ const ProfessionalDashboard = async () => {
                               </div>
                             </div>
                             <div
-                              className="w-[25%] px-1 py-2"
+                              className="w-[25%] max-[690px]:hidden px-1 py-2"
                               key={institution.email}
                             >
-                              <div className="text-[14px] font-normal flex gap-1">
+                              <div className="text-[14px] font-normal flex text-start gap-1 truncate">
                                 <Mail
                                   width={20}
                                   height={20}
@@ -310,7 +310,7 @@ const ProfessionalDashboard = async () => {
                               </div>
                             </div>
                             <div
-                              className="max-[650px]:hidden w-[25%] px-1 py-2"
+                              className="max-[690px]:hidden w-[25%] px-1 py-2"
                               key={institution.address}
                             >
                               <div className="text-[14px] font-normal">

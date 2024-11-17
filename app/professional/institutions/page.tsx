@@ -1,8 +1,6 @@
-import Icon from "@/components/ui/icon";
-import institutionImage from "../../../public/assets/icons/institute.svg";
-import settingIcon from "../../../public/assets/icons/settings.svg";
-import plusImage from "../../../public/assets/icons/plus.svg";
+import { apiServer } from "@/api/api-server";;
 import Link from "next/link";
+import Image from "next/image";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -21,27 +19,13 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
-// Assuming the interface is located in a file named IPatientsResponse.ts in the interfaces folder
-import Image from "next/image";
-import MailIcon from "../../../public/assets/icons/email.svg";
-import PhoneIcon from "../../../public/assets/icons/phone.svg";
-import { apiServer } from "@/api/api-server";
-import { cookies } from "next/headers";
-import {
-  Patient,
-  PatientsIncluded,
-  ProfessionalInformation,
-} from "@/interfaces";
 import ConfigButton from "../components/ConfigButton";
 import Institution from "../components/icons/Institution";
 import Phone from "../components/icons/Phone";
 import Mail from "../components/icons/Mail";
-import Plus from "../components/icons/Plus";
 import AddButton from "../components/AddButton";
 
 const InstitutionsPage = async () => {
-  const cookieStore = cookies();
-  const professionalId = cookieStore.get("professional-id")?.value;
 
   const { data } = await apiServer.get(
     `/institutions/get-all-institutions`
@@ -74,33 +58,20 @@ const InstitutionsPage = async () => {
         </div>
         {/* rightside */}
         <div className="w-[50%] flex items-center justify-end">
-          {data && data.institutionsIncluded?.length! === 0 ? null : (
+          {data && data?.length! === 0 ?  (
             <AddButton
             text="institucion"
             to="/professional/institution-registration"
             />
-          )}
+          ) : null}
         </div>
       </div>
 
       {/* institutions table */}
       <div className="w-[95%] py-4 px-3 bg-white shadow-[inset_0px_-2px_3px_rgba(73,73,73,0.2)] rounded-lg flex flex-col">
-        {data && data.institutionsIncluded?.length! < 1 ? (
-          <div className="w-[90%] flex items-center justify-center gap-10">
+        {data && data?.length! < 1 ? (
+          <div className="w-[90%] flex items-center font-semibold justify-center gap-10">
             <p>Aún no posee instituciones activas</p>
-            <Link
-              href="/professional/institution-registration"
-              className="flex items-center justify-center gap-2.5 p-2 border-[1px] border-gray-600 rounded-full hover:bg-gradient-to-b from-black to-[#807f7f] text-white text-center hover:opacity-50"
-            >
-              <p className="text-[16px] font-bold text-gradient">agregar</p>
-              <Image
-                src={plusImage}
-                alt="plus-icon"
-                width={20}
-                height={20}
-                className="bg-[#807f7f] rounded-full bg-opacity-90"
-              />
-            </Link>
           </div>
         ) : (
           <>
