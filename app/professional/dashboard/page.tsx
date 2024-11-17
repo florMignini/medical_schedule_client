@@ -37,6 +37,9 @@ import {
 import WelcomeSection from "../components/WelcomeSection";
 
 import ConfigButton from "../components/ConfigButton";
+import Phone from "../components/icons/Phone";
+import Mail from "../components/icons/Mail";
+import AddButton from "../components/AddButton";
 
 const ProfessionalDashboard = async () => {
   const cookieStore = cookies();
@@ -55,8 +58,7 @@ const ProfessionalDashboard = async () => {
   const {
     institutionsIncluded,
   }: { institutionsIncluded: AppointmentsIncluded[] } = data;
-  
-  
+
   return (
     <section className="w-full h-screen flex flex-col items-center justify-start gap-2">
       <div className="w-[99%] flex h-auto flex-col gap-1">
@@ -69,7 +71,7 @@ const ProfessionalDashboard = async () => {
             </div>
             {/* total patient and appointments */}
             <div className="max-[780px]:w-[95%] max-[780px]:mx-auto max-[780px]:flex-row flex flex-col items-start justify-start gap-2 my-auto">
-              <div className="max-[780px]:w-[50%] w-[90%] h-[95px] grid xl:grid-cols-[30%,70%] grid-cols-[40%,60%] mx-auto shadow-[inset_0_-2px_10px_rgba(231,232,231,0.6)] rounded-lg bg-white text-black">
+              <div className="max-[780px]:w-[50%] w-[90%] h-[95px] grid xl:grid-cols-[30%,70%] grid-cols-[40%,60%] mx-auto shadow-[inset_0px_-2px_3px_rgba(73,73,73,0.2)] rounded-lg bg-white text-black">
                 <div className="w-[90%] h-[90%] flex items-center justify-center">
                   <Image
                     src={user}
@@ -80,13 +82,15 @@ const ProfessionalDashboard = async () => {
                   />
                 </div>
                 <div className="flex flex-col items-center justify-center text-base font-light ">
-                  <p className="w-[100%] text-start font-semibold">Pacientes totales</p>
+                  <p className="w-[100%] text-start font-semibold">
+                    Pacientes totales
+                  </p>
                   <p className="w-[100%] font-bold text-gradient text-lg flex items-start">
                     {data.patientsIncluded?.length}
                   </p>
                 </div>
               </div>
-              <div className="max-[780px]:w-[50%] w-[90%] h-[95px] grid xl:grid-cols-[30%,70%] grid-cols-[40%,60%] mx-auto shadow-[inset_0_-2px_10px_rgba(231,232,231,0.6)] rounded-lg bg-white text-black">
+              <div className="max-[780px]:w-[50%] w-[90%] h-[95px] grid xl:grid-cols-[30%,70%] grid-cols-[40%,60%] mx-auto shadow-[inset_0px_-2px_3px_rgba(73,73,73,0.2)] rounded-lg bg-white text-black">
                 <div className="w-[90%] h-[90%] flex items-center justify-center">
                   <Image
                     src={appointments}
@@ -97,7 +101,9 @@ const ProfessionalDashboard = async () => {
                   />
                 </div>
                 <div className="flex flex-col items-center justify-center text-base font-light">
-                  <p className="w-[100%] text-start font-semibold">Citas totales</p>
+                  <p className="w-[100%] text-start font-semibold">
+                    Citas totales
+                  </p>
                   <p className="w-[100%] font-bold text-gradient text-lg flex items-start">
                     {data.appointmentsIncluded?.length}
                   </p>
@@ -109,7 +115,7 @@ const ProfessionalDashboard = async () => {
           {/*down section*/}
           <div className="flex flex-col gap-2 mt-2">
             {/* patient section */}
-            <div className="w-[99%] py-4 px-3 shadow-[inset_0_-2px_4px_rgba(231,232,231,0.6)] rounded-md flex flex-col bg-white">
+            <div className="w-[99%] py-4 px-3 shadow-[inset_0px_-2px_3px_rgba(73,73,73,0.2)] rounded-md flex flex-col bg-white">
               <div className="mx-auto mb-5 w-[99%] border-b-[1px]">
                 <p className="px-3 py-2 text-black font-semibold text-[18px]">
                   Pacientes
@@ -120,21 +126,9 @@ const ProfessionalDashboard = async () => {
                 {data && data.patientsIncluded?.length! < 1 ? (
                   <div className="w-[90%] flex items-center justify-center gap-10">
                     <p>Aún no posee pacientes activos</p>
-                    <Link
-                      href="/professional/patient-registration"
-                      className="flex items-center justify-center gap-2.5 p-2 border-[1px] border-gray-600 rounded-full hover:bg-gradient-to-b from-black to-[#807f7f] text-white text-center"
-                    >
-                      <p className="text-[16px] font-bold text-gradient hover:text-white">
-                        agregar
-                      </p>
-                      <Image
-                        src={plusImage}
-                        alt="plus-icon"
-                        width={20}
-                        height={20}
-                        className="bg-[#807f7f] rounded-full bg-opacity-90"
-                      />
-                    </Link>
+                    <AddButton
+                    to="/professional/patient-registration"
+                    />
                   </div>
                 ) : (
                   <>
@@ -218,7 +212,10 @@ const ProfessionalDashboard = async () => {
                             </div>
                           </Link>
                           <div className="w-[10%] flex items-center justify-center">
-                          <ConfigButton id={patient.id} component={"patients"}     />
+                            <ConfigButton
+                              id={patient.id}
+                              component={"patients"}
+                            />
                           </div>
                         </div>
                       ))}
@@ -229,7 +226,7 @@ const ProfessionalDashboard = async () => {
             </div>
 
             {/* institutions section */}
-            <div className="w-[99%] py-4 px-3 shadow-[inset_0_-2px_4px_rgba(231,232,231,0.6)] rounded-md flex flex-col bg-white">
+            <div className="w-[99%] py-4 px-3 shadow-[inset_0px_-2px_3px_rgba(73,73,73,0.2)] rounded-md flex flex-col bg-white">
               <div className="mx-auto mb-5 w-[99%] border-b-[1px]">
                 <p className="px-3 py-2 text-black font-semibold text-[18px]">
                   Instituciones
@@ -240,21 +237,9 @@ const ProfessionalDashboard = async () => {
                 {data && data.institutionsIncluded?.length! < 1 ? (
                   <div className="w-[90%] flex items-center justify-center gap-10">
                     <p>Aún no posee instituciones activas</p>
-                    <Link
-                      href="/professional/institution-registration"
-                      className="flex items-center justify-center gap-2.5 p-2 border-[1px] border-gray-600 rounded-full hover:bg-gradient-to-b from-black to-[#807f7f] text-white text-center"
-                    >
-                      <p className="text-[16px] font-bold text-gradient hover:text-white">
-                        agregar
-                      </p>
-                      <Image
-                        src={plusImage}
-                        alt="plus-icon"
-                        width={20}
-                        height={20}
-                        className="bg-[#807f7f] rounded-full bg-opacity-90"
-                      />
-                    </Link>
+                    <AddButton
+                    to="/professional/institution-registration"
+                    />
                   </div>
                 ) : (
                   <>
@@ -281,7 +266,7 @@ const ProfessionalDashboard = async () => {
                         >
                           <Link
                             href={`/professional/patients/${institution.id}/info`}
-                            className="w-[98%] mx-auto px-2 flex justify-between border-b-[1px] border-gray-500 mb-1 hover:scale-[102%] hover:bg-card-hover-100 hover:rounded-lg"
+                            className="w-[98%] mx-auto px-2 flex justify-between border-b-[1px] border-gray-500 mb-1 hover:scale-[102%] hover:bg-card-hover-100 hover:rounded-lg text-gray-600  hover:text-white"
                           >
                             <div
                               key={institution.id}
@@ -295,7 +280,7 @@ const ProfessionalDashboard = async () => {
                                   height={40}
                                   className="rounded-full bg-gradient-to-b from-black to-[#001E80]"
                                 />
-                                <p className="text-gray-500 text-[14px] font-semibold">
+                                <p className="text-[14px] font-semibold">
                                   {`${institution.name}`}
                                 </p>
                               </div>
@@ -304,12 +289,10 @@ const ProfessionalDashboard = async () => {
                               className="w-[25%] px-1 py-2"
                               key={institution.phone}
                             >
-                              <div className="text-gray-600 text-[14px] font-normal flex gap-1">
-                                <Icon
-                                  src={PhoneIcon}
-                                  alt="phone-Icon"
-                                  width={20}
-                                  height={20}
+                              <div className="text-[14px] font-normal flex gap-1">
+                                <Phone 
+                                width={20}
+                                height={20}
                                 />
                                 {institution.phone}
                               </div>
@@ -318,10 +301,8 @@ const ProfessionalDashboard = async () => {
                               className="w-[25%] px-1 py-2"
                               key={institution.email}
                             >
-                              <div className="text-gray-600 text-[14px] font-normal flex gap-1">
-                                <Icon
-                                  src={MailIcon}
-                                  alt="Mail-Icon"
+                              <div className="text-[14px] font-normal flex gap-1">
+                                <Mail
                                   width={20}
                                   height={20}
                                 />
@@ -332,13 +313,16 @@ const ProfessionalDashboard = async () => {
                               className="max-[650px]:hidden w-[25%] px-1 py-2"
                               key={institution.address}
                             >
-                              <div className="text-gray-600 text-[14px] font-normal">
+                              <div className="text-[14px] font-normal">
                                 {institution.address}
                               </div>
                             </div>
                           </Link>
                           <div className="w-[10%] flex items-center justify-center">
-                            <ConfigButton id={institution.id} component={"institutions"}/>
+                            <ConfigButton
+                              id={institution.id}
+                              component={"institutions"}
+                            />
                           </div>
                         </div>
                       ))}

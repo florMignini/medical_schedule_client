@@ -33,6 +33,11 @@ import {
   ProfessionalInformation,
 } from "@/interfaces";
 import ConfigButton from "../components/ConfigButton";
+import Institution from "../components/icons/Institution";
+import Phone from "../components/icons/Phone";
+import Mail from "../components/icons/Mail";
+import Plus from "../components/icons/Plus";
+import AddButton from "../components/AddButton";
 
 const InstitutionsPage = async () => {
   const cookieStore = cookies();
@@ -52,9 +57,7 @@ const InstitutionsPage = async () => {
       <div className="w-[90%] flex items-center justify-between my-5">
         {/* leftside */}
         <div className="w-[50%] flex items-center justify-start gap-2">
-          <Image
-            src={institutionImage}
-            alt="institution-icon-image"
+          <Institution
             height={25}
             width={25}
           />
@@ -72,27 +75,16 @@ const InstitutionsPage = async () => {
         {/* rightside */}
         <div className="w-[50%] flex items-center justify-end">
           {data && data.institutionsIncluded?.length! === 0 ? null : (
-            <Link
-              href="/professional/institution-registration"
-              className="flex items-center justify-center gap-2.5 p-2 border-[1px] border-gray-600 rounded-full hover:bg-gradient-to-b from-black to-[#807f7f] text-white text-center hover:opacity-50"
-            >
-              <p className="text-[14px] font-light text-gradient">
-                agregar institución
-              </p>
-              <Image
-                src={plusImage}
-                alt="plus-icon"
-                width={20}
-                height={20}
-                className="bg-[#807f7f] rounded-full bg-opacity-90"
-              />
-            </Link>
+            <AddButton
+            text="institucion"
+            to="/professional/institution-registration"
+            />
           )}
         </div>
       </div>
 
       {/* institutions table */}
-      <div className="w-[95%] py-4 px-3 shadow-[inset_0_-2px_4px_rgba(231,232,231,0.6)] rounded-md flex flex-col">
+      <div className="w-[95%] py-4 px-3 bg-white shadow-[inset_0px_-2px_3px_rgba(73,73,73,0.2)] rounded-lg flex flex-col">
         {data && data.institutionsIncluded?.length! < 1 ? (
           <div className="w-[90%] flex items-center justify-center gap-10">
             <p>Aún no posee instituciones activas</p>
@@ -134,7 +126,7 @@ const InstitutionsPage = async () => {
                 >
                   <Link
                     href={`#`}
-                    className="w-[90%] mx-auto px-2 flex justify-between border-b-[1px] border-gray-500 mb-1 hover:scale-[102%] hover:bg-card-hover-100 hover:rounded-lg"
+                    className="w-[90%] mx-auto px-2 flex justify-between border-b-[1px] border-gray-500 mb-1 hover:scale-[102%] hover:bg-card-hover-100 text-gray-600 hover:text-white hover:rounded-lg"
                   >
                     <div
                       key={institution.id}
@@ -143,12 +135,12 @@ const InstitutionsPage = async () => {
                       <div className="flex gap-1 items-center justify-start">
                         <Image
                           src={institution.institutionImage}
-                          alt="patient-profile-photo"
+                          alt="institution-photo"
                           width={40}
                           height={40}
                           className="rounded-full bg-gradient-to-b from-black to-[#001E80]"
                         />
-                        <p className="text-gray-500 text-[14px] font-semibold">
+                        <p className="text-[14px] font-semibold">
                           {`${institution.name}`}
                         </p>
                       </div>
@@ -157,10 +149,8 @@ const InstitutionsPage = async () => {
                       className="w-[25%] px-1 py-2 flex items-center justify-start"
                       key={institution.phone}
                     >
-                      <div className="text-gray-600 text-[14px] font-normal flex gap-1">
-                        <Icon
-                          src={PhoneIcon}
-                          alt="phone-Icon"
+                      <div className="text-[14px] font-normal flex gap-1">
+                        <Phone
                           width={20}
                           height={20}
                         />
@@ -171,10 +161,8 @@ const InstitutionsPage = async () => {
                       className="w-[25%] px-1 mx-auto py-2 flex items-center justify-start truncate"
                       key={institution.email}
                     >
-                      <div className="text-gray-600 text-[14px] font-normal flex gap-1">
-                        <Icon
-                          src={MailIcon}
-                          alt="Mail-Icon"
+                      <div className="text-[14px] font-normal flex gap-1">
+                        <Mail
                           width={20}
                           height={20}
                         />
@@ -185,7 +173,7 @@ const InstitutionsPage = async () => {
                       className="max-[650px]:hidden w-[25%] px-1 py-2 flex items-center justify-start"
                       key={institution.address}
                     >
-                      <div className="text-gray-600 text-[14px] font-normal">
+                      <div className="text-[14px] font-normal">
                         {institution.address}
                       </div>
                     </div>
