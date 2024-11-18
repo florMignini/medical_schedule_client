@@ -38,20 +38,9 @@ const WelcomeSection = (professionalData: {
   }, []);
 
   return (
-    <div className="w-[95%] mx-auto h-full grid grid-cols-[50%,50%] p-2 bg-white shadow-[inset_0px_-2px_3px_rgba(73,73,73,0.2)] rounded-lg">
+    <div className="w-[95%] mx-auto h-full flex flex-col min-[520px]:grid min-[520px]:grid-cols-[50%,50%] p-2 bg-white shadow-[inset_0px_-2px_3px_rgba(73,73,73,0.2)] rounded-lg">
       {/* profile section */}
       <div className="w-[99%] h-auto  flex items-start flex-col gap-5 px-2 py-1">
-        {/* date */}
-        {/* <div className="w-36 h-5 px-2 flex justify-start gap-1 text-gradient items-center">
-          <Image
-            src={CalendarIcon}
-            alt="calendar-icon"
-            width={15}
-            height={15}
-            className="text-gradient"
-          />
-          <h1 className="font-light text-[14px]">{todayDate}</h1>
-        </div> */}
         <div className="w-[100%] flex flex-col gap-3 items-center justify-center mx-auto">
           <Image
             src={(professionalData.professional.gender !== "" && professionalData.professional.gender === "M") ? `https://avatar.iran.liara.run/public/job/doctor/male` : `https://avatar.iran.liara.run/public/job/doctor/female`}
@@ -100,14 +89,14 @@ const WelcomeSection = (professionalData: {
       </div>
       {/* Welcome */}
       <div className="w-full h-full flex flex-col items-start px-1 py-3 justify-start gap-1">
-        <div className="w-[95%] flex items-center justify-between text-gradient">
-          <div className="flex items-center justify-start flex-col">
+        <div className="w-[95%] flex items-center justify-center gap-3 md:gap-0 md:justify-between text-gradient">
+          <div className="flex items-center justify-center md:justify-start flex-col">
             <h1 className="text-lg font-semibold text-black">{`${professionalData.professional.firstName} ${professionalData.professional.lastName}`}</h1>
             <Badge
-              className="w-[100%] flex items-center justify-start"
+              className="w-[100%] flex items-center justify-center"
               variant={
                 professionalData.professional.isActive
-                  ? "secondary"
+                  ? "outline"
                   : "destructive"
               }
             >
@@ -128,32 +117,32 @@ const WelcomeSection = (professionalData: {
           </Link>
         </div>
         {/* professional and personal info */}
-        <div className="w-[95%] flex flex-col items-center justify-start">
+        <div className="hidden min-[520px]:w-[95%] min-[520px]:flex flex-col items-center justify-center my-auto mx-auto">
           {/* specialty */}
           <div className="w-full h-8 flex items-center justify-start gap-2 text-xs font-medium">
-            <label className="text-black">Especialidad: </label>
+            <label className="text-black font-bold">Especialidad: </label>
             <input
               disabled
               value={professionalData.professional.specialty}
-              className="bg-transparent borde-b-[1px] border-b-gray-500"
+              className="text-gray-600 font-semibold"
             />
           </div>
           {/* phone Number */}
           <div className="w-full h-8 flex items-center justify-start gap-2 text-xs font-medium">
-            <label className="text-black">Teléfono: </label>
+            <label className="text-black font-bold">Teléfono: </label>
             <input
               disabled
               value={professionalData.professional.phoneNumber}
-              className="bg-transparent borde-b-[1px] border-b-gray-500"
+              className="text-gray-600 font-semibold"
             />
           </div>
           {/* email */}
           <div className="w-full h-8 flex items-center justify-start gap-2 text-xs font-medium">
-            <label className="text-black">Email: </label>
+            <label className="text-black font-bold">Email: </label>
             <input
               disabled
               value={professionalData.professional.email}
-              className="bg-transparent borde-b-[1px] border-b-gray-500"
+              className="text-gray-600 font-semibold"
             />
           </div>
         </div>
