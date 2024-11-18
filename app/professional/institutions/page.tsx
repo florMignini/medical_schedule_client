@@ -1,4 +1,4 @@
-import { apiServer } from "@/api/api-server";;
+import { apiServer } from "@/api/api-server";
 import Link from "next/link";
 import Image from "next/image";
 import {
@@ -26,10 +26,7 @@ import Mail from "../components/icons/Mail";
 import AddButton from "../components/AddButton";
 
 const InstitutionsPage = async () => {
-
-  const { data } = await apiServer.get(
-    `/institutions/get-all-institutions`
-  );
+  const { data } = await apiServer.get(`/institutions/get-all-institutions`);
 
   return (
     <section className="w-full h-screen flex flex-col items-center justify-start gap-2">
@@ -41,29 +38,20 @@ const InstitutionsPage = async () => {
       <div className="w-[90%] flex items-center justify-between my-5">
         {/* leftside */}
         <div className="w-[50%] flex items-center justify-start gap-2">
-          <Institution
-            height={25}
-            width={25}
-          />
+          <Institution height={25} width={25} />
           <div className="flex items-center justify-start gap-1">
-            <h1 className="text-18-bold text-dark-500">
-              {data.length}
-            </h1>
+            <h1 className="text-18-bold text-dark-500">{data.length}</h1>
             <p className="text-18-bold">
-              {data.length < 2
-                ? `institución`
-                : `instituciones`}
+              {data.length < 2 ? `institución` : `instituciones`}
             </p>
           </div>
         </div>
         {/* rightside */}
         <div className="w-[50%] flex items-center justify-end">
-          {data && data?.length! === 0 ?  (
-            <AddButton
+          <AddButton
             text="institucion"
             to="/professional/institution-registration"
-            />
-          ) : null}
+          />
         </div>
       </div>
 
@@ -91,75 +79,73 @@ const InstitutionsPage = async () => {
               </p>
             </div>
             <div className="w-full px-1 gap-2">
-              {data && data.map(( institution : any) => (
-                <div className="w-[100%] flex items-center justify-center"
-                key={institution.id}
-                >
-                  <Link
-                    href={`#`}
-                    className="w-[80%] sm:w-[98%] mx-auto px-2 flex justify-between border-b-[1px] border-gray-500 mb-1 hover:scale-[102%] hover:bg-card-hover-100 text-gray-600 hover:text-white hover:rounded-lg"
+              {data &&
+                data.map((institution: any) => (
+                  <div
+                    className="w-[100%] flex items-center justify-center"
+                    key={institution.id}
                   >
-                    <div
-                      key={institution.id}
-                      className="max-[690px]:w-[100%] w-[25%] px-1 py-2 flex items-center justify-start"
+                    <Link
+                      href={`#`}
+                      className="w-[80%] sm:w-[98%] mx-auto px-2 flex justify-between border-b-[1px] border-gray-500 mb-1 hover:scale-[102%] hover:bg-card-hover-100 text-gray-600 hover:text-white hover:rounded-lg"
                     >
-                      <div className="flex gap-1 items-center justify-start">
-                        <Image
-                          src={institution.institutionImage}
-                          alt="institution-photo"
-                          width={40}
-                          height={40}
-                          className="rounded-full bg-gradient-to-b from-black to-[#001E80]"
-                        />
-                        <p className="text-[14px] font-semibold">
-                          {`${institution.name}`}
-                        </p>
+                      <div
+                        key={institution.id}
+                        className="max-[690px]:w-[100%] w-[25%] px-1 py-2 flex items-center justify-start"
+                      >
+                        <div className="flex gap-1 items-center justify-start">
+                          <Image
+                            src={institution.institutionImage}
+                            alt="institution-photo"
+                            width={40}
+                            height={40}
+                            className="rounded-full bg-gradient-to-b from-black to-[#001E80]"
+                          />
+                          <p className="text-[14px] font-semibold">
+                            {`${institution.name}`}
+                          </p>
+                        </div>
                       </div>
-                    </div>
-                    <div
-                      className="hidden max-[690px]:w-[50%] w-[25%] px-1 py-2 md:flex items-center justify-start"
-                      key={institution.phone}
-                    >
-                      <div className="text-[14px] font-normal flex gap-1">
-                        <Phone
-                          width={20}
-                          height={20}
-                        />
-                        {institution.phone}
+                      <div
+                        className="hidden max-[690px]:w-[50%] w-[25%] px-1 py-2 md:flex items-center justify-start"
+                        key={institution.phone}
+                      >
+                        <div className="text-[14px] font-normal flex gap-1">
+                          <Phone width={20} height={20} />
+                          {institution.phone}
+                        </div>
                       </div>
-                    </div>
-                    <div
-                      className="hidden max-[690px]:w-[50%] w-[25%] px-1 mx-auto py-2 md:flex items-center justify-start truncate"
-                      key={institution.email}
-                    >
-                      <div className="text-[14px] font-normal flex gap-1">
-                        <Mail
-                          width={20}
-                          height={20}
-                        />
-                        {institution.email}
+                      <div
+                        className="hidden max-[690px]:w-[50%] w-[25%] px-1 mx-auto py-2 md:flex items-center justify-start truncate"
+                        key={institution.email}
+                      >
+                        <div className="text-[14px] font-normal flex gap-1">
+                          <Mail width={20} height={20} />
+                          {institution.email}
+                        </div>
                       </div>
-                    </div>
-                    <div
-                      className="max-[650px]:hidden w-[25%] px-1 py-2 flex items-center justify-start"
-                      key={institution.address}
-                    >
-                      <div className="text-[14px] font-normal">
-                        {institution.address}
+                      <div
+                        className="max-[650px]:hidden w-[25%] px-1 py-2 flex items-center justify-start"
+                        key={institution.address}
+                      >
+                        <div className="text-[14px] font-normal">
+                          {institution.address}
+                        </div>
                       </div>
+                    </Link>
+                    <div className="w-[20%] sm:w-[10%] flex items-center justify-center">
+                      <ConfigButton
+                        id={institution.id}
+                        component={"institutions"}
+                      />
                     </div>
-                  </Link>
-                  <div className="w-[20%] sm:w-[10%] flex items-center justify-center">
-                    <ConfigButton id={institution.id} component={"institutions"}/>
                   </div>
-                </div>
-              ))}
+                ))}
             </div>
           </>
         )}
       </div>
     </section>
-
   );
 };
 
