@@ -52,10 +52,10 @@ const ConfigButton = ({id, component}:any) => {
                                     />
                                   </button>
                                 </DropdownMenuTrigger>
-                                <DropdownMenuContent className="w-52 mr-1 bg-black/70 ">
-                                  <DropdownMenuItem className="w-[90%] mx-auto">
+                                <DropdownMenuContent className="bg-black/70">
+                                  <DropdownMenuItem className="">
                                     <Link
-                                      href="#"
+                                      href={`/professional/${component}/${id}/update`}
                                       className="text-[16px] flex items-center justify-start text-white"
                                     >
                                       Editar
