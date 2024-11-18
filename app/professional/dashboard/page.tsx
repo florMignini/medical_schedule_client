@@ -134,16 +134,16 @@ const ProfessionalDashboard = async () => {
                   <>
                     {/*header*/}
                     <div className="w-[99%] px-3 flex items-center justify-between border-b-[1px] mb-3 border-b-gray-500">
-                      <p className="w-[25%] h-10 text-sm font-medium text-gradient text-start">
+                      <p className="w-[25%] max-[690px]:w-[50%] h-10 text-sm font-medium text-gradient text-start">
                         Nombre Completo
                       </p>
-                      <p className="w-[25%] h-10 text-sm font-medium text-gradient text-start">
+                      <p className="w-[25%] max-[690px]:w-[50%] h-10 text-sm font-medium text-gradient text-start">
                         Teléfono
                       </p>
-                      <p className="w-[25%] h-10 text-sm font-medium text-gradient text-start">
+                      <p className="w-[25%] h-10 text-sm font-medium text-gradient text-start max-[690px]:hidden">
                         Mail
                       </p>
-                      <p className="w-[25%] h-10 text-sm font-medium text-gradient text-start max-[650px]:hidden">
+                      <p className="w-[25%] h-10 text-sm font-medium text-gradient text-start max-[690px]:hidden">
                         Dirección
                       </p>
                     </div>
@@ -155,11 +155,11 @@ const ProfessionalDashboard = async () => {
                         >
                           <Link
                             href={`/professional/patients/${patient.id}/info`}
-                            className="w-[90%] mx-auto px-2 flex items-center justify-between border-b-[1px] border-gray-500 mb-1 hover:scale-[102%] hover:bg-card-hover-100 hover:rounded-lg"
+                            className="w-[98%] mx-auto px-2 flex items-center justify-between border-b-[1px] border-gray-500 mb-1 hover:scale-[102%] hover:bg-card-hover-100 hover:rounded-lg text-gray-600  hover:text-white"
                           >
                             <div
                               key={patient.identificationNumber}
-                              className="w-[25%] px-1 py-2"
+                              className="w-[25%] max-[690px]:w-[50%] px-1 py-2"
                             >
                               <div className="flex gap-1 items-center justify-start">
                                 <Image
@@ -169,44 +169,40 @@ const ProfessionalDashboard = async () => {
                                   height={40}
                                   className="rounded-full bg-gradient-to-b from-black to-[#001E80]"
                                 />
-                                <p className="text-gray-500 text-[14px] font-semibold">
+                                <p className="text-[14px] font-semibold">
                                   {`${patient.firstName} ${patient.lastName}`}
                                 </p>
                               </div>
                             </div>
                             <div
-                              className="w-[25%] px-1 py-2"
+                              className="w-[25%] max-[690px]:w-[50%] px-1 py-2"
                               key={patient.phone}
                             >
-                              <div className="text-gray-600 text-[14px] font-normal flex gap-1">
-                                <Icon
-                                  src={PhoneIcon}
-                                  alt="phone-Icon"
+                              <div className="text-[14px] font-normal flex gap-1">
+                                <Phone
                                   width={20}
                                   height={20}
                                 />
-                                {patient.phone}
+                                <p className="truncate">{patient.phone}</p>
                               </div>
                             </div>
                             <div
-                              className="w-[25%] px-1 py-2"
+                              className="max-[690px]:hidden w-[25%] px-1 py-2"
                               key={patient.email}
                             >
-                              <div className="text-gray-600 text-[14px] font-normal flex gap-1">
-                                <Icon
-                                  src={MailIcon}
-                                  alt="Mail-Icon"
+                              <div className="text-[14px] font-normal flex gap-1">
+                                <Mail
                                   width={20}
                                   height={20}
                                 />
-                                {patient.email}
+                                <p className="truncate">{patient.email}</p>
                               </div>
                             </div>
                             <div
-                              className="max-[650px]:hidden w-[25%] px-1 py-2"
+                              className="max-[690px]:hidden w-[25%] px-1 py-2"
                               key={patient.address}
                             >
-                              <div className="text-gray-600 text-[14px] font-normal">
+                              <div className="text-[14px] font-normal">
                                 {patient.address}
                               </div>
                             </div>
@@ -294,19 +290,19 @@ const ProfessionalDashboard = async () => {
                                 width={20}
                                 height={20}
                                 />
-                                {institution.phone}
+                                <p className="truncate">{institution.phone}</p>
                               </div>
                             </div>
                             <div
                               className="w-[25%] max-[690px]:hidden px-1 py-2"
                               key={institution.email}
                             >
-                              <div className="text-[14px] font-normal flex text-start gap-1 truncate">
+                              <div className="text-[14px] font-normal flex  gap-1">
                                 <Mail
                                   width={20}
                                   height={20}
                                 />
-                                {institution.email}
+                                <p className="truncate">{institution.email}</p>
                               </div>
                             </div>
                             <div
