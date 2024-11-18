@@ -77,16 +77,16 @@ const InstitutionsPage = async () => {
           <>
             {/*header*/}
             <div className="w-[99%] px-3 flex items-center justify-between border-b-[1px] mb-3 border-b-gray-500">
-              <p className="w-[25%] h-10 text-sm font-medium text-gradient text-start">
+              <p className="w-[25%] max-[690px]:w-[50%] h-10 text-sm font-medium text-gradient text-start">
                 Institución
               </p>
-              <p className="w-[25%] h-10 text-sm font-medium text-gradient text-start">
+              <p className="sm:w-[25%] hidden md:flex max-[690px]:w-[50%] h-10 text-sm font-medium text-gradient text-start">
                 Teléfono
               </p>
-              <p className="w-[25%] h-10 text-sm font-medium text-gradient text-start">
+              <p className="sm:w-[25%] hidden md:flex max-[690px]:w-[50%] h-10 text-sm font-medium text-gradient text-start">
                 Mail
               </p>
-              <p className="w-[25%] h-10 text-sm font-medium text-gradient text-start max-[650px]:hidden">
+              <p className="sm:w-[25%] hidden md:flex max-[690px]:w-[50%] h-10 text-sm font-medium text-gradient text-start max-[650px]:hidden">
                 Dirección
               </p>
             </div>
@@ -97,11 +97,11 @@ const InstitutionsPage = async () => {
                 >
                   <Link
                     href={`#`}
-                    className="w-[90%] mx-auto px-2 flex justify-between border-b-[1px] border-gray-500 mb-1 hover:scale-[102%] hover:bg-card-hover-100 text-gray-600 hover:text-white hover:rounded-lg"
+                    className="w-[80%] sm:w-[98%] mx-auto px-2 flex justify-between border-b-[1px] border-gray-500 mb-1 hover:scale-[102%] hover:bg-card-hover-100 text-gray-600 hover:text-white hover:rounded-lg"
                   >
                     <div
                       key={institution.id}
-                      className="w-[25%] px-1 py-2 flex items-center justify-start"
+                      className="max-[690px]:w-[100%] w-[25%] px-1 py-2 flex items-center justify-start"
                     >
                       <div className="flex gap-1 items-center justify-start">
                         <Image
@@ -117,7 +117,7 @@ const InstitutionsPage = async () => {
                       </div>
                     </div>
                     <div
-                      className="w-[25%] px-1 py-2 flex items-center justify-start"
+                      className="hidden max-[690px]:w-[50%] w-[25%] px-1 py-2 md:flex items-center justify-start"
                       key={institution.phone}
                     >
                       <div className="text-[14px] font-normal flex gap-1">
@@ -129,7 +129,7 @@ const InstitutionsPage = async () => {
                       </div>
                     </div>
                     <div
-                      className="w-[25%] px-1 mx-auto py-2 flex items-center justify-start truncate"
+                      className="hidden max-[690px]:w-[50%] w-[25%] px-1 mx-auto py-2 md:flex items-center justify-start truncate"
                       key={institution.email}
                     >
                       <div className="text-[14px] font-normal flex gap-1">
@@ -149,7 +149,7 @@ const InstitutionsPage = async () => {
                       </div>
                     </div>
                   </Link>
-                  <div className="w-[10%] flex items-center justify-center">
+                  <div className="w-[20%] sm:w-[10%] flex items-center justify-center">
                     <ConfigButton id={institution.id} component={"institutions"}/>
                   </div>
                 </div>

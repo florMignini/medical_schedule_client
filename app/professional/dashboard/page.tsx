@@ -155,7 +155,7 @@ const ProfessionalDashboard = async () => {
                         >
                           <Link
                             href={`/professional/patients/${patient.id}/info`}
-                            className="w-[98%] mx-auto px-2 flex items-center justify-between border-b-[1px] border-gray-500 mb-1 hover:scale-[102%] hover:bg-card-hover-100 hover:rounded-lg text-gray-600  hover:text-white"
+                            className="w-[85%] md:w-[98%] mx-auto px-2 flex items-center justify-between border-b-[1px] border-gray-500 mb-1 hover:scale-[102%] hover:bg-card-hover-100 hover:rounded-lg text-gray-600  hover:text-white"
                           >
                             <div
                               key={patient.identityNumber}
@@ -169,7 +169,7 @@ const ProfessionalDashboard = async () => {
                                   height={40}
                                   className="rounded-full bg-gradient-to-b from-black to-[#001E80]"
                                 />
-                                <p className="text-[14px] font-semibold">
+                                <p className="text-[14px] font-semibold truncate">
                                   {`${patient.firstName} ${patient.lastName}`}
                                 </p>
                               </div>
@@ -207,7 +207,7 @@ const ProfessionalDashboard = async () => {
                               </div>
                             </div>
                           </Link>
-                          <div className="w-[10%] flex items-center justify-center">
+                          <div className="w-[15%] md:w-[10%] flex items-center justify-center">
                             <ConfigButton
                               id={patient.id}
                               component={"patients"}
@@ -262,7 +262,7 @@ const ProfessionalDashboard = async () => {
                         >
                           <Link
                             href={`/professional/patients/${institution.id}/info`}
-                            className="w-[98%] mx-auto px-2 flex justify-between border-b-[1px] border-gray-500 mb-1 hover:scale-[102%] hover:bg-card-hover-100 hover:rounded-lg text-gray-600  hover:text-white"
+                            className="w-[85%] md:w-[98%] mx-auto px-2 flex justify-between border-b-[1px] border-gray-500 mb-1 hover:scale-[102%] hover:bg-card-hover-100 hover:rounded-lg text-gray-600  hover:text-white"
                           >
                             <div
                               key={institution.id}
@@ -314,7 +314,7 @@ const ProfessionalDashboard = async () => {
                               </div>
                             </div>
                           </Link>
-                          <div className="w-[10%] flex items-center justify-center">
+                          <div className="w-[15%] md:w-[10%] flex items-center justify-center">
                             <ConfigButton
                               id={institution.id}
                               component={"institutions"}
