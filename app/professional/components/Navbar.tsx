@@ -9,6 +9,7 @@ import { toggleSideI } from "@/interfaces";
 import Link from "next/link";
 import Search from "./Search";
 import { useLocalStorage } from "@/utils";
+import Hamburguer from "./icons/Hamburguer";
 
 const Navbar = ({ isOpen, toggleSidebar }: toggleSideI) => {
 
@@ -25,21 +26,19 @@ const Navbar = ({ isOpen, toggleSidebar }: toggleSideI) => {
         {/*left section*/}
         <div className="flex items-center justify-start">
           <button
-            className="lg:hidden flex items-center justify-start text-white pl-4 hover:opacity-65"
+            className="lg:hidden flex items-center justify-start text-[#5653AF] font-bold pl-4 hover:opacity-65"
             onClick={toggleSidebar}
           >
-            <Icon
-              src={HamburguerMenu}
-              alt="hamburguer-menu-icon"
-              width={30}
-              height={30}
+            <Hamburguer
+              width={25}
+              height={25}
             />
           </button>
         </div>
 
         {/*right section*/}
         <div className="w-[100%] px-5 py-2 flex items-center justify-start gap-2">
-          <div className="w-[60%] lg:w-[50%] flex items-center justify-start">
+          <div className="w-[60%] lg:w-[50%] hidden md:flex items-center justify-start">
             {/* route section */}
             <div className={`${
               path === "dashboard"
@@ -55,7 +54,7 @@ const Navbar = ({ isOpen, toggleSidebar }: toggleSideI) => {
             <div
               className={` ${
                 path === "dashboard"
-                  ? "w-[80%] md:w-[50%] text-[20px] xl:text-2xl text-start text-[#5653AF] text-clip font-medium"
+                  ? "hidden md:flex md:w-[50%] text-[20px] xl:text-2xl text-start text-[#5653AF] text-clip font-medium"
                   : "hidden"} `}
             >
               {storedValue?.gender === "M" ? (
@@ -69,7 +68,7 @@ const Navbar = ({ isOpen, toggleSidebar }: toggleSideI) => {
               )}
             </div>
           </div>
-          <div className="w-[40%] lg:w-[50%] flex items-center justify-end">
+          <div className="w-[90%] mx-auto md:w-[50%] flex items-center justify-end">
             <Search path={path} />
           </div>
         </div>
