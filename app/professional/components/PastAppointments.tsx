@@ -38,11 +38,11 @@ const PastAppointments = (patientInfo: Patient) => {
   }, []);
 
   return (
-    <section className="w-full h-auto flex flex-col items-center justify-start gap-3">
-      <div className="w-[95%] h-auto flex flex-col items-start justify-start bg-dark-400 px-2 py-3 rounded-md">
+    <section className="w-full h-screen flex flex-col items-center justify-start gap-3">
+      <div className="w-[95%] flex flex-col items-start justify-start bg-white px-2 py-3 shadow-[inset_0px_-2px_3px_rgba(73,73,73,0.2)] rounded-md">
         {/* title general */}
         <div className="flex items-center justify-start gap-2">
-          <div className="h-5 border-x-2 border-white" />
+          <div className="h-5 border-x-2 border-black" />
           <h1>Citas Anteriores</h1>
         </div>
         {/* past appointments cards section */}
@@ -176,7 +176,7 @@ const PastAppointments = (patientInfo: Patient) => {
               </Tooltip>
             </TooltipProvider>
           ) : (
-            <p>No hay citas anteriores para este paciente.</p>
+            <p className="font-semibold text-center">No hay citas anteriores para este paciente.</p>
           )}
         </div>
       </div>

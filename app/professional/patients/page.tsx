@@ -22,6 +22,8 @@ import {
 } from "@/interfaces";
 import ConfigButton from "../components/ConfigButton";
 import AddButton from "../components/AddButton";
+import Mail from "../components/icons/Mail";
+import Phone from "../components/icons/Phone";
 
 const PatientsPage = async () => {
   const cookieStore = cookies();
@@ -44,11 +46,11 @@ const PatientsPage = async () => {
         {/* leftside */}
         <div className="w-[50%] flex items-center justify-start gap-2">
           <Image src={userImage} alt="user-icon-image" height={25} width={25} />
-          <div className="flex items-center justify-start gap-1">
-            <h1 className="text-18-bold text-dark-500">
+          <div className="text-[14px] font-semibold md:text-18-bold flex items-center justify-start gap-1">
+            <h1 className="">
               {patientsIncluded.length}
             </h1>
-            <p className="text-18-bold">
+            <p className="">
               {patientsIncluded.length < 2 ? `paciente` : `pacientes`}
             </p>
           </div>
@@ -72,16 +74,16 @@ const PatientsPage = async () => {
           <>
             {/*header*/}
             <div className="w-[99%] px-3 flex items-center justify-between border-b-[1px] mb-3 border-b-gray-500">
-              <p className="w-[25%] h-10 text-sm font-medium text-gradient text-start">
+              <p className="w-[25%] max-[690px]:w-[50%] h-10 text-sm font-medium text-gradient text-start">
                 Nombre Completo
               </p>
-              <p className="w-[25%] h-10 text-sm font-medium text-gradient text-start">
+              <p className="sm:w-[25%] hidden md:flex max-[690px]:w-[50%] h-10 text-sm font-medium text-gradient text-start">
                 Teléfono
               </p>
-              <p className="w-[25%] h-10 text-sm font-medium text-gradient text-start">
+              <p className="w-[25%] h-10 text-sm font-medium text-gradient text-start max-[690px]:hidden">
                 Mail
               </p>
-              <p className="w-[25%] h-10 text-sm font-medium text-gradient text-start max-[650px]:hidden">
+              <p className="w-[25%] h-10 text-sm font-medium text-gradient text-start max-[690px]:hidden">
                 Dirección
               </p>
             </div>
@@ -92,11 +94,11 @@ const PatientsPage = async () => {
                 >
                   <Link
                   href={`/professional/patients/${patient.id}/info`}
-                  className="w-[98%] mx-auto px-2 flex justify-between border-b-[1px] border-gray-500 mb-1 hover:scale-[102%] hover:bg-card-hover-100 hover:rounded-lg"
+                  className="w-[80%] sm:w-[98%] mx-auto px-2 flex items-center justify-between border-b-[1px] border-gray-500 mb-1 hover:scale-[102%] hover:bg-card-hover-100 hover:rounded-lg text-gray-600  hover:text-white"
                 >
                   <div
-                    key={patient.identificationNumber}
-                    className="w-[25%] px-1 py-2 flex items-center justify-start"
+                    key={patient.identityNumber}
+                    className=" max-[690px]:w-[100%] px-1 py-2 flex items-center justify-start"
                   >
                     <div className="flex gap-1 items-center justify-start">
                       <Image
@@ -106,49 +108,45 @@ const PatientsPage = async () => {
                         height={40}
                         className="rounded-full bg-gradient-to-b from-black to-[#001E80]"
                       />
-                      <p className="text-gray-500 text-[14px] font-semibold">
+                      <p className="text-[14px] font-semibold">
                         {`${patient.firstName} ${patient.lastName}`}
                       </p>
                     </div>
                   </div>
                   <div
-                    className="w-[25%] px-1 py-2 flex items-center justify-start"
+                    className="hidden max-[690px]:w-[50%] px-1 py-2 sm:flex items-center justify-start"
                     key={patient.phone}
                   >
-                    <div className="text-gray-600 text-[14px] font-normal flex gap-1">
-                      <Icon
-                        src={PhoneIcon}
-                        alt="phone-Icon"
+                    <div className="text-[14px] font-normal flex gap-1">
+                      <Phone
                         width={20}
                         height={20}
                       />
-                      {patient.phone}
+                      <p className="truncate">{patient.phone}</p>
                     </div>
                   </div>
                   <div
-                    className="w-[25%] px-1 py-2 flex items-center justify-start"
+                    className="max-[690px]:hidden w-[25%] px-1 py-2 flex items-center justify-start"
                     key={patient.email}
                   >
-                    <div className="text-gray-600 text-[14px] font-normal flex gap-1">
-                      <Icon
-                        src={MailIcon}
-                        alt="Mail-Icon"
+                    <div className="text-[14px] font-normal flex gap-1">
+                      <Mail
                         width={20}
                         height={20}
                       />
-                      {patient.email}
+                      <p className="truncate">{patient.email}</p>
                     </div>
                   </div>
                   <div
-                    className="max-[650px]:hidden w-[25%] px-1 py-2 flex items-center justify-start"
+                    className="max-[690px]:hidden w-[25%] px-1 py-2 flex items-center justify-start"
                     key={patient.address}
                   >
-                    <div className="text-gray-600 text-[14px] font-normal">
+                    <div className="text-[14px] font-normal">
                       {patient.address}
                     </div>
                   </div>
                 </Link>
-                <div className="w-[10%] flex items-center justify-center">
+                <div className="w-[20%] sm:w-[10%] flex items-center justify-center">
                             <ConfigButton id={patient.id} component={"patients"}/>
                           </div>
                 </div>

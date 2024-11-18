@@ -60,7 +60,7 @@ const ProfessionalDashboard = async () => {
   }: { institutionsIncluded: AppointmentsIncluded[] } = data;
 
   return (
-    <section className="w-full h-screen flex flex-col items-center justify-start gap-2">
+    <section className="w-full h-auto md:h-screen flex flex-col items-center justify-start gap-2">
       <div className="w-[99%] flex h-auto flex-col gap-1">
         {/* information side */}
         <div className="flex flex-col gap-2 my-auto">
@@ -158,7 +158,7 @@ const ProfessionalDashboard = async () => {
                             className="w-[98%] mx-auto px-2 flex items-center justify-between border-b-[1px] border-gray-500 mb-1 hover:scale-[102%] hover:bg-card-hover-100 hover:rounded-lg text-gray-600  hover:text-white"
                           >
                             <div
-                              key={patient.identificationNumber}
+                              key={patient.identityNumber}
                               className="w-[25%] max-[690px]:w-[50%] px-1 py-2"
                             >
                               <div className="flex gap-1 items-center justify-start">
