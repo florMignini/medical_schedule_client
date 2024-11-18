@@ -54,7 +54,7 @@ const Navbar = ({ isOpen, toggleSidebar }: toggleSideI) => {
             <div
               className={` ${
                 path === "dashboard"
-                  ? "hidden md:flex md:w-[50%] text-[20px] xl:text-2xl text-start text-[#5653AF] text-clip font-medium"
+                  ? "hidden min-[880px]:flex min-[880px]:w-[50%] text-[20px] xl:text-2xl text-start text-[#5653AF] text-clip font-medium"
                   : "hidden"} `}
             >
               {storedValue?.gender === "M" ? (
@@ -94,7 +94,7 @@ const Navbar = ({ isOpen, toggleSidebar }: toggleSideI) => {
             </div>
             <div className={`${
               path === "dashboard"
-               ? "text-[24px] text-start text-gradient text-clip font-medium"
+               ? "text-[24px] text-[#5653AF] text-start text-clip font-medium"
                 : "hidden"
             }`}>
               {storedValue?.gender === "M" ? (
