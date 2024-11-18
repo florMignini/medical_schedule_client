@@ -12,7 +12,7 @@ const AddButton = ( {text, to} : btnData) => {
       href={to}
       className="transition duration-200 ease-in-out flex items-center justify-center gap-2.5 p-1 border-[1px] border-gray-600 rounded-full bg-gradient-to-b from-black to-[#807f7f] text-white text-center hover:bg-gradient-to-b hover:from-white hover:to-[#222222] hover:text-[#1c1c1c]"
     >
-      <p className="text-[14px] font-medium">
+      <p className="text-[12px] md:text-[14px] font-medium">
         {text ? `agregar ${text}` : `agregar`}
       </p>
       <Plus width={20} height={20} />
