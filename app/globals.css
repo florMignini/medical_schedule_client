@@ -55,7 +55,9 @@
   .bg-image {
     @apply bg-black-900 bg-light-rays bg-cover bg-no-repeat;
   }
-
+.title{
+  @apply py-2 px-1 top-8 sm:top-12 max-[490px]:text-[20px] max-[768px]:text-[30px] max-[490px]:ml-0 max-[768px]:ml-7 sm:text-5xl sm:mx-auto font-bold tracking-tighter bg-gradient-to-b from-black to-[#001E80] text-transparent text-center sm:text-end bg-clip-text sm:leading-normal
+}
   .header {
     @apply text-32-bold md:text-36-bold;
   }
