@@ -5,6 +5,7 @@ const ProductShowcase = () => {
   return (
     <section className="w-full bg-gradient-to-b from-[#FFFFFF] to-[#D2DCFF] py-24">
       <div className="container">
+        <div className="max-w-[540px] mx-auto">
         <Link href="#" className="flex py-5 justify-center">
           <strong className="text-center text-sm font-bold tracking-tighter px-2 py-1 rounded-xl bg-slate-400 border-slate-500 bg-opacity-20 text-gray-500">
             ¡Empeza hoy mismo!
@@ -22,8 +23,9 @@ const ProductShowcase = () => {
           complicaciones.
         </p>
 
+        </div>
         <Image src={productImage} alt="product-image"
-        className="py-5"
+        className="w-[90%] mx-auto py-5"
         />
       </div>
     </section>
