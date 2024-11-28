@@ -3,17 +3,24 @@ import Image from "next/image";
 
 const Hero = () => {
   return (
-    <section className="relative w-full bg-gradient-to-b from-[#FFFFFF] to-[#D2DCFF]">
-      <Image src={HeroBG} alt="hero-bg-image" className="opacity-55" />
-      <div className="max-w-[540px]">
-        <div className="absolute top-16 left-24 max-[490px]:w-[95%] max-[768px]:w-[95%] sm:w-[70%] flex flex-col items-start justify-center">
-          <h1 className="absolute left-1 text-3xl xl:left-40 top-0 lg:left-36 xl:top-5 xl:text-5xl lg:text-4xl w-[90%] mx-auto font-semibold bg-gradient-to-b from-black to-[#001E80] text-transparent text-center bg-clip-text">
-            Medical Schedule - Proveemos el mejor sistema de administración de
-            pacientes
-          </h1>
-          <p className="absolute top-32 left-32 lg:left-96 lg:top-32 xl:top-56 text-base text-center font-normal lg:font-medium">
-            Seguí tus pacientes y actividades facilmente desde donde estés
-          </p>
+    <section className="w-full h-[750px] bg-gradient-to-b from-[#FFFFFF] to-[#D2DCFF]">
+      <div className="h-[90%] flex items-center justify-left gap-2  max-[800px]:flex-col">
+        <Image src={HeroBG} alt="hero-bg-image" className="w-[100%] min-[800px]:w-[60%] opacity-55 h-[100%] max-[800px]:h-[450px] min-[801px]:rounded-br-[80%] rounded-r-sm min-[801px]:rounded-tr-[25%] max-[800px]:rounded-br-[30%] max-[800px]:rounded-bl-[70%]" />
+        <div className="max-w-[540px]">
+          <div className="h-[400px] flex flex-col items-center px-3 sm:px-0 justify-start mx-auto gap-5">
+            <div className="w-full flex flex-col items-center justify-start max-[430px]:text-lg text-2xl md:text-6xl  xl:text-7xl font-semibold bg-gradient-to-b from-gray-600 to-[#5a8bbd] text-transparent text-start bg-clip-text">
+            <h1 className="w-full text-4xl sm:text-5xl md:text-7xl ">
+              Medical  
+            </h1>
+            <h1 className="w-full text-4xl sm:text-5xl md:text-7xl  ">
+               Schedule 
+            </h1>
+            </div>
+            <p className="w-[90%] text-gray-500 text-sm  md:text-base text-center font-light lg:font-medium">
+            Proveemos el mejor sistema de administración de
+            pacientes - Seguí tus pacientes y actividades facilmente desde donde estés
+            </p>
+          </div>
         </div>
       </div>
     </section>

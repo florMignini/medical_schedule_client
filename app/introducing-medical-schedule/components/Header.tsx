@@ -18,13 +18,13 @@ const Header = () => {
                 <div className="w-[100%] sm:w-[50%] flex items-center justify-end gap-5">
                     <Link
                         href="/"
-                        className="border py-2 px-1 sm:px-3 rounded-lg font-medium text-[10px] lg:text-sm bg-gradient-to-b from-[#190d2e] to-[#4a208a] border-white/15 shadow-[0px_0px_3px_#8c45ff] text-white"
+                        className="transition duration-200 ease-in-out flex items-center justify-center gap-2.5 px-1 py-2  border-[1px] border-gray-600 rounded-lg bg-gradient-to-b from-black to-[#807f7f] text-white text-center hover:bg-gradient-to-b hover:from-white hover:to-[#222222] hover:text-[#1c1c1c]"
                     >
                         Soy Usuario
                     </Link>
                     <Link
                         href="/"
-                        className="border py-2 px-1 sm:px-3 rounded-lg font-medium text-[10px] lg:text-sm bg-gradient-to-b from-[#190d2e] to-[#4a208a] border-white/15 shadow-[0px_0px_3px_#8c45ff] text-white"
+                        className="transition duration-200 ease-in-out flex items-center justify-center gap-2.5 px-1 py-2  border-[1px] border-gray-600 rounded-lg bg-gradient-to-b from-black to-[#807f7f] text-white text-center hover:bg-gradient-to-b hover:from-white hover:to-[#222222] hover:text-[#1c1c1c]"
                     >
                         Registrarme
                     </Link>
