@@ -2,6 +2,7 @@ import Header from "@/app/introducing-medical-schedule/components/Header";
 import Hero from "@/app/introducing-medical-schedule/components/Hero";
 import LogoTicker from "@/app/introducing-medical-schedule/components/LogoTicker";
 import ProductShowcase from "./components/ProductShowcase";
+import Pricing from "./components/Footer";
 
 const LandingPage = () => {
   return (
@@ -10,6 +11,7 @@ const LandingPage = () => {
       <Hero />
       <LogoTicker />
       <ProductShowcase />
+      <Pricing/>
     </>
   );
 };

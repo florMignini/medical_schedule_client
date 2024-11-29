@@ -16,7 +16,7 @@ const ProductShowcase = () => {
         </div>
 
         <p className="w-[70%] mx-auto text-center text-sm leading-[20px] tracking-tight text-gray-500 py-5">
-          Simplifica la gestión de tus pacientes organiza tus horarios, manten
+          Simplifica la gestión de tus pacientes, organiza tus horarios, manten
           historiales y citas médicas y optimiza tu tiempo con una interfaz
           intuitiva y funcional. Descubre cómo nuestra solución puede ayudarte a
           brindar una atención más eficiente, personalizada y sin
