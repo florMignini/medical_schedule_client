@@ -115,7 +115,7 @@ const ProfessionalProfileUpdateForm = (professionalInfo: any) => {
       >
         {/* appointment detail */}
         <div className="flex px-2 gap-2 mb-5">
-          <div className="h-5 border-x-2 border-white" />
+          <div className="h-5 border-x-2 border-black" />
           <h1 className="text-16-semibold">
             Actualizar mi información personal
           </h1>
