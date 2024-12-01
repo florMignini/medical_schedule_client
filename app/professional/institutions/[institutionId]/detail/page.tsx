@@ -23,7 +23,7 @@ const InstitutionDetail = () => {
     }
     fetchInstitutionInfo();
   }, [institutionId]);
-  console.log(institutionInfo);
+ 
   return (
     <section className="w-full h-screen flex flex-col items-center justify-center gap-2">
       <div className="container">
@@ -48,33 +48,41 @@ const InstitutionDetail = () => {
             </div>
             {/* down form section */}
             <div className="w-[100%] mx-auto flex p-2 bg-white shadow-[inset_0px_-2px_3px_rgba(73,73,73,0.2)] rounded-lg mt-0 min-[400px]:mt-10 sm:mt-5">
-              <div className="flex flex-wrap items-start justify-start py-5 px-3">
-                <div className="flex flex-col">
-                  <label>Direccion</label>
+              <div className="flex flex-wrap items-start justify-start py-5 px-3 gap-3">
+                <div className="flex flex-col rounded-md ">
+                  <label className="shad-input-label text-14-regular text-dark-700 truncate">Direccion</label>
                   <input
+                  className="shad-input border-0 px-1 py-2 rounded-md"
                   type="text"
                   value={institutionInfo?.address}
+                  disabled
                   />
                 </div>
-                <div className="flex flex-col">
-                  <label>Email</label>
+                <div className="flex flex-col rounded-md ">
+                  <label className="shad-input-label text-14-regular text-dark-700 truncate">Email</label>
                   <input
+                  className="shad-input border-0 px-1 py-2 rounded-md"
                   type="text"
                   value={institutionInfo?.email}
+                  disabled
                   />
                 </div>
-                <div className="flex flex-col mt-2">
-                  <label>Telefono</label>
+                <div className="flex flex-col rounded-md ">
+                  <label className="shad-input-label text-14-regular text-dark-700 truncate">Telefono</label>
                   <input
+                  className="shad-input border-0 px-1 py-2 rounded-md"
                   type="text"
                   value={institutionInfo?.phone}
+                  disabled
                   />
                 </div>
-                <div className="flex flex-col mt-2">
-                  <label>Sitio web</label>
+                <div className="flex flex-col rounded-md  mt-2">
+                  <label className="shad-input-label text-14-regular text-dark-700 truncate">Sitio web</label>
                   <input
+                  className="shad-input border-0 px-1 py-2 rounded-md"
                   type="text"
                   value={institutionInfo?.website}
+                  disabled
                   />
                 </div>
               </div>

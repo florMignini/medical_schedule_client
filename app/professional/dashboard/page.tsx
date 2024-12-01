@@ -269,7 +269,7 @@ const ProfessionalDashboard = async () => {
                           key={institution.id}
                         >
                           <Link
-                            href={`/professional/patients/${institution.id}/info`}
+                            href={`/professional/institutions/${institution.id}/detail`}
                             className="w-[85%] md:w-[98%] mx-auto px-2 flex justify-between border-b-[1px] border-gray-500 mb-1 hover:scale-[102%] hover:bg-card-hover-100 hover:rounded-lg text-gray-600  hover:text-white"
                           >
                             <div
