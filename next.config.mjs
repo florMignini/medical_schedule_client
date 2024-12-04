@@ -25,6 +25,12 @@ const nextConfig = {
                 hostname: "avatar.iran.liara.run",
                 port: "",
                 pathname: "/**"
+            },
+            {
+                protocol: "https",
+                hostname: "randomuser.me",
+                port: "",
+                pathname: "/**"
             }
         ],
     },
