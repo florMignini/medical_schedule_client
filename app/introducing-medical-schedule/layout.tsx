@@ -28,7 +28,7 @@ export default function LandingPageLayout({
         redirect("/professional/dashboard")
     }
     return (
-        <section className="flex flex-col bg-dark-400 py-2">
+        <section className="flex flex-col bg-dark-400">
             {/* content */}
             {children}
         </section>
