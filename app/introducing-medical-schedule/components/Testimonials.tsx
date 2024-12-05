@@ -1,10 +1,12 @@
+"use client"
+import {motion} from "framer-motion"
 import { firstColumn, secondColumn, thirdColumn } from "../data/testimonials";
 import TestimonialsColumn from "./TestimonialsColumn";
 
-const Testimonials = async() => {
+const Testimonials = () => {
 
   return (
-    <section className="w-full bg-gradient-to-b from-[#FFFFFF] to-[#D2DCFF] py-24">
+    <section className="bg-gradient-to-b from-[#FFFFFF] to-[#D2DCFF] py-16 ">
       <div className="container">
         <div className="w-full flex items-center mx-auto justify-center">
         <h1 className="text-center text-sm font-bold tracking-tighter px-2 py-1 rounded-xl bg-slate-400 border-gray-500 border-[1px] bg-opacity-20 text-gray-500">
@@ -21,10 +23,10 @@ const Testimonials = async() => {
           nuestra aplicacion se ha transformado en una herramienta esencial para
           nuestros usuarios
         </p>
-       <div className="flex justify-center gap-6">
+       <div className="h-[500px] flex justify-center [mask-image:linear-gradient(to_bottom,transparent,black_25%,black_75%,transparent)] overflow-y-hidden gap-6 mt-10">
        <TestimonialsColumn testimonials={firstColumn}/>
-       <TestimonialsColumn testimonials={secondColumn} className="hidden md:flex"/>
-       <TestimonialsColumn testimonials={thirdColumn} className="hidden lg:flex"/>
+       <TestimonialsColumn testimonials={secondColumn} className="hidden md:block"/>
+       <TestimonialsColumn testimonials={thirdColumn} className="hidden lg:block"/>
        </div>
       </div>
     </section>
