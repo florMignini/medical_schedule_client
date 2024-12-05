@@ -18,9 +18,9 @@ const testimonials = [
         specialty: "Oftalmologa"
     },
     {
-        text: "Desde que utilizo el servicio mi productividad ha crecido exponencialmente",
-        imgSrc: "https://randomuser.me/api/portraits/men/32.jpg",
-        name: "John Doe",
+        text: "El servicio fue un antes y un despues en mi consultorio",
+        imgSrc: "https://randomuser.me/api/portraits/men/76.jpg",
+        name: "Joao Perez",
         specialty: "Clinica Medica"
     },
     {
@@ -30,15 +30,15 @@ const testimonials = [
         specialty: "Kinesiologa"
     },
     {
-        text: "Desde que utilizo el servicio ha incrementado la eficiencia en la atencion",
-        imgSrc: "https://randomuser.me/api/portraits/men/32.jpg",
+        text: "Una nueva manera de administrar el historial medico, gracias!",
+        imgSrc: "https://randomuser.me/api/portraits/women/79.jpg",
         name: "John Doe",
-        specialty: "Clinica Medica"
+        specialty: "Nutricionista"
     },
     {
         text: "Desde que utilizo el servicio mi productividad ha crecido exponencialmente",
-        imgSrc: "https://randomuser.me/api/portraits/men/32.jpg",
-        name: "John Doe",
+        imgSrc: "https://randomuser.me/api/portraits/women/51.jpg",
+        name: "Evelin Green",
         specialty: "Clinica Medica"
     },
     {

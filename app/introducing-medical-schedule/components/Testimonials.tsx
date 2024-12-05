@@ -1,10 +1,8 @@
-import axios from "axios";
-import React from "react";
-import { firstColumn } from "../data/testimonials";
-import Image from "next/image";
+import { firstColumn, secondColumn, thirdColumn } from "../data/testimonials";
+import TestimonialsColumn from "./TestimonialsColumn";
 
 const Testimonials = async() => {
-  
+
   return (
     <section className="w-full bg-gradient-to-b from-[#FFFFFF] to-[#D2DCFF] py-24">
       <div className="container">
@@ -23,28 +21,11 @@ const Testimonials = async() => {
           nuestra aplicacion se ha transformado en una herramienta esencial para
           nuestros usuarios
         </p>
-        <div>
-            {firstColumn.map(({text, imgSrc, name, specialty})=> (
-                <div className="bg-white max-w-xs w-full rounded-3xl shadow-[0_7px_14px_#EAEAEA] mx-auto px-2 py-3 border-[#222222]/10 h-auto mt-2"
-                key={name}
-                >
-                    <p className="text-gray-400 text-[15px] ml-1 font-light">{text}</p>
-                    <div className="flex items-center gap-2 mt-5">
-                        <Image
-                        src={imgSrc}
-                        alt="user-image"
-                        width={40}
-                        height={40}
-                        className="h-10 w-10 rounded-full"
-                        />
-                        <div className="flex flex-col">
-                            <p className="ml-1 font-semibold">{name}</p>
-                            <p className="text-gray-400 ml-1 font-light">{specialty}</p>
-                        </div>
-                    </div>
-                </div>
-            ))}
-        </div>
+       <div className="flex justify-center gap-6">
+       <TestimonialsColumn testimonials={firstColumn}/>
+       <TestimonialsColumn testimonials={secondColumn} className="hidden md:flex"/>
+       <TestimonialsColumn testimonials={thirdColumn} className="hidden lg:flex"/>
+       </div>
       </div>
     </section>
   );
