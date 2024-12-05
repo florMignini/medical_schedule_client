@@ -18,7 +18,7 @@ const Footer = () => {
         <nav className="flex flex-col md:flex-row md:justify-center gap-3 mt-6">
           <Link href="#" >About</Link>
           <Link href="#" >Features</Link>
-          <Link href="#" >Pricing</Link>
+          {/* <Link href="#" >Pricing</Link> */}
           <Link href="#" >Testimonials</Link>
         </nav>
         <div className="flex justify-center gap-6 mt-6">
