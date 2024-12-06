@@ -56,7 +56,7 @@ const InstitutionsPage = async () => {
       </div>
 
       {/* institutions table */}
-      <div className="w-[95%] py-4 px-3 bg-white shadow-[inset_0px_-2px_3px_rgba(73,73,73,0.2)] rounded-lg flex flex-col">
+      <div className="w-[95%] py-4 px-3 glass-effect flex flex-col">
         {data && data?.length! < 1 ? (
           <div className="w-[90%] flex items-center font-semibold justify-center gap-10">
             <p>Aún no posee instituciones activas</p>
@@ -65,16 +65,16 @@ const InstitutionsPage = async () => {
           <>
             {/*header*/}
             <div className="w-[99%] px-3 flex items-center justify-between border-b-[1px] mb-3 border-b-gray-500">
-              <p className="w-[25%] max-[690px]:w-[50%] h-10 text-sm font-medium text-gradient text-start">
+              <p className="w-[25%] max-[690px]:w-[50%] h-10 text-sm font-medium text-black text-start">
                 institucion
               </p>
-              <p className="w-[25%] max-[690px]:w-[50%] h-10 text-sm font-medium text-gradient text-start">
+              <p className="w-[25%] max-[690px]:w-[50%] h-10 text-sm font-medium text-black text-start">
                 Teléfono
               </p>
-              <p className="w-[25%] h-10 text-sm font-medium text-gradient text-start max-[690px]:hidden">
+              <p className="w-[25%] h-10 text-sm font-medium text-black text-start max-[690px]:hidden">
                 Mail
               </p>
-              <p className="w-[25%] h-10 text-sm font-medium text-gradient text-start max-[690px]:hidden">
+              <p className="w-[25%] h-10 text-sm font-medium text-black text-start max-[690px]:hidden">
                 Dirección
               </p>
             </div>
@@ -87,7 +87,7 @@ const InstitutionsPage = async () => {
                   >
                     <Link
                       href={`/professional/institutions/${institution.id}/detail`}
-                      className="w-[80%] sm:w-[98%] mx-auto px-2 flex justify-between border-b-[1px] border-gray-500 mb-1 hover:scale-[102%] hover:bg-card-hover-100 text-gray-600 hover:text-white hover:rounded-lg"
+                      className="w-[80%] sm:w-[98%] mx-auto px-2 flex justify-between border-b-[1px] border-gray-500 mb-1 hover:scale-[102%] hover:bg-card-hover-100 text-gray-700 hover:text-white hover:rounded-lg"
                     >
                       <div
                         key={institution.id}

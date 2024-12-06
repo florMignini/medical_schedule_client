@@ -1,5 +1,5 @@
 import Icon from "@/components/ui/icon";
-import userImage from "../../../public/assets/icons/users.svg";
+import userImage from "../components/icons/User";
 import plusImage from "../../../public/assets/icons/plus.svg";
 import settingIcon from "@/public/assets/icons/settings.svg"
 import Link from "next/link";
@@ -24,6 +24,7 @@ import ConfigButton from "../components/ConfigButton";
 import AddButton from "../components/AddButton";
 import Mail from "../components/icons/Mail";
 import Phone from "../components/icons/Phone";
+import User from "../components/icons/User";
 
 const PatientsPage = async () => {
   const cookieStore = cookies();
@@ -44,9 +45,9 @@ const PatientsPage = async () => {
       {/* top section */}
       <div className="w-[90%] flex items-center justify-between my-5">
         {/* leftside */}
-        <div className="w-[50%] flex items-center justify-start gap-2">
-          <Image src={userImage} alt="user-icon-image" height={25} width={25} />
-          <div className="text-[14px] font-semibold md:text-18-bold flex items-center justify-start gap-1">
+        <div className="w-[50%] text-black flex items-center justify-start gap-2">
+          <User height={25} width={25} />
+          <div className="text-[14px] font-semibold md:text-18-bold flex items-center justify-start gap-1 ">
             <h1 className="">
               {patientsIncluded.length}
             </h1>
@@ -65,7 +66,7 @@ const PatientsPage = async () => {
       </div>
 
       {/* patients table */}
-      <div className="w-[95%] py-4 px-3 bg-white shadow-[inset_0px_-2px_3px_rgba(73,73,73,0.2)] rounded-lg flex flex-col">
+      <div className="w-[95%] py-4 px-3 glass-effect flex flex-col">
         {data && data.patientsIncluded?.length! < 1 ? (
           <div className="w-[90%] flex font-semibold items-center justify-center gap-10">
             <p>Aún no posee pacientes activos</p>
@@ -74,16 +75,16 @@ const PatientsPage = async () => {
           <>
             {/*header*/}
             <div className="w-[99%] px-3 flex items-center justify-between border-b-[1px] mb-3 border-b-gray-500">
-              <p className="w-[25%] max-[690px]:w-[50%] h-10 text-sm font-medium text-gradient text-start">
+              <p className="w-[25%] max-[690px]:w-[50%] h-10 text-sm font-medium text-black text-start">
                 Nombre Completo
               </p>
-              <p className="sm:w-[25%] hidden md:flex max-[690px]:w-[50%] h-10 text-sm font-medium text-gradient text-start">
+              <p className="sm:w-[25%] hidden md:flex max-[690px]:w-[50%] h-10 text-sm font-medium text-black text-start">
                 Teléfono
               </p>
-              <p className="w-[25%] h-10 text-sm font-medium text-gradient text-start max-[690px]:hidden">
+              <p className="w-[25%] h-10 text-sm font-medium text-black text-start max-[690px]:hidden">
                 Mail
               </p>
-              <p className="w-[25%] h-10 text-sm font-medium text-gradient text-start max-[690px]:hidden">
+              <p className="w-[25%] h-10 text-sm font-medium text-black text-start max-[690px]:hidden">
                 Dirección
               </p>
             </div>
@@ -94,7 +95,7 @@ const PatientsPage = async () => {
                 >
                   <Link
                   href={`/professional/patients/${patient.id}/info`}
-                  className="w-[80%] sm:w-[98%] mx-auto px-2 flex items-center justify-between border-b-[1px] border-gray-500 mb-1 hover:scale-[102%] hover:bg-card-hover-100 hover:rounded-lg text-gray-600  hover:text-white"
+                  className="w-[80%] sm:w-[98%] mx-auto px-2 flex items-center justify-between border-b-[1px] border-gray-500 mb-1 hover:scale-[102%] hover:bg-card-hover-100 hover:rounded-lg text-gray-700  hover:text-white"
                 >
                   <div
                     key={patient.identityNumber}
