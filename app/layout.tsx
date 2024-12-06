@@ -28,7 +28,7 @@ export default function RootLayout({
     <html lang="en">
       <body
         className={cn(
-          "bg-bg-color-100 font-sans antialiased",
+          "bg-gray-600 font-sans antialiased",
           PlusFont.variable
         )}
       >

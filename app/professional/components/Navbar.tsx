@@ -26,7 +26,7 @@ const Navbar = ({ isOpen, toggleSidebar }: toggleSideI) => {
         {/*left section*/}
         <div className="flex items-center justify-start">
           <button
-            className="lg:hidden flex items-center justify-start text-[#5653AF] font-bold pl-4 hover:opacity-65"
+            className="lg:hidden flex items-center justify-start text-black font-bold pl-4 hover:opacity-65"
             onClick={toggleSidebar}
           >
             <Hamburguer
@@ -54,16 +54,16 @@ const Navbar = ({ isOpen, toggleSidebar }: toggleSideI) => {
             <div
               className={` ${
                 path === "dashboard"
-                  ? "hidden min-[880px]:flex min-[880px]:w-[50%] text-[20px] xl:text-2xl text-start text-[#5653AF] text-clip font-medium"
+                  ? "hidden min-[880px]:flex min-[880px]:w-[50%] text-[20px] xl:text-2xl text-start text-black text-clip font-medium"
                   : "hidden"} `}
             >
               {storedValue?.gender === "M" ? (
                 <h2 className="capitalize">
-                  Bienvenido, Dr. <strong>{storedValue?.lastname}</strong>
+                  Bienvenido, Dr. <strong className="truncate">{storedValue?.lastname}</strong>
                 </h2>
               ) : (
                 <h2 className="capitalize">
-                  Bienvenida, Dra. <strong>{storedValue?.lastname}</strong>
+                  Bienvenida, Dra. <strong className="truncate">{storedValue?.lastname}</strong>
                 </h2>
               )}
             </div>
@@ -94,16 +94,16 @@ const Navbar = ({ isOpen, toggleSidebar }: toggleSideI) => {
             </div>
             <div className={`${
               path === "dashboard"
-               ? "text-[24px] text-[#5653AF] text-start text-clip font-medium"
+               ? "text-[24px] text-black text-start text-clip font-medium"
                 : "hidden"
             }`}>
               {storedValue?.gender === "M" ? (
                 <h2 className="capitalize">
-                  Bienvenido, Dr. <strong>{storedValue?.lastname}</strong>
+                  Bienvenido, Dr. <strong className="truncate">{storedValue?.lastname}</strong>
                 </h2>
               ) : (
                 <h2 className="capitalize">
-                  Bienvenida, Dra. <strong>{storedValue?.lastname}</strong>
+                  Bienvenida, Dra. <strong className="truncate">{storedValue?.lastname}</strong>
                 </h2>
               )}
             </div>

@@ -38,7 +38,7 @@ const WelcomeSection = (professionalData: {
   }, []);
 
   return (
-    <div className="w-[95%] mx-auto h-full flex flex-col min-[520px]:grid min-[520px]:grid-cols-[50%,50%] p-2 bg-white shadow-[inset_0px_-2px_3px_rgba(73,73,73,0.2)] rounded-lg">
+    <div className="w-[95%] mx-auto h-full flex flex-col min-[520px]:grid min-[520px]:grid-cols-[50%,50%] glass-effect">
       {/* profile section */}
       <div className="w-[99%] h-auto  flex items-start flex-col gap-5 px-2 py-1">
         <div className="w-[100%] flex flex-col gap-3 items-center justify-center mx-auto">
@@ -93,7 +93,7 @@ const WelcomeSection = (professionalData: {
           <div className="flex items-center justify-center md:justify-start flex-col">
             <h1 className="text-lg font-semibold text-black">{`${professionalData.professional.firstName} ${professionalData.professional.lastName}`}</h1>
             <Badge
-              className="w-[100%] flex items-center justify-center"
+              className="w-[100%] text-white flex items-center justify-center"
               variant={
                 professionalData.professional.isActive
                   ? "outline"
@@ -105,14 +105,14 @@ const WelcomeSection = (professionalData: {
           </div>
           <Link
           href={`/professional/update-profile`}
-            className="flex w-[8] h-[8] p-2 rounded-full hover:bg-gradient-to-b from-black to-[#807f7f] text-transparent hover:opacity-50"
+            className="flex w-[8] h-[8] p-2 rounded-full  text-transparent hover:opacity-50"
           >
             <Image
               src={EditIcon}
               alt="edit-icon"
               width={15}
               height={15}
-              className="flex items-start justify-center"
+              className="flex items-start justify-center hover:scale-105"
             />
           </Link>
         </div>
@@ -120,29 +120,29 @@ const WelcomeSection = (professionalData: {
         <div className="hidden min-[520px]:w-[95%] min-[520px]:flex flex-col items-center justify-center my-auto mx-auto">
           {/* specialty */}
           <div className="w-full h-8 flex items-center justify-start gap-2 text-xs font-medium">
-            <label className="text-black font-bold">Especialidad: </label>
+            <label className="text-black font-bold text-[15px]">Especialidad: </label>
             <input
               disabled
               value={professionalData.professional.specialty}
-              className="text-gray-600 font-semibold"
+              className="text-gray-800 font-light text-[14px] bg-transparent"
             />
           </div>
           {/* phone Number */}
           <div className="w-full h-8 flex items-center justify-start gap-2 text-xs font-medium">
-            <label className="text-black font-bold">Teléfono: </label>
+            <label className="text-black font-bold text-[15px]">Teléfono: </label>
             <input
               disabled
               value={professionalData.professional.phoneNumber}
-              className="text-gray-600 font-semibold"
+              className="text-gray-800 font-light text-[14px] bg-transparent"
             />
           </div>
           {/* email */}
           <div className="w-full h-8 flex items-center justify-start gap-2 text-xs font-medium">
-            <label className="text-black font-bold">Email: </label>
+            <label className="text-black font-bold text-[15px]">Email: </label>
             <input
               disabled
               value={professionalData.professional.email}
-              className="text-gray-600 font-semibold"
+              className="text-gray-800 font-light text-[14px] bg-transparent"
             />
           </div>
         </div>

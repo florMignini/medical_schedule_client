@@ -31,9 +31,9 @@ const ProfessionalSidebar = ({
         <aside
             className={` ${
                 isOpen
-                    ? "fixed inset-y-0 left-0 w-64 md:w-[30%] backdrop-blur-lg z-50 transform translate-x-0"
+                    ? "fixed inset-y-0 left-0 w-64 md:w-[30%] backdrop-blur-lg bg-gray-600/40 z-50 transform translate-x-0"
                     : "hidden lg:flex items-center justify-start flex-col -translate-x-full"
-            } transition-transform mb-2 duration-500 ease-in-out lg:translate-x-0 h-screen bg-[#5855B2]`}
+            } transition-transform mb-2 duration-500 ease-in-out lg:translate-x-0 h-screen bg-transparent`}
         >
             {isOpen && (
                 <div className="w-full pt-2 px-5 flex items-center justify-between">
@@ -76,12 +76,12 @@ const ProfessionalSidebar = ({
                         href={item.path}
                         key={index}
                         className={cn(
-                            `w-[80%] flex gap-1 justify-start items-center text-[#F5EFEB] text-xs h-8 my-2 px-2 ${
+                            `w-[80%] flex gap-1 justify-start items-center text-white text-xs h-8 my-2 px-2 ${
                                 isOpen
                                     ? "justify-center hover:scale-105 hover:font-extrabold"
                                     : "pl-1 hover:scale-105 rounded-xl"
                             } ${
-                                pathname === item.path ? "w-[95%] bg-white rounded-lg font-extrabold px-0 mx-0" : ""
+                                pathname === item.path ? "w-[95%] glass-effect" : ""
                             }`
                         )}
                         onClick={() => setIsOpen(false)}
@@ -93,7 +93,7 @@ const ProfessionalSidebar = ({
                             height={28}
                             className="pl-2"
                         />
-                        <span className="w-[80%] text-center text-base font-medium text-[#221342]">{item.label}</span>
+                        <span className="w-[80%] text-center text-base font-medium text-white">{item.label}</span>
                         {
                             pathname === item.path && (
                                 <Image src={arrowRight} alt={arrowRight}
@@ -117,7 +117,7 @@ const ProfessionalSidebar = ({
                     width={20}
                     height={20}
                 />
-                <p className="font-semibold text-[#221342]">Cerrar Sesión</p>
+                <p className="font-semibold text-white">Cerrar Sesión</p>
             </button>
         </aside>
     );

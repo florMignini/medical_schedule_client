@@ -74,10 +74,10 @@ const ProfessionalDashboard = async () => {
               <WelcomeSection professional={data} />
             </div>
             {/* min-[760px]:total patient and appointments */}
-            <div className="hidden max-[760px]:w-[95%] max-[760px]:mx-auto bg-white min-[760px]:flex min-[760px]:flex-col items-start justify-center gap-2 h-full my-auto shadow-[inset_0px_-2px_3px_rgba(73,73,73,0.2)] rounded-lg">
-              <div className="max-[760px]:w-[50%] w-[90%] h-[95px] grid xl:grid-cols-[30%,70%] grid-cols-[40%,60%] mx-auto border-[1px] border-gray-400 rounded-lg py-2 bg-white text-black">
+            <div className="hidden max-[760px]:w-[95%] max-[760px]:mx-auto glass-effect min-[760px]:flex min-[760px]:flex-col items-start justify-center gap-2 h-full my-auto  rounded-lg">
+              <div className="max-[760px]:w-[50%] w-[90%] h-[95px] grid xl:grid-cols-[30%,70%] grid-cols-[40%,60%] mx-auto border-[1px] border-black/20 rounded-lg py-2 bg-transparent text-black">
                 <div className="w-[90%] flex items-center justify-center mx-auto ">
-                  <div className="w-[60%] flex items-center justify-center rounded-full bg-gray-400 bg-opacity-60">
+                  <div className="w-[60%] flex items-center justify-center rounded-full relative bg-white/10 backdrop-blur-3xl shadow-lg border border-white/20 bg-clip-text bg-opacity-60">
                     <UserCard
                       width={50}
                       height={50}
@@ -95,9 +95,9 @@ const ProfessionalDashboard = async () => {
                   </p>
                 </div>
               </div>
-              <div className="max-[760px]:w-[50%] w-[90%] h-[95px] grid xl:grid-cols-[30%,70%] grid-cols-[40%,60%] mx-auto border-[1px] border-gray-400 rounded-lg bg-white text-black">
+              <div className="max-[760px]:w-[50%] w-[90%] h-[95px] grid xl:grid-cols-[30%,70%] grid-cols-[40%,60%] mx-auto border-[1px] border-black/20 rounded-lg bg-transparent text-black">
                 <div className="w-[90%] flex items-center justify-center mx-auto">
-                  <div className="w-[50%] flex items-center justify-center rounded-full bg-gray-400 bg-opacity-60">
+                  <div className="w-[60%] flex items-center justify-center rounded-full relative bg-white/10 backdrop-blur-3xl shadow-lg border border-white/20 bg-clip-text bg-opacity-60">
                     <CheckListIcon
                       width={48}
                       height={48}
@@ -140,7 +140,7 @@ const ProfessionalDashboard = async () => {
           {/*down section*/}
           <div className="flex flex-col gap-2 mt-2">
             {/* patient section */}
-            <div className="w-[99%] py-4 px-3 shadow-[inset_0px_-2px_3px_rgba(73,73,73,0.2)] rounded-md flex flex-col bg-white">
+            <div className="w-[99%] py-4 px-3 glass-effect flex flex-col ">
               <div className="mx-auto mb-5 w-[99%] border-b-[1px]">
                 <p className="px-3 py-2 text-black font-semibold text-[18px]">
                   Pacientes
@@ -156,17 +156,17 @@ const ProfessionalDashboard = async () => {
                 ) : (
                   <>
                     {/*header*/}
-                    <div className="w-[99%] px-3 flex items-center justify-between border-b-[1px] mb-3 border-b-gray-500">
-                      <p className="w-[25%] max-[690px]:w-[50%] h-10 text-sm font-medium text-gradient text-start">
+                    <div className="w-[99%] px-3 flex items-center justify-between border-b-[1px] mb-3 border-b-gray-500 text-gray-700">
+                      <p className="w-[25%] max-[690px]:w-[50%] h-10 text-sm font-medium text-start">
                         Nombre Completo
                       </p>
-                      <p className="w-[25%] max-[690px]:w-[50%] h-10 text-sm font-medium text-gradient text-start">
+                      <p className="w-[25%] max-[690px]:w-[50%] h-10 text-sm font-medium text-start">
                         Teléfono
                       </p>
-                      <p className="w-[25%] h-10 text-sm font-medium text-gradient text-start max-[690px]:hidden">
+                      <p className="w-[25%] h-10 text-sm font-medium text-start max-[690px]:hidden">
                         Mail
                       </p>
-                      <p className="w-[25%] h-10 text-sm font-medium text-gradient text-start max-[690px]:hidden">
+                      <p className="w-[25%] h-10 text-sm font-medium text-start max-[690px]:hidden">
                         Dirección
                       </p>
                     </div>
@@ -178,7 +178,7 @@ const ProfessionalDashboard = async () => {
                         >
                           <Link
                             href={`/professional/patients/${patient.id}/info`}
-                            className="w-[85%] md:w-[98%] mx-auto px-2 flex items-center justify-between border-b-[1px] border-gray-500 mb-1 hover:scale-[102%] hover:bg-card-hover-100 hover:rounded-lg text-gray-600  hover:text-white"
+                            className="w-[85%] md:w-[98%] mx-auto px-2 flex items-center justify-between border-b-[1px] border-gray-500 mb-1 hover:scale-[102%] hover:bg-card-hover-100 hover:rounded-lg text-gray-700  hover:text-white"
                           >
                             <div
                               key={patient.identityNumber}
@@ -239,7 +239,7 @@ const ProfessionalDashboard = async () => {
             </div>
 
             {/* institutions section */}
-            <div className="w-[99%] py-4 px-3 shadow-[inset_0px_-2px_3px_rgba(73,73,73,0.2)] rounded-md flex flex-col bg-white">
+            <div className="w-[99%] flex flex-col glass-effect">
               <div className="mx-auto mb-5 w-[99%] border-b-[1px]">
                 <p className="px-3 py-2 text-black font-semibold text-[18px]">
                   Instituciones
@@ -255,17 +255,17 @@ const ProfessionalDashboard = async () => {
                 ) : (
                   <>
                     {/*header*/}
-                    <div className="w-[99%] px-3 flex items-center justify-between border-b-[1px] mb-3 border-b-gray-500">
-                      <p className="w-[25%] max-[690px]:w-[50%] h-10 text-sm font-medium text-gradient text-start">
+                    <div className="w-[99%] px-3 flex items-center justify-between border-b-[1px] mb-3 border-b-gray-500 text-gray-700">
+                      <p className="w-[25%] max-[690px]:w-[50%] h-10 text-sm font-medium text-start">
                         institucion
                       </p>
-                      <p className="w-[25%] max-[690px]:w-[50%] h-10 text-sm font-medium text-gradient text-start">
+                      <p className="w-[25%] max-[690px]:w-[50%] h-10 text-sm font-medium text-start">
                         Teléfono
                       </p>
-                      <p className="w-[25%] h-10 text-sm font-medium text-gradient text-start max-[690px]:hidden">
+                      <p className="w-[25%] h-10 text-sm font-medium text-start max-[690px]:hidden">
                         Mail
                       </p>
-                      <p className="w-[25%] h-10 text-sm font-medium text-gradient text-start max-[690px]:hidden">
+                      <p className="w-[25%] h-10 text-sm font-medium text-start max-[690px]:hidden">
                         Dirección
                       </p>
                     </div>
@@ -277,7 +277,7 @@ const ProfessionalDashboard = async () => {
                         >
                           <Link
                             href={`/professional/institutions/${institution.id}/detail`}
-                            className="w-[85%] md:w-[98%] mx-auto px-2 flex justify-between border-b-[1px] border-gray-500 mb-1 hover:scale-[102%] hover:bg-card-hover-100 hover:rounded-lg text-gray-600  hover:text-white"
+                            className="w-[85%] md:w-[98%] mx-auto px-2 flex justify-between border-b-[1px] border-gray-500 mb-1 hover:scale-[102%] hover:bg-card-hover-100 hover:rounded-lg text-gray-700  hover:text-white"
                           >
                             <div
                               key={institution.id}
