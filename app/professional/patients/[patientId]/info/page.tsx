@@ -31,23 +31,25 @@ const PatientInfo = () => {
     "Informacion del Paciente"
   );
   //  skeleton
-  if (!patientInfo){
+  if (!patientInfo) {
     return (
       <div className="flex items-start justify-center h-screen flex-col space-y-3 mx-auto">
-      <Skeleton className="h-[250px] w-[90%] rounded-xl" />
-      <div className="space-y-2 opacity-30">
-        <Skeleton className="h-[125px] w-[90%]" />
-        <Skeleton className="h-[125px] w-[90%]" />
+        <Skeleton className="h-[250px] w-[90%] rounded-xl" />
+        <div className="space-y-2 opacity-30">
+          <Skeleton className="h-[125px] w-[90%]" />
+          <Skeleton className="h-[125px] w-[90%]" />
+        </div>
       </div>
-    </div>
     );
   }
-    
+
   return (
     <section className="w-full h-auto min-[700px]:h-screen py-2 flex flex-col items-center justify-start gap-2">
       {/* Title */}
       <div className="flex w-[90%] h-10 items-start justify-start ">
-        <h1 className="text-2xl max-[690px]:text-xl font-bold text-start">Paciente</h1>
+        <h1 className="text-2xl max-[690px]:text-xl font-bold text-start">
+          Paciente
+        </h1>
       </div>
       {/* top section */}
       <div className="w-[95%] h-auto flex flex-col bg-white gap-5 shadow-[inset_0px_-2px_3px_rgba(73,73,73,0.2)] rounded-md">
@@ -66,9 +68,7 @@ const PatientInfo = () => {
             <div className="w-[50%] text-[14px] md:text-18-bold flex flex-col ">
               <h1 className="">{`${patientInfo.firstName} ${patientInfo.lastName}`}</h1>
               <p className="">
-                <strong className="">
-                  {patientInfo.identificationType}:{" "}
-                </strong>
+                <strong className="">{patientInfo.identificationType}: </strong>
                 {patientInfo.identityNumber}
               </p>
             </div>
@@ -78,15 +78,18 @@ const PatientInfo = () => {
                 className="w-[60%] md:w-[50%] flex justify-center bg-blue-700 p-1 rounded-lg cursor-pointer hover:scale-105 active:outline-none"
                 href={`/professional/patients/${patientId}/new-appointment`}
               >
-                <p className="text-white max-[690px]:text-[11px] text-14-medium">Crear Turno</p>
+                <p className="text-white max-[690px]:text-[11px] text-14-medium">
+                  Crear Turno
+                </p>
               </Link>
             </div>
           </div>
         </div>
         {/* info nav */}
         <div className="w-[100%] flex items-center justify-start gap-5 pb-2 px-3">
-          {DinamicPage.map((data) => (
+          {DinamicPage.map((data,index) => (
             <button
+            key={index}
               onClick={() => setDinamicPage(data.name)}
               className={clsx(
                 "font-light text-sm",
@@ -105,9 +108,7 @@ const PatientInfo = () => {
         {dinamicPage === "Informacion del Paciente" ? (
           <PatientInfoSection {...patientInfo} />
         ) : dinamicPage === "Historial de Citas" ? (
-          <PastAppointments
-          {...patientInfo}
-          />
+          <PastAppointments {...patientInfo} />
         ) : dinamicPage === "Resultados Lab" ? (
           <LabResultSection />
         ) : (
