@@ -29,7 +29,7 @@ const InstitutionsPage = async () => {
   const { data } = await apiServer.get(`/institutions/get-all-institutions`);
 
   return (
-    <section className="w-full h-screen flex flex-col items-center justify-start gap-2">
+    <section className="w-full h-screen flex flex-col items-center justify-start gap-2 text-color">
       {/* Title */}
       <div className="flex w-[90%] h-10 items-start justify-start px-2">
         <h1 className="text-18-bold text-start">Instituciones</h1>
@@ -40,7 +40,7 @@ const InstitutionsPage = async () => {
         <div className="w-[50%] flex items-center justify-start gap-2">
           <Institution height={25} width={25} />
           <div className="flex items-center justify-start gap-1">
-            <h1 className="text-18-bold text-dark-500">{data.length}</h1>
+            <h1 className="text-18-bold">{data.length}</h1>
             <p className="text-18-bold">
               {data.length < 2 ? `institución` : `instituciones`}
             </p>
@@ -64,17 +64,17 @@ const InstitutionsPage = async () => {
         ) : (
           <>
             {/*header*/}
-            <div className="w-[99%] px-3 flex items-center justify-between border-b-[1px] mb-3 border-b-gray-500">
-              <p className="w-[25%] max-[690px]:w-[50%] h-10 text-sm font-medium text-black text-start">
+            <div className="w-[99%] px-3 flex items-center justify-between border-b-[1px] mb-3 border-b-gray-500 text-black">
+              <p className="w-[25%] max-[690px]:w-[50%] h-10 text-sm font-medium text-start">
                 institucion
               </p>
-              <p className="w-[25%] max-[690px]:w-[50%] h-10 text-sm font-medium text-black text-start">
+              <p className="w-[25%] max-[690px]:w-[50%] h-10 text-sm font-medium text-start">
                 Teléfono
               </p>
-              <p className="w-[25%] h-10 text-sm font-medium text-black text-start max-[690px]:hidden">
+              <p className="w-[25%] h-10 text-sm font-medium text-start max-[690px]:hidden">
                 Mail
               </p>
-              <p className="w-[25%] h-10 text-sm font-medium text-black text-start max-[690px]:hidden">
+              <p className="w-[25%] h-10 text-sm font-medium text-start max-[690px]:hidden">
                 Dirección
               </p>
             </div>
@@ -101,16 +101,16 @@ const InstitutionsPage = async () => {
                             height={40}
                             className="rounded-full bg-gradient-to-b from-black to-[#001E80]"
                           />
-                          <p className="text-[14px] font-semibold">
+                          <p className="text-[14px] font-semibold truncate">
                             {`${institution.name}`}
                           </p>
                         </div>
                       </div>
                       <div
-                        className="w-[25%] max-[690px]:w-[50%] px-1 py-2"
+                       className="hidden max-[690px]:w-[50%] px-1 py-2 sm:flex items-center justify-start"
                         key={institution.phone}
                       >
-                        <div className="text-[14px] font-normal flex gap-1">
+                        <div className="text-[14px] font-normal flex gap-1 items-center justify-start truncate">
                           <Phone width={20} height={20} />
                           {institution.phone}
                         </div>

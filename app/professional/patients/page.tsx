@@ -37,7 +37,7 @@ const PatientsPage = async () => {
   const { patientsIncluded }: { patientsIncluded: PatientsIncluded[] } = data;
 
   return (
-    <section className="w-full h-screen flex flex-col items-center justify-start gap-2">
+    <section className="w-full h-screen flex flex-col items-center justify-start gap-2 text-color">
       {/* Title */}
       <div className="flex w-[90%] h-10 items-start justify-start px-2">
         <h1 className="text-18-bold text-start">Pacientes</h1>
@@ -45,7 +45,7 @@ const PatientsPage = async () => {
       {/* top section */}
       <div className="w-[90%] flex items-center justify-between my-5">
         {/* leftside */}
-        <div className="w-[50%] text-black flex items-center justify-start gap-2">
+        <div className="w-[50%] flex items-center justify-start gap-2">
           <User height={25} width={25} />
           <div className="text-[14px] font-semibold md:text-18-bold flex items-center justify-start gap-1 ">
             <h1 className="">

@@ -5,6 +5,7 @@ import { AppointmentsIncluded, ProfessionalInformation } from "@/interfaces";
 import calendar from "../../../public/assets/icons/appointments.svg"
 import Link from "next/link";
 import Calendar from "../components/Calendar";
+import CalendarIcon from "../components/icons/CalendarIcon";
 
 const Appointments = async() => {
     const cookieStore = cookies();
@@ -16,21 +17,20 @@ const Appointments = async() => {
 // @ts-ignore
   const { appointmentsIncluded }: { appointmentsIncluded: AppointmentsIncluded[] } = data ?? { appointmentsIncluded: [] };
   return (
-    <section className="w-full h-screen flex flex-col items-center justify-start gap-2">
+    <section className="w-full h-screen flex flex-col items-center justify-start gap-2 text-color">
          {/* Title */}
       <div className="flex w-[90%] h-10 items-start justify-start px-2">
         <h1 className="text-18-bold text-start">Reservaciones</h1>
       </div>
       {/* top section */}
       <div className="w-[90%] flex items-center justify-start gap-2">
-       <Icon
-       src={calendar}
-       alt="calendar-icon"
-       width={25}
-       height={25}
+       <CalendarIcon
+       width={20}
+       height={20}
+       className="text-color"
        />
        <div className="flex items-center justify-center gap-1">
-        <h1 className="text-18-bold text-dark-500">{appointmentsIncluded.length}</h1>
+        <h1 className="text-18-bold ">{appointmentsIncluded.length}</h1>
         <p className="text-18-bold">{appointmentsIncluded.length >1 ? `Citas totales` : `Cita total`}</p>
        </div>
       </div>

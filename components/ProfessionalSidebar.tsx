@@ -31,7 +31,7 @@ const ProfessionalSidebar = ({
         <aside
             className={` ${
                 isOpen
-                    ? "fixed inset-y-0 left-0 w-64 md:w-[30%] backdrop-blur-lg bg-gray-600/40 z-50 transform translate-x-0"
+                    ? "fixed inset-y-0 left-0 w-64 md:w-[30%] backdrop-blur-lg bg-black/60 z-50 transform translate-x-0"
                     : "hidden lg:flex items-center justify-start flex-col -translate-x-full"
             } transition-transform mb-2 duration-500 ease-in-out lg:translate-x-0 h-screen bg-transparent`}
         >
@@ -76,7 +76,7 @@ const ProfessionalSidebar = ({
                         href={item.path}
                         key={index}
                         className={cn(
-                            `w-[80%] flex gap-1 justify-start items-center text-white text-xs h-8 my-2 px-2 ${
+                            `w-[80%] flex gap-1 justify-start items-center text-color text-xs h-8 my-2 px-2 ${
                                 isOpen
                                     ? "justify-center hover:scale-105 hover:font-extrabold"
                                     : "pl-1 hover:scale-105 rounded-xl"
@@ -93,7 +93,7 @@ const ProfessionalSidebar = ({
                             height={28}
                             className="pl-2"
                         />
-                        <span className="w-[80%] text-center text-base font-medium text-white">{item.label}</span>
+                        <span className="w-[80%] text-center text-base font-medium text-color">{item.label}</span>
                         {
                             pathname === item.path && (
                                 <Image src={arrowRight} alt={arrowRight}
@@ -116,8 +116,9 @@ const ProfessionalSidebar = ({
                     alt="log-out-icon"
                     width={20}
                     height={20}
+                    
                 />
-                <p className="font-semibold text-white">Cerrar Sesión</p>
+                <p className="font-semibold text-color">Cerrar Sesión</p>
             </button>
         </aside>
     );
