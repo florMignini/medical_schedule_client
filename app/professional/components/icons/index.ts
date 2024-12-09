@@ -1,4 +1,5 @@
 export * from './CheckListIcon';
+export * from './Clock';
 export * from './Hamburguer';
 export * from './Institution';
 export * from './Mail';
