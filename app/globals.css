@@ -202,7 +202,7 @@
     @apply bg-gradient-to-br from-gray-300 via-gray-400 to-gray-500
   }
   .glass-effect{
-    @apply relative z-50 bg-white/5 backdrop-blur-3xl px-2 py-3 rounded-lg shadow-lg border border-white/20 bg-clip-text
+    @apply relative z-40 bg-white/5 backdrop-blur-3xl px-2 py-3 rounded-lg shadow-lg border border-white/20 bg-clip-text
   }
   /* =====  SHADCN OVERRIDES */
   .shad-primary-btn {
