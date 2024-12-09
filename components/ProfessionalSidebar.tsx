@@ -31,9 +31,9 @@ const ProfessionalSidebar = ({
         <aside
             className={` ${
                 isOpen
-                    ? "fixed inset-y-0 left-0 w-64 md:w-[30%] backdrop-blur-lg bg-[#4B5563]/80 z-50 transform translate-x-0 text-white"
-                    : "hidden lg:flex items-center justify-start flex-col -translate-x-full"
-            } transition-transform mb-2 duration-500 ease-in-out lg:translate-x-0 h-screen bg-transparent`}
+                    ? "fixed inset-y-0 top-0 left-0 w-64 md:w-[30%] backdrop-blur-md bg-[#4B5563]/20 z-50 transform -translate-x-0 "
+                    : "hidden lg:flex lg:translate-x-0 items-center justify-start flex-col -translate-x-full"
+            } transition-transform mb-2 duration-500 ease-in-out  h-screen bg-transparent `}
         >
             {isOpen && (
                 <div className="w-full pt-2 px-5 flex items-center justify-between">
@@ -49,7 +49,7 @@ const ProfessionalSidebar = ({
                             width={160}
                         />
                     </Link>
-                    <button className="flex items-start justify-start" onClick={toggleSidebar}>
+                    <button className="flex items-start justify-start" onClick={() => setIsOpen(false)}>
                         <Icon src={CloseIcon} alt="close-icon" width={20} height={20}/>
                     </button>
                 </div>

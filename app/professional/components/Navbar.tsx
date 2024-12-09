@@ -11,7 +11,7 @@ import Search from "./Search";
 import { useLocalStorage } from "@/utils";
 import Hamburguer from "./icons/Hamburguer";
 
-const Navbar = ({ isOpen, toggleSidebar }: toggleSideI) => {
+const Navbar = ({ isOpen, setIsOpen }: toggleSideI) => {
 
   const router = useRouter();
   const pathname = usePathname();
@@ -27,8 +27,7 @@ const Navbar = ({ isOpen, toggleSidebar }: toggleSideI) => {
         <div className="flex items-center justify-start">
           <button
             className="lg:hidden flex items-center justify-start text-black font-bold pl-4 hover:opacity-65"
-            onClick={toggleSidebar}
-          >
+            onClick={() => setIsOpen(!isOpen)}>
             <Hamburguer
               width={25}
               height={25}
