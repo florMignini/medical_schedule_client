@@ -1,3 +1,4 @@
+export * from './CalendarIcon';
 export * from './CheckListIcon';
 export * from './Clock';
 export * from './Hamburguer';
@@ -5,5 +6,6 @@ export * from './Institution';
 export * from './Mail';
 export * from './Phone';
 export * from './Plus';
+export * from './Configuration';
 export * from './User';
 export * from './UserCard';

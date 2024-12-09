@@ -140,9 +140,9 @@ const ProfessionalDashboard = async () => {
           {/*down section*/}
           <div className="flex flex-col gap-2 mt-2">
             {/* patient section */}
-            <div className="w-[99%] py-4 px-3 glass-effect flex flex-col ">
-              <div className="mx-auto mb-5 w-[99%] border-b-[1px]">
-                <p className="px-3 py-2 text-black font-semibold text-[18px]">
+            <div className="w-[99%] py-4 px-3 glass-effect flex flex-col text-color">
+              <div className="mx-auto mb-5 w-[99%] border-b-[1px] border-[#A7B3C8]">
+                <p className="px-3 py-2 font-semibold text-[18px]">
                   Pacientes
                 </p>
               </div>
@@ -240,8 +240,8 @@ const ProfessionalDashboard = async () => {
 
             {/* institutions section */}
             <div className="w-[99%] flex flex-col glass-effect">
-              <div className="mx-auto mb-5 w-[99%] border-b-[1px]">
-                <p className="px-3 py-2 text-black font-semibold text-[18px]">
+              <div className="mx-auto mb-5 w-[99%] border-b-[1px] border-[#A7B3C8]">
+                <p className="px-3 py-2 text-color font-semibold text-[18px]">
                   Instituciones
                 </p>
               </div>

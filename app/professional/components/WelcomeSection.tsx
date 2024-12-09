@@ -93,7 +93,7 @@ const WelcomeSection = (professionalData: {
           <div className="flex items-center justify-center md:justify-start flex-col">
             <h1 className="text-lg font-semibold text-black">{`${professionalData.professional.firstName} ${professionalData.professional.lastName}`}</h1>
             <Badge
-              className="w-[100%] text-white flex items-center justify-center"
+              className="w-auto text-color flex items-center justify-center border-[#A7B3C8]"
               variant={
                 professionalData.professional.isActive
                   ? "outline"
