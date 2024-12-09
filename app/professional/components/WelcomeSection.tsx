@@ -52,7 +52,7 @@ const WelcomeSection = (professionalData: {
           />
           <div className="w-[80%] flex items-center justify-between px-3">
             <Link href="#"
-            className="p-1 rounded-full hover:bg-gradient-to-b from-black to-[#807f7f] text-transparent text-center hover:opacity-50"
+            className="p-1 rounded-full hover:bg-gradient-to-b hover:from-black hover:to-[#807f7f]  text-center hover:opacity-50"
             >
               <Image
                 src={instagram}
@@ -63,7 +63,7 @@ const WelcomeSection = (professionalData: {
               />
             </Link>
             <Link href="#"
-            className="p-1 rounded-full hover:bg-gradient-to-b from-black to-[#807f7f] text-transparent text-center hover:opacity-50"
+            className="p-1 rounded-full hover:bg-gradient-to-b hover:from-black hover:to-[#807f7f] text-transparent text-center hover:opacity-50"
             >
               <Image
                 src={twitter}
@@ -74,7 +74,7 @@ const WelcomeSection = (professionalData: {
               />
             </Link>
             <Link href="#"
-            className="p-1 rounded-full hover:bg-gradient-to-b from-black to-[#807f7f] text-transparent text-center hover:opacity-50"
+            className="p-1 rounded-full hover:bg-gradient-to-b hover:from-black hover:to-[#807f7f] text-transparent text-center hover:opacity-50"
             >
               <Image
                 src={linkedin}
