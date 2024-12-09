@@ -13,7 +13,9 @@ import User from "../../../public/assets/profile-doctor.jpg";
 import { ProfessionalInformation } from "@/interfaces";
 import Link from "next/link";
 
-const WelcomeSection = (professionalData: {
+const WelcomeSection = ({
+  professional,
+}: {
   professional: ProfessionalInformation;
 }) => {
   const [todayDay, setTodayDay] = useState<string>();
@@ -43,7 +45,11 @@ const WelcomeSection = (professionalData: {
       <div className="w-[99%] h-auto  flex items-start flex-col gap-5 px-2 py-1">
         <div className="w-[100%] flex flex-col gap-3 items-center justify-center mx-auto">
           <Image
-            src={(professionalData.professional.gender !== "" && professionalData.professional.gender === "M") ? `https://avatar.iran.liara.run/public/job/doctor/male` : `https://avatar.iran.liara.run/public/job/doctor/female`}
+            src={
+              professional.gender !== "" && professional.gender === "M"
+                ? `https://avatar.iran.liara.run/public/job/doctor/male`
+                : `https://avatar.iran.liara.run/public/job/doctor/female`
+            }
             width={200}
             height={200}
             priority
@@ -51,37 +57,49 @@ const WelcomeSection = (professionalData: {
             className="flex items-center justify-center"
           />
           <div className="w-[80%] flex items-center justify-between px-3">
-            <Link href="#"
-            className="p-1 rounded-full hover:bg-gradient-to-b hover:from-black hover:to-[#807f7f]  text-center hover:opacity-50"
+            <Link
+              href={
+                professional?.instagramUrl?.length! > 2
+                  ? `${professional?.instagramUrl}`
+                  : "#"
+              }
+              className={`${professional?.newTwitterUrl?.length! >2 ? "p-1 rounded-full hover:bg-gradient-to-b hover:from-black hover:to-[#807f7f] text-transparent text-center hover:opacity-50": 'opacity-40'}`}
             >
               <Image
                 src={instagram}
                 alt="instagram-icon"
                 width={20}
                 height={20}
-                className="hover:scale-105"
               />
             </Link>
-            <Link href="#"
-            className="p-1 rounded-full hover:bg-gradient-to-b hover:from-black hover:to-[#807f7f] text-transparent text-center hover:opacity-50"
+            <Link
+              href={
+                professional?.newTwitterUrl?.length! > 2
+                  ? `${professional?.newTwitterUrl}`
+                  : "#"
+              }
+              className={`${professional?.newTwitterUrl?.length! >2 ? "p-1 rounded-full hover:bg-gradient-to-b hover:from-black hover:to-[#807f7f] text-transparent text-center hover:opacity-50": 'opacity-40'}`}
             >
               <Image
                 src={twitter}
                 alt="twitter-icon"
                 width={20}
                 height={20}
-                className="hover:scale-105"
               />
             </Link>
-            <Link href="#"
-            className="p-1 rounded-full hover:bg-gradient-to-b hover:from-black hover:to-[#807f7f] text-transparent text-center hover:opacity-50"
+            <Link
+              href={
+                professional?.linkedInUrl?.length! > 2
+                  ? `${professional?.linkedInUrl}`
+                  : "#"
+              }
+              className={`${professional?.linkedInUrl?.length! >2 ? "p-1 rounded-full hover:bg-gradient-to-b hover:from-black hover:to-[#807f7f] text-transparent text-center hover:opacity-50": 'opacity-40'}`}
             >
               <Image
                 src={linkedin}
                 alt="linkedin-icon"
                 width={20}
                 height={20}
-                className="hover:scale-105"
               />
             </Link>
           </div>
@@ -91,20 +109,16 @@ const WelcomeSection = (professionalData: {
       <div className="w-full h-full flex flex-col items-start px-1 py-3 justify-start gap-1">
         <div className="w-[95%] flex items-center justify-center gap-3 md:gap-0 md:justify-between text-gradient">
           <div className="flex items-center justify-center md:justify-start flex-col">
-            <h1 className="text-lg font-semibold text-black">{`${professionalData.professional.firstName} ${professionalData.professional.lastName}`}</h1>
+            <h1 className="text-lg font-semibold text-black">{`${professional.firstName} ${professional.lastName}`}</h1>
             <Badge
               className="w-auto text-color flex items-center justify-center border-[#A7B3C8]"
-              variant={
-                professionalData.professional.isActive
-                  ? "outline"
-                  : "destructive"
-              }
+              variant={professional.isActive ? "outline" : "destructive"}
             >
-              {professionalData.professional.isActive ? "activo" : "inactivo"}
+              {professional.isActive ? "activo" : "inactivo"}
             </Badge>
           </div>
           <Link
-          href={`/professional/update-profile`}
+            href={`/professional/update-profile`}
             className="flex w-[8] h-[8] p-2 rounded-full  text-transparent hover:opacity-50"
           >
             <Image
@@ -120,19 +134,23 @@ const WelcomeSection = (professionalData: {
         <div className="hidden min-[520px]:w-[95%] min-[520px]:flex flex-col items-center justify-center my-auto mx-auto">
           {/* specialty */}
           <div className="w-full h-8 flex items-center justify-start gap-2 text-xs font-medium">
-            <label className="text-black font-bold text-[15px]">Especialidad: </label>
+            <label className="text-black font-bold text-[15px]">
+              Especialidad:{" "}
+            </label>
             <input
               disabled
-              value={professionalData.professional.specialty}
+              value={professional.specialty}
               className="text-gray-800 font-light text-[14px] bg-transparent"
             />
           </div>
           {/* phone Number */}
           <div className="w-full h-8 flex items-center justify-start gap-2 text-xs font-medium">
-            <label className="text-black font-bold text-[15px]">Teléfono: </label>
+            <label className="text-black font-bold text-[15px]">
+              Teléfono:{" "}
+            </label>
             <input
               disabled
-              value={professionalData.professional.phoneNumber}
+              value={professional.phoneNumber}
               className="text-gray-800 font-light text-[14px] bg-transparent"
             />
           </div>
@@ -141,13 +159,12 @@ const WelcomeSection = (professionalData: {
             <label className="text-black font-bold text-[15px]">Email: </label>
             <input
               disabled
-              value={professionalData.professional.email}
+              value={professional.email}
               className="text-gray-800 font-light text-[14px] bg-transparent"
             />
           </div>
         </div>
       </div>
-
     </div>
   );
 };

@@ -13,6 +13,9 @@ export interface ProfessionalInformation {
   phoneNumber: number;
   gender: string;
   email: string;
+  instagramUrl?:string;
+  newTwitterUrl?:string;
+  linkedInUrl?: string;
   isActive: boolean;
   patientsIncluded?: PatientsIncluded[];
   appointmentsIncluded?: AppointmentsIncluded[];

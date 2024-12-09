@@ -116,9 +116,9 @@ const ProfessionalDashboard = async () => {
               </div>
             </div>
             {/* total patient and appointments */}
-            <div className="w-[90%] text-gray-400 flex min-[760px]:hidden items-center justify-between mx-auto">
+            <div className="w-[90%] text-color flex min-[760px]:hidden items-center justify-between mx-auto">
             <div className="w-[50%] flex flex-col items-start justify-center text-base font-light px-3">
-            <p className="w-[99%] text-start font-light text-[14px] border-b-[1px]">
+            <p className="w-[99%] text-start font-light text-[14px] border-b-[1px] border-[#839cc7]">
                   Pacientes totales
                 </p>
                 <p className="w-[100%] font-bold text-black text-3xl flex items-start">
@@ -127,7 +127,7 @@ const ProfessionalDashboard = async () => {
               </div>
               <div className="h-16 border-x-[1px] border-black" />
               <div className="w-[50%] flex flex-col items-center justify-start px-3">
-              <p className="w-[99%] text-start font-light text-[14px] border-b-[1px]">
+              <p className="w-[99%] text-start font-light text-[14px] border-b-[1px] border-[#839cc7]">
                   Citas totales
                 </p>
                 <p className="w-[100%] font-bold text-black text-3xl flex items-start">
@@ -239,7 +239,7 @@ const ProfessionalDashboard = async () => {
             </div>
 
             {/* institutions section */}
-            <div className="w-[99%] flex flex-col glass-effect">
+            <div className="w-[99%] flex flex-col glass-effect text-color">
               <div className="mx-auto mb-5 w-[99%] border-b-[1px] border-[#A7B3C8]">
                 <p className="px-3 py-2 text-color font-semibold text-[18px]">
                   Instituciones
