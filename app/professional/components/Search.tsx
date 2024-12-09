@@ -47,7 +47,7 @@ const Search = ({ path }: any) => {
   };
 
   return (
-    <div className="relative w-[99%] h-auto flex flex-col items-center justify-center">
+    <div className="relative w-[99%] h-auto flex flex-col items-center justify-center text-color">
       <div className="absolute w-[99%] h-20 flex flex-col items-center justify-center lg:justify-end mx-auto">
         {/* search section */}
         <div className="w-[100%] grid grid-cols-[15%,85%] align-middle justify-center bg-transparent rounded-2xl px-2 shadow-[inset_2px_-4px_10px_rgba(15,15,15,0.5)]">
@@ -63,7 +63,7 @@ const Search = ({ path }: any) => {
                 ? "pacientes"
                 : "pacientes ó instituciones"
             }`}
-            className="w-[95%] h-10 bg-transparent border-none focus:outline-none active:outline-none placeholder:text-white"
+            className="w-[95%] h-10 bg-transparent border-none focus:outline-none active:outline-none placeholder:text-color"
             value={query}
             autoComplete="off"
             onChange={({ target }) => setQuery(target.value)}
