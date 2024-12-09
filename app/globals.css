@@ -194,15 +194,15 @@
     @apply text-[12px] leading-[16px] font-semibold;
   }
   /* ==== text gradient color */
-  .text-gradient{
-    @apply bg-gradient-to-b from-[#0B1E26] to-[#E7E7E7] text-transparent bg-clip-text
+  .text-color{
+    @apply text-[#839cc7]
   }
   
   .bg-gradient{
-    @apply bg-gradient-to-br from-gray-300 via-gray-400 to-gray-500
+    @apply bg-gradient-to-br from-[#F5F5F7] to-[#C1B6AC]
   }
   .glass-effect{
-    @apply relative z-40 bg-white/5 backdrop-blur-3xl px-2 py-3 rounded-lg shadow-lg border border-white/20 bg-clip-text
+    @apply relative z-40 bg-transparent backdrop:blur-3xl px-2 py-3 rounded-lg shadow-lg shadow-[#000000] bg-opacity-10 border border-white/20 bg-clip-text
   }
   /* =====  SHADCN OVERRIDES */
   .shad-primary-btn {
