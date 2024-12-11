@@ -398,7 +398,7 @@ const PatientProfileUpdateForm = (patientInfo: Patient) => {
                 name="identificationNumber"
                 label="Número de Documento"
                 disable
-                defaultValue={patientInfo.identificationNumber}
+                defaultValue={patientInfo.identityNumber}
               />
             </div>
             {/* birthdate & gender */}
