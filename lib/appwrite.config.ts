@@ -2,7 +2,7 @@ import * as sdk from "node-appwrite"
 export const {
     PROJECT_ID,
     API_KEY,
-    NEXT_PUBLIC_BUCKET_ID: BUCKET_ID,
+    NEXT_PUBLIC_PATIENT_PROFILE_BUCKET_ID: PATIENT_PROFILE_BUCKET_ID,
     NEXT_PUBLIC_ENDPOINT: ENDPOINT
 } = process.env;
 

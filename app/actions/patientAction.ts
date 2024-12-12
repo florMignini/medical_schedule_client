@@ -11,7 +11,7 @@ import {
 import { cookies } from "next/headers";
 import { booleanOption } from "@/data";
 import { InputFile } from "node-appwrite/file";
-import { BUCKET_ID, ENDPOINT, PROJECT_ID, storage } from "@/lib";
+import { PATIENT_PROFILE_BUCKET_ID, ENDPOINT, PROJECT_ID, storage } from "@/lib";
 import { ID } from "node-appwrite";
 import { apiServer } from "@/api/api-server";
 interface IPatient {
@@ -59,7 +59,8 @@ interface IIDs{
 }
 export async function patientRegistration({ patientPhoto, ...patient }: IPatient) {
   "use server";
-
+console.log(patient)
+console.log(patientPhoto)
   try {
     let file;
     if (patientPhoto) {
@@ -67,10 +68,11 @@ export async function patientRegistration({ patientPhoto, ...patient }: IPatient
         patientPhoto?.get("blobFile") as Blob,
         patientPhoto?.get("fileName") as string
       );
-      file = await storage.createFile(BUCKET_ID!, ID.unique(), inputFile)
+      file = await storage.createFile(PATIENT_PROFILE_BUCKET_ID!, ID.unique(), inputFile)
+      console.log(file)
     }
     let patientRegistrationData = {
-      patientPhotoUrl: file ? `${ENDPOINT}/storage/buckets/${BUCKET_ID}/files/${file?.$id}/view?project=${PROJECT_ID}` : `https://static.vecteezy.com/system/resources/thumbnails/037/336/395/small_2x/user-profile-flat-illustration-avatar-person-icon-gender-neutral-silhouette-profile-picture-free-vector.jpg`,
+      patientPhotoUrl: file ? `${ENDPOINT}/storage/buckets/${PATIENT_PROFILE_BUCKET_ID!}/files/${file?.$id}/view?project=${PROJECT_ID}` : `https://static.vecteezy.com/system/resources/thumbnails/037/336/395/small_2x/user-profile-flat-illustration-avatar-person-icon-gender-neutral-silhouette-profile-picture-free-vector.jpg`,
       ...patient}
     const res = await fetch(
       `http://localhost:3001/api/patients/patient-registration`,
@@ -84,7 +86,7 @@ export async function patientRegistration({ patientPhoto, ...patient }: IPatient
     );
 
     const parsedRes = await res.json();
-    // console.log(parsedRes);
+    console.log(parsedRes);
     return parsedRes;
   } catch (error) {
     console.log(error);
@@ -102,11 +104,11 @@ export async function patientRegistration({ patientPhoto, ...patient }: IPatient
                 patientPhoto?.get("blobFile") as Blob,
                 patientPhoto?.get("fileName") as string
             );
-            file = await storage.createFile(BUCKET_ID!, ID.unique(), inputFile);
+            file = await storage.createFile(PATIENT_PROFILE_BUCKET_ID!, ID.unique(), inputFile);
         }
 
         const patientUpdateData = {
-          patientPhotoUrl: file ? `${ENDPOINT}/storage/buckets/${BUCKET_ID}/files/${file?.$id}/view?project=${PROJECT_ID}` : `https://static.vecteezy.com/system/resources/thumbnails/037/336/395/small_2x/user-profile-flat-illustration-avatar-person-icon-gender-neutral-silhouette-profile-picture-free-vector.jpg`,
+          patientPhotoUrl: file ? `${ENDPOINT}/storage/buckets/${PATIENT_PROFILE_BUCKET_ID}/files/${file?.$id}/view?project=${PROJECT_ID}` : `https://static.vecteezy.com/system/resources/thumbnails/037/336/395/small_2x/user-profile-flat-illustration-avatar-person-icon-gender-neutral-silhouette-profile-picture-free-vector.jpg`,
             ...rest}
 
             const { data } = await apiServer.put(
