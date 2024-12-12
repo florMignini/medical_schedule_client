@@ -222,7 +222,7 @@
   }
 
   .shad-input {
-    @apply bg-light-200 placeholder:text-dark-700 border-white h-11 focus-visible:ring-0 focus-visible:ring-offset-0 text-dark-600 !important;
+    @apply bg-light-200 placeholder:text-dark-700 border-[1px] h-11 focus-visible:ring-0 shadow-lg  border-black/20 shadow-[#6e6e6e] bg-clip-text focus-visible:ring-offset-0 text-dark-600 !important;
   }
 
   .shad-input-icon {
