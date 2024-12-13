@@ -1,7 +1,7 @@
 "use server";
 import { apiServer } from "@/api/api-server";
 import { ICreateInstitution } from "@/interfaces";
-import { BUCKET_ID, ENDPOINT, PROJECT_ID, storage } from "@/lib";
+import { PROFESSIONALYINSTITUTION_PROFILE_BUCKET_ID, ENDPOINT, PROJECT_ID, storage } from "@/lib";
 import { cookies } from "next/headers";
 import { ID } from "node-appwrite";
 import { InputFile } from "node-appwrite/file";
@@ -49,12 +49,12 @@ export async function updateProfessionalProfileAction({
         userImage?.get("blobFile") as Blob,
         userImage?.get("fileName") as string
       );
-      file = await storage.createFile(BUCKET_ID!, ID.unique(), inputFile);
+      file = await storage.createFile(PROFESSIONALYINSTITUTION_PROFILE_BUCKET_ID!, ID.unique(), inputFile);
     }
 
     const professionalUpdateData = {
       userImage: file
-        ? `${ENDPOINT}/storage/buckets/${BUCKET_ID}/files/${file?.$id}/view?project=${PROJECT_ID}`
+        ? `${ENDPOINT}/storage/buckets/${PROFESSIONALYINSTITUTION_PROFILE_BUCKET_ID}/files/${file?.$id}/view?project=${PROJECT_ID}`
         : 
         `https://avatar.iran.liara.run/public/job/doctor/male`,
       ...professionalUpdate,

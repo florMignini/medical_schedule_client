@@ -59,8 +59,7 @@ interface IIDs{
 }
 export async function patientRegistration({ patientPhoto, ...patient }: IPatient) {
   "use server";
-console.log(patient)
-console.log(patientPhoto)
+  console.log(ENDPOINT)
   try {
     let file;
     if (patientPhoto) {
@@ -74,20 +73,13 @@ console.log(patientPhoto)
     let patientRegistrationData = {
       patientPhotoUrl: file ? `${ENDPOINT}/storage/buckets/${PATIENT_PROFILE_BUCKET_ID!}/files/${file?.$id}/view?project=${PROJECT_ID}` : `https://static.vecteezy.com/system/resources/thumbnails/037/336/395/small_2x/user-profile-flat-illustration-avatar-person-icon-gender-neutral-silhouette-profile-picture-free-vector.jpg`,
       ...patient}
-    const res = await fetch(
-      `http://localhost:3001/api/patients/patient-registration`,
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(patientRegistrationData),
-      }
-    );
-
-    const parsedRes = await res.json();
-    console.log(parsedRes);
-    return parsedRes;
+      const { data } = await apiServer.post(
+        `/patients/patient-registration`,
+        patientRegistrationData
+      );
+   
+    console.log(data);
+    return data;
   } catch (error) {
     console.log(error);
   }

@@ -123,7 +123,7 @@ const PatientRegistrationForm = () => {
       console.log(patientData)
         // @ts-ignore
       const response = await patientRegistration(patientData);
-
+console.log(response)
       if (profData) {
         const IDs = {
           professional: profData.id,

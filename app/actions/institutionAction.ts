@@ -1,7 +1,7 @@
 "use server";
 import { apiServer } from "@/api/api-server";
 import { ICreateInstitution } from "@/interfaces";
-import { BUCKET_ID, ENDPOINT, PROJECT_ID, storage } from "@/lib";
+import { PROFESSIONALYINSTITUTION_PROFILE_BUCKET_ID, ENDPOINT, PROJECT_ID, storage } from "@/lib";
 import { ID } from "node-appwrite";;
 import { InputFile } from "node-appwrite/file";
 
@@ -19,10 +19,10 @@ interface IIDs {
                 institutionImage?.get("blobFile") as Blob,
                 institutionImage?.get("fileName") as string
             );
-            file = await storage.createFile(BUCKET_ID!, ID.unique(), inputFile);
+            file = await storage.createFile(PROFESSIONALYINSTITUTION_PROFILE_BUCKET_ID!, ID.unique(), inputFile);
         }
         let institutionRegistrationData = {
-            institutionImage: file ? `${ENDPOINT}/storage/buckets/${BUCKET_ID}/files/${file?.$id}/view?project=${PROJECT_ID}` : `https://img.freepik.com/premium-photo/modern-hospital-building-exterior_641010-59451.jpg?w=900`,
+            institutionImage: file ? `${ENDPOINT}/storage/buckets/${PROFESSIONALYINSTITUTION_PROFILE_BUCKET_ID}/files/${file?.$id}/view?project=${PROJECT_ID}` : `https://img.freepik.com/premium-photo/modern-hospital-building-exterior_641010-59451.jpg?w=900`,
             ...institution}
             const { data } = await apiServer.post(
               `/institutions/new-institution`,
@@ -51,11 +51,11 @@ interface IIDs {
                 institutionImage?.get("blobFile") as Blob,
                 institutionImage?.get("fileName") as string
             );
-            file = await storage.createFile(BUCKET_ID!, ID.unique(), inputFile);
+            file = await storage.createFile(PROFESSIONALYINSTITUTION_PROFILE_BUCKET_ID!, ID.unique(), inputFile);
         }
 
         const institutionUpdateData = {
-            institutionImage: file ? `${ENDPOINT}/storage/buckets/${BUCKET_ID}/files/${file?.$id}/view?project=${PROJECT_ID}` : `https://img.freepik.com/premium-photo/modern-hospital-building-exterior_641010-59451.jpg?w=900`,
+            institutionImage: file ? `${ENDPOINT}/storage/buckets/${PROFESSIONALYINSTITUTION_PROFILE_BUCKET_ID}/files/${file?.$id}/view?project=${PROJECT_ID}` : `https://img.freepik.com/premium-photo/modern-hospital-building-exterior_641010-59451.jpg?w=900`,
             ...rest}
 
             const { data } = await apiServer.put(
