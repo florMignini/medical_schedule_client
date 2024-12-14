@@ -201,7 +201,7 @@
 
   /* ==== text gradient color */
   .text-color {
-    @apply text-[#839cc7]
+    @apply text-[#474747]
   }
 
   .bg-gradient {

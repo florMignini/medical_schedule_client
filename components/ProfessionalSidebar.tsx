@@ -31,7 +31,7 @@ const ProfessionalSidebar = ({
         <aside
             className={` ${
                 isOpen
-                    ? "fixed inset-y-0 top-0 left-0 w-64 md:w-[30%] backdrop-blur-md bg-[#4B5563]/20 z-50 transform -translate-x-0 "
+                    ? "fixed inset-y-0 top-0 left-0 w-64 md:w-[30%] backdrop-blur-md bg-black/25 z-50 transform -translate-x-0 "
                     : "hidden lg:flex lg:translate-x-0 items-center justify-start flex-col -translate-x-full"
             } transition-transform mb-2 duration-500 ease-in-out  h-screen bg-transparent `}
         >
@@ -78,8 +78,8 @@ const ProfessionalSidebar = ({
                         className={cn(
                             `w-[80%] flex gap-1 justify-start items-center text-color text-xs h-8 my-2 px-2 ${
                                 isOpen
-                                    ? "justify-center hover:scale-105 hover:font-extrabold"
-                                    : "pl-1 hover:scale-105 rounded-xl"
+                                    ? "justify-center hover:scale-105 hover:font-extrabold text-[#474747]"
+                                    : "pl-1 hover:scale-105 rounded-xl text-[#839cc7]"
                             } ${
                                 pathname === item.path ? "w-[95%] glass-effect" : ""
                             }`
@@ -93,7 +93,7 @@ const ProfessionalSidebar = ({
                             height={28}
                             className="pl-2"
                         />
-                        <span className="w-[80%] text-center text-base font-medium text-color">{item.label}</span>
+                        <span className="w-[80%] text-center text-base font-medium">{item.label}</span>
                         {
                             pathname === item.path && (
                                 <Image src={arrowRight} alt={arrowRight}
@@ -106,8 +106,8 @@ const ProfessionalSidebar = ({
                 ))}
             </div>
             <button
-                className={`w-[90%] text-[#3c3aaf] text-sm mx-auto flex items-center justify-center gap-2 ${
-                    isOpen ? "pt-[400px]" : "pt-[450px]"
+                className={`w-[90%] text-sm mx-auto flex items-center justify-center gap-2 ${
+                    isOpen ? "pt-[400px] text-[#474747]" : "pt-[450px] text-[#839cc7]"
                 }`}
                 onClick={closeSession}
             >
@@ -118,7 +118,7 @@ const ProfessionalSidebar = ({
                     height={20}
                     
                 />
-                <p className="font-semibold text-color">Cerrar Sesión</p>
+                <p className="font-semibold">Cerrar Sesión</p>
             </button>
         </aside>
     );
