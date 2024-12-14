@@ -75,7 +75,7 @@ const ProfessionalDashboard = async () => {
             </div>
             {/* min-[760px]:total patient and appointments */}
             <div className="hidden max-[760px]:w-[95%] max-[760px]:mx-auto glass-effect min-[760px]:flex min-[760px]:flex-col items-start justify-center gap-2 h-full my-auto  rounded-lg">
-              <div className="max-[760px]:w-[50%] w-[90%] h-[95px] grid xl:grid-cols-[30%,70%] grid-cols-[40%,60%] mx-auto border-[1px] border-black/20 rounded-lg py-2 bg-transparent text-black">
+              <div className="max-[760px]:w-[50%] w-[90%] h-[95px] grid xl:grid-cols-[30%,70%] grid-cols-[40%,60%] mx-auto border-[1px] border-black/20 rounded-lg py-2 bg-white text-black">
                 <div className="w-[90%] flex items-center justify-center mx-auto ">
                   <div className="w-[60%] flex items-center justify-center rounded-full relative bg-white/10 backdrop-blur-3xl shadow-lg border border-white/20 bg-clip-text bg-opacity-60">
                     <UserCard
@@ -95,7 +95,7 @@ const ProfessionalDashboard = async () => {
                   </p>
                 </div>
               </div>
-              <div className="max-[760px]:w-[50%] w-[90%] h-[95px] grid xl:grid-cols-[30%,70%] grid-cols-[40%,60%] mx-auto border-[1px] border-black/20 rounded-lg bg-transparent text-black">
+              <div className="max-[760px]:w-[50%] w-[90%] h-[95px] grid xl:grid-cols-[30%,70%] grid-cols-[40%,60%] mx-auto border-[1px] border-black/20 rounded-lg bg-white text-black">
                 <div className="w-[90%] flex items-center justify-center mx-auto">
                   <div className="w-[60%] flex items-center justify-center rounded-full relative bg-white/10 backdrop-blur-3xl shadow-lg border border-white/20 bg-clip-text bg-opacity-60">
                     <CheckListIcon

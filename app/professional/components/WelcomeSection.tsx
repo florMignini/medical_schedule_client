@@ -40,7 +40,7 @@ const WelcomeSection = ({
   }, []);
 
   return (
-    <div className="w-[95%] mx-auto h-full flex flex-col min-[520px]:grid min-[520px]:grid-cols-[50%,50%] glass-effect">
+    <div className="w-[95%] mx-auto h-full flex flex-col min-[520px]:grid min-[520px]:grid-cols-[50%,50%] bg-white glass-effect">
       {/* profile section */}
       <div className="w-[99%] h-auto  flex items-start flex-col gap-5 px-2 py-1">
         <div className="w-[100%] flex flex-col gap-3 items-center justify-center mx-auto">

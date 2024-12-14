@@ -46,6 +46,7 @@ import {
   patientRegistration,
 } from "@/app/actions";
 import SubmitButton from "../SubmitButton";
+import Mail from "@/app/professional/components/icons/Mail";
 
 const PatientRegistrationForm = () => {
   const [loading, setLoading] = useState(false);
@@ -120,10 +121,10 @@ const PatientRegistrationForm = () => {
         patientPhoto: formData,
         isActive: true,
       };
-      console.log(patientData)
-        // @ts-ignore
+      console.log(patientData);
+      // @ts-ignore
       const response = await patientRegistration(patientData);
-console.log(response)
+      console.log(response);
       if (profData) {
         const IDs = {
           professional: profData.id,
@@ -255,14 +256,13 @@ console.log(response)
               {/* email & phone number */}
               <div className="flex flex-col md:flex-row gap-2 mb-2">
                 <DinamicForm
-                  fieldType={FormFieldType.INPUT}
+                  fieldType={FormFieldType.EMAIL}
                   control={form.control}
                   name="email"
                   label="Email"
                   placeholder="paciente@email.com"
-                  iconSrc={mailIcon}
-                  iconAlt="user-email"
                 />
+
                 <DinamicForm
                   fieldType={FormFieldType.PHONE_INPUT}
                   control={form.control}
@@ -275,9 +275,9 @@ console.log(response)
               </div>
               {/* identification type & identification number */}
               <div className="flex flex-col justify-end md:flex-row gap-2 mb-2">
-                <div className="flex w-[40%] rounded-md items-center justify-center border border-white gap-2 p-1 outline-none bg-[#E8E9E9] flex-col">
+                <div className="flex w-[40%] rounded-md items-center justify-center border border-[#6e6e6e] outline-none bg-[#E8E9E9] flex-col">
                   <DropdownMenu>
-                    <DropdownMenuTrigger className="flex items-center justify-center gap-1 outline-none">
+                    <DropdownMenuTrigger className="flex items-center justify-center gap-1 rounded-md shadow-md shadow-[#6e6e6e] border-[#6e6e6e] bg-[#E8E9E9] border-black/20 border-[1px]">
                       Tipo de Documento
                       <Icon
                         src={DropdownIcon}
@@ -290,12 +290,12 @@ console.log(response)
                       <DropdownMenuRadioGroup
                         value={identificationType}
                         onValueChange={setIdentificationType}
-                        className="flex w-full flex-col items-center gap-1 rounded-md  border-white bg-[#E8E9E9]
+                        className="flex w-full flex-col items-center gap-1 rounded-md  border-[#6e6e6e] bg-[#E8E9E9]
                       text-black text-ellipsis"
                       >
                         {IdentificationType.map((ID: string) => (
                           <DropdownMenuRadioItem
-                              key={ID}
+                            key={ID}
                             value={ID}
                             className="w-[90%] flex items-center justify-start pl-6"
                           >
@@ -560,9 +560,9 @@ console.log(response)
             </div>
             {/* medical history */}
             <div className="flex flex-col justify-end md:flex-row gap-2 mb-2">
-              <div className="flex w-[40%] text-[13px] md:text-[16px] rounded-md items-center justify-center border border-white gap-2 p-1 outline-none bg-[#E8E9E9] flex-col">
-                <DropdownMenu>
-                  <DropdownMenuTrigger className="flex items-center justify-center gap-1 outline-none">
+            <div className="flex w-[40%] rounded-md items-center justify-center border border-[#6e6e6e] outline-none bg-[#E8E9E9] flex-col">
+                  <DropdownMenu>
+                    <DropdownMenuTrigger className="flex items-center justify-center gap-1 rounded-md shadow-md shadow-[#6e6e6e] border-[#6e6e6e] bg-[#E8E9E9] border-black/20 border-[1px] outline-none">
                     Antecedentes Médicos
                     <Icon
                       src={DropdownIcon}
@@ -580,7 +580,7 @@ console.log(response)
                     >
                       {medicalHistory.map((history: string) => (
                         <DropdownMenuRadioItem
-                            key={history}
+                          key={history}
                           value={history}
                           className="w-[90%] flex items-center justify-start pl-6"
                         >
