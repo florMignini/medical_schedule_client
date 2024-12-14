@@ -87,7 +87,7 @@ const InstitutionsPage = async () => {
                   >
                     <Link
                       href={`/professional/institutions/${institution.id}/detail`}
-                      className="w-[80%] sm:w-[98%] mx-auto px-2 flex justify-between border-b-[1px] border-gray-500 mb-1 hover:scale-[102%] hover:bg-card-hover-100 text-gray-700 hover:text-white hover:rounded-lg"
+                      className="w-[85%] md:w-[98%] mx-auto px-2 flex items-center justify-between border-b-[1px] hover:transition-shadow border-[#cccccc] rounded-md border-[1px] mb-1 hover:shadow-lg hover:shadow-[#cccccc] text-gray-700"
                     >
                       <div
                         key={institution.id}
