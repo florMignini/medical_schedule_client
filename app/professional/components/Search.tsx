@@ -50,9 +50,10 @@ const Search = ({ path }: any) => {
     <div className="relative w-[99%] h-auto flex flex-col items-center justify-center text-color">
       <div className="absolute w-[99%] h-20 flex flex-col items-center justify-center lg:justify-end mx-auto">
         {/* search section */}
-        <div className="w-[100%] grid grid-cols-[15%,85%] align-middle justify-center bg-transparent rounded-2xl px-2 shadow-[inset_2px_-4px_10px_rgba(15,15,15,0.5)]">
-          <button className="w-[90%] flex items-center justify-center">
+        <div className="w-[100%] grid grid-cols-[15%,85%] align-middle justify-center bg-white rounded-md px-2 shadow-md shadow-[#cccccc] border-[1px] border-[#cccccc]">
+          <button className="w-[90%] gap-2 flex items-center justify-center">
             <Image src={searchIcon} alt="search-icon" width={15} height={15} />
+          <div className="h-5 border-x-[1px] border-black/20" />
           </button>
           <Input
             type="text"
@@ -63,7 +64,7 @@ const Search = ({ path }: any) => {
                 ? "pacientes"
                 : "pacientes ó instituciones"
             }`}
-            className="w-[95%] h-10 bg-transparent border-none focus:outline-none active:outline-none placeholder:text-color"
+            className="w-[95%] h-10 bg-transparent border-none focus:outline-none active:outline-none placeholder:text-color focus-visible:ring-offset-0"
             value={query}
             autoComplete="off"
             onChange={({ target }) => setQuery(target.value)}
