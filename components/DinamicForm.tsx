@@ -21,8 +21,10 @@ import calendarIcon from "../public/assets/icons/calendar.svg";
 import { Select, SelectContent, SelectTrigger, SelectValue } from "./ui/select";
 import { Textarea } from "./ui/textarea";
 import { Checkbox } from "./ui/checkbox";
+import CalendarIcon from "@/app/professional/components/icons/CalendarIcon";
+import Mail from "@/app/professional/components/icons/Mail";
 interface CustomProperty {
-  type?: string
+  type?: string;
   control: Control<any>;
   fieldType: FormFieldType;
   name: string;
@@ -55,13 +57,13 @@ export const DinamicField = ({
     dateFormat,
     defaultValue,
     renderSkeleton,
-    disable
+    disable,
   } = props;
 
   switch (props.fieldType) {
     case FormFieldType.INPUT:
       return (
-        <div className="flex rounded-md border border-white bg-[#E8E9E9]">
+        <div className="flex rounded-md shadow-md shadow-[#6e6e6e] border-[#6e6e6e] bg-[#E8E9E9] border-black/20 border-[1px]">
           {props.iconSrc && (
             <Image
               src={iconSrc!}
@@ -74,9 +76,22 @@ export const DinamicField = ({
           <FormControl>
             <Input
               placeholder={placeholder}
-              {
-                ...field !== undefined ? {...field} : {...defaultValue}
-              }
+              {...(field !== undefined ? { ...field } : { ...defaultValue })}
+              type={type}
+              className="shad-input border-0"
+              disabled={disable}
+            />
+          </FormControl>
+        </div>
+      );
+    case FormFieldType.EMAIL:
+      return (
+        <div className="flex rounded-md shadow-md shadow-[#6e6e6e] border-[#6e6e6e] bg-[#E8E9E9] border-black/20 border-[1px]">
+          <Mail width={20} height={20} className="mx-1 my-auto text-[#6e6e6e]" />
+          <FormControl>
+            <Input
+              placeholder={placeholder}
+              {...(field !== undefined ? { ...field } : { ...defaultValue })}
               type={type}
               className="shad-input border-0"
               disabled={disable}
@@ -111,18 +126,15 @@ export const DinamicField = ({
       );
     case FormFieldType.DATE_PICKER:
       return (
-        <div className="flex rounded-md border border-white bg-[#E8E9E9]">
-          <Image
-            src={calendarIcon}
-            alt="calendar-icon"
+        <div className="flex rounded-md border border-[#6e6e6e] bg-[#E8E9E9]">
+          <CalendarIcon
             height={24}
             width={24}
-            className="ml-2"
-            defaultValue={defaultValue}
+            className="mx-1 my-2 flex items-center justify-center text-[#6e6e6e]"
           />
           <FormControl>
             <DatePicker
-            disabled={disable}
+              disabled={disable}
               selected={field.value}
               onChange={(date) => field.onChange(date)}
               dateFormat={dateFormat ?? "dd/MM/yyyy"}
@@ -159,9 +171,7 @@ export const DinamicField = ({
               onCheckedChange={field.onChange}
               disabled={props.disable}
             />
-            <label htmlFor={props.name}
-            className="checkbox-label"
-            >
+            <label htmlFor={props.name} className="checkbox-label">
               {props.label}
             </label>
           </div>
@@ -187,7 +197,7 @@ const DinamicForm = (props: CustomProperty) => {
             </FormLabel>
           )}
           <DinamicField field={field} props={props} />
-          <FormMessage className="shad-error"/>
+          <FormMessage className="shad-error" />
         </FormItem>
       )}
     />

@@ -22,6 +22,7 @@ export enum FormFieldType {
   PHONE_INPUT = "phoneInput",
   DATE_PICKER = "datePicker",
   SKELETON = "skeleton",
+  EMAIL = "email"
 }
 
 const ProfessionalLoginform = () => {
