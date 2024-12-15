@@ -20,6 +20,7 @@ import UserIcon from "../../public/assets/icons/user-verification.svg";
 import DropdownIcon from "../../public/assets/icons/arrowDown.svg";
 import mailIcon from "../../public/assets/icons/email.svg";
 import { createNewInstitution, createProfessionalInstitutionRelation } from "@/app/actions";
+import CloseIcon from "@/app/professional/components/icons/CloseIcon";
 
 type professionalType = {
     id: string;
@@ -57,6 +58,7 @@ const [isThereAnImage, setIsTthereAnImage] = useState<boolean>(false);
       async function onSubmit(values: z.infer<typeof NewInstitutionSchema>) {
         setLoading(true);
         let formData;
+
         if (
           values.institutionImage &&
           values.institutionImage.length > 0
@@ -73,6 +75,7 @@ const [isThereAnImage, setIsTthereAnImage] = useState<boolean>(false);
             ...values,
             institutionImage: formData,
           };
+
           const response = await createNewInstitution(newInstitutionData);
     
           if (response) {
@@ -98,7 +101,7 @@ const [isThereAnImage, setIsTthereAnImage] = useState<boolean>(false);
     <form onSubmit={form.handleSubmit(onSubmit)} className="w-[100%] space-y-6 flex-1">
       {/* appointment detail */}
       <div className="flex px-2 gap-2 mb-5">
-            <div className="h-5 border-x-2 border-white" />
+            <div className="h-5 border-x-2 border-black" />
             <h1 className="text-16-semibold">Información de la Institución</h1>
           </div>
           {/* forms */}
@@ -114,8 +117,8 @@ const [isThereAnImage, setIsTthereAnImage] = useState<boolean>(false);
                 form.resetField("institutionImage");
               }}
             >
-              <Image src={closeIcon} alt="close-icon" height={30} width={30} 
-              className="z-30"
+              <CloseIcon height={30} width={30} 
+              className="z-30 text-black"
               />
             </button>
             <DinamicForm

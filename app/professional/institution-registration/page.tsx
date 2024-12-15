@@ -5,7 +5,7 @@ const InstitutionRegistration = () => {
   // TODO: bring user info
   return (
     <section className="w-full h-screen flex flex-col items-center justify-start gap-2">
-      <ScrollArea className="h-[98%] w-[99%] rounded-md border border-dark-500 p-4">
+      <ScrollArea className="h-[98%] w-[99%] rounded-md border-[1px] border-[#474747] p-4">
       <InstitutionRegisterForm />
       </ScrollArea>
     </section>
