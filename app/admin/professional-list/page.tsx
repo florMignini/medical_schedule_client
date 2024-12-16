@@ -44,7 +44,7 @@ const page = async () => {
         <div className="w-[50%] flex items-center justify-end">
           <AddButton
             text="Professional"
-            to="/professional/patient-registration"
+            to="/admin/professional-registration"
           />
         </div>
       </div>
@@ -78,7 +78,7 @@ const page = async () => {
                   key={professional.id}
                 >
                   <Link
-                    href={`/professional/patients/${professional.id}/info`}
+                    href={`#`}
                     className="w-[85%] h-10 md:w-[98%] mx-auto px-2 flex items-center justify-between border-b-[1px] hover:transition-shadow border-[#cccccc] rounded-md border-[1px] mb-1 hover:shadow-lg hover:shadow-[#cccccc] text-gray-700"
                   >
                     <div className=" max-[690px]:w-[100%] w-[30%] px-1 py-2 flex items-center justify-start gap-2">
