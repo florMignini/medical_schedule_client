@@ -13,7 +13,13 @@ export const NewProfessionalSchema = z.object({
     email: z.string().email("Email inválido"),
     gender: z.enum(["M", "F", "X"]),
     specialty: z.string().optional(),
+    instagramUrl: z.string().optional(),
+    linkedInUrl: z.string().optional(),
+    newTwitterUrl: z.string().optional(),
     userImage: z.custom<File[]>().optional(),
+    birthDate: z.coerce.date(),
+    identificationType: z.enum(['DNI', 'Libreta de Enrolamiento', 'Pasaporte']),
+    identityNumber: z.string().optional(),
     isActive: z.boolean().optional()
   });
   
@@ -28,6 +34,9 @@ export const NewProfessionalSchema = z.object({
       (phone) => /^\+\d{10,15}$/.test(phone),
       "Número de teléfono inválido"
     ).optional(),
+    instagramUrl: z.string().optional(),
+    linkedInUrl: z.string().optional(),
+    newTwitterUrl: z.string().optional(),
     email: z.string().email("Email inválido").optional(),
     gender: z.enum(["M", "F", "X"]).optional(),
     specialty: z.string().optional(),

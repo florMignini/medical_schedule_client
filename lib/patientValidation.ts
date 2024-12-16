@@ -25,8 +25,8 @@ export const patientsRegisterValidation = z.object({
       (phone) => /^\+\d{10,15}$/.test(phone),
       "Número de teléfono inválido"
     ),
-  birthDate: z.coerce.date(),
-  gender: z.enum(["M", "F", "X"]),
+    gender: z.enum(["M", "F", "X"]),
+    birthDate: z.coerce.date(),
   identificationType: z.enum(['DNI', 'Libreta de Enrolamiento', 'Pasaporte']),
   identityNumber: z.string().optional(),
   emergencyContactName: z
