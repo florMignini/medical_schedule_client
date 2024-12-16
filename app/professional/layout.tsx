@@ -31,6 +31,7 @@ export default function ProfessionalLayout({
       {/* content */}
       <div className="rounded-lg ">
         <ProfessionalDashboard
+        // eslint-disable-next-line react/no-children-prop
         children={children}
         />
       </div>
