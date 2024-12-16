@@ -22,28 +22,21 @@ import {
 
 import closeImage from "../../../public/assets/icons/close.svg";
 import { decryptKey, encryptKey } from "@/lib";
+import { dataTagSymbol } from "@tanstack/react-query";
+import { after } from "node:test";
 const PasskeyModal = () => {
   const router = useRouter();
-  const path = usePathname()
   const [open, setOpen] = useState<boolean>(true);
   const [passkey, setPasskey] = useState("");
   const [error, setError] = useState<string>("");
-  const encryptedKey =
-    typeof window !== "undefined"
-      ? window.localStorage.getItem("admin-accessKey")
-      : null;
-
-      useEffect(() => {
-        const accessKey = encryptedKey ? decryptKey(encryptedKey) : null;
-       if(path) {
-        if (accessKey === process.env.NEXT_PUBLIC_ADMIN_PASSKEY) {
-           setOpen(false)
-           router.push("/admin")
-          } else {
-            setOpen(true)
-          }
+  
+      const afterValidate = () => {
+       const data = localStorage.getItem("admin-accessKey")
+       if(data){
+         setOpen(false)
+         router.push("/admin")
        }
-      }, [encryptKey])
+      }
       
   const closeModal = () => {
     setOpen(false);
@@ -56,6 +49,7 @@ const PasskeyModal = () => {
     if (passkey === process.env.NEXT_PUBLIC_ADMIN_PASSKEY) {
       const encryptedKey = encryptKey(passkey);
       localStorage.setItem("admin-accessKey", encryptedKey);
+      afterValidate()
     } else {
       setError("Invalid Passkey, try again Please");
     }
