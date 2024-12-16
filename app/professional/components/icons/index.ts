@@ -5,6 +5,7 @@ export * from './CloseIcon';
 export * from './Configuration';
 export * from './Hamburguer';
 export * from './Institution';
+export * from './IsActiveLink';
 export * from './Logout';
 export * from './Mail';
 export * from './Phone';
