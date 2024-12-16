@@ -1,6 +1,7 @@
 import { ScrollArea } from "@/components/ui/scroll-area";
 import ProfessionalRegistrationForm from "../components/forms/ProfessionalRegistrationForm";
 
+
 const ProfessionalRegistration = () => {
   return (
     <section className="w-full h-screen flex pt-2 flex-col items-center justify-start gap-2">
