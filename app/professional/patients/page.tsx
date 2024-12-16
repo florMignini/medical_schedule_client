@@ -1,18 +1,7 @@
-import Icon from "@/components/ui/icon";
-import userImage from "../components/icons/User";
-import plusImage from "../../../public/assets/icons/plus.svg";
-import settingIcon from "@/public/assets/icons/settings.svg"
 import Link from "next/link";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
+
 // Assuming the interface is located in a file named IPatientsResponse.ts in the interfaces folder
 import Image from "next/image";
-import MailIcon from "../../../public/assets/icons/email.svg";
-import PhoneIcon from "../../../public/assets/icons/phone.svg";
 import { apiServer } from "@/api/api-server";
 import { cookies } from "next/headers";
 import {
