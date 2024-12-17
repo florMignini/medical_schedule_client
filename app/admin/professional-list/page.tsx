@@ -83,7 +83,9 @@ const page = async () => {
                   >
                     <div className=" max-[690px]:w-[100%] w-[30%] px-1 py-2 flex items-center justify-start gap-2">
                       <Image
-                        src={professional.userImage}
+                        src={professional.userImage !== null ? professional.userImage :
+                        professional.gender === "M" ? `https://avatar.iran.liara.run/public/job/doctor/male` : `https://avatar.iran.liara.run/public/job/doctor/female`
+                        }
                         alt="patient-profile-photo"
                         width={20}
                         height={20}
