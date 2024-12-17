@@ -11,29 +11,33 @@ interface IIDs {
   institution: string | undefined;
 }
 
-//   export async function createNewProfessional({institutionImage, ...institution}: any) {
-//     "use server";
-//     try {
-//         let file;
-//         if(institutionImage){
-//             const inputFile = InputFile.fromBuffer(
-//                 institutionImage?.get("blobFile") as Blob,
-//                 institutionImage?.get("fileName") as string
-//             );
-//             file = await storage.createFile(BUCKET_ID!, ID.unique(), inputFile);
-//         }
-//         let institutionRegistrationData = {
-//             institutionImage: file ? `${ENDPOINT}/storage/buckets/${BUCKET_ID}/files/${file?.$id}/view?project=${PROJECT_ID}` : `https://img.freepik.com/premium-photo/modern-hospital-building-exterior_641010-59451.jpg?w=900`,
-//             ...institution}
-//             const { data } = await apiServer.post(
-//               `/institutions/new-institution`,
-//               institutionRegistrationData
-//             );
-//             return data;
-//         } catch (error:any) {
-//             console.log(error.response.data);
-//         }
-//         }
+  export async function createNewProfessional({userImage, ...professional}: any) {
+    "use server";
+    console.log(professional)
+    console.log(userImage)
+    try {
+        let file;
+        if(userImage){
+            const inputFile = InputFile.fromBuffer(
+                userImage?.get("blobFile") as Blob,
+                userImage?.get("fileName") as string
+            );
+            file = await storage.createFile(PROFESSIONALYINSTITUTION_PROFILE_BUCKET_ID!, ID.unique(), inputFile);
+        }
+        let professionalRegistrationData = {
+            institutionImage: file ? `${ENDPOINT}/storage/buckets/${PROFESSIONALYINSTITUTION_PROFILE_BUCKET_ID}/files/${file?.$id}/view?project=${PROJECT_ID}` : `https://img.freepik.com/premium-photo/modern-hospital-building-exterior_641010-59451.jpg?w=900`,
+            ...professional}
+            console.log(professionalRegistrationData)
+            const { data } = await apiServer.post(
+              `/professional/register`,
+              professionalRegistrationData
+            );
+            console.log(data)
+            return data;
+        } catch (error:any) {
+            console.log(error.response.data);
+        }
+        }
 
 export async function updateProfessionalProfileAction({
   userImage,

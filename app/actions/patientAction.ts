@@ -59,7 +59,6 @@ interface IIDs{
 }
 export async function patientRegistration({ patientPhoto, ...patient }: IPatient) {
   "use server";
-  console.log(ENDPOINT)
   try {
     let file;
     if (patientPhoto) {
@@ -77,8 +76,7 @@ export async function patientRegistration({ patientPhoto, ...patient }: IPatient
         `/patients/patient-registration`,
         patientRegistrationData
       );
-   
-    console.log(data);
+
     return data;
   } catch (error) {
     console.log(error);
