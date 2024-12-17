@@ -12,6 +12,7 @@ import { Gender, genderOptions, IdentificationType } from "@/data";
 
 import DropdownIcon from "../../../../public/assets/icons/arrowDown.svg";
 import {
+  createNewProfessional,
   createProfessionalPatientRelation,
   patientRegistration,
 } from "@/app/actions";
@@ -36,7 +37,6 @@ const ProfessionalRegistrationForm = () => {
   const [loading, setLoading] = useState(false);
   const router = useRouter();
   const [isThereAnImage, setIsTthereAnImage] = useState<boolean>(false);
-  const [profData, setProfData] = useState<any>({});
 
   // dropdown states
   const [identificationType, setIdentificationType] = useState("");
@@ -48,6 +48,7 @@ const ProfessionalRegistrationForm = () => {
       lastName: "",
       userImage: [],
       username: "",
+      password: "",
       specialty: "",
       email: "",
       phoneNumber: "",
@@ -56,6 +57,9 @@ const ProfessionalRegistrationForm = () => {
       identificationType: "DNI",
       identityNumber: "",
       isActive: true,
+      instagramUrl: "",
+      linkedInUrl: "",
+      newTwitterUrl: "",
     },
   });
 
@@ -79,19 +83,12 @@ const ProfessionalRegistrationForm = () => {
       };
       console.log(professionalData);
       // @ts-ignore
-      const response = await patientRegistration(professionalData);
+      const response = await createNewProfessional(professionalData);
       console.log(response);
-      if (profData) {
-        const IDs = {
-          professional: profData.id,
-          patient: response.id,
-        };
-        const data = await createProfessionalPatientRelation(IDs);
-      }
       if (response) {
         form.reset();
         setLoading(false);
-        router.push("/professional/patients");
+        router.push("/admin/professional-list");
       }
     } catch (error) {
       console.error(error);
@@ -197,6 +194,16 @@ const ProfessionalRegistrationForm = () => {
                   name="specialty"
                   label="Especialidad"
                   placeholder="Medico/a Clinico/a"
+                />
+              </div>
+              {/* password */}
+              <div className="flex gap-2 mb-2 flex-wrap">
+                <DinamicForm
+                  fieldType={FormFieldType.INPUT}
+                  control={form.control}
+                  name="password"
+                  label="Contrasenia"
+                  type="password"
                 />
               </div>
               {/* email & phone number */}
@@ -321,7 +328,7 @@ const ProfessionalRegistrationForm = () => {
           </div>
         </div>
         <SubmitButton
-          className="w-[95%] mx-auto border-[1px] border-gray-600 bg-gradient-to-b from-black to-[#807f7f] text-white hover:bg-gradient-to-b hover:from-white hover:to-[#222222] hover:text-[#1c1c1c] text-center p-2 rounded-lg"
+          className="w-[99%]  border-[1px] border-gray-600 bg-gradient-to-b from-black to-[#807f7f] text-white hover:bg-gradient-to-b hover:from-white hover:to-[#222222] hover:text-[#1c1c1c] text-center p-2 rounded-lg mx-auto"
           loading={loading}
         >
           Agregar profesional
