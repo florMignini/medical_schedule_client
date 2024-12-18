@@ -69,7 +69,7 @@ const ProfessionalDashboard = async () => {
         {/* information side */}
         <div className="flex flex-col gap-2 my-auto">
           {/*upper section*/}
-          <div className="w-[90%] mx-auto max-[760px]:flex max-[760px]:flex-col max-[760px]:gap-3 grid grid-cols-[65%,35%]">
+          <div className="w-[99%] mx-auto max-[760px]:flex max-[760px]:flex-col max-[760px]:gap-3 grid grid-cols-[65%,35%]">
             <div className="">
               <WelcomeSection professional={data} />
             </div>
@@ -138,9 +138,9 @@ const ProfessionalDashboard = async () => {
           </div>
 
           {/*down section*/}
-          <div className="flex flex-col gap-2 mt-2">
+          <div className="w-[99%] flex flex-col gap-2 mt-2 mx-auto">
             {/* patient section */}
-            <div className="w-[99%] py-4 px-3 glass-effect flex flex-col text-color">
+            <div className="w-full py-4 px-3 glass-effect flex flex-col text-color">
               <div className="mx-auto mb-5 w-[99%] border-b-[1px] border-[#A7B3C8]">
                 <p className="px-3 py-2 font-semibold text-[18px]">
                   Pacientes
@@ -239,7 +239,7 @@ const ProfessionalDashboard = async () => {
             </div>
 
             {/* institutions section */}
-            <div className="w-[99%] flex flex-col glass-effect text-color">
+            <div className="w-full flex flex-col glass-effect text-color">
               <div className="mx-auto mb-5 w-[99%] border-b-[1px] border-[#A7B3C8]">
                 <p className="px-3 py-2 text-color font-semibold text-[18px]">
                   Instituciones
