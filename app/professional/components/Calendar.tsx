@@ -140,7 +140,7 @@ const Calendar = ({ appointments }: any) => {
                         {dayEvents.length}
                       </div>
                     </DrawerTrigger>
-                    <DrawerContent>
+                    <DrawerContent className="min-h-[50%] bg-black/70 py-3 ">
                       <DrawerHeader className="w-[90%] flex items-center justify-center">
                         <DrawerTitle className="font-bold text-white text-4xl">
                           Eventos del dia
@@ -151,14 +151,14 @@ const Calendar = ({ appointments }: any) => {
                           <Sheet key={event.appointment.id}>
                             <SheetTrigger asChild>
                               <button
-                                className="flex flex-col w-[90%] h-auto truncate glass-effect text-white mx-auto mt-1"
+                                className="flex flex-col w-[90%] h-auto truncate text-white mx-auto rounded-lg shadow-sm shadow-white mt-1 hover:shadow-[#575656]"
                                 onClick={() =>
                                   getAppointmentDetail(event.appointment.id)
                                 }
                               >
                                 <div className="flex w-[100%] items-center justify-center flex-wrap">
                                   {/* date & hour */}
-                                  <div className="w-[50%] flex flex-col items-center justify-start">
+                                  <div className="w-[50%] gap-3 flex flex-col items-center justify-start">
                                     <p className="font-semibold text-lg">
                                       Fecha y Hora
                                     </p>
@@ -187,7 +187,7 @@ const Calendar = ({ appointments }: any) => {
                                       </div>
                                     </div>
                                   </div>
-                                  <div className="w-[50%] flex flex-col items-center justify-start">
+                                  <div className="w-[50%] flex flex-col items-center justify-start gap-3">
                                     <div>
                                       <p className="font-semibold text-lg">
                                         Paciente
