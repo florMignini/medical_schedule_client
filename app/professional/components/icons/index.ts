@@ -1,5 +1,5 @@
 export * from './CalendarIcon';
-export * from './CheckListIcon';
+export * from './ChartLineData';
 export * from './Clock';
 export * from './CloseIcon';
 export * from './Configuration';

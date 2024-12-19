@@ -38,14 +38,13 @@ const WelcomeSection = ({
     let getTodayDate = getDate();
     setTodayDate(getTodayDate);
   }, []);
-
   return (
     <div className="w-[95%] mx-auto h-full flex flex-col min-[520px]:grid min-[520px]:grid-cols-[50%,50%] bg-white glass-effect">
       {/* profile section */}
       <div className="w-[99%] h-auto  flex items-start flex-col gap-5 px-2 py-1">
         <div className="w-[100%] flex flex-col gap-3 items-center justify-center mx-auto">
           <Image
-            src={
+            src={professional.userImage ? professional.userImage :
               professional.gender !== "" && professional.gender === "M"
                 ? `https://avatar.iran.liara.run/public/job/doctor/male`
                 : `https://avatar.iran.liara.run/public/job/doctor/female`
@@ -133,7 +132,7 @@ const WelcomeSection = ({
         {/* professional and personal info */}
         <div className="hidden min-[520px]:w-[95%] min-[520px]:flex flex-col items-center justify-center my-auto mx-auto">
           {/* specialty */}
-          <div className="w-full h-8 flex items-center justify-start gap-2 text-xs font-medium">
+          <div className="w-full h-8 flex items-center justify-start gap-2 text-xs font-medium truncate">
             <label className="text-black font-bold text-[15px]">
               Especialidad:{" "}
             </label>

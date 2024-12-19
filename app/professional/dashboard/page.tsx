@@ -41,9 +41,9 @@ import Phone from "../components/icons/Phone";
 import Mail from "../components/icons/Mail";
 import AddButton from "../components/AddButton";
 import User from "../components/icons/User";
-import CheckedCalendar from "../components/icons/CheckListIcon";
+import CheckedCalendar from "../components/icons/ChartLineData";
 import UserCard from "../components/icons/UserCard";
-import CheckListIcon from "../components/icons/CheckListIcon";
+import CheckListIcon from "../components/icons/ChartLineData";
 
 const ProfessionalDashboard = async () => {
   const cookieStore = cookies();
@@ -69,13 +69,13 @@ const ProfessionalDashboard = async () => {
         {/* information side */}
         <div className="flex flex-col gap-2 my-auto">
           {/*upper section*/}
-          <div className="w-[99%] mx-auto max-[760px]:flex max-[760px]:flex-col max-[760px]:gap-3 grid grid-cols-[65%,35%]">
+          <div className="w-[99%] mx-auto max-[760px]:flex max-[760px]:flex-col max-[760px]:gap-3 grid grid-cols-[55%,45%]">
             <div className="">
               <WelcomeSection professional={data} />
             </div>
             {/* min-[760px]:total patient and appointments */}
-            <div className="hidden max-[760px]:w-[95%] max-[760px]:mx-auto glass-effect min-[760px]:flex min-[760px]:flex-col items-start justify-center gap-2 h-full my-auto  rounded-lg">
-              <div className="max-[760px]:w-[50%] w-[90%] h-[95px] grid xl:grid-cols-[30%,70%] grid-cols-[40%,60%] mx-auto border-[1px] border-black/20 rounded-lg py-2 bg-white text-black">
+            <div className="bg-black/10 hidden max-[760px]:w-[95%] max-[760px]:mx-auto relative z-40 px-2 py-3 rounded-lg shadow-sm shadow-[#6e6e6e] border border-white/20 min-[760px]:flex min-[760px]:flex-col items-start justify-center gap-2 h-full my-auto">
+              <div className="absolute top-5 left-5 bg-white/30 max-[760px]:w-[50%] w-[90%] z-50 h-[95px] grid xl:grid-cols-[30%,70%] grid-cols-[30%,70%] mx-auto rounded-lg py-2  backdrop-blur-md text-black">
                 <div className="w-[90%] flex items-center justify-center mx-auto ">
                   <div className="w-[60%] flex items-center justify-center rounded-full relative bg-white/10 backdrop-blur-3xl shadow-lg border border-white/20 bg-clip-text bg-opacity-60">
                     <UserCard
@@ -86,16 +86,26 @@ const ProfessionalDashboard = async () => {
                   </div>
                 </div>
 
-                <div className="flex flex-col items-start justify-center text-base font-light">
-                  <p className="w-[99%] text-start font-light text-[12px] border-b-[1px]">
-                    Pacientes totales
-                  </p>
-                  <p className="w-[100%] font-bold text-3xl flex items-start">
-                    {data.patientsIncluded?.length}
-                  </p>
+                <div className="flex items-center justify-start text-base font-light">
+                  <div className="flex flex-col  items-start justify-center text-base">
+                    <p className="w-[99%] text-start font-light text-[12px] border-b-[1px]">
+                      Pacientes totales
+                    </p>
+                    <p className="w-[100%] font-bold text-xl flex items-start">
+                      {data.patientsIncluded?.length}
+                    </p>
+                  </div>
+                  <div className="flex flex-col  items-start justify-center text-base">
+                    <p className="w-[99%] text-start font-light text-[12px] border-b-[1px]">
+                      Pacientes hoy
+                    </p>
+                    <p className="w-[100%] font-bold text-xl flex items-start">
+                      {data.patientsIncluded?.length}
+                    </p>
+                  </div>
                 </div>
               </div>
-              <div className="max-[760px]:w-[50%] w-[90%] h-[95px] grid xl:grid-cols-[30%,70%] grid-cols-[40%,60%] mx-auto border-[1px] border-black/20 rounded-lg bg-white text-black">
+              <div className="absolute bottom-5 left-5 bg-white/30 max-[760px]:w-[50%] w-[90%] h-[95px] rounded-lg grid xl:grid-cols-[30%,70%] grid-cols-[30%,70%] mx-auto text-black">
                 <div className="w-[90%] flex items-center justify-center mx-auto">
                   <div className="w-[60%] flex items-center justify-center rounded-full relative bg-white/10 backdrop-blur-3xl shadow-lg border border-white/20 bg-clip-text bg-opacity-60">
                     <CheckListIcon
@@ -105,34 +115,66 @@ const ProfessionalDashboard = async () => {
                     />
                   </div>
                 </div>
-                <div className="flex flex-col items-start justify-center text-base font-light">
-                  <p className="w-[99%] text-start font-light text-[12px] border-b-[1px]">
-                    Citas totales
-                  </p>
-                  <p className="w-[100%] font-bold text-3xl flex items-start">
-                    {data.appointmentsIncluded?.length}
-                  </p>
+                <div className="flex items-center justify-start text-base font-light">
+                  <div className="flex flex-col items-start justify-center text-base">
+                    <p className="w-[99%] text-start font-light text-[12px] border-b-[1px]">
+                      Citas totales
+                    </p>
+                    <p className="w-[100%] font-bold text-xl flex items-start">
+                      {data.appointmentsIncluded?.length}
+                    </p>
+                  </div>
+                  <div className="flex flex-col items-start justify-center text-base">
+                    <p className="w-[99%] text-start font-light text-[12px] border-b-[1px]">
+                      Citas hoy
+                    </p>
+                    <p className="w-[100%] font-bold text-xl flex items-start">
+                      {data.appointmentsIncluded?.length}
+                    </p>
+                  </div>
                 </div>
               </div>
             </div>
-            {/* total patient and appointments */}
-            <div className="w-[90%] text-color flex min-[760px]:hidden items-center justify-between mx-auto">
-            <div className="w-[50%] flex flex-col items-start justify-center text-base font-light px-3">
-            <p className="w-[99%] text-start font-light text-[14px] border-b-[1px] border-[#839cc7]">
-                  Pacientes totales
-                </p>
-                <p className="w-[100%] font-bold text-black text-3xl flex items-start">
-                  {data.patientsIncluded?.length}
-                </p>
+            {/* mobile total patient and appointments */}
+            <div className="w-[95%] bg-black/10 rounded-lg text-color flex min-[760px]:hidden items-center justify-between mx-auto">
+              <div className="w-[50%] flex gap-2 items-center justify-start text-base font-light px-3">
+                <div className="w-[50%] flex flex-col items-center justify-center">
+                  <p className="w-[99%] text-start font-light text-[14px] border-b-[1px] border-[#839cc7]">
+                    Pacientes totales
+                  </p>
+                  <p className="w-[100%] font-bold text-black text-xl flex items-start">
+                    {data.patientsIncluded?.length}
+                  </p>
+                 
+                </div>
+                <div className="w-[50%] flex flex-col items-center justify-between">
+                  <p className="w-[99%] text-start font-light text-[14px] border-b-[1px] border-[#839cc7]">
+                    Pacientes hoy
+                  </p>
+                  <p className="w-[100%] font-bold text-black text-xl flex items-start">
+                    {data.patientsIncluded?.length}
+                  </p>
+                 
+                </div>
               </div>
               <div className="h-16 border-x-[1px] border-black" />
-              <div className="w-[50%] flex flex-col items-center justify-start px-3">
-              <p className="w-[99%] text-start font-light text-[14px] border-b-[1px] border-[#839cc7]">
+              <div className="w-[50%] gap-2 flex items-center justify-start px-3">
+                <div className="w-[50%] flex flex-col items-center justify-start">
+                <p className="w-[99%] text-start font-light text-[14px] border-b-[1px] border-[#839cc7]">
                   Citas totales
                 </p>
-                <p className="w-[100%] font-bold text-black text-3xl flex items-start">
+                <p className="w-[100%] font-bold text-black text-xl flex items-start">
                   {data.appointmentsIncluded?.length}
                 </p>
+                </div>
+                <div className="w-[50%] flex flex-col items-center justify-start">
+                <p className="w-[99%] text-start font-light text-[14px] border-b-[1px] border-[#839cc7]">
+                  Citas hoy
+                </p>
+                <p className="w-[100%] font-bold text-black text-xl flex items-start">
+                  {data.appointmentsIncluded?.length}
+                </p>
+                </div>
               </div>
             </div>
           </div>
@@ -142,9 +184,7 @@ const ProfessionalDashboard = async () => {
             {/* patient section */}
             <div className="w-full py-4 px-3 glass-effect flex flex-col text-color">
               <div className="mx-auto mb-5 w-[99%] border-b-[1px] border-[#A7B3C8]">
-                <p className="px-3 py-2 font-semibold text-[18px]">
-                  Pacientes
-                </p>
+                <p className="px-3 py-2 font-semibold text-[18px]">Pacientes</p>
               </div>
               {/* patients table */}
               <div className="w-[100%] flex flex-col items-center">
@@ -277,7 +317,7 @@ const ProfessionalDashboard = async () => {
                         >
                           <Link
                             href={`/professional/institutions/${institution.id}/detail`}
-                           className="w-[85%] md:w-[98%] mx-auto px-2 flex items-center justify-between border-b-[1px] hover:transition-shadow border-[#cccccc] rounded-md border-[1px] mb-1 hover:shadow-lg hover:shadow-[#cccccc] text-gray-700"
+                            className="w-[85%] md:w-[98%] mx-auto px-2 flex items-center justify-between border-b-[1px] hover:transition-shadow border-[#cccccc] rounded-md border-[1px] mb-1 hover:shadow-lg hover:shadow-[#cccccc] text-gray-700"
                           >
                             <div
                               key={institution.id}
