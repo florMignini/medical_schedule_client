@@ -146,12 +146,15 @@ const Calendar = ({ appointments }: any) => {
                           Eventos del dia
                         </DrawerTitle>
                       </DrawerHeader>
-                      <DrawerDescription>
+                      <DrawerDescription
+                      className="flex flex-col gap-2"
+                      >
                         {dayEvents.map((event: any) => (
-                          <Sheet key={event.appointment.id}>
-                            <SheetTrigger asChild>
+                          <Sheet key={event.appointment.id}
+                          >
+                            <SheetTrigger asChild >
                               <button
-                                className="flex flex-col w-[90%] h-auto truncate text-white mx-auto rounded-lg shadow-sm shadow-white mt-1 hover:shadow-[#575656]"
+                                className="flex flex-col w-[90%] h-auto truncate text-white mx-auto rounded-lg shadow-sm shadow-white mt-1 hover:shadow-[#575656] bg-white/5 py-2"
                                 onClick={() =>
                                   getAppointmentDetail(event.appointment.id)
                                 }
