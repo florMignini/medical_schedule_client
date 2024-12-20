@@ -255,7 +255,7 @@ const Calendar = ({ appointments }: any) => {
                                         id="patient-age"
                                         type="text"
                                         disabled
-                                        value={`${age}`}
+                                        value={`${age} años`}
                                         className="p-0 border-none bg-transparent text-white font-semibold"
                                       />
                                     </div>

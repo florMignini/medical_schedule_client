@@ -44,16 +44,20 @@ import User from "../components/icons/User";
 import CheckedCalendar from "../components/icons/ChartLineData";
 import UserCard from "../components/icons/UserCard";
 import CheckListIcon from "../components/icons/ChartLineData";
+import dayjs from "dayjs";
 
 const ProfessionalDashboard = async () => {
   const cookieStore = cookies();
   const professionalId = cookieStore.get("professional-id")?.value;
-
+  const today = dayjs(new Date().toISOString().split("T")[0]).format(
+    "DD/MM/YYYY"
+  );
   let { data }: { data: ProfessionalInformation } = await apiServer.get(
     `/professional/get-professional/${professionalId}`
   );
   // @ts-ignore
   const { patientsIncluded }: { patientsIncluded: PatientsIncluded[] } = data;
+
   // @ts-ignore
   const {
     appointmentsIncluded,
@@ -62,6 +66,14 @@ const ProfessionalDashboard = async () => {
   const {
     institutionsIncluded,
   }: { institutionsIncluded: AppointmentsIncluded[] } = data;
+
+  // filtered today professional appointments
+  const todayFilteredAppointments = appointmentsIncluded.filter(
+    (appointment) =>
+      dayjs(appointment.appointment.schedule.toString().split("T")[0]).format(
+        "DD/MM/YYYY"
+      ) === today
+  );
 
   return (
     <section className="w-full h-screen flex flex-col items-center justify-start gap-2">
@@ -129,7 +141,7 @@ const ProfessionalDashboard = async () => {
                       Citas hoy
                     </p>
                     <p className="w-[100%] font-bold text-xl flex items-start">
-                      {data.appointmentsIncluded?.length}
+                      {todayFilteredAppointments?.length}
                     </p>
                   </div>
                 </div>
@@ -145,7 +157,6 @@ const ProfessionalDashboard = async () => {
                   <p className="w-[100%] font-bold text-black text-xl flex items-start">
                     {data.patientsIncluded?.length}
                   </p>
-                 
                 </div>
                 <div className="w-[50%] flex flex-col items-center justify-between">
                   <p className="w-[99%] text-start font-light text-[14px] border-b-[1px] border-[#839cc7]">
@@ -154,26 +165,25 @@ const ProfessionalDashboard = async () => {
                   <p className="w-[100%] font-bold text-black text-xl flex items-start">
                     {data.patientsIncluded?.length}
                   </p>
-                 
                 </div>
               </div>
               <div className="h-16 border-x-[1px] border-black" />
               <div className="w-[50%] gap-2 flex items-center justify-start px-3">
                 <div className="w-[50%] flex flex-col items-center justify-start">
-                <p className="w-[99%] text-start font-light text-[14px] border-b-[1px] border-[#839cc7]">
-                  Citas totales
-                </p>
-                <p className="w-[100%] font-bold text-black text-xl flex items-start">
-                  {data.appointmentsIncluded?.length}
-                </p>
+                  <p className="w-[99%] text-start font-light text-[14px] border-b-[1px] border-[#839cc7]">
+                    Citas totales
+                  </p>
+                  <p className="w-[100%] font-bold text-black text-xl flex items-start">
+                    {data.appointmentsIncluded?.length}
+                  </p>
                 </div>
                 <div className="w-[50%] flex flex-col items-center justify-start">
-                <p className="w-[99%] text-start font-light text-[14px] border-b-[1px] border-[#839cc7]">
-                  Citas hoy
-                </p>
-                <p className="w-[100%] font-bold text-black text-xl flex items-start">
-                  {data.appointmentsIncluded?.length}
-                </p>
+                  <p className="w-[99%] text-start font-light text-[14px] border-b-[1px] border-[#839cc7]">
+                    Citas hoy
+                  </p>
+                  <p className="w-[100%] font-bold text-black text-xl flex items-start">
+                    {data.appointmentsIncluded?.length}
+                  </p>
                 </div>
               </div>
             </div>

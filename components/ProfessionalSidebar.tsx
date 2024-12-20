@@ -31,9 +31,9 @@ const ProfessionalSidebar = ({
         <aside
             className={` ${
                 isOpen
-                    ? "fixed inset-y-0 top-0 left-0 w-64 md:w-[30%] backdrop-blur-md bg-black/25 z-50 transform -translate-x-0 "
+                    ? "fixed inset-y-0 top-0 left-0 w-64 md:w-[30%] bg-[#47505D] z-50 transform -translate-x-0 "
                     : "hidden lg:flex lg:translate-x-0 items-center justify-start flex-col -translate-x-full"
-            } transition-transform mb-2 duration-500 ease-in-out  h-screen bg-transparent `}
+            } transition-transform mb-2 duration-500 ease-in-out  h-screen  `}
         >
             {isOpen && (
                 <div className="w-full pt-2 px-5 flex items-center justify-between">
@@ -78,10 +78,10 @@ const ProfessionalSidebar = ({
                         className={cn(
                             `w-[80%] flex gap-1 justify-start items-center text-color text-xs h-8 my-2 px-2 ${
                                 isOpen
-                                    ? "justify-center hover:scale-105 hover:font-extrabold text-[#474747]"
+                                    ? "justify-center hover:scale-105 hover:font-extrabold text-[#929292]"
                                     : "pl-1 hover:scale-105 rounded-xl text-[#839cc7]"
                             } ${
-                                pathname === item.path ? "w-[95%] glass-effect" : ""
+                                pathname === item.path ? "w-[95%] glass-effect text-black/80" : ""
                             }`
                         )}
                         onClick={() => setIsOpen(false)}
@@ -107,7 +107,7 @@ const ProfessionalSidebar = ({
             </div>
             <button
                 className={`w-[90%] text-sm mx-auto flex items-center justify-center gap-2 ${
-                    isOpen ? "pt-[400px] text-[#474747]" : "pt-[450px] text-[#839cc7]"
+                    isOpen ? "pt-[400px] text-[#929292]" : "pt-[450px] text-[#839cc7]"
                 }`}
                 onClick={closeSession}
             >
