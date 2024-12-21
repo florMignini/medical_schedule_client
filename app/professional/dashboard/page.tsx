@@ -45,6 +45,8 @@ import CheckedCalendar from "../components/icons/ChartLineData";
 import UserCard from "../components/icons/UserCard";
 import CheckListIcon from "../components/icons/ChartLineData";
 import dayjs from "dayjs";
+import CalendarIcon from "../components/icons/CalendarIcon";
+import ChartLineData from "../components/icons/ChartLineData";
 
 const ProfessionalDashboard = async () => {
   const cookieStore = cookies();
@@ -86,29 +88,32 @@ const ProfessionalDashboard = async () => {
               <WelcomeSection professional={data} />
             </div>
             {/* min-[760px]:total patient and appointments */}
-            <div className="bg-black/10 hidden max-[760px]:w-[95%] max-[760px]:mx-auto relative z-40 px-2 py-3 rounded-lg shadow-sm shadow-[#6e6e6e] border border-white/20 min-[760px]:flex min-[760px]:flex-col items-start justify-center gap-2 h-full my-auto">
-              <div className="absolute top-5 left-5 bg-white/30 max-[760px]:w-[50%] w-[90%] z-50 h-[95px] grid xl:grid-cols-[30%,70%] grid-cols-[30%,70%] mx-auto rounded-lg py-2  backdrop-blur-md text-black">
-                <div className="w-[90%] flex items-center justify-center mx-auto ">
-                  <div className="w-[60%] flex items-center justify-center rounded-full relative bg-white/10 backdrop-blur-3xl shadow-lg border border-white/20 bg-clip-text bg-opacity-60">
-                    <UserCard
-                      width={50}
-                      height={50}
-                      className="flex items-center justify-center p-2 rounded-full text-black"
-                    />
+            <div className="bg-transparent hidden max-[760px]:w-[95%] max-[760px]:mx-auto relative z-40 px-2 py-3 min-[760px]:flex min-[760px]:flex-col items-start justify-center gap-2 h-full my-auto">
+              <div className="w-[90%] absolute top-5 bg-transparent max-[760px]:w-[50%] h-[95px] rounded-lg flex mx-auto text-black">
+{/* pacientes */}
+<div className="absolute w-full flex items-center justify-center text-base gap-6 font-light">
+                <div className="relative w-[50%] left-0 flex flex-col items-center justify-center text-base px-4 py-3 border-[1px] bg-white/70 border-black/5 rounded-lg backdrop-blur-sm shadow-sm shadow-[#6e6e6e]">
+                <div className="w-[90%] flex items-center justify-start">
+                  <User
+                  width={20}
+                  height={20}
+                  />
                   </div>
-                </div>
-
-                <div className="flex items-center justify-start text-base font-light">
-                  <div className="flex flex-col  items-start justify-center text-base">
-                    <p className="w-[99%] text-start font-light text-[12px] border-b-[1px]">
+                    <p className="w-[99%] text-start font-light text-[12px]">
                       Pacientes totales
                     </p>
                     <p className="w-[100%] font-bold text-xl flex items-start">
                       {data.patientsIncluded?.length}
                     </p>
                   </div>
-                  <div className="flex flex-col  items-start justify-center text-base">
-                    <p className="w-[99%] text-start font-light text-[12px] border-b-[1px]">
+                  <div className="relative w-[50%] right-0 flex flex-col items-center justify-center text-base px-4 py-3 border-[1px] bg-white/70 border-black/5 rounded-lg backdrop-blur-sm shadow-sm shadow-[#6e6e6e]">
+                  <div className="w-[90%] flex items-center justify-start">
+                  <User
+                  width={20}
+                  height={20}
+                  />
+                  </div>
+                    <p className="w-[99%] text-start font-light text-[12px]">
                       Pacientes hoy
                     </p>
                     <p className="w-[100%] font-bold text-xl flex items-start">
@@ -117,27 +122,32 @@ const ProfessionalDashboard = async () => {
                   </div>
                 </div>
               </div>
-              <div className="absolute bottom-5 left-5 bg-white/30 max-[760px]:w-[50%] w-[90%] h-[95px] rounded-lg grid xl:grid-cols-[30%,70%] grid-cols-[30%,70%] mx-auto text-black">
-                <div className="w-[90%] flex items-center justify-center mx-auto">
-                  <div className="w-[60%] flex items-center justify-center rounded-full relative bg-white/10 backdrop-blur-3xl shadow-lg border border-white/20 bg-clip-text bg-opacity-60">
-                    <CheckListIcon
-                      width={48}
-                      height={48}
-                      className="flex items-center justify-center p-2 rounded-full text-black"
-                    />
+              <div className="w-[90%] absolute bottom-5 bg-transparent max-[760px]:w-[50%] h-[95px] rounded-lg flex mx-auto text-black">
+                <div className="absolute w-full flex items-center justify-center text-base gap-6 font-light">
+                  {/* citas totales */}
+                  <div className="relative w-[50%] left-0 flex flex-col items-center justify-center text-base px-4 py-3 border-[1px] bg-white/70 border-black/5 rounded-lg backdrop-blur-sm shadow-sm shadow-[#6e6e6e]">
+                  <div className="w-[100%] flex items-center justify-start">
+                  <ChartLineData
+                  width={20}
+                  height={20}
+                  />
                   </div>
-                </div>
-                <div className="flex items-center justify-start text-base font-light">
-                  <div className="flex flex-col items-start justify-center text-base">
-                    <p className="w-[99%] text-start font-light text-[12px] border-b-[1px]">
+                    <p className="w-[99%] text-start font-light text-[12px]">
                       Citas totales
                     </p>
                     <p className="w-[100%] font-bold text-xl flex items-start">
                       {data.appointmentsIncluded?.length}
                     </p>
                   </div>
-                  <div className="flex flex-col items-start justify-center text-base">
-                    <p className="w-[99%] text-start font-light text-[12px] border-b-[1px]">
+                  {/* citas hoy */}
+                  <div className="relative w-[50%] right-0 flex flex-col items-center justify-center text-base px-4 py-3 border-[1px] bg-white/70 border-black/5 rounded-lg backdrop-blur-sm shadow-sm shadow-[#6e6e6e]">
+                  <div className="w-[100%] flex items-center justify-start">
+                  <CalendarIcon
+                  width={20}
+                  height={20}
+                  />
+                  </div>
+                    <p className="w-[99%] text-start font-light text-[12px]">
                       Citas hoy
                     </p>
                     <p className="w-[100%] font-bold text-xl flex items-start">
