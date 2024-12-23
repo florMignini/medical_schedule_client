@@ -58,14 +58,14 @@ console.log(appointment)
         patientAttachedFilesUrl: formData,
       };
 
-      const response = await createPastAppointment(pastAppointmentData);
+      const response:any = await createPastAppointment(pastAppointmentData);
 
-      if (response) {
+      if (response !== undefined) {
         const IDs = {
           patient: patient.id!,
           pastAppointments: response.id,
         };
-        const data = await createPatientPastAppointmentRelation(IDs);
+        // const data = await createPatientPastAppointmentRelation(IDs);
       
         form.reset();
         setLoading(false);
@@ -101,7 +101,7 @@ console.log(appointment)
                 className="size-4 flex items-center justify-end"
                 onClick={() => {
                   setIsTthereAnImage(false);
-                  form.resetField("appointmentFileAttached");
+                  form.resetField("patientAttachedFilesUrl");
                 }}
               >
                 <Icon src={closeIcon} alt="close-icon" height={30} width={30} />
@@ -109,7 +109,7 @@ console.log(appointment)
               <DinamicForm
                 fieldType={FormFieldType.SKELETON}
                 control={form.control}
-                name="appointmentFileAttached"
+                name="patientAttachedFilesUrl"
                 renderSkeleton={(field) => (
                   <FormControl className="w-full">
                     <FileUploader
@@ -125,7 +125,7 @@ console.log(appointment)
               <div className="w-[100%]" onClick={() => setIsTthereAnImage(true)}
                 >
                 <Label
-                  htmlFor="appointmentFileAttached"
+                  htmlFor="patientAttachedFilesUrl"
                   className="p-0 font-light text-[13px] text-gray-500"
                 >
                   Agregar Árchivos Lab-Médicos
@@ -133,7 +133,7 @@ console.log(appointment)
                 <DinamicForm
                   fieldType={FormFieldType.SKELETON}
                   control={form.control}
-                  name="appointmentFileAttached"
+                  name="patientAttachedFilesUrl"
                   renderSkeleton={(field) => (
                     <FormControl>
                       <FileUploader
