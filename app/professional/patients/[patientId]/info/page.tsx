@@ -95,7 +95,7 @@ const PatientInfo = () => {
                 "font-light text-sm",
                 dinamicPage === data.name
                   ? "text-blue-500 underline   underline-blue-500 font-bold" // Active link styles
-                  : "text-gray-500 hover:text-white" // Inactive link styles
+                  : "text-gray-500 hover:text-black" // Inactive link styles
               )}
             >
               {data.name}
