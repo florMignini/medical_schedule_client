@@ -92,7 +92,7 @@ const ProfessionalDashboard = async () => {
               <div className="w-[90%] absolute top-5 bg-transparent max-[760px]:w-[50%] h-[95px] rounded-lg flex mx-auto text-black">
 {/* pacientes */}
 <div className="absolute w-full flex items-center justify-center text-base gap-6 font-light">
-                <div className="relative w-[50%] left-0 flex flex-col items-center justify-center text-base px-4 py-3 border-[1px] bg-white/70 border-black/5 rounded-lg backdrop-blur-sm shadow-sm shadow-[#6e6e6e]">
+                <div className="relative w-[50%] left-0 flex flex-col items-center justify-center text-base px-4 py-3 border-[1px] bg-[#4B5563]/40 border-black/5 rounded-lg backdrop-blur-sm shadow-md shadow-[#ffffff]">
                 <div className="w-[90%] flex items-center justify-start">
                   <User
                   width={20}
@@ -106,7 +106,7 @@ const ProfessionalDashboard = async () => {
                       {data.patientsIncluded?.length}
                     </p>
                   </div>
-                  <div className="relative w-[50%] right-0 flex flex-col items-center justify-center text-base px-4 py-3 border-[1px] bg-white/70 border-black/5 rounded-lg backdrop-blur-sm shadow-sm shadow-[#6e6e6e]">
+                  <div className="relative w-[50%] right-0 flex flex-col items-center justify-center text-base px-4 py-3 border-[1px] bg-[#4B5563]/40 border-black/5 rounded-lg backdrop-blur-lg shadow-md shadow-[#ffffff]">
                   <div className="w-[90%] flex items-center justify-start">
                   <User
                   width={20}
@@ -125,7 +125,7 @@ const ProfessionalDashboard = async () => {
               <div className="w-[90%] absolute bottom-5 bg-transparent max-[760px]:w-[50%] h-[95px] rounded-lg flex mx-auto text-black">
                 <div className="absolute w-full flex items-center justify-center text-base gap-6 font-light">
                   {/* citas totales */}
-                  <div className="relative w-[50%] left-0 flex flex-col items-center justify-center text-base px-4 py-3 border-[1px] bg-white/70 border-black/5 rounded-lg backdrop-blur-sm shadow-sm shadow-[#6e6e6e]">
+                  <div className="relative w-[50%] left-0 flex flex-col items-center justify-center text-base px-4 py-3 border-[1px] bg-[#4B5563]/40 border-black/5 rounded-lg backdrop-blur-sm shadow-md shadow-[#ffffff]">
                   <div className="w-[100%] flex items-center justify-start">
                   <ChartLineData
                   width={20}
@@ -140,7 +140,7 @@ const ProfessionalDashboard = async () => {
                     </p>
                   </div>
                   {/* citas hoy */}
-                  <div className="relative w-[50%] right-0 flex flex-col items-center justify-center text-base px-4 py-3 border-[1px] bg-white/70 border-black/5 rounded-lg backdrop-blur-sm shadow-sm shadow-[#6e6e6e]">
+                  <div className="relative w-[50%] right-0 flex flex-col items-center justify-center text-base px-4 py-3 border-[1px] bg-[#4B5563]/40 border-black/5 rounded-lg backdrop-blur-sm shadow-md shadow-[#ffffff]">
                   <div className="w-[100%] flex items-center justify-start">
                   <CalendarIcon
                   width={20}
