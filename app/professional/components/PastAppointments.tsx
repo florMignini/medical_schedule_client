@@ -1,16 +1,7 @@
 "use client";
 import { Patient } from "@/interfaces";
 import { useEffect, useState } from "react";
-import {
-  Sheet,
-  SheetClose,
-  SheetContent,
-  SheetDescription,
-  SheetFooter,
-  SheetHeader,
-  SheetTitle,
-  SheetTrigger,
-} from "@/components/ui/sheet";
+
 import Icon from "@/components/ui/icon";
 import calendarIcon from "../../../public/assets/icons/calendar.svg";
 import notesIcon from "../../../public/assets/icons/notes.svg";
@@ -22,12 +13,11 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
-import Link from "next/link";
 import Image from "next/image";
 const PastAppointments = (patientInfo: Patient) => {
   const [profInfo, setProfInfo] = useState<string | null>(null);
   const { pastAppointmentsIncluded } = patientInfo!;
-  console.log(patientInfo);
+
   useEffect(() => {
     const proffessionalInfo = JSON.parse(
       localStorage.getItem("infoProfSession")!
@@ -53,7 +43,9 @@ const PastAppointments = (patientInfo: Patient) => {
               <Tooltip>
                 {pastAppointmentsIncluded.map((pastAppointment) => {
                   return (
-                    <TooltipTrigger asChild>
+                    <TooltipTrigger
+                    key={pastAppointment.id}
+                    asChild>
                       <button className="w-[250px] h-[100px] bg-dark-400/50 rounded-md px-4 py-3 flex flex-col items-center justify-center gap-2 text-dark-600 shadow-md shadow-dark-600 hover:scale-[1.01] hover:ease-in-out hover:transition-shadow">
                         {/* date and hr */}
                         <div className="w-[100%] flex flex-row items-center justify-start font-light text-xs gap-2">
@@ -128,7 +120,9 @@ const PastAppointments = (patientInfo: Patient) => {
                   {/* appointment info */}
                   <div className="w-[95%] flex items-center justify-start pt-5">
                     {pastAppointmentsIncluded.map((pastAppointments) => (
-                      <div className="w-[100%] flex items-center justify-center">
+                      <div 
+                      key={pastAppointments.id}
+                      className="w-[100%] flex items-center justify-center">
                         <div className="w-[40%] flex flex-row items-center justify-start font-light text-xs gap-2">
                           {/* treatment notes */}
                           <Icon

@@ -72,6 +72,7 @@ const Calendar = ({ appointments }: any) => {
       const { data } = await apiServer(
         `/appointment/get-appointment/${appointmentId}`
       );
+      console.log(data)
       setAppointment(data);
       setPatient(data.patientsIncluded[0].patient);
       setLoading(false);
@@ -128,7 +129,6 @@ const Calendar = ({ appointments }: any) => {
               dayjs(appointment.appointment.schedule).format("DD-MM-YYYY") ===
               date
           );
-          console.log(dayEvents[0]);
           return (
             <Drawer key={day}>
               <div className="w-full h-20 glass-effect border rounded-md mx-auto">
@@ -360,11 +360,11 @@ const Calendar = ({ appointments }: any) => {
                                 </div>
                               </ScrollArea>
 
-                              <SheetFooter>
+                           {/*    <SheetFooter>
                                 <SheetClose asChild>
-                                  {/* <Button type="submit">Finalizar Consulta</Button> */}
+                                  <Button type="submit">Finalizar Consulta</Button>
                                 </SheetClose>
-                              </SheetFooter>
+                              </SheetFooter> */}
                             </SheetContent>
                           </Sheet>
                         ))}

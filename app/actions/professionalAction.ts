@@ -13,8 +13,7 @@ interface IIDs {
 
   export async function createNewProfessional({userImage, ...professional}: any) {
     "use server";
-    console.log(professional)
-    console.log(userImage)
+
     try {
         let file;
         if(userImage){
