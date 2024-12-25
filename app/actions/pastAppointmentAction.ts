@@ -6,15 +6,16 @@ interface IpatientPastAppointmentIDs {
   patient: string | undefined;
   pastAppointments: string | undefined;
 }
-export async function createPastAppointment(pastAppointmentData: ICreatePastAppointment) {
+export async function createPastAppointment({ patientAttachedFilesUrl, ...pastAppointmentData}: ICreatePastAppointment) {
   "use server";
   try {
-
-    const { data } = await apiServer.post(
-      `/past-appointments/create-past-appointment`,
-      pastAppointmentData
-    );
-    return data;
+console.log(patientAttachedFilesUrl)
+console.log(pastAppointmentData)
+    // const { data } = await apiServer.post(
+    //   `/past-appointments/create-past-appointment`,
+    //   pastAppointmentData
+    // );
+    // return data;
   } catch (error: any) {
     console.error(error);
 }
