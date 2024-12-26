@@ -72,7 +72,7 @@ const Calendar = ({ appointments }: any) => {
       const { data } = await apiServer(
         `/appointment/get-appointment/${appointmentId}`
       );
-      console.log(data)
+
       setAppointment(data);
       setPatient(data.patientsIncluded[0].patient);
       setLoading(false);
