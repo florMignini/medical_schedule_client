@@ -14,6 +14,9 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import Image from "next/image";
+import CalendarIcon from "./icons/CalendarIcon";
+import NoteIcon from "./icons/NoteIcon";
+import FileAttachmentIcon from "./icons/FileAttachmentIcon";
 const PastAppointments = (patientInfo: Patient) => {
   const [profInfo, setProfInfo] = useState<string | null>(null);
   const { pastAppointmentsIncluded } = patientInfo!;
@@ -26,7 +29,7 @@ const PastAppointments = (patientInfo: Patient) => {
       setProfInfo(proffessionalInfo);
     }
   }, []);
-
+console.log(pastAppointmentsIncluded)
   return (
     <section className="w-full h-screen flex flex-col items-center justify-start gap-3">
       <div className="w-[95%] flex flex-col items-start justify-start bg-white px-2 py-3 shadow-[inset_0px_-2px_3px_rgba(73,73,73,0.2)] rounded-md">
@@ -44,44 +47,53 @@ const PastAppointments = (patientInfo: Patient) => {
                 {pastAppointmentsIncluded.map((pastAppointment) => {
                   return (
                     <TooltipTrigger
-                    key={pastAppointment.id}
+                    key={pastAppointment.pastAppointments
+.                      id}
                     asChild>
-                      <button className="w-[250px] h-[100px] bg-dark-400/50 rounded-md px-4 py-3 flex flex-col items-center justify-center gap-2 text-dark-600 shadow-md shadow-dark-600 hover:scale-[1.01] hover:ease-in-out hover:transition-shadow">
+                      <button className="w-[250px] h-auto glass-effect rounded-md px-4 py-2 flex flex-col items-center justify-center gap-2 text-dark-600 hover:shadow-md hover:shadow-dark-600  hover:transition-shadow">
                         {/* date and hr */}
                         <div className="w-[100%] flex flex-row items-center justify-start font-light text-xs gap-2">
-                          <Icon
-                            src={calendarIcon}
-                            alt="calendar-icon"
+                          <CalendarIcon
                             width={20}
                             height={20}
                           />
                           <p>
                             {dayjs(
-                              pastAppointment?.pastAppointments?.scheduled
+                              pastAppointment?.createdAt
                             ).format("DD MMMM  YYYY")}{" "}
-                            <strong className="text-white pl-2">|</strong>{" "}
+                            <strong className="text-black pl-2">|</strong>{" "}
                           </p>
                           <p>
                             {dayjs(
-                              pastAppointment?.pastApppointments?.scheduled
+                              pastAppointment?.pastApppointments?.createdAt
                             ).format("HH:mm A")}
                           </p>
                         </div>
-                        {/* treatment notes */}
-                        <div className="w-[100%] flex flex-row items-center justify-start font-light text-xs gap-2">
-                          <Icon
-                            src={notesIcon}
-                            alt="notes-icon"
+                          {/* treatment diagnosis */}
+                          <div className="w-[100%] flex flex-row items-start justify-start font-light text-xs gap-2">
+                          <NoteIcon
                             width={20}
                             height={20}
                           />
-                          <p>{pastAppointment?.pastAppointments?.details}</p>
+                          <div className="flex flex-col">
+                          <p>Diagnostico:</p>
+                          <p className="text-start truncate">{pastAppointment?.pastAppointments?.diagnosis}</p>
+                          </div>
+                        </div>
+                        {/* treatment notes */}
+                        <div className="w-[100%] flex flex-row items-start justify-start font-light text-xs gap-2">
+                          <NoteIcon
+                            width={20}
+                            height={20}
+                          />
+                           <div className="flex flex-col">
+                          <p>Notas: </p>
+                          <p className="text-start truncate">{pastAppointment?.pastAppointments?.notes}</p>
+                          </div>
                         </div>
                         {/* file attachment */}
                         <div className="w-[100%] flex flex-row items-center justify-start font-light text-xs gap-2">
-                          <Icon
-                            src={fileIcon}
-                            alt="file-icon"
+                          <FileAttachmentIcon
                             width={20}
                             height={20}
                           />
