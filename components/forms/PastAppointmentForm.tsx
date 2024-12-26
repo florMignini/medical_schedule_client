@@ -14,21 +14,22 @@ import closeIcon from "../../public/assets/icons/close.svg";
 import uploadIcon from "../../public/assets/icons/upload.svg";
 import FileUploader from "../FileUploader";
 import Image from "next/image";
-import { Patient } from "@/interfaces";
 import { createPatientPastAppointmentRelation } from "@/app/actions";
 import router, { useRouter } from "next/navigation";
 import { createPastAppointment } from "@/app/actions/pastAppointmentAction";
 
 const PastAppointmentForm = ({ patient, appointment }: any) => {
-  const router = useRouter()
-console.log(appointment)
+  const router = useRouter();
+
   const [loading, setLoading] = useState(false);
   const [isThereAnImage, setIsTthereAnImage] = useState<boolean>(false);
   const form = useForm<z.infer<typeof NewPastAppointmentSchema>>({
     resolver: zodResolver(NewPastAppointmentSchema),
     defaultValues: {
-      reason: "",
-      details: "",
+      diagnosis: "",
+      prescription: "",
+      notes: "",
+      followUpRequired: false,
       scheduled: new Date(),
       patientAttachedFilesUrl: [],
     },
@@ -53,23 +54,23 @@ console.log(appointment)
     try {
       const pastAppointmentData = {
         ...values,
-        reason: appointment.reason,
         scheduled: appointment.schedule,
         patientAttachedFilesUrl: formData,
       };
-
-      const response:any = await createPastAppointment(pastAppointmentData);
+      const response: any = await createPastAppointment(pastAppointmentData);
 
       if (response !== undefined) {
         const IDs = {
           patient: patient.id!,
           pastAppointments: response.id,
         };
-        // const data = await createPatientPastAppointmentRelation(IDs);
       
-        form.reset();
+        const data = await createPatientPastAppointmentRelation(IDs);
+        if(response){
+          form.reset();
         setLoading(false);
-        router.push(`/professional/appointments`);
+        router.push(`/professional/patients/${patient.id}/info`);
+        }
       }
     } catch (error) {
       console.error(error);
@@ -80,22 +81,70 @@ console.log(appointment)
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="w-[100%] space-y-6 flex-1">
+      <form
+        onSubmit={form.handleSubmit(onSubmit)}
+        className="w-[100%] space-y-6 flex-1"
+      >
         {/* appointment detail */}
-        <Label
+        {/* diagnosis */}
+       <div className="w-full flex items-start justify-center flex-col">
+       <Label
           htmlFor="details"
-          className="p-0 font-light text-[13px] text-gray-500"
+          className="w-full p-0 text-start font-light text-[13px] text-gray-500"
         >
-          Descripción de la consulta:
+          Diagnostico:
         </Label>
         <DinamicForm
-          name="details"
+          name="diagnosis"
           control={form.control}
           placeholder="Agregar detalles de la consulta"
           fieldType={FormFieldType.TEXTAREA}
         />
+       </div>
+        {/* prescription */}
+        <div className="w-full flex items-start justify-center flex-col">
+       <Label
+          htmlFor="details"
+          className="w-full p-0 text-start font-light text-[13px] text-gray-500"
+        >
+          Prescribir medicamento:
+        </Label>
+        <DinamicForm
+          name="prescription"
+          control={form.control}
+          placeholder="Agregar medicamentos a recetar"
+          fieldType={FormFieldType.TEXTAREA}
+        />
+       </div>
+       {/* notes */}
+       <div className="w-full flex items-start justify-center flex-col">
+       <Label
+          htmlFor="details"
+          className="w-full p-0 text-start font-light text-[13px] text-gray-500"
+        >
+          Notas adicionales:
+        </Label>
+        <DinamicForm
+          name="notes"
+          control={form.control}
+          placeholder="Agregar notas adicionales"
+          fieldType={FormFieldType.TEXTAREA}
+        />
+       </div>
+       {/* followUpRequired  */}
+       <div className="w-full flex items-start justify-center">
+        <Label
+          htmlFor="details"
+          className="w-full p-0 text-start font-light text-[13px] text-gray-500"
+        >Requiere Seguimiento?</Label>
+        <DinamicForm
+        name="followUpRequired"
+        control={form.control}
+        fieldType={FormFieldType.CHECKBOX}
+        />
+       </div>
         <div className="w-[100%] flex items-start justify-center">
-          {form?.getValues()?.appointmentFileAttached?.length! > 0 ? (
+          {form?.getValues()?.patientAttachedFilesUrl?.length! > 0 ? (
             <div className="w-full h-full  flex-col flex items-start justify-center pt-0 text-white">
               <button
                 className="size-4 flex items-center justify-end"
@@ -122,8 +171,10 @@ console.log(appointment)
             </div>
           ) : (
             <>
-              <div className="w-[100%]" onClick={() => setIsTthereAnImage(true)}
-                >
+              <div
+                className="w-[100%]"
+                onClick={() => setIsTthereAnImage(true)}
+              >
                 <Label
                   htmlFor="patientAttachedFilesUrl"
                   className="p-0 font-light text-[13px] text-gray-500"

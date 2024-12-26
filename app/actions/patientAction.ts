@@ -67,7 +67,6 @@ export async function patientRegistration({ patientPhoto, ...patient }: IPatient
         patientPhoto?.get("fileName") as string
       );
       file = await storage.createFile(PATIENT_PROFILE_BUCKET_ID!, ID.unique(), inputFile)
-      console.log(file)
     }
     let patientRegistrationData = {
       patientPhotoUrl: file ? `${ENDPOINT}/storage/buckets/${PATIENT_PROFILE_BUCKET_ID!}/files/${file?.$id}/view?project=${PROJECT_ID}` : `https://static.vecteezy.com/system/resources/thumbnails/037/336/395/small_2x/user-profile-flat-illustration-avatar-person-icon-gender-neutral-silhouette-profile-picture-free-vector.jpg`,
