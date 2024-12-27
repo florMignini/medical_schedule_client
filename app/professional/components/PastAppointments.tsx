@@ -31,7 +31,7 @@ const PastAppointments = (patientInfo: Patient) => {
   }, []);
 console.log(pastAppointmentsIncluded)
   return (
-    <section className="w-full h-screen flex flex-col items-center justify-start gap-3">
+    <section className="w-full flex flex-col items-center justify-start gap-3">
       <div className="w-[95%] flex flex-col items-start justify-start bg-white px-2 py-3 shadow-[inset_0px_-2px_3px_rgba(73,73,73,0.2)] rounded-md">
         {/* title general */}
         <div className="flex items-center justify-start gap-2">
@@ -108,53 +108,44 @@ console.log(pastAppointmentsIncluded)
                     </TooltipTrigger>
                   );
                 })}
-                <TooltipContent className="flex items-center justify-start flex-col w-[500px] h-auto p-2 backdrop-blur-lg">
-                  {/* Header Section */}
-                  <div className="w-[99%] h-auto flex items-center mx-auto justify-center border-[1px] border-dark-600 rounded-lg text-dark-600">
-                    <div className="w-[50%] flex items-center justify-center">
-                      <Image
-                        src={patientInfo?.patientPhotoUrl ?? ""}
-                        width={50}
-                        height={50}
-                        alt="patient-profile-picture"
-                        className="rounded-full "
-                      />
-                    </div>
-                    <div className="w-[50%]">
-                      <h2 className="font-light text-sm">
-                        Nombre del Paciente
-                      </h2>
-                      <div>
-                        <h3 className="text-3xl font-bold">{`${patientInfo?.firstName} ${patientInfo?.lastName}`}</h3>
-                      </div>
-                    </div>
-                  </div>
+                <TooltipContent className="flex items-center justify-start ml-5 flex-col w-[500px] h-auto p-2 backdrop-blur-lg">
                   {/* appointment info */}
                   <div className="w-[95%] flex items-center justify-start pt-5">
                     {pastAppointmentsIncluded.map((pastAppointments) => (
                       <div 
                       key={pastAppointments.id}
                       className="w-[100%] flex items-center justify-center">
-                        <div className="w-[40%] flex flex-row items-center justify-start font-light text-xs gap-2">
+                        <div className="w-[50%] flex flex-col items-center justify-start font-light text-xs gap-2">
                           {/* treatment notes */}
-                          <Icon
-                            src={notesIcon}
-                            alt="notes-icon"
+                          <div className="w-[100%] flex items-center justify-start gap-2">
+                          <NoteIcon
                             width={20}
                             height={20}
                           />
                           <div className="flex flex-col ">
                             <p className="opacity-50">RAZÓN DE LA CONSULTA</p>
                             <p className="">
-                              {pastAppointments?.pastAppointments?.reason}
+                              {pastAppointments?.pastAppointments?.notes}
                             </p>
                           </div>
+                          </div>
+                          <div className="w-[100%] flex items-center justify-start gap-2">
+                          <NoteIcon
+                            width={20}
+                            height={20}
+                          />
+                          <div className="flex flex-col ">
+                            <p className="opacity-50">DIAGNOSTICO</p>
+                            <p className="">
+                              {pastAppointments?.pastAppointments?.diagnosis}
+                            </p>
+                          </div>
+                          </div>
                         </div>
-                        <div className="w-[60%] flex flex-row items-center justify-start font-light text-xs gap-2">
+                        <div className="w-[50%] flex flex-col items-center justify-start font-light text-xs gap-2">
                           {/* date & time */}
-                          <Icon
-                            src={calendarIcon}
-                            alt="calendar-icon"
+                          <div className="w-[100%] flex items-center justify-start gap-2">
+                          <CalendarIcon
                             width={20}
                             height={20}
                           />
@@ -173,10 +164,12 @@ console.log(pastAppointmentsIncluded)
                             </p>
                             </div>
                           </div>
+                          </div>
+                    {/* attached files preview */}
+
                         </div>
                       </div>
                     ))}
-                    {/* attached files preview */}
                   </div>
                 </TooltipContent>
               </Tooltip>
