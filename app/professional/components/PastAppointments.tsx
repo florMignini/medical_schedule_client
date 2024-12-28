@@ -114,61 +114,57 @@ console.log(pastAppointmentsIncluded)
                     {pastAppointmentsIncluded.map((pastAppointments) => (
                       <div 
                       key={pastAppointments.id}
-                      className="w-[100%] flex items-center justify-center">
-                        <div className="w-[50%] flex flex-col items-center justify-start font-light text-xs gap-2">
+                      className="w-[100%] flex flex-col items-center justify-center">
+                        <header className="flex w-[100%] gap-2">
+                        <CalendarIcon
+                            width={20}
+                            height={20}
+                          />
+                          <div className="w-[100%] flex gap-4">
+                            <p className="opacity-50">FECHA Y HORA: </p>
+                            <div className="flex gap-2">
+                            <p className="">
+                              {dayjs(
+                                pastAppointments?.pastAppointments?.scheduled
+                              ).format("DD MMMM YYYY h:mm A")}
+                            </p>
+                            </div>
+                          </div>
+                        </header>
+                        
+                        <div className="w-[100%] pt-5 flex items-center justify-start font-light text-xs gap-2">
                           {/* treatment notes */}
-                          <div className="w-[100%] flex items-center justify-start gap-2">
+                          <div className="w-[50%] flex items-center justify-start gap-2">
                           <NoteIcon
                             width={20}
                             height={20}
                           />
                           <div className="flex flex-col ">
                             <p className="opacity-50">RAZÓN DE LA CONSULTA</p>
-                            <p className="">
+                            <p className="truncate">
                               {pastAppointments?.pastAppointments?.notes}
                             </p>
                           </div>
                           </div>
-                          <div className="w-[100%] flex items-center justify-start gap-2">
+                          <div className="w-[50%] flex items-center justify-start gap-2">
                           <NoteIcon
                             width={20}
                             height={20}
                           />
                           <div className="flex flex-col ">
                             <p className="opacity-50">DIAGNOSTICO</p>
-                            <p className="">
+                            <p className="truncate">
                               {pastAppointments?.pastAppointments?.diagnosis}
                             </p>
                           </div>
                           </div>
                         </div>
-                        <div className="w-[50%] flex flex-col items-center justify-start font-light text-xs gap-2">
-                          {/* date & time */}
-                          <div className="w-[100%] flex items-center justify-start gap-2">
-                          <CalendarIcon
-                            width={20}
-                            height={20}
-                          />
-                          <div className="w-[100%] flex flex-col">
-                            <p className="opacity-50">FECHA Y HORA</p>
-                            <div className="flex flex-row gap-2">
-                            <p>
-                              {dayjs(
-                                pastAppointments?.pastAppointments?.scheduled
-                              ).format("DD MMMM  YYYY")}
-                            </p>
-                            <p>
-                              {dayjs(
-                                pastAppointments?.pastApppointments?.scheduled
-                              ).format("HH:mm A")}
-                            </p>
-                            </div>
-                          </div>
-                          </div>
+                        
+                          
                     {/* attached files preview */}
 
-                        </div>
-                      </div>
+                     
+                     </div>
                     ))}
                   </div>
                 </TooltipContent>
