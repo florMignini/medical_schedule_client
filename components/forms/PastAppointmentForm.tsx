@@ -17,6 +17,7 @@ import Image from "next/image";
 import { createPatientPastAppointmentRelation } from "@/app/actions";
 import router, { useRouter } from "next/navigation";
 import { createPastAppointment } from "@/app/actions/pastAppointmentAction";
+import upload from "../../public/assets/icons/upload.svg";
 
 const PastAppointmentForm = ({ patient, appointment }: any) => {
   const router = useRouter();
@@ -168,6 +169,9 @@ const PastAppointmentForm = ({ patient, appointment }: any) => {
                   </FormControl>
                 )}
               />
+              <>
+          <Image src={upload} alt="pencil-icon" height={40} width={40} />
+        </>
             </div>
           ) : (
             <>
@@ -180,6 +184,7 @@ const PastAppointmentForm = ({ patient, appointment }: any) => {
                   className="p-0 font-light text-[13px] text-gray-500"
                 >
                   Agregar Árchivos Lab-Médicos
+                  {form?.getValues()?.patientAttachedFilesUrl?.length! > 0 ? form?.getValues()?.patientAttachedFilesUrl?.length : null}
                 </Label>
                 <DinamicForm
                   fieldType={FormFieldType.SKELETON}

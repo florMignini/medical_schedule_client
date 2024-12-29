@@ -20,19 +20,25 @@ const FileUploader = ({ files, onChange }: FileUploaderProps) => {
       <input {...getInputProps()} />
       {files && files?.length > 0 ? (
         files[0].type !== "application/pdf" ? (
-          <Image
-            src={convertFileToUrl(files[0])}
+          files.map((file, index) => (
+            <Image
+            key={index}
+            src={convertFileToUrl(file)}
             alt="user-image"
             width={1000}
             height={1000}
             className="h-auto w-[100%] top-0 overflow-hidden mx-auto object-cover"
           />
+          ))
         ) : (
-          <object
-            data={convertFileToUrl(files[0])}
+          files.map((file, index) => (
+            <object
+            key={index}
+            data={convertFileToUrl(file)}
             type="application/pdf"
             className="w-[100%]"
           ></object>
+          ))
         )
       ) : (
         <>
