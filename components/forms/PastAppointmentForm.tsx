@@ -18,6 +18,7 @@ import { createPatientPastAppointmentRelation } from "@/app/actions";
 import router, { useRouter } from "next/navigation";
 import { createPastAppointment } from "@/app/actions/pastAppointmentAction";
 import upload from "../../public/assets/icons/upload.svg";
+import FileUploaderPlus from "../FileUploaderPlus";
 
 const PastAppointmentForm = ({ patient, appointment }: any) => {
   const router = useRouter();
@@ -79,7 +80,7 @@ const PastAppointmentForm = ({ patient, appointment }: any) => {
   }
 
   // -------------------------------------
-
+console.log(form?.getValues()?.patientAttachedFilesUrl)
   return (
     <Form {...form}>
       <form
@@ -147,7 +148,7 @@ const PastAppointmentForm = ({ patient, appointment }: any) => {
         <div className="w-[100%] flex items-start justify-center">
           {form?.getValues()?.patientAttachedFilesUrl?.length! > 0 ? (
             <div className="w-full h-full  flex-col flex items-start justify-center pt-0 text-white">
-              <button
+              {/* <button
                 className="size-4 flex items-center justify-end"
                 onClick={() => {
                   setIsTthereAnImage(false);
@@ -155,23 +156,8 @@ const PastAppointmentForm = ({ patient, appointment }: any) => {
                 }}
               >
                 <Icon src={closeIcon} alt="close-icon" height={30} width={30} />
-              </button>
-              <DinamicForm
-                fieldType={FormFieldType.SKELETON}
-                control={form.control}
-                name="patientAttachedFilesUrl"
-                renderSkeleton={(field) => (
-                  <FormControl className="w-full">
-                    <FileUploader
-                      files={isThereAnImage ? field.value : (field.value = [])}
-                      onChange={field.onChange}
-                    />
-                  </FormControl>
-                )}
-              />
-              <>
-          <Image src={upload} alt="pencil-icon" height={40} width={40} />
-        </>
+              </button> */}
+             
             </div>
           ) : (
             <>
@@ -187,20 +173,18 @@ const PastAppointmentForm = ({ patient, appointment }: any) => {
                   {form?.getValues()?.patientAttachedFilesUrl?.length! > 0 ? form?.getValues()?.patientAttachedFilesUrl?.length : null}
                 </Label>
                 <DinamicForm
-                  fieldType={FormFieldType.SKELETON}
-                  control={form.control}
-                  name="patientAttachedFilesUrl"
-                  renderSkeleton={(field) => (
-                    <FormControl>
-                      <FileUploader
-                        files={
-                          isThereAnImage ? field.value : (field.value = [])
-                        }
-                        onChange={field.onChange}
-                      />
-                    </FormControl>
-                  )}
-                />
+                fieldType={FormFieldType.SKELETON}
+                control={form.control}
+                name="patientAttachedFilesUrl"
+                renderSkeleton={(field) => (
+                  <FormControl className="w-full">
+                    <FileUploaderPlus
+                      files={isThereAnImage ? field.value : (field.value = [])}
+                      onChange={field.onChange}
+                    />
+                  </FormControl>
+                )}
+              />
               </div>
             </>
           )}
