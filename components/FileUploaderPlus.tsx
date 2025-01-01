@@ -4,10 +4,11 @@ import { useDropzone } from "react-dropzone";
 type FileUploaderPlusProps = {
     files?: File[] | undefined;
     onChange: (files: File[]) => void;
+    setIsTthereAnImage?: (isThereAnImage: boolean) => void;
   };
-const FileUploaderPlus = ({files, onChange }: FileUploaderPlusProps) => {
+const FileUploaderPlus = ({files, onChange, setIsTthereAnImage }: FileUploaderPlusProps) => {
   const [filesPreview, setFilesPreview] = useState<File[]>([]);
-console.log(files)
+
   const onDrop = (acceptedFiles:File[]) => {
     // Convertimos los archivos a un formato legible
     const mappedFiles = acceptedFiles.map((file:File) =>
@@ -16,6 +17,7 @@ console.log(files)
       })
     );
     setFilesPreview((prev) => [...prev, ...mappedFiles]);
+    onChange([...filesPreview, ...mappedFiles]);
   };
 
   const { getRootProps, getInputProps } = useDropzone({
@@ -26,12 +28,18 @@ console.log(files)
 
   const removeFile = (file:File) => {
     setFilesPreview(filesPreview.filter((f) => f !== file));
+    if (setIsTthereAnImage) {
+      setIsTthereAnImage(false);
+    }
   };
 
   const removeAllFiles = () => {
     setFilesPreview([]);
+    if (setIsTthereAnImage) {
+      setIsTthereAnImage(false);
+    }
   };
-
+console.log(filesPreview)
   return (
     <div className="dropzone-container">
       <div
@@ -45,14 +53,16 @@ console.log(files)
         <div className="files-list mt-4">
           <h4>Archivos seleccionados:</h4>
           <ul className="flex w-[100%] gap-5 flex-col">
-            {files && files.map((file: any, index) => (
-              <li key={index} className="file-item flex items-center gap-4">
+            {filesPreview && filesPreview.map((file: any, index) => (
+              <li key={index} className="file-item flex items-center gap-4 flex-col">
                 {
                     file.type === "application/pdf" ? (
                         <object
                         data={file.preview}
+                        width="100%"
+                        height="100%"
                         type="application/pdf"
-                        className="h-[100%] w-[45%] top-0 overflow-hidden mx-auto object-cover"
+                        className="top-0 overflow-hidden mx-auto object-cover"
                       ></object>
                     ) : (
                         <Image
