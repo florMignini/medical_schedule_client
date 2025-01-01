@@ -66,12 +66,12 @@ const PastAppointmentForm = ({ patient, appointment }: any) => {
           patient: patient.id!,
           pastAppointments: response.id,
         };
-      
+
         const data = await createPatientPastAppointmentRelation(IDs);
-        if(response){
+        if (response) {
           form.reset();
-        setLoading(false);
-        router.push(`/professional/patients/${patient.id}/info`);
+          setLoading(false);
+          router.push(`/professional/patients/${patient.id}/info`);
         }
       }
     } catch (error) {
@@ -80,7 +80,8 @@ const PastAppointmentForm = ({ patient, appointment }: any) => {
   }
 
   // -------------------------------------
-console.log(form?.getValues()?.patientAttachedFilesUrl)
+  console.log(form?.getValues()?.patientAttachedFilesUrl);
+
   return (
     <Form {...form}>
       <form
@@ -89,77 +90,66 @@ console.log(form?.getValues()?.patientAttachedFilesUrl)
       >
         {/* appointment detail */}
         {/* diagnosis */}
-       <div className="w-full flex items-start justify-center flex-col">
-       <Label
-          htmlFor="details"
-          className="w-full p-0 text-start font-light text-[13px] text-gray-500"
-        >
-          Diagnostico:
-        </Label>
-        <DinamicForm
-          name="diagnosis"
-          control={form.control}
-          placeholder="Agregar detalles de la consulta"
-          fieldType={FormFieldType.TEXTAREA}
-        />
-       </div>
+        <div className="w-full flex items-start justify-center flex-col">
+          <Label
+            htmlFor="details"
+            className="w-full p-0 text-start font-light text-[13px] text-gray-500"
+          >
+            Diagnostico:
+          </Label>
+          <DinamicForm
+            name="diagnosis"
+            control={form.control}
+            placeholder="Agregar detalles de la consulta"
+            fieldType={FormFieldType.TEXTAREA}
+          />
+        </div>
         {/* prescription */}
         <div className="w-full flex items-start justify-center flex-col">
-       <Label
-          htmlFor="details"
-          className="w-full p-0 text-start font-light text-[13px] text-gray-500"
-        >
-          Prescribir medicamento:
-        </Label>
-        <DinamicForm
-          name="prescription"
-          control={form.control}
-          placeholder="Agregar medicamentos a recetar"
-          fieldType={FormFieldType.TEXTAREA}
-        />
-       </div>
-       {/* notes */}
-       <div className="w-full flex items-start justify-center flex-col">
-       <Label
-          htmlFor="details"
-          className="w-full p-0 text-start font-light text-[13px] text-gray-500"
-        >
-          Notas adicionales:
-        </Label>
-        <DinamicForm
-          name="notes"
-          control={form.control}
-          placeholder="Agregar notas adicionales"
-          fieldType={FormFieldType.TEXTAREA}
-        />
-       </div>
-       {/* followUpRequired  */}
-       <div className="w-full flex items-start justify-center">
-        <Label
-          htmlFor="details"
-          className="w-full p-0 text-start font-light text-[13px] text-gray-500"
-        >Requiere Seguimiento?</Label>
-        <DinamicForm
-        name="followUpRequired"
-        control={form.control}
-        fieldType={FormFieldType.CHECKBOX}
-        />
-       </div>
+          <Label
+            htmlFor="details"
+            className="w-full p-0 text-start font-light text-[13px] text-gray-500"
+          >
+            Prescribir medicamento:
+          </Label>
+          <DinamicForm
+            name="prescription"
+            control={form.control}
+            placeholder="Agregar medicamentos a recetar"
+            fieldType={FormFieldType.TEXTAREA}
+          />
+        </div>
+        {/* notes */}
+        <div className="w-full flex items-start justify-center flex-col">
+          <Label
+            htmlFor="details"
+            className="w-full p-0 text-start font-light text-[13px] text-gray-500"
+          >
+            Notas adicionales:
+          </Label>
+          <DinamicForm
+            name="notes"
+            control={form.control}
+            placeholder="Agregar notas adicionales"
+            fieldType={FormFieldType.TEXTAREA}
+          />
+        </div>
+        {/* followUpRequired  */}
+        <div className="w-full flex items-start justify-center">
+          <Label
+            htmlFor="details"
+            className="w-full p-0 text-start font-light text-[13px] text-gray-500"
+          >
+            Requiere Seguimiento?
+          </Label>
+          <DinamicForm
+            name="followUpRequired"
+            control={form.control}
+            fieldType={FormFieldType.CHECKBOX}
+          />
+        </div>
         <div className="w-[100%] flex items-start justify-center">
-          {form?.getValues()?.patientAttachedFilesUrl?.length! > 0 ? (
-            <div className="w-full h-full  flex-col flex items-start justify-center pt-0 text-white">
-              {/* <button
-                className="size-4 flex items-center justify-end"
-                onClick={() => {
-                  setIsTthereAnImage(false);
-                  form.resetField("patientAttachedFilesUrl");
-                }}
-              >
-                <Icon src={closeIcon} alt="close-icon" height={30} width={30} />
-              </button> */}
-             
-            </div>
-          ) : (
+          {form?.getValues()?.patientAttachedFilesUrl?.length! >= 0 ? (
             <>
               <div
                 className="w-[100%]"
@@ -169,24 +159,33 @@ console.log(form?.getValues()?.patientAttachedFilesUrl)
                   htmlFor="patientAttachedFilesUrl"
                   className="p-0 font-light text-[13px] text-gray-500"
                 >
-                  Agregar Árchivos Lab-Médicos
-                  {form?.getValues()?.patientAttachedFilesUrl?.length! > 0 ? form?.getValues()?.patientAttachedFilesUrl?.length : null}
+                  <p>Agregar Árchivos Lab-Médicos</p>
+                  <p>
+                    {form?.getValues()?.patientAttachedFilesUrl?.length! > 0
+                      ? form?.getValues()?.patientAttachedFilesUrl?.length
+                      : null}
+                  </p>
                 </Label>
                 <DinamicForm
-                fieldType={FormFieldType.SKELETON}
-                control={form.control}
-                name="patientAttachedFilesUrl"
-                renderSkeleton={(field) => (
-                  <FormControl className="w-full">
-                    <FileUploaderPlus
-                      files={isThereAnImage ? field.value : (field.value = [])}
-                      onChange={field.onChange}
-                    />
-                  </FormControl>
-                )}
-              />
+                  fieldType={FormFieldType.SKELETON}
+                  control={form.control}
+                  name="patientAttachedFilesUrl"
+                  renderSkeleton={(field) => (
+                    <FormControl className="w-full">
+                      <FileUploaderPlus
+                        files={
+                          isThereAnImage ? field.value : (field.value = [])
+                        }
+                        onChange={field.onChange}
+                        setIsTthereAnImage={setIsTthereAnImage}
+                      />
+                    </FormControl>
+                  )}
+                />
               </div>
             </>
+          ) : (
+            <div className="w-full h-full  flex-col flex items-start justify-center pt-0 text-white"></div>
           )}
         </div>
         <SubmitButton
