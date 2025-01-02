@@ -24,7 +24,7 @@ const PastAppointmentForm = ({ patient, appointment }: any) => {
   const router = useRouter();
 
   const [loading, setLoading] = useState(false);
-  const [isThereAnImage, setIsTthereAnImage] = useState<boolean>(false);
+  const [isThereAnImage, setIsThereAnImage] = useState<boolean>(false);
   const form = useForm<z.infer<typeof NewPastAppointmentSchema>>({
     resolver: zodResolver(NewPastAppointmentSchema),
     defaultValues: {
@@ -80,7 +80,6 @@ const PastAppointmentForm = ({ patient, appointment }: any) => {
   }
 
   // -------------------------------------
-  console.log(form?.getValues()?.patientAttachedFilesUrl);
 
   return (
     <Form {...form}>
@@ -153,19 +152,14 @@ const PastAppointmentForm = ({ patient, appointment }: any) => {
             <>
               <div
                 className="w-[100%]"
-                onClick={() => setIsTthereAnImage(true)}
-              >
+               >
                 <Label
                   htmlFor="patientAttachedFilesUrl"
                   className="p-0 font-light text-[13px] text-gray-500"
                 >
                   <p>Agregar Árchivos Lab-Médicos</p>
-                  <p>
-                    {form?.getValues()?.patientAttachedFilesUrl?.length! > 0
-                      ? form?.getValues()?.patientAttachedFilesUrl?.length
-                      : null}
-                  </p>
                 </Label>
+
                 <DinamicForm
                   fieldType={FormFieldType.SKELETON}
                   control={form.control}
@@ -173,11 +167,11 @@ const PastAppointmentForm = ({ patient, appointment }: any) => {
                   renderSkeleton={(field) => (
                     <FormControl className="w-full">
                       <FileUploaderPlus
+                      form={form}
                         files={
                           isThereAnImage ? field.value : (field.value = [])
                         }
                         onChange={field.onChange}
-                        setIsTthereAnImage={setIsTthereAnImage}
                       />
                     </FormControl>
                   )}
