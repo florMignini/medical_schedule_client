@@ -13,7 +13,7 @@ const FileUploaderPlus = ({
   onChange,
 }: FileUploaderPlusProps) => {
   const [filesPreview, setFilesPreview] = useState<File[]>([]);
-  console.log(form.getValues("patientAttachedFilesUrl"));
+ 
   const onDrop = (acceptedFiles: File[]) => {
     // Convertimos los archivos a un formato legible
     const mappedFiles = acceptedFiles.map((file: File) =>
