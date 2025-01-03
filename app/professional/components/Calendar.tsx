@@ -92,7 +92,7 @@ const Calendar = ({ appointments }: any) => {
       <div className="w-[100%] flex items-center justify-between text-black">
         <button
           onClick={handlePrevMonth}
-          className="w-[33%] flex justify-start font-semibold   text-lg hover:text-white"
+          className="w-[33%] flex justify-start font-semibold   text-lg hover:text-gray-500"
         >
           Anterior
         </button>
@@ -100,7 +100,7 @@ const Calendar = ({ appointments }: any) => {
           {dayjs(`${currentYear}-${currentMonth + 1}`).format("MMMM YYYY")}
         </h2>
         <button
-          className="w-[33%] flex justify-end font-semibold   text-lg hover:text-white"
+          className="w-[33%] flex justify-end font-semibold   text-lg hover:text-gray-500"
           onClick={handleNextMonth}
         >
           Siguiente
