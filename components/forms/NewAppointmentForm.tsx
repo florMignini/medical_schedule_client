@@ -49,7 +49,6 @@ const NewAppointmentForm = ({
       cancellationReason: "",
     },
   });
-
   async function onSubmit(values: z.infer<typeof appointmentValidation>) {
     setLoading(true);
     try {
@@ -57,8 +56,6 @@ const NewAppointmentForm = ({
         schedule: new Date(values.schedule),
         reason: values.reason,
         notes: values.notes,
-        // patientId: patientId,
-        // professionalId: professionalId?.id,
       };
       const response = await createAppointment(appointmentData);
 
@@ -117,6 +114,7 @@ const NewAppointmentForm = ({
               name="schedule"
               label="Fecha del Turno"
               showTimeSelect
+              defaultValue={new Date()}
               dateFormat="dd/MM/yyyy - h:mm aa"
             />
             <div className="flex flex-col gap-5 xl:flex-row">
