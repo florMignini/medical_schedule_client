@@ -9,15 +9,9 @@ import { FormFieldType } from "./ProfessionalLoginForm";
 import SubmitButton from "../SubmitButton";
 import { useForm } from "react-hook-form";
 import { Label } from "../ui";
-import Icon from "../ui/icon";
-import closeIcon from "../../public/assets/icons/close.svg";
-import uploadIcon from "../../public/assets/icons/upload.svg";
-import FileUploader from "../FileUploader";
-import Image from "next/image";
-import { createPatientPastAppointmentRelation } from "@/app/actions";
-import router, { useRouter } from "next/navigation";
-import { createPastAppointment } from "@/app/actions/pastAppointmentAction";
-import upload from "../../public/assets/icons/upload.svg";
+import { createPastAppointment, createPatientPastAppointmentRelation } from "@/app/actions";
+import  { useRouter } from "next/navigation";
+
 import FileUploaderPlus from "../FileUploaderPlus";
 
 const PastAppointmentForm = ({ patient, appointment }: any) => {
@@ -41,23 +35,29 @@ const PastAppointmentForm = ({ patient, appointment }: any) => {
 
   async function onSubmit(values: z.infer<typeof NewPastAppointmentSchema>) {
     setLoading(true);
-    let formData;
+    let formData: FormData | undefined;
+
+    const dataArr:any[] = [];
     if (
       values.patientAttachedFilesUrl &&
       values.patientAttachedFilesUrl.length > 0
     ) {
-      const blobFile = new Blob([values.patientAttachedFilesUrl[0]], {
-        type: values.patientAttachedFilesUrl?.[0]?.type,
+      values.patientAttachedFilesUrl.forEach((file: File) => {
+        formData = new FormData();
+        const blobFile = new Blob([file], {
+          type: file.type,
+        });
+        formData?.append("blobFile", blobFile);
+        formData?.append("fileName", file.name);
+        dataArr.push(formData);
       });
-      formData = new FormData();
-      formData.append("blobFile", blobFile);
-      formData.append("fileName", values.patientAttachedFilesUrl[0]?.name);
     }
+
     try {
       const pastAppointmentData = {
         ...values,
         scheduled: appointment.schedule,
-        patientAttachedFilesUrl: formData,
+        patientAttachedFilesUrl: dataArr,
       };
       const response: any = await createPastAppointment(pastAppointmentData);
 
@@ -72,6 +72,8 @@ const PastAppointmentForm = ({ patient, appointment }: any) => {
           form.reset();
           setLoading(false);
           router.push(`/professional/patients/${patient.id}/info`);
+        }else{
+          setLoading(false);
         }
       }
     } catch (error) {
