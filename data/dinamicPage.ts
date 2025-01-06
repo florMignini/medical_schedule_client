@@ -8,7 +8,7 @@ export const DinamicPage = [
     //   content: <PendingAppointments />,
     },
     {
-      name: "Resultados Lab",
+      name: "Seguimientos",
 // content: <CancelledAppointments />,
     },
   ];
