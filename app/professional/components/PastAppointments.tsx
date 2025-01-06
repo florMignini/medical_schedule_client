@@ -17,6 +17,7 @@ import Image from "next/image";
 import CalendarIcon from "./icons/CalendarIcon";
 import NoteIcon from "./icons/NoteIcon";
 import FileAttachmentIcon from "./icons/FileAttachmentIcon";
+import Link from "next/link";
 const PastAppointments = (patientInfo: Patient) => {
   const [profInfo, setProfInfo] = useState<string | null>(null);
   const { pastAppointmentsIncluded } = patientInfo!;
@@ -102,7 +103,7 @@ console.log(pastAppointmentsIncluded)
                               ?.patientAttachedFilesUrl === null
                               ? `(0)`
                               : `(${pastAppointment?.pastAppointments?.patientAttachedFilesUrl?.length})`
-                          }`}</p>
+                          }: `}</p>
                         </div>
                       </button>
                     </TooltipTrigger>
@@ -159,12 +160,36 @@ console.log(pastAppointmentsIncluded)
                           </div>
                           </div>
                         </div>
-                        
-                          
                     {/* attached files preview */}
-
-                     
+                    <div className="w-[100%] pt-5 flex items-center justify-start font-light text-xs gap-2">
+                      <FileAttachmentIcon
+                        width={20}
+                        height={20}
+                      />
+                        <p className="opacity-50">ANALISIS ADJUNTOS: </p>
+                      <div className="flex flex-col">
+                        <div className="w-[100%] flex items-center justify-center gap-2">
+                          {pastAppointments?.pastAppointments?.patientAttachedFilesUrl?.map(
+                            (file:any) => (
+                              <Link
+                              href={file}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                                key={file}
+                                className="w-[50px] h-[50px] flex flex-col items-center justify-center bg-gray-200 rounded-md"
+                              >
+                                <p>Abrir</p>
+                                <FileAttachmentIcon
+                                width={20}
+                                height={20}
+                                />
+                              </Link>
+                            )
+                          )}
+                        </div>
+                      </div>
                      </div>
+                      </div>
                     ))}
                   </div>
                 </TooltipContent>

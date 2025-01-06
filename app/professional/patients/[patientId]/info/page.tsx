@@ -8,10 +8,10 @@ import { DinamicPage } from "@/data";
 import clsx from "clsx";
 import { PatientInfoSection } from "@/app/professional/components";
 import AppointmentRecordSection from "@/app/professional/components/Calendar";
-import LabResultSection from "@/app/professional/components/LabResultSection";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Patient } from "@/interfaces";
 import PastAppointments from "@/app/professional/components/PastAppointments";
+import FollowUp from "@/app/professional/components/FollowUp";
 
 const PatientInfo = () => {
   const { patientId } = useParams<{ patientId: string }>();
@@ -73,13 +73,21 @@ const PatientInfo = () => {
               </p>
             </div>
             {/* rightside */}
-            <div className="w-[45%] max-[690px]:w-[50%] h-auto flex justify-start md:justify-center">
+            <div className="w-[45%] max-[690px]:w-[50%] h-auto flex flex-col justify-start md:justify-center gap-2">
               <Link
                 className="w-[60%] md:w-[50%] flex justify-center bg-blue-700 p-1 rounded-lg cursor-pointer hover:scale-105 active:outline-none"
                 href={`/professional/patients/${patientId}/new-appointment`}
               >
                 <p className="text-white max-[690px]:text-[11px] text-14-medium">
-                  Crear Turno
+                  Crear turno
+                </p>
+              </Link>
+              <Link
+                className="w-[60%] md:w-[50%] flex justify-center bg-blue-700 p-1 rounded-lg cursor-pointer hover:scale-105 active:outline-none"
+                href={`#`}
+              >
+                <p className="text-white max-[690px]:text-[11px] text-14-medium">
+                  Agregar seguimiento
                 </p>
               </Link>
             </div>
@@ -109,8 +117,8 @@ const PatientInfo = () => {
           <PatientInfoSection {...patientInfo} />
         ) : dinamicPage === "Historial de Citas" ? (
           <PastAppointments {...patientInfo} />
-        ) : dinamicPage === "Resultados Lab" ? (
-          <LabResultSection />
+        ) : dinamicPage === "Seguimientos" ? (
+          <FollowUp />
         ) : (
           <div>Unknown dinamicPage</div>
         )}
