@@ -13,7 +13,8 @@ interface IIDs {
 
   export async function createNewProfessional({userImage, ...professional}: any) {
     "use server";
-
+console.log(userImage)
+console.log(professional)
     try {
         let file;
         if(userImage){
@@ -26,7 +27,7 @@ interface IIDs {
         let professionalRegistrationData = {
             institutionImage: file ? `${ENDPOINT}/storage/buckets/${PROFESSIONALYINSTITUTION_PROFILE_BUCKET_ID}/files/${file?.$id}/view?project=${PROJECT_ID}` : `https://img.freepik.com/premium-photo/modern-hospital-building-exterior_641010-59451.jpg?w=900`,
             ...professional}
-            console.log(professionalRegistrationData)
+            console.log(`professionalRegistrationData`, professionalRegistrationData)
             const { data } = await apiServer.post(
               `/professional/register`,
               professionalRegistrationData
