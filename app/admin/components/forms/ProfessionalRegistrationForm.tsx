@@ -202,7 +202,7 @@ const ProfessionalRegistrationForm = () => {
                   fieldType={FormFieldType.INPUT}
                   control={form.control}
                   name="password"
-                  label="Contrasenia"
+                  label="Contraseña"
                   type="password"
                 />
               </div>
