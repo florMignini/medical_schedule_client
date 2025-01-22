@@ -1,7 +1,6 @@
 import { z } from "zod";
 
 export const FollowUpSchema = z.object({
-  diagnosis: z.string(),
   treatment: z.string().optional(),
   currentSymptoms: z.string().optional(),
   notes: z.string().optional(),

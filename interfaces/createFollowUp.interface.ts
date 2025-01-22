@@ -1,5 +1,4 @@
 export interface ICreateFollowUp {
-diagnosis?: string | undefined;
 treatment?: string | undefined;
 currentSymptoms?: string | undefined;
 notes?: string | undefined;

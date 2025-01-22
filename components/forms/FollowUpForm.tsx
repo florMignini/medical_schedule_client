@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Form, FormControl } from "@/components/ui/form";
 import DinamicForm from "../DinamicForm";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -11,23 +11,45 @@ import { Label } from "../ui";
 
 import { useRouter } from "next/navigation";
 
-import FileUploaderPlus from "../FileUploaderPlus";
 import { FollowUpSchema } from "@/lib/followUpValidation";
 import { Checkbox } from "../ui/checkbox";
+import createFollowUp, {
+  createAppointmentFollowUpRelation,
+  createPatientFollowUpRelation,
+  createProfessionalFollowUpRelation,
+} from "@/app/actions/followUpAction";
+import {
+  createAppointment,
+  createPatientAppointmentRelation,
+  createProfessionalAppointmentRelation,
+} from "@/app/actions";
+import DatePicker from "react-datepicker";
 
-const FollowUpForm = ({ patient }: any) => {
+import "react-datepicker/dist/react-datepicker.css";
+import "react-phone-number-input/style.css";
+import { professionalDataType } from "./NewAppointmentForm";
+
+const FollowUpForm = ({ patientId }: { patientId: string }) => {
   const router = useRouter();
-
+  const [professionalId, setProfessionalId] = useState<professionalDataType>();
   const [loading, setLoading] = useState(false);
   const [ifFollowUp, setIfFollowUp] = useState(false);
+  const [nextAppointmentSchedule, setNextAppointmentSchedule] =
+    useState<Date | null>(new Date());
+
+  useEffect(() => {
+    const professionalData = localStorage.getItem("infoProfSession");
+    if (professionalData) {
+      const parsedData: professionalDataType = JSON.parse(professionalData);
+      setProfessionalId(parsedData);
+    }
+  }, []);
   const form = useForm<z.infer<typeof FollowUpSchema>>({
     resolver: zodResolver(FollowUpSchema),
     defaultValues: {
-      diagnosis: "",
       treatment: "",
       currentSymptoms: "",
       notes: "",
-      physicalEmotionalCondition: "",
       scheduled: new Date(),
       suggestedAnalysis: "",
     },
@@ -37,49 +59,76 @@ const FollowUpForm = ({ patient }: any) => {
 
   async function onSubmit(values: z.infer<typeof FollowUpSchema>) {
     setLoading(true);
-    // let formData: FormData | undefined;
 
-    // const dataArr:any[] = [];
-    // if (
-    //   values.patientAttachedFilesUrl &&
-    //   values.patientAttachedFilesUrl.length > 0
-    // ) {
-    //   values.patientAttachedFilesUrl.forEach((file: File) => {
-    //     formData = new FormData();
-    //     const blobFile = new Blob([file], {
-    //       type: file.type,
-    //     });
-    //     formData?.append("blobFile", blobFile);
-    //     formData?.append("fileName", file.name);
-    //     dataArr.push(formData);
-    //   });
-    // }
+    try {
 
-    // try {
-    //   const followUpData = {
-    //     ...values,
-    //     // scheduled: appointment.schedule,
-    //   };
-    //   const response: any = await createPastAppointment(followUpData);
+      const response: any = await createFollowUp(values);
+      if (response) {
+        const professionalIDs = {
+          professional: professionalId?.id,
+          followUp: response?.id,
+        };
 
-    //   if (response !== undefined) {
-    //     const IDs = {
-    //       patient: patient.id!,
-    //       pastAppointments: response.id,
-    //     };
+        const profData = await createProfessionalFollowUpRelation(
+          professionalIDs
+        );
+        const patientsIDs = {
+          patient: patientId,
+          followUp: response?.id,
+        };
+        const patientData = await createPatientFollowUpRelation(patientsIDs);
+    
+    
+      //if follow up is required
+      if (ifFollowUp) {
+       const appointmentData = {
+          schedule: nextAppointmentSchedule
+            ? new Date(nextAppointmentSchedule)
+            : new Date(),
+          reason: values.currentSymptoms,
+          notes: values.notes,
+        };
+        const appointmentResponse = await createAppointment(appointmentData);
+        if (appointmentResponse) {
+          const professionalIDs = {
+            professional: professionalId?.id,
+            appointment: appointmentResponse?.id,
+          };
 
-    //     const data = await createPatientPastAppointmentRelation(IDs);
-    //     if (response) {
-    //       form.reset();
-    //       setLoading(false);
-    //       router.push(`/professional/patients/${patient.id}/info`);
-    //     }else{
-    //       setLoading(false);
-    //     }
-    //   }
-    // } catch (error) {
-    //   console.error(error);
-    // }
+          const profData = await createProfessionalAppointmentRelation(
+            professionalIDs
+          );
+          const patientsIDs = {
+            patient: patientId,
+            appointment: appointmentResponse?.id,
+          };
+          const patientData = await createPatientAppointmentRelation(
+            patientsIDs
+          );
+
+          const followUpIDs = {
+            followUpId: response?.id,
+            appointment: appointmentResponse?.id,
+          };
+          const followUpData = await createAppointmentFollowUpRelation(
+            followUpIDs
+          );
+        }
+      }
+
+        if (response) {
+          form.reset();
+          setLoading(false);
+          router.push(`/professional/patients/${patientId}/info`);
+        }
+      } else {
+        setLoading(false);
+      }
+
+      setLoading(false);
+    } catch (error) {
+      console.error(error);
+    }
   }
 
   // -------------------------------------
@@ -183,15 +232,15 @@ const FollowUpForm = ({ patient }: any) => {
                 />
               </div>
               {ifFollowUp ? (
-                <div className=" transition-all w-full flex flex-col items-start justify-center gap-3">
+                <div className="transition-all w-full flex flex-col items-start justify-center gap-3 ">
                   <Label>Proximo control</Label>
-                  <DinamicForm
-                    fieldType={FormFieldType.DATE_PICKER}
-                    control={form.control}
-                    name="scheduled"
+                  <DatePicker
+                    className="date-picker bg-white"
+                    selected={nextAppointmentSchedule}
+                    onChange={(date) => setNextAppointmentSchedule(date)}
                     showTimeSelect
-                    defaultValue={new Date()}
                     dateFormat="dd/MM/yyyy - h:mm aa"
+                    timeInputLabel="Time:"
                   />
                 </div>
               ) : null}
