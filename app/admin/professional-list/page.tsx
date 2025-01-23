@@ -21,7 +21,6 @@ import IsActiveLink from "@/app/professional/components/icons/IsActiveLink";
 
 const page = async () => {
   let { data } = await apiServer.get(`/professional/get-all-professionals`);
-  console.log(data);
   return (
     <section className="w-full h-screen flex flex-col items-center justify-start gap-2 text-color">
       {/* Title */}

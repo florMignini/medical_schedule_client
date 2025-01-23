@@ -25,7 +25,7 @@ import FollowUpForm from "@/components/forms/FollowUpForm";
 const PatientInfo = () => {
   const { patientId } = useParams<{ patientId: string }>();
   const [patientInfo, setPatientInfo] = useState<Patient>();
-
+console.log(patientInfo)
   useEffect(() => {
     async function fetchPatientInfo() {
       let res = await fetch(
@@ -112,7 +112,9 @@ const PatientInfo = () => {
                       Crear nuevo seguimiento al paciente
                     </DialogDescription>
                   </DialogHeader>
-                  <FollowUpForm />
+                  <FollowUpForm 
+                  patientId={patientId}
+                  />
                 </DialogContent>
               </div>
             </div>

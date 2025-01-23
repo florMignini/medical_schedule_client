@@ -16,7 +16,7 @@ import {
 } from "@/app/actions";
 
 type AppointmentType = "create" | "cancel" | "schedule";
-type professionalDataType = {
+export type professionalDataType = {
   id: string;
   firstname: string;
   lastname: string;

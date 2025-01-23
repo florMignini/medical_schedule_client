@@ -57,13 +57,17 @@ const ProfessionalDashboard = async () => {
   let { data }: { data: ProfessionalInformation } = await apiServer.get(
     `/professional/get-professional/${professionalId}`
   );
+  console.log(data);
   // @ts-ignore
   const { patientsIncluded }: { patientsIncluded: PatientsIncluded[] } = data;
-
   // @ts-ignore
   const {
     appointmentsIncluded,
   }: { appointmentsIncluded: AppointmentsIncluded[] } = data;
+  
+  // @ts-ignore
+  const { followsUpIncluded }: { followsUpIncluded: any[] } = data;
+
   // @ts-ignore
   const {
     institutionsIncluded,
@@ -90,15 +94,12 @@ const ProfessionalDashboard = async () => {
             {/* min-[760px]:total patient and appointments */}
             <div className="bg-transparent hidden max-[760px]:w-[95%] max-[760px]:mx-auto relative z-40 px-2 py-3 min-[760px]:flex min-[760px]:flex-col items-start justify-center gap-2 h-full my-auto">
               <div className="w-[90%] absolute top-5 bg-transparent max-[760px]:w-[50%] h-[95px] rounded-lg flex mx-auto text-black">
-{/* pacientes */}
-<div className="absolute w-full flex items-center justify-center text-base gap-6 font-light">
-                <div className="relative w-[50%] left-0 flex flex-col items-center justify-center text-base px-4 py-3 border-[1px] bg-[#4B5563]/40 border-black/5 rounded-lg backdrop-blur-sm shadow-md shadow-[#ffffff]">
-                <div className="w-[90%] flex items-center justify-start">
-                  <User
-                  width={20}
-                  height={20}
-                  />
-                  </div>
+                {/* pacientes */}
+                <div className="absolute w-full flex items-center justify-center text-base gap-6 font-light">
+                  <div className="relative w-[50%] left-0 flex flex-col items-center justify-center text-base px-4 py-3 border-[1px] bg-[#4B5563]/40 border-black/5 rounded-lg backdrop-blur-sm shadow-md shadow-[#ffffff]">
+                    <div className="w-[90%] flex items-center justify-start">
+                      <User width={20} height={20} />
+                    </div>
                     <p className="w-[99%] text-start font-light text-[12px]">
                       Pacientes totales
                     </p>
@@ -107,12 +108,9 @@ const ProfessionalDashboard = async () => {
                     </p>
                   </div>
                   <div className="relative w-[50%] right-0 flex flex-col items-center justify-center text-base px-4 py-3 border-[1px] bg-[#4B5563]/40 border-black/5 rounded-lg backdrop-blur-lg shadow-md shadow-[#ffffff]">
-                  <div className="w-[90%] flex items-center justify-start">
-                  <User
-                  width={20}
-                  height={20}
-                  />
-                  </div>
+                    <div className="w-[90%] flex items-center justify-start">
+                      <User width={20} height={20} />
+                    </div>
                     <p className="w-[99%] text-start font-light text-[12px]">
                       Pacientes hoy
                     </p>
@@ -126,12 +124,9 @@ const ProfessionalDashboard = async () => {
                 <div className="absolute w-full flex items-center justify-center text-base gap-6 font-light">
                   {/* citas totales */}
                   <div className="relative w-[50%] left-0 flex flex-col items-center justify-center text-base px-4 py-3 border-[1px] bg-[#4B5563]/40 border-black/5 rounded-lg backdrop-blur-sm shadow-md shadow-[#ffffff]">
-                  <div className="w-[100%] flex items-center justify-start">
-                  <ChartLineData
-                  width={20}
-                  height={20}
-                  />
-                  </div>
+                    <div className="w-[100%] flex items-center justify-start">
+                      <ChartLineData width={20} height={20} />
+                    </div>
                     <p className="w-[99%] text-start font-light text-[12px]">
                       Citas totales
                     </p>
@@ -141,12 +136,9 @@ const ProfessionalDashboard = async () => {
                   </div>
                   {/* citas hoy */}
                   <div className="relative w-[50%] right-0 flex flex-col items-center justify-center text-base px-4 py-3 border-[1px] bg-[#4B5563]/40 border-black/5 rounded-lg backdrop-blur-sm shadow-md shadow-[#ffffff]">
-                  <div className="w-[100%] flex items-center justify-start">
-                  <CalendarIcon
-                  width={20}
-                  height={20}
-                  />
-                  </div>
+                    <div className="w-[100%] flex items-center justify-start">
+                      <CalendarIcon width={20} height={20} />
+                    </div>
                     <p className="w-[99%] text-start font-light text-[12px]">
                       Citas hoy
                     </p>

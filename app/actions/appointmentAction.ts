@@ -10,6 +10,7 @@ interface IpatientIDs {
   appointment: string | undefined;
 }
 export async function createAppointment(appointmentData: ICreateAppointment) {
+  console.log(appointmentData);
   "use server";
   try {
     const { data } = await apiServer.post(
@@ -18,7 +19,11 @@ export async function createAppointment(appointmentData: ICreateAppointment) {
     );
     return data;
   } catch (error) {
-    console.log(error);
+    if (error instanceof Error) {
+      console.log(error.message);
+    } else {
+      console.log(error);
+    }
   }
 }
 
