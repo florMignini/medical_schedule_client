@@ -27,7 +27,7 @@ export default function ProfessionalLayout({
     redirect("/introducing-medical-schedule")
   }
   return (
-    <section className="flex flex-col m-1">
+    <section className="flex flex-col m-1 overflow-hidden h-screen">
       {/* content */}
       <div className="rounded-lg ">
         <ProfessionalDashboard
