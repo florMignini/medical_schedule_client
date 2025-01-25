@@ -64,8 +64,8 @@ const ProfessionalSidebar = ({
         <Image
           src={Logo}
           alt="medical-schedule-logo-icon"
-          height={170}
-          width={170}
+          height={180}
+          width={180}
         />
       </Link>
       <div
