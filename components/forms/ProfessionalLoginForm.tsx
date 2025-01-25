@@ -37,7 +37,7 @@ const [loginError, setLoginError] = useState<string>()
       password: "",
     },
   });
-
+console.log(form.getValues())
   const setErrorTimed = () => {
     setTimeout(() => setLoginError(""), 3000);
   }
@@ -52,6 +52,7 @@ const [loginError, setLoginError] = useState<string>()
         gender: res?.gender,
         id: res?.id,
       }))
+ 
       if(typeof res === "string"){
         setLoginError(`No existe el usuario ${value.username} ó la contraseña es incorrecta`)
         setErrorTimed();
