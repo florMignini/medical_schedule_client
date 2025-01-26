@@ -275,9 +275,9 @@ const PatientRegistrationForm = () => {
               </div>
               {/* identification type & identification number */}
               <div className="flex flex-col justify-end md:flex-row gap-2 mb-2">
-                <div className="flex w-[40%] rounded-md items-center justify-center border border-[#6e6e6e] outline-none bg-[#E8E9E9] flex-col">
+                <div className="flex w-[40%] rounded-md items-center justify-center outline-none bg-transparent flex-col">
                   <DropdownMenu>
-                    <DropdownMenuTrigger className="flex items-center justify-center gap-1 rounded-md shadow-md shadow-[#6e6e6e] border-[#6e6e6e] bg-[#E8E9E9] border-black/20 border-[1px]">
+                    <DropdownMenuTrigger className="flex items-center justify-center gap-1 rounded-md shadow-md shadow-[#6e6e6e] border-[#6e6e6e] bg-white border-black/20 border-[1px] px-3 py-2">
                       Tipo de Documento
                       <Icon
                         src={DropdownIcon}
@@ -290,7 +290,7 @@ const PatientRegistrationForm = () => {
                       <DropdownMenuRadioGroup
                         value={identificationType}
                         onValueChange={setIdentificationType}
-                        className="flex w-full flex-col items-center gap-1 rounded-md  border-[#6e6e6e] bg-[#E8E9E9]
+                        className="flex w-full flex-col items-center gap-1 rounded-md  border-[#6e6e6e] bg-white
                       text-black text-ellipsis"
                       >
                         {IdentificationType.map((ID: string) => (
@@ -304,7 +304,9 @@ const PatientRegistrationForm = () => {
                         ))}
                       </DropdownMenuRadioGroup>
                     </DropdownMenuContent>
-                    <p>{identificationType}</p>
+                    {identificationType ? (
+                      <p className="mt-2">{identificationType}</p>
+                    ) : null}
                   </DropdownMenu>
                 </div>
 
@@ -560,9 +562,9 @@ const PatientRegistrationForm = () => {
             </div>
             {/* medical history */}
             <div className="flex flex-col justify-end md:flex-row gap-2 mb-2">
-            <div className="flex w-[40%] rounded-md items-center justify-center border border-[#6e6e6e] outline-none bg-[#E8E9E9] flex-col">
-                  <DropdownMenu>
-                    <DropdownMenuTrigger className="flex items-center justify-center gap-1 rounded-md shadow-md shadow-[#6e6e6e] border-[#6e6e6e] bg-[#E8E9E9] border-black/20 border-[1px] outline-none">
+              <div className="flex w-[40%] rounded-md items-center justify-center outline-none bg-transparent flex-col">
+                <DropdownMenu>
+                  <DropdownMenuTrigger className="flex items-center justify-center gap-1 rounded-md shadow-md shadow-[#6e6e6e] border-[#6e6e6e] bg-white border-black/20 border-[1px] outline-none px-3 py-2">
                     Antecedentes Médicos
                     <Icon
                       src={DropdownIcon}
@@ -575,7 +577,7 @@ const PatientRegistrationForm = () => {
                     <DropdownMenuRadioGroup
                       value={medicalHistoryType}
                       onValueChange={setMedicalHistoryType}
-                      className="flex w-full flex-col items-center gap-1 rounded-md  border-white bg-[#E8E9E9]
+                      className="flex w-full flex-col items-center gap-1 rounded-md  border-white bg-white
                       text-black text-ellipsis"
                     >
                       {medicalHistory.map((history: string) => (
@@ -589,7 +591,7 @@ const PatientRegistrationForm = () => {
                       ))}
                     </DropdownMenuRadioGroup>
                   </DropdownMenuContent>
-                  <p>{medicalHistoryType}</p>
+                  {medicalHistoryType ? <p>{medicalHistoryType}</p> : null}
                 </DropdownMenu>
               </div>
               {/* add relevant information */}

@@ -35,10 +35,10 @@ export const patientsRegisterValidation = z.object({
     .max(50, "Nombre de Contacto debe tener como máximo 50 caracteres"),
   emergencyContactNumber: z
     .string()
-    /* .refine(
+    .refine(
       (emergencyContactNumber) => /^\+\d{10,15}$/.test(emergencyContactNumber),
       "Invalid phone number"
-    ) */.optional(),
+    ).optional(),
   // medical
   insuranceProvider: z
     .string()
