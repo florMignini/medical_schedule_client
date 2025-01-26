@@ -110,7 +110,7 @@
 
   /* ==== FORM */
   .radio-group {
-    @apply flex h-full items-center gap-1 rounded-md border border-dashed border-dark-500 bg-light-200 p-2 text-ellipsis;
+    @apply flex h-full items-center gap-1 rounded-md border border-dashed border-dark-500 bg-white p-2 text-ellipsis;
   }
 
   .checkbox-label {
@@ -119,7 +119,7 @@
 
   /* ==== File Upload */
   .file-upload {
-    @apply text-12-regular flex cursor-pointer flex-col items-center justify-center gap-3 rounded-md border border-dashed border-dark-500 bg-light-200 p-1;
+    @apply text-12-regular flex cursor-pointer flex-col items-center justify-center gap-3 rounded-md border border-dashed border-dark-500 bg-white p-1;
   }
 
   .file-upload_label {
@@ -222,7 +222,7 @@
   }
 
   .shad-gray-btn {
-    @apply border border-dark-500 cursor-pointer bg-light-200 text-black !important;
+    @apply border border-dark-500 cursor-pointer bg-white text-black !important;
   }
 
   .shad-input-label {
@@ -230,15 +230,15 @@
   }
 
   .shad-input {
-    @apply bg-light-200 placeholder:text-dark-700 h-11 focus-visible:ring-0    bg-clip-text focus-visible:ring-offset-0 text-dark-600 !important;
+    @apply bg-transparent placeholder:text-dark-700 h-11 focus-visible:ring-0 bg-clip-text focus-visible:ring-offset-0 text-dark-600 !important;
   }
 
   .shad-input-icon {
-    @apply placeholder:text-dark-600 h-11 focus-visible:ring-0 focus-visible:ring-offset-0 !important;
+    @apply placeholder:text-dark-700 h-11 focus-visible:ring-0 focus-visible:ring-offset-0 !important;
   }
 
   .shad-textArea {
-    @apply placeholder:text-dark-600 border-[#6e6e6e] focus-visible:ring-0 focus-visible:ring-offset-0 flex rounded-md shadow-md shadow-[#6e6e6e] bg-[#E8E9E9] border-black/20 border-[1px] !important;
+    @apply placeholder:text-dark-600 border-[#6e6e6e] focus-visible:ring-0 focus-visible:ring-offset-0 flex rounded-md shadow-md shadow-[#6e6e6e] bg-white border-black/20 border-[1px] !important;
   }
 
   .shad-combobox-item {
@@ -250,15 +250,15 @@
   }
 
   .shad-select-trigger {
-    @apply bg-light-200 placeholder:text-dark-600 border-white h-11 focus:ring-0 focus:ring-offset-0 !important;
+    @apply bg-white placeholder:text-dark-600 border-white h-11 focus:ring-0 focus:ring-offset-0 !important;
   }
 
   .shad-select-content {
-    @apply bg-light-200 border-white !important;
+    @apply bg-white border-white !important;
   }
 
   .AlertDialogContent {
-    @apply bg-light-200/50 shadow-light-200 shadow-md fixed top-[50%] left-[50%] -translate-x-[50%] w-[90%] max-w-[500px] max-h-[90%] p-[25px]
+    @apply bg-white/50 shadow-light-200 shadow-md fixed top-[50%] left-[50%] -translate-x-[50%] w-[90%] max-w-[500px] max-h-[90%] p-[25px]
   }
 
   .AlertDialogContent:focus {
@@ -266,7 +266,7 @@
   }
 
   .shad-dialog {
-    @apply bg-light-200 border-white !important;
+    @apply bg-white border-white !important;
   }
 
   .shad-dialog button {
@@ -298,7 +298,7 @@
   }
 
   .shad-alert-dialog {
-    @apply space-y-5 bg-light-200 border-white outline-none !important;
+    @apply space-y-5 bg-white border-white outline-none !important;
   }
 
   .shad-sheet-content button {
@@ -307,12 +307,12 @@
 
   /* =====  REACT PHONE NUMBER INPUT OVERRIDES */
   .input-phone {
-    @apply mt-2 h-11 rounded-md px-3 text-sm bg-light-200 border-black/20 placeholder:text-dark-700 border-[1px] focus-visible:ring-0 shadow-lg shadow-[#6e6e6e] bg-clip-text focus-visible:ring-offset-0 text-dark-600 !important
+    @apply mt-2 h-11 rounded-md px-3 text-sm bg-white border-black/20 placeholder:text-dark-700 border-[1px] focus-visible:ring-0 shadow-lg shadow-[#6e6e6e] bg-clip-text focus-visible:ring-offset-0 text-dark-600 !important
   }
 
   /* =====  REACT DATE PICKER OVERRIDES */
   .date-picker {
-    @apply overflow-hidden border-[1px] focus-visible:ring-0 bg-clip-text focus-visible:ring-offset-0 text-dark-600 w-full placeholder:text-dark-600 h-11 text-14-medium rounded-md px-3 outline-none bg-[#E8E9E9] !important;
+    @apply overflow-hidden border-[1px] focus-visible:ring-0 bg-clip-text focus-visible:ring-offset-0 text-dark-600 w-full placeholder:text-dark-600 h-11 text-14-medium rounded-md px-3 outline-none bg-white !important;
   }
 }
 
@@ -320,7 +320,7 @@
 .react-datepicker-wrapper.date-picker {
   display: flex;
   align-items: center;
-  border-color: #6e6e6e;
+  border-color: #ffffff;
   /* box-shadow: 0px 1px 2px #6e6e6e; */
 }
 
@@ -331,7 +331,7 @@
 .react-datepicker__day-name,
 .react-datepicker__day,
 .react-datepicker-time__header {
-  background-color: #1a1d21 !important;
+  background-color: #ffffff !important;
   border-color: #6e6e6e !important;
   color: #abb8c4 !important;
 }
@@ -343,17 +343,17 @@
 }
 
 .react-datepicker__triangle {
-  fill: #E8E9E9 !important;
+  fill: #ffffff !important;
   color: #E8E9E9 !important;
   stroke: #E8E9E9 !important;
 }
 
 .react-datepicker__time-list-item:hover {
-  background-color: #E8E9E9 !important;
+  background-color: #ffffff !important;
 }
 
 .react-datepicker__input-container input {
-  background-color: #E8E9E9 !important;
+  background-color: #ffffff !important;
   width: 100%;
   outline: none;
 }
@@ -385,14 +385,15 @@
 
 
 /* =====  REACT PHONE NUMBER INPUT OVERRIDES */
-.PhoneInputInput {
+
+.PhoneInput {
   outline: none;
   margin-left: 4px;
-  background: #E8E9E9;
+  background: #ffffff;
   font-size: 14px;
   font-weight: 500;
 }
 
 .PhoneInputInput::placeholder {
-  color: #E8E9E9;
+  color: #000000;
 }
