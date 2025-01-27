@@ -63,7 +63,7 @@ export const DinamicField = ({
   switch (props.fieldType) {
     case FormFieldType.INPUT:
       return (
-        <div className="flex rounded-md shadow-md shadow-[#6e6e6e] border-[#6e6e6e] bg-[#E8E9E9] border-black/20 border-[1px]">
+        <div className="flex rounded-md shadow-md shadow-[#6e6e6e] border-[#6e6e6e] bg-white border-black/20 border-[1px]">
           {props.iconSrc && (
             <Image
               src={iconSrc!}
@@ -86,7 +86,7 @@ export const DinamicField = ({
       );
     case FormFieldType.EMAIL:
       return (
-        <div className="flex rounded-md shadow-md shadow-[#6e6e6e] border-[#6e6e6e] bg-[#E8E9E9] border-black/20 border-[1px]">
+        <div className="flex rounded-md shadow-md shadow-[#6e6e6e] border-[#6e6e6e] bg-white border-black/20 border-[1px]">
           <Mail width={20} height={20} className="mx-1 my-auto text-[#6e6e6e]" />
           <FormControl>
             <Input
@@ -126,11 +126,11 @@ export const DinamicField = ({
       );
     case FormFieldType.DATE_PICKER:
       return (
-        <div className="flex rounded-md border border-[#6e6e6e] bg-[#E8E9E9]">
+        <div className="flex rounded-md border border-[#6e6e6e] bg-white">
           <CalendarIcon
             height={24}
             width={24}
-            className="mx-1 my-2 flex items-center justify-center text-[#6e6e6e]"
+            className="mx-1 my-2 flex items-center justify-center text-[#565656]"
           />
           <FormControl>
             <DatePicker
