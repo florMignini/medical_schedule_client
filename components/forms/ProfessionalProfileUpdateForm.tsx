@@ -24,7 +24,6 @@ import {
 } from "@/app/actions";
 import { genderOptions } from "@/data";
 import { RadioGroup, RadioGroupItem } from "../ui/radio-group";
-import { toFormData } from "axios";
 
 const ProfessionalProfileUpdateForm = (professionalInfo: any) => {
   const [loading, setLoading] = useState(false);
@@ -43,27 +42,27 @@ const ProfessionalProfileUpdateForm = (professionalInfo: any) => {
       gender: professionalInfo.gender,
       specialty: professionalInfo.specialty,
       userImage: [],
+      instagramUrl: professionalInfo.instagramUrl,
+      linkedInUrl: professionalInfo.instagramUrl,
+      newTwitterUrl: professionalInfo.instagramUrl,
     },
   });
   // -------------------------------------
   // onSubmit form
 
   async function onSubmit(values: z.infer<typeof UpdateProfessionalSchema>) {
-    
     setLoading(true);
 
     let formData;
     if (values.userImage && values.userImage.length > 0) {
-
-        const blobFile = new Blob([values.userImage[0]], {
+      const blobFile = new Blob([values.userImage[0]], {
         type: values.userImage?.[0]?.type,
       });
 
       formData = new FormData();
       formData.append("blobFile", blobFile);
       formData.append("fileName", values.userImage[0]?.name);
-
-     }
+    }
     const valuesUpdated = {
       firstName: professionalInfo.firstName,
       lastName: professionalInfo.lastName,
@@ -85,6 +84,9 @@ const ProfessionalProfileUpdateForm = (professionalInfo: any) => {
         values.specialty === undefined
           ? professionalInfo.specialty
           : values.specialty,
+      instagramUrl: professionalInfo.instagramUrl,
+      linkedInUrl: professionalInfo.linkedInUrl,
+      newTwitterUrl: professionalInfo.newTwitterUrl,
     };
 
     try {
@@ -100,7 +102,7 @@ const ProfessionalProfileUpdateForm = (professionalInfo: any) => {
 
       if (response) {
         setLoading(false);
-        // router.push(`/professional/dashboard`);
+        router.push(`/professional/dashboard`);
       }
     } catch (error) {
       console.error(error);
