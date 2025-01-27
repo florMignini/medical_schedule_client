@@ -57,9 +57,9 @@ const ProfessionalDashboard = async () => {
   let { data }: { data: ProfessionalInformation } = await apiServer.get(
     `/professional/get-professional/${professionalId}`
   );
-  console.log(data);
   // @ts-ignore
   const { patientsIncluded }: { patientsIncluded: PatientsIncluded[] } = data;
+  console.log(data);
   // @ts-ignore
   const {
     appointmentsIncluded,
