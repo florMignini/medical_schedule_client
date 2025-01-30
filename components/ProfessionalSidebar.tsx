@@ -32,7 +32,7 @@ const ProfessionalSidebar = ({
         isOpen
           ? "fixed inset-y-0 top-0 left-0 w-64 md:w-[30%] bg-[#47505D] z-50 transform -translate-x-0 "
           : "hidden lg:flex lg:translate-x-0 items-center justify-start flex-col -translate-x-full"
-      } transition-transform mb-2 duration-500 ease-in-out  h-screen  `}
+      } transition-transform mb-2 duration-500 ease-in-out h-screen flex-grow`}
     >
       {isOpen && (
         <div className="w-full pt-2 px-5 flex items-center justify-between">
@@ -81,7 +81,7 @@ const ProfessionalSidebar = ({
               `w-[80%] flex gap-1 justify-start items-center text-color h-8 my-2 px-2 ${
                 isOpen
                   ? "justify-center  hover:font-extrabold text-[#929292]"
-                  : "pl-1  rounded-xl text-[#839cc7]"
+                  : "pl-1 rounded-xl text-[#839cc7]"
               } ${
                 pathname === item.path
                   ? "w-[95%] glass-effect text-black/80"
