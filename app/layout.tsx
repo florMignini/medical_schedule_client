@@ -25,14 +25,16 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en"
+    className="bg-[#222222] h-full"
+    >
       <body
         className={cn(
-          "bg-gray-600 font-sans antialiased",
+          "h-full flex flex-col bg-[#222222] font-sans antialiased m-0 p-0 overflow-x-hidden",
           PlusFont.variable
         )}
       >
-        <Provider>{children}</Provider>
+        {children}
         
       </body>
     </html>

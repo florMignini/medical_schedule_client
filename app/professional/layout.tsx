@@ -27,9 +27,9 @@ export default function ProfessionalLayout({
     redirect("/introducing-medical-schedule")
   }
   return (
-    <section className="flex flex-col m-1 overflow-hidden h-screen">
+    <section className="flex flex-col m-1">
       {/* content */}
-      <div className="rounded-lg ">
+      <div className="rounded-lg">
         <ProfessionalDashboard
         // eslint-disable-next-line react/no-children-prop
         children={children}
