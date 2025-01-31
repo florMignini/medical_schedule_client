@@ -37,7 +37,7 @@ const [loginError, setLoginError] = useState<string>()
       password: "",
     },
   });
-console.log(form.getValues())
+
   const setErrorTimed = () => {
     setTimeout(() => setLoginError(""), 3000);
   }
