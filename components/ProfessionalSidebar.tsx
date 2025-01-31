@@ -27,12 +27,13 @@ const ProfessionalSidebar = ({
 
   const pathname = usePathname();
   return (
-    <aside
+    <div className="relative">
+      <aside
       className={` ${
         isOpen
-          ? "fixed inset-y-0 top-0 left-0 w-64 md:w-[30%] bg-[#47505D] z-50 transform -translate-x-0 "
-          : "hidden lg:flex lg:translate-x-0 items-center justify-start flex-col -translate-x-full"
-      } transition-transform mb-2 duration-500 ease-in-out h-screen flex-grow`}
+          ? "inset-y-0 top-0 left-0 w-64 rounded-r-xl md:w-[35%] bg-[#222222] z-50 transform transition-transform duration-1000 ease-in-out"
+          : "hidden lg:block"
+      } h-screen mb-2  items-center fixed justify-start flex-col`}
     >
       {isOpen && (
         <div className="w-full pt-2 px-5 flex items-center justify-between">
@@ -58,7 +59,7 @@ const ProfessionalSidebar = ({
       )}
       <Link
         href="/professional/dashboard"
-        className="w-[90%] pt-5 pl-3 hidden lg:flex items-center justify-start"
+        className="w-[90%] pt-5 pl-3 hidden lg:block items-center justify-start"
         onClick={() => setIsOpen(false)}
       >
         <Image
@@ -70,7 +71,7 @@ const ProfessionalSidebar = ({
       </Link>
       <div
         className={`w-full pt-[20%] flex flex-col items-center justify-between mx-auto gap-2 ${
-          isOpen ? "py-16" : ""
+          isOpen ? "py-16" : "lg:left-0"
         }`}
       >
         {ProfessionalSidebarData.map((item, index) => (
@@ -122,6 +123,7 @@ const ProfessionalSidebar = ({
         </button>
       </div>
     </aside>
+    </div>
   );
 };
 
