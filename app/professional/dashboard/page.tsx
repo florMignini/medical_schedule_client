@@ -47,6 +47,8 @@ import CheckListIcon from "../components/icons/ChartLineData";
 import dayjs from "dayjs";
 import CalendarIcon from "../components/icons/CalendarIcon";
 import ChartLineData from "../components/icons/ChartLineData";
+import PatientsByAge from "../components/charts/PatientsByAge";
+import Categorization from "../components/charts/Categorization";
 
 const ProfessionalDashboard = async () => {
   const cookieStore = cookies();
@@ -59,12 +61,12 @@ const ProfessionalDashboard = async () => {
   );
   // @ts-ignore
   const { patientsIncluded }: { patientsIncluded: PatientsIncluded[] } = data;
-  console.log(data);
+
   // @ts-ignore
   const {
     appointmentsIncluded,
   }: { appointmentsIncluded: AppointmentsIncluded[] } = data;
-  
+
   // @ts-ignore
   const { followsUpIncluded }: { followsUpIncluded: any[] } = data;
 
@@ -82,314 +84,210 @@ const ProfessionalDashboard = async () => {
   );
 
   return (
-    <section className="w-full h-screen flex flex-col items-center justify-start gap-2">
-      <div className="w-[99%] flex h-auto flex-col gap-1">
-        {/* information side */}
-        <div className="flex flex-col gap-2 my-auto">
-          {/*upper section*/}
-          <div className="w-[99%] mx-auto max-[760px]:flex max-[760px]:flex-col max-[760px]:gap-3 grid grid-cols-[55%,45%]">
-            <div className="">
-              <WelcomeSection professional={data} />
-            </div>
-            {/* min-[760px]:total patient and appointments */}
-            <div className="bg-transparent hidden max-[760px]:w-[95%] max-[760px]:mx-auto relative z-40 px-2 py-3 min-[760px]:flex min-[760px]:flex-col items-start justify-center gap-2 h-full my-auto">
-              <div className="w-[90%] absolute top-5 bg-transparent max-[760px]:w-[50%] h-[95px] rounded-lg flex mx-auto text-black">
-                {/* pacientes */}
-                <div className="absolute w-full flex items-center justify-center text-base gap-6 font-light">
-                  <div className="relative w-[50%] left-0 flex flex-col items-center justify-center text-base px-4 py-3 border-[1px] bg-[#4B5563]/40 border-black/5 rounded-lg backdrop-blur-sm shadow-md shadow-[#ffffff]">
-                    <div className="w-[90%] flex items-center justify-start">
-                      <User width={20} height={20} />
-                    </div>
-                    <p className="w-[99%] text-start font-light text-[12px]">
-                      Pacientes totales
-                    </p>
-                    <p className="w-[100%] font-bold text-xl flex items-start">
-                      {data.patientsIncluded?.length}
-                    </p>
-                  </div>
-                  <div className="relative w-[50%] right-0 flex flex-col items-center justify-center text-base px-4 py-3 border-[1px] bg-[#4B5563]/40 border-black/5 rounded-lg backdrop-blur-lg shadow-md shadow-[#ffffff]">
-                    <div className="w-[90%] flex items-center justify-start">
-                      <User width={20} height={20} />
-                    </div>
-                    <p className="w-[99%] text-start font-light text-[12px]">
-                      Pacientes hoy
-                    </p>
-                    <p className="w-[100%] font-bold text-xl flex items-start">
-                      {data.patientsIncluded?.length}
-                    </p>
-                  </div>
-                </div>
-              </div>
-              <div className="w-[90%] absolute bottom-5 bg-transparent max-[760px]:w-[50%] h-[95px] rounded-lg flex mx-auto text-black">
-                <div className="absolute w-full flex items-center justify-center text-base gap-6 font-light">
-                  {/* citas totales */}
-                  <div className="relative w-[50%] left-0 flex flex-col items-center justify-center text-base px-4 py-3 border-[1px] bg-[#4B5563]/40 border-black/5 rounded-lg backdrop-blur-sm shadow-md shadow-[#ffffff]">
-                    <div className="w-[100%] flex items-center justify-start">
-                      <ChartLineData width={20} height={20} />
-                    </div>
-                    <p className="w-[99%] text-start font-light text-[12px]">
-                      Citas totales
-                    </p>
-                    <p className="w-[100%] font-bold text-xl flex items-start">
-                      {data.appointmentsIncluded?.length}
-                    </p>
-                  </div>
-                  {/* citas hoy */}
-                  <div className="relative w-[50%] right-0 flex flex-col items-center justify-center text-base px-4 py-3 border-[1px] bg-[#4B5563]/40 border-black/5 rounded-lg backdrop-blur-sm shadow-md shadow-[#ffffff]">
-                    <div className="w-[100%] flex items-center justify-start">
-                      <CalendarIcon width={20} height={20} />
-                    </div>
-                    <p className="w-[99%] text-start font-light text-[12px]">
-                      Citas hoy
-                    </p>
-                    <p className="w-[100%] font-bold text-xl flex items-start">
-                      {todayFilteredAppointments?.length}
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </div>
-            {/* mobile total patient and appointments */}
-            <div className="w-[95%] bg-black/10 rounded-lg text-color flex min-[760px]:hidden items-center justify-between mx-auto">
-              <div className="w-[50%] flex gap-2 items-center justify-start text-base font-light px-3">
-                <div className="w-[50%] flex flex-col items-center justify-center">
-                  <p className="w-[99%] text-start font-light text-[14px] border-b-[1px] border-[#839cc7]">
-                    Pacientes totales
-                  </p>
-                  <p className="w-[100%] font-bold text-black text-xl flex items-start">
-                    {data.patientsIncluded?.length}
-                  </p>
-                </div>
-                <div className="w-[50%] flex flex-col items-center justify-between">
-                  <p className="w-[99%] text-start font-light text-[14px] border-b-[1px] border-[#839cc7]">
-                    Pacientes hoy
-                  </p>
-                  <p className="w-[100%] font-bold text-black text-xl flex items-start">
-                    {data.patientsIncluded?.length}
-                  </p>
-                </div>
-              </div>
-              <div className="h-16 border-x-[1px] border-black" />
-              <div className="w-[50%] gap-2 flex items-center justify-start px-3">
-                <div className="w-[50%] flex flex-col items-center justify-start">
-                  <p className="w-[99%] text-start font-light text-[14px] border-b-[1px] border-[#839cc7]">
-                    Citas totales
-                  </p>
-                  <p className="w-[100%] font-bold text-black text-xl flex items-start">
-                    {data.appointmentsIncluded?.length}
-                  </p>
-                </div>
-                <div className="w-[50%] flex flex-col items-center justify-start">
-                  <p className="w-[99%] text-start font-light text-[14px] border-b-[1px] border-[#839cc7]">
-                    Citas hoy
-                  </p>
-                  <p className="w-[100%] font-bold text-black text-xl flex items-start">
-                    {data.appointmentsIncluded?.length}
-                  </p>
-                </div>
-              </div>
-            </div>
+    <section className="w-full min-h-screen grid grid-cols-[70%,30%] lg:grid-cols-[70%,30%] p-1">
+      {/*left section*/}
+      <div className="w-full h-auto lg:flex lg:flex-col gap-2 mx-auto items-center justify-start">
+        {/* charts section */}
+        <div className="w-full mx-auto py-4 px-3 glass-effect flex lflex-col lg:grid lg:grid-cols-[50%,50%] text-color gap-1">
+          <PatientsByAge />
+          <Categorization/>
+        </div>
+        {/* patient section */}
+        <div className="w-full py-4 px-3 glass-effect flex flex-col text-color mt-2">
+          <div className="mx-auto mb-5 w-[99%] border-b-[1px] border-[#A7B3C8]">
+            <p className="px-3 py-2 font-semibold text-[18px]">Pacientes</p>
           </div>
-
-          {/*down section*/}
-          <div className="w-[99%] flex flex-col gap-2 mt-2 mx-auto">
-            {/* patient section */}
-            <div className="w-full py-4 px-3 glass-effect flex flex-col text-color">
-              <div className="mx-auto mb-5 w-[99%] border-b-[1px] border-[#A7B3C8]">
-                <p className="px-3 py-2 font-semibold text-[18px]">Pacientes</p>
+          {/* patients table */}
+          <div className="w-[100%] flex flex-col items-center">
+            {data && data.patientsIncluded?.length! < 1 ? (
+              <div className="w-[90%] flex items-center justify-center gap-10">
+                <p>Aún no posee pacientes activos</p>
+                <AddButton to="/professional/patient-registration" />
               </div>
-              {/* patients table */}
-              <div className="w-[100%] flex flex-col items-center">
-                {data && data.patientsIncluded?.length! < 1 ? (
-                  <div className="w-[90%] flex items-center justify-center gap-10">
-                    <p>Aún no posee pacientes activos</p>
-                    <AddButton to="/professional/patient-registration" />
-                  </div>
-                ) : (
-                  <>
-                    {/*header*/}
-                    <div className="w-[99%] px-3 flex items-center justify-between border-b-[1px] mb-3 border-b-gray-500 text-gray-700">
-                      <p className="w-[25%] max-[690px]:w-[50%] h-10 text-sm font-medium text-start">
-                        Nombre Completo
-                      </p>
-                      <p className="w-[25%] max-[690px]:w-[50%] h-10 text-sm font-medium text-start">
-                        Teléfono
-                      </p>
-                      <p className="w-[25%] h-10 text-sm font-medium text-start max-[690px]:hidden">
-                        Mail
-                      </p>
-                      <p className="w-[25%] h-10 text-sm font-medium text-start max-[690px]:hidden">
-                        Dirección
-                      </p>
-                    </div>
-                    <div className="w-full px-1 gap-2">
-                      {patientsIncluded.map(({ patient }: PatientsIncluded) => (
+            ) : (
+              <>
+                {/*header*/}
+                <div className="w-[99%] px-3 flex items-center justify-between border-b-[1px] mb-3 border-b-gray-500 text-gray-700">
+                  <p className="w-[25%] max-[690px]:w-[50%] h-10 text-sm font-medium text-start">
+                    Nombre Completo
+                  </p>
+                  <p className="w-[25%] max-[690px]:w-[50%] h-10 text-sm font-medium text-start">
+                    Teléfono
+                  </p>
+                  <p className="w-[25%] h-10 text-sm font-medium text-start max-[690px]:hidden">
+                    Mail
+                  </p>
+                  <p className="w-[25%] h-10 text-sm font-medium text-start max-[690px]:hidden">
+                    Dirección
+                  </p>
+                </div>
+                <div className="w-full px-1 gap-2">
+                  {patientsIncluded.map(({ patient }: PatientsIncluded) => (
+                    <div
+                      className="w-[100%] flex items-center justify-center"
+                      key={patient.id}
+                    >
+                      <Link
+                        href={`/professional/patients/${patient.id}/info`}
+                        className="w-[85%] md:w-[98%] mx-auto px-2 flex items-center justify-between border-b-[1px] hover:transition-shadow border-[#cccccc] rounded-md border-[1px] mb-1 hover:shadow-lg hover:shadow-[#cccccc] text-gray-700"
+                      >
                         <div
-                          className="w-[100%] flex items-center justify-center"
-                          key={patient.id}
+                          key={patient.identityNumber}
+                          className="w-[25%] max-[690px]:w-[50%] px-1 py-2"
                         >
-                          <Link
-                            href={`/professional/patients/${patient.id}/info`}
-                            className="w-[85%] md:w-[98%] mx-auto px-2 flex items-center justify-between border-b-[1px] hover:transition-shadow border-[#cccccc] rounded-md border-[1px] mb-1 hover:shadow-lg hover:shadow-[#cccccc] text-gray-700"
-                          >
-                            <div
-                              key={patient.identityNumber}
-                              className="w-[25%] max-[690px]:w-[50%] px-1 py-2"
-                            >
-                              <div className="flex gap-1 items-center justify-start">
-                                <Image
-                                  src={patient.patientPhotoUrl}
-                                  alt="patient-profile-photo"
-                                  width={40}
-                                  height={40}
-                                  className="rounded-full bg-gradient-to-b from-black to-[#001E80]"
-                                />
-                                <p className="text-[14px] font-semibold truncate">
-                                  {`${patient.firstName} ${patient.lastName}`}
-                                </p>
-                              </div>
-                            </div>
-                            <div
-                              className="w-[25%] max-[690px]:w-[50%] px-1 py-2"
-                              key={patient.phone}
-                            >
-                              <div className="text-[14px] font-normal flex gap-1">
-                                <Phone width={20} height={20} />
-                                <p className="truncate">{patient.phone}</p>
-                              </div>
-                            </div>
-                            <div
-                              className="max-[690px]:hidden w-[25%] px-1 py-2"
-                              key={patient.email}
-                            >
-                              <div className="text-[14px] font-normal flex gap-1">
-                                <Mail width={20} height={20} />
-                                <p className="truncate">{patient.email}</p>
-                              </div>
-                            </div>
-                            <div
-                              className="max-[690px]:hidden w-[25%] px-1 py-2"
-                              key={patient.address}
-                            >
-                              <div className="text-[14px] font-normal">
-                                {patient.address}
-                              </div>
-                            </div>
-                          </Link>
-                          <div className="w-[15%] md:w-[10%] flex items-center justify-center">
-                            <ConfigButton
-                              id={patient.id}
-                              component={"patients"}
+                          <div className="flex gap-1 items-center justify-start">
+                            <Image
+                              src={patient.patientPhotoUrl}
+                              alt="patient-profile-photo"
+                              width={40}
+                              height={40}
+                              className="rounded-full bg-gradient-to-b from-black to-[#001E80]"
                             />
+                            <p className="text-[14px] font-semibold truncate">
+                              {`${patient.firstName} ${patient.lastName}`}
+                            </p>
                           </div>
                         </div>
-                      ))}
-                    </div>
-                  </>
-                )}
-              </div>
-            </div>
-
-            {/* institutions section */}
-            <div className="w-full flex flex-col glass-effect text-color">
-              <div className="mx-auto mb-5 w-[99%] border-b-[1px] border-[#A7B3C8]">
-                <p className="px-3 py-2 text-color font-semibold text-[18px]">
-                  Instituciones
-                </p>
-              </div>
-              {/* institutions table */}
-              <div className="w-[100%] flex flex-col items-center">
-                {data && data.institutionsIncluded?.length! < 1 ? (
-                  <div className="w-[90%] flex items-center justify-center gap-10">
-                    <p>Aún no posee instituciones activas</p>
-                    <AddButton to="/professional/institution-registration" />
-                  </div>
-                ) : (
-                  <>
-                    {/*header*/}
-                    <div className="w-[99%] px-3 flex items-center justify-between border-b-[1px] mb-3 border-b-gray-500 text-gray-700">
-                      <p className="w-[25%] max-[690px]:w-[50%] h-10 text-sm font-medium text-start">
-                        institucion
-                      </p>
-                      <p className="w-[25%] max-[690px]:w-[50%] h-10 text-sm font-medium text-start">
-                        Teléfono
-                      </p>
-                      <p className="w-[25%] h-10 text-sm font-medium text-start max-[690px]:hidden">
-                        Mail
-                      </p>
-                      <p className="w-[25%] h-10 text-sm font-medium text-start max-[690px]:hidden">
-                        Dirección
-                      </p>
-                    </div>
-                    <div className="w-full px-1 gap-2">
-                      {institutionsIncluded.map(({ institution }: any) => (
                         <div
-                          className="w-[100%] flex items-center justify-center"
-                          key={institution.id}
+                          className="w-[25%] max-[690px]:w-[50%] px-1 py-2"
+                          key={patient.phone}
                         >
-                          <Link
-                            href={`/professional/institutions/${institution.id}/detail`}
-                            className="w-[85%] md:w-[98%] mx-auto px-2 flex items-center justify-between border-b-[1px] hover:transition-shadow border-[#cccccc] rounded-md border-[1px] mb-1 hover:shadow-lg hover:shadow-[#cccccc] text-gray-700"
-                          >
-                            <div
-                              key={institution.id}
-                              className="w-[25%] max-[690px]:w-[50%] px-1 py-2"
-                            >
-                              <div className="flex gap-1 items-center justify-start">
-                                <Image
-                                  src={institution.institutionImage}
-                                  alt="patient-profile-photo"
-                                  width={40}
-                                  height={40}
-                                  className="rounded-full bg-gradient-to-b from-black to-[#001E80]"
-                                />
-                                <p className="text-[14px] font-semibold truncate">
-                                  {`${institution.name}`}
-                                </p>
-                              </div>
-                            </div>
-                            <div
-                              className="w-[25%] max-[690px]:w-[50%] px-1 py-2"
-                              key={institution.phone}
-                            >
-                              <div className="text-[14px] font-normal flex gap-1">
-                                <Phone width={20} height={20} />
-                                <p className="truncate">{institution.phone}</p>
-                              </div>
-                            </div>
-                            <div
-                              className="w-[25%] max-[690px]:hidden px-1 py-2"
-                              key={institution.email}
-                            >
-                              <div className="text-[14px] font-normal flex  gap-1">
-                                <Mail width={20} height={20} />
-                                <p className="truncate">{institution.email}</p>
-                              </div>
-                            </div>
-                            <div
-                              className="max-[690px]:hidden w-[25%] px-1 py-2"
-                              key={institution.address}
-                            >
-                              <div className="text-[14px] font-normal">
-                                {institution.address}
-                              </div>
-                            </div>
-                          </Link>
-                          <div className="w-[15%] md:w-[10%] flex items-center justify-center">
-                            <ConfigButton
-                              id={institution.id}
-                              component={"institutions"}
-                            />
+                          <div className="text-[14px] font-normal flex gap-1">
+                            <Phone width={20} height={20} />
+                            <p className="truncate">{patient.phone}</p>
                           </div>
                         </div>
-                      ))}
+                        <div
+                          className="max-[690px]:hidden w-[25%] px-1 py-2"
+                          key={patient.email}
+                        >
+                          <div className="text-[14px] font-normal flex gap-1">
+                            <Mail width={20} height={20} />
+                            <p className="truncate">{patient.email}</p>
+                          </div>
+                        </div>
+                        <div
+                          className="max-[690px]:hidden w-[25%] px-1 py-2"
+                          key={patient.address}
+                        >
+                          <div className="text-[14px] font-normal">
+                            {patient.address}
+                          </div>
+                        </div>
+                      </Link>
+                      <div className="w-[15%] md:w-[10%] flex items-center justify-center">
+                        <ConfigButton id={patient.id} component={"patients"} />
+                      </div>
                     </div>
-                  </>
-                )}
-              </div>
-            </div>
+                  ))}
+                </div>
+              </>
+            )}
           </div>
         </div>
+
+        {/* institutions section */}
+        <div className="w-full flex flex-col glass-effect text-color mt-2">
+          <div className="mx-auto mb-5 w-[99%] border-b-[1px] border-[#A7B3C8]">
+            <p className="px-3 py-2 text-color font-semibold text-[18px]">
+              Instituciones
+            </p>
+          </div>
+          {/* institutions table */}
+          <div className="w-[100%] flex flex-col items-center">
+            {data && data.institutionsIncluded?.length! < 1 ? (
+              <div className="w-[90%] flex items-center justify-center gap-10">
+                <p>Aún no posee instituciones activas</p>
+                <AddButton to="/professional/institution-registration" />
+              </div>
+            ) : (
+              <>
+                {/*header*/}
+                <div className="w-[99%] px-3 flex items-center justify-between border-b-[1px] mb-3 border-b-gray-500 text-gray-700">
+                  <p className="w-[25%] max-[690px]:w-[50%] h-10 text-sm font-medium text-start">
+                    institucion
+                  </p>
+                  <p className="w-[25%] max-[690px]:w-[50%] h-10 text-sm font-medium text-start">
+                    Teléfono
+                  </p>
+                  <p className="w-[25%] h-10 text-sm font-medium text-start max-[690px]:hidden">
+                    Mail
+                  </p>
+                  <p className="w-[25%] h-10 text-sm font-medium text-start max-[690px]:hidden">
+                    Dirección
+                  </p>
+                </div>
+                <div className="w-full px-1 gap-2">
+                  {institutionsIncluded.map(({ institution }: any) => (
+                    <div
+                      className="w-[100%] flex items-center justify-center"
+                      key={institution.id}
+                    >
+                      <Link
+                        href={`/professional/institutions/${institution.id}/detail`}
+                        className="w-[85%] md:w-[98%] mx-auto px-2 flex items-center justify-between border-b-[1px] hover:transition-shadow border-[#cccccc] rounded-md border-[1px] mb-1 hover:shadow-lg hover:shadow-[#cccccc] text-gray-700"
+                      >
+                        <div
+                          key={institution.id}
+                          className="w-[25%] max-[690px]:w-[50%] px-1 py-2"
+                        >
+                          <div className="flex gap-1 items-center justify-start">
+                            <Image
+                              src={institution.institutionImage}
+                              alt="patient-profile-photo"
+                              width={40}
+                              height={40}
+                              className="rounded-full bg-gradient-to-b from-black to-[#001E80]"
+                            />
+                            <p className="text-[14px] font-semibold truncate">
+                              {`${institution.name}`}
+                            </p>
+                          </div>
+                        </div>
+                        <div
+                          className="w-[25%] max-[690px]:w-[50%] px-1 py-2"
+                          key={institution.phone}
+                        >
+                          <div className="text-[14px] font-normal flex gap-1">
+                            <Phone width={20} height={20} />
+                            <p className="truncate">{institution.phone}</p>
+                          </div>
+                        </div>
+                        <div
+                          className="w-[25%] max-[690px]:hidden px-1 py-2"
+                          key={institution.email}
+                        >
+                          <div className="text-[14px] font-normal flex  gap-1">
+                            <Mail width={20} height={20} />
+                            <p className="truncate">{institution.email}</p>
+                          </div>
+                        </div>
+                        <div
+                          className="max-[690px]:hidden w-[25%] px-1 py-2"
+                          key={institution.address}
+                        >
+                          <div className="text-[14px] font-normal">
+                            {institution.address}
+                          </div>
+                        </div>
+                      </Link>
+                      <div className="w-[15%] md:w-[10%] flex items-center justify-center">
+                        <ConfigButton
+                          id={institution.id}
+                          component={"institutions"}
+                        />
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </>
+            )}
+          </div>
+        </div>
+      </div>
+      {/* professional profile section */}
+      <div className="w-full">
+        <WelcomeSection professional={data} />
       </div>
     </section>
   );

@@ -11,18 +11,15 @@ const ProfessionalDashboard = ({
   // mobile side menu state & handler
   const [isOpen, setIsOpen] = useState(false);
   const [todayDate, setTodayDate] = useState<string>();
-  const toggleSidebar = useCallback(
-    (value:boolean) => {
-      setIsOpen(value);
-    },
-    [],
-  )
- 
+  const toggleSidebar = useCallback((value: boolean) => {
+    setIsOpen(value);
+  }, []);
+
   // //update to false in width < 768
   useEffect(() => {
     const handleResize = () => {
       if (window.innerWidth < 1024) {
-        toggleSidebar(false)
+        toggleSidebar(false);
       }
     };
 
@@ -35,16 +32,17 @@ const ProfessionalDashboard = ({
   }, [toggleSidebar]);
 
   return (
-    <section className="flex flex-col md:grid lg:grid-cols-[20%,80%]">
-        {/*leftside*/}
-        <ProfessionalSidebar /* toggleSidebar={toggleSidebar} */ isOpen={isOpen} setIsOpen={setIsOpen} />
-
-        {/* rightside */}
-        <div className="overflow-y-clip gap-3 flex-1 flex-col bg-gradient rounded-lg">
-          <Navbar setIsOpen={setIsOpen} isOpen={isOpen} />
-          {children}
-        </div>
-
+    <section className="md:grid lg:grid-cols-[20%,80%]">
+      {/*leftside*/}
+      <ProfessionalSidebar
+        /* toggleSidebar={toggleSidebar} */ isOpen={isOpen}
+        setIsOpen={setIsOpen}
+      />
+      {/* rightside */}
+      <div className="gap-3 flex-1 flex-col bg-gradient rounded-lg">
+        <Navbar setIsOpen={setIsOpen} isOpen={isOpen} />
+        {children}
+      </div>
     </section>
   );
 };
