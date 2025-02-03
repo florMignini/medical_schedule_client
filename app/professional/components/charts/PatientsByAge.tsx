@@ -39,7 +39,7 @@ const chartData = [
 
 const PatientsByAge = () => {
   return (
-    <Card className="w-[50%] md:w-auto h-auto">
+    <Card className="w-[50%] md:w-[90%] mx-auto lg:mx-0 h-[300px] lg:h-auto">
       <CardHeader>
         <CardTitle>Pacientes por edad</CardTitle>
         <CardDescription>
@@ -48,7 +48,7 @@ const PatientsByAge = () => {
       </CardHeader>
       <CardContent>
         <ChartContainer
-        className=""
+        className="w-[50%] md:w-[90%] lg:mx-0 h-[200px] lg:h-[250px] mx-auto"
         config={chartConfig}>
           <AreaChart
             accessibilityLayer
