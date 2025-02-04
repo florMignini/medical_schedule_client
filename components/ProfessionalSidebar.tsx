@@ -31,8 +31,8 @@ const ProfessionalSidebar = ({
       <aside
       className={` ${
         isOpen
-          ? "inset-y-0 top-0 left-0 w-64 rounded-r-xl md:w-[35%] bg-[#222222] z-50 transform transition-transform duration-1000 ease-in-out"
-          : "hidden lg:block"
+          ? "inset-y-0 top-0 w-64 rounded-r-xl md:w-[35%] bg-[#222222] z-50 transform transition-transform duration-1000 ease-in-out"
+          : "hidden lg:block w-[20%] mx-auto"
       } h-screen mb-2  items-center fixed justify-start flex-col`}
     >
       {isOpen && (
@@ -59,7 +59,7 @@ const ProfessionalSidebar = ({
       )}
       <Link
         href="/professional/dashboard"
-        className="w-[90%] pt-5 pl-3 hidden lg:block items-center justify-start"
+        className="w-[90%] pl-[10%] pt-5 hidden lg:block items-center justify-center"
         onClick={() => setIsOpen(false)}
       >
         <Image
@@ -71,7 +71,7 @@ const ProfessionalSidebar = ({
       </Link>
       <div
         className={`w-full pt-[20%] flex flex-col items-center justify-between mx-auto gap-2 ${
-          isOpen ? "py-16" : "lg:left-0"
+          isOpen ? "py-16" : ""
         }`}
       >
         {ProfessionalSidebarData.map((item, index) => (
@@ -79,7 +79,7 @@ const ProfessionalSidebar = ({
             href={item.path}
             key={index}
             className={cn(
-              `w-[80%] flex gap-1 justify-start items-center text-color h-8 my-2 px-2 ${
+              `w-[80%] flex gap-1 justify-start items-center text-color h-8 my-2 px-2 mx-auto ${
                 isOpen
                   ? "justify-center  hover:font-extrabold text-[#929292]"
                   : "pl-1 rounded-xl text-[#839cc7]"
