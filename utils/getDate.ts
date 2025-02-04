@@ -12,3 +12,16 @@ export function getDate(){
   const date = today.getDate();
   return `${date}/${month}/${year}`;
 }
+
+export function getMonth(){
+  const months = [ "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"]
+  const today = new Date();
+  const month = today.getMonth();
+  return months[month];
+}
+
+export function getFullYear(){
+  const today = new Date();
+  const year = today.getFullYear();
+  return year;
+}
