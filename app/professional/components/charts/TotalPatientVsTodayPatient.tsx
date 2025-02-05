@@ -15,7 +15,9 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from "@/components/ui/chart";
-const chartData = [{ month: "january", hoy: 1260, totales: 570 }];
+
+import { getFullYear, getMonth } from "@/utils";
+
 const chartConfig = {
   hoy: {
     label: "Hoy",
@@ -28,12 +30,16 @@ const chartConfig = {
 } satisfies ChartConfig;
 
 const TotalPatientVsTodayPatient = () => {
+
+  const month = getMonth();
+  const year = getFullYear();
+  const chartData = [{ month, hoy: 1260, totales: 570 }];
   const totalVisitors = chartData[0].hoy + chartData[0].totales;
   return (
     <Card className="flex flex-col h-[180px] bg-gradient-to-br from-[#f9f9f9] to-[#f1f1f1]">
       <CardHeader className="items-center pb-2">
         <CardTitle>Pacientes</CardTitle>
-        <CardDescription>este mes - este año</CardDescription>
+        <CardDescription>{month} - {year}</CardDescription>
       </CardHeader>
       <CardContent className="flex w-full items-center pb-2">
         <ChartContainer
@@ -44,8 +50,8 @@ const TotalPatientVsTodayPatient = () => {
           className="w-[100%]"
             data={chartData}
             endAngle={180}
-            innerRadius={50}
-            outerRadius={70}
+            innerRadius={65}
+            outerRadius={50}
           >
             <ChartTooltip
               cursor={false}
