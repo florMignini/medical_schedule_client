@@ -49,6 +49,7 @@ import CalendarIcon from "../components/icons/CalendarIcon";
 import ChartLineData from "../components/icons/ChartLineData";
 import PatientsByAge from "../components/charts/PatientsByAge";
 import Categorization from "../components/charts/Categorization";
+import TotalPatientVsTodayPatient from "../components/charts/TotalPatientVsTodayPatient";
 
 const ProfessionalDashboard = async () => {
   const cookieStore = cookies();
@@ -56,17 +57,21 @@ const ProfessionalDashboard = async () => {
   const today = dayjs(new Date().toISOString().split("T")[0]).format(
     "DD/MM/YYYY"
   );
+
+  // categorization data
   let { data }: { data: ProfessionalInformation } = await apiServer.get(
     `/professional/get-professional/${professionalId}`
   );
+
   // @ts-ignore
   const { patientsIncluded }: { patientsIncluded: PatientsIncluded[] } = data;
 
+  
+  // categorization data
   // @ts-ignore
   const {
     appointmentsIncluded,
   }: { appointmentsIncluded: AppointmentsIncluded[] } = data;
-
   // @ts-ignore
   const { followsUpIncluded }: { followsUpIncluded: any[] } = data;
 
@@ -88,9 +93,12 @@ const ProfessionalDashboard = async () => {
       {/*left section*/}
       <div className="w-full h-auto lg:flex lg:flex-col gap-2 mx-auto items-center justify-start">
         {/* charts section */}
-        <div className="w-full mx-auto py-4 px-3 glass-effect flex lflex-col lg:grid lg:grid-cols-[50%,50%] text-color gap-1">
+        <div className="w-full mx-auto py-4 px-3 glass-effect flex items-center justify-center flex-col xl:grid xl:grid-cols-[60%,40%] text-color gap-1">
           <PatientsByAge />
-          <Categorization/>
+          <Categorization
+          appointments={appointmentsIncluded.length}
+          followsUp={followsUpIncluded.length}
+          />
         </div>
         {/* patient section */}
         <div className="w-full py-4 px-3 glass-effect flex flex-col text-color mt-2">
