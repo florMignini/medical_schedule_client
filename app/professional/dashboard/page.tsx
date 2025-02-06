@@ -2,37 +2,10 @@ import { apiServer } from "@/api/api-server";
 import { cookies } from "next/headers";
 import Image from "next/image";
 import Link from "next/link";
-import Icon from "@/components/ui/icon";
-import user from "../../../public/assets/icons/users.svg";
-import appointments from "../../../public/assets/icons/appointments.svg";
-import MailIcon from "../../../public/assets/icons/email.svg";
-import PhoneIcon from "../../../public/assets/icons/phone.svg";
-import plusImage from "../../../public/assets/icons/plus.svg";
-import settingIcon from "@/public/assets/icons/settings.svg";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import {
-  AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogOverlay,
-  AlertDialogTitle,
-  AlertDialogTrigger,
-} from "@/components/ui/alert-dialog";
 import {
   AppointmentsIncluded,
-  Patient,
   PatientsIncluded,
   ProfessionalInformation,
-  ProfessionalPatient,
 } from "@/interfaces";
 import WelcomeSection from "../components/WelcomeSection";
 
@@ -40,23 +13,15 @@ import ConfigButton from "../components/ConfigButton";
 import Phone from "../components/icons/Phone";
 import Mail from "../components/icons/Mail";
 import AddButton from "../components/AddButton";
-import User from "../components/icons/User";
-import CheckedCalendar from "../components/icons/ChartLineData";
-import UserCard from "../components/icons/UserCard";
-import CheckListIcon from "../components/icons/ChartLineData";
-import dayjs from "dayjs";
-import CalendarIcon from "../components/icons/CalendarIcon";
-import ChartLineData from "../components/icons/ChartLineData";
+
 import PatientsByAge from "../components/charts/PatientsByAge";
 import Categorization from "../components/charts/Categorization";
-import TotalPatientVsTodayPatient from "../components/charts/TotalPatientVsTodayPatient";
+
+
 
 const ProfessionalDashboard = async () => {
   const cookieStore = cookies();
   const professionalId = cookieStore.get("professional-id")?.value;
-  const today = dayjs(new Date().toISOString().split("T")[0]).format(
-    "DD/MM/YYYY"
-  );
 
   // categorization data
   let { data }: { data: ProfessionalInformation } = await apiServer.get(
@@ -66,7 +31,6 @@ const ProfessionalDashboard = async () => {
   // @ts-ignore
   const { patientsIncluded }: { patientsIncluded: PatientsIncluded[] } = data;
 
-  
   // categorization data
   // @ts-ignore
   const {
@@ -80,13 +44,6 @@ const ProfessionalDashboard = async () => {
     institutionsIncluded,
   }: { institutionsIncluded: AppointmentsIncluded[] } = data;
 
-  // filtered today professional appointments
-  const todayFilteredAppointments = appointmentsIncluded.filter(
-    (appointment) =>
-      dayjs(appointment.appointment.schedule.toString().split("T")[0]).format(
-        "DD/MM/YYYY"
-      ) === today
-  );
 
   return (
     <section className="w-full min-h-screen grid grid-cols-[70%,30%] lg:grid-cols-[70%,30%] p-1">
