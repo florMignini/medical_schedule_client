@@ -1,12 +1,8 @@
-import { useEffect, useMemo, useState } from "react";
+
 import Image from "next/image";
 import { usePathname, useRouter } from "next/navigation";
-import Icon from "../../../components/ui/icon";
-import Logo from "../../../public/assets/medical_schedule-logo.svg";
 import leftArrow from "../../../public/assets/icons/arrowLeft.svg";
-import HamburguerMenu from "../../../public/assets/icons/hamburger-sidebar.svg";
 import { toggleSideI } from "@/interfaces";
-import Link from "next/link";
 import Search from "./Search";
 import { useLocalStorage } from "@/utils";
 import Hamburguer from "./icons/Hamburguer";
