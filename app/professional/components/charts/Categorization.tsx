@@ -16,10 +16,7 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from "@/components/ui/chart";
-const chartData = [
-  { patient: "turnos", amount: 275, fill: "var(--color-turnos)" },
-  { patient: "seguimientos", amount: 200, fill: "var(--color-seguimientos)" },
-];
+
 
 const chartConfig = {
   categorizacion: {
@@ -34,22 +31,28 @@ const chartConfig = {
     color: "hsl(var(--chart-2))",
   },
 } satisfies ChartConfig;
-const Categorization = () => {
-  const totalVisitors = React.useMemo(() => {
+const Categorization = ({appointments, followsUp} : any) => {
+
+  const chartData = [
+    { meets: "turnos", amount: appointments, fill: "var(--color-turnos)" },
+    { meets: "seguimientos", amount: followsUp, fill: "var(--color-seguimientos)" },
+  ];
+  const totalMeets = React.useMemo(() => {
     return chartData.reduce((acc, curr) => acc + curr.amount, 0);
   }, []);
   return (
-    <Card className="w-auto h-auto">
-      <CardHeader className="items-center pb-0">
+    <Card className="w-[50%] md:w-[90%] mx-auto lg:mx-0 h-[250px] lg:h-auto">
+      <CardHeader className="items-start pb-0">
         <CardTitle>Categorizacion</CardTitle>
         <CardDescription>Turnos y seguimientos</CardDescription>
       </CardHeader>
       <CardContent>
         <ChartContainer
           config={chartConfig}
-          className=""
+          className="w-[50%] md:w-[90%] lg:mx-0 h-[150px] lg:h-[250px] mx-auto"
         >
-          <PieChart>
+          <PieChart
+          >
             <ChartTooltip
               cursor={false}
               content={<ChartTooltipContent hideLabel />}
@@ -57,7 +60,7 @@ const Categorization = () => {
             <Pie
               data={chartData}
               dataKey="amount"
-              nameKey="patient"
+              nameKey="meets"
               innerRadius={40}
               strokeWidth={1}
             >
@@ -76,14 +79,14 @@ const Categorization = () => {
                           y={viewBox.cy}
                           className="fill-foreground text-2xl font-bold"
                         >
-                          {totalVisitors.toLocaleString()}
+                          {totalMeets.toLocaleString()}
                         </tspan>
                         <tspan
                           x={viewBox.cx}
                           y={(viewBox.cy || 0) + 15}
                           className="flex flex-col fill-muted-foreground"
                         >
-                          Pacientes
+                          Citas
                         </tspan>
                       </text>
                     );
