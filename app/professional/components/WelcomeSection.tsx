@@ -10,9 +10,10 @@ import Icon from "@/components/ui/icon";
 import EditIcon from "../../../public/assets/icons/pencil.svg";
 import CalendarIcon from "../../../public/assets/icons/calendar.svg";
 import User from "../../../public/assets/profile-doctor.jpg";
-import { ProfessionalInformation } from "@/interfaces";
+import { ProfessionalInformation, AppointmentsIncluded, PatientsIncluded } from "@/interfaces";
 import Link from "next/link";
 import TotalPatientVsTodayPatient from "./charts/TotalPatientVsTodayPatient";
+import TotalAppoitmentsVsTodayAppoitments from "./charts/TotalAppointmentsVsTodayAppointments";
 
 const WelcomeSection = ({
   professional,
@@ -39,8 +40,19 @@ const WelcomeSection = ({
     let getTodayDate = getDate();
     setTodayDate(getTodayDate);
   }, []);
+
+// charts information
+// @ts-ignore
+  const {
+    appointmentsIncluded,
+  }: { appointmentsIncluded: AppointmentsIncluded[] } = professional;
+
+  // @ts-ignore
+    const { patientsIncluded }: { patientsIncluded: PatientsIncluded[] } = professional;
+
   return (
-    <div className="w-[95%] mx-auto h-full flex flex-col  bg-white glass-effect">
+
+      <div className="w-[95%] mx-auto h-full flex flex-col  bg-white glass-effect">
       {/* profile section */}
       <div className="w-[99%] h-auto  flex items-start flex-col gap-5 px-2 py-1">
         <div className="w-[100%] flex flex-col gap-3 items-center justify-center mx-auto">
@@ -184,12 +196,14 @@ const WelcomeSection = ({
             </div>
           </div>
           {/* today & total patients chart */}
-          <div className="w-[100%] flex items-center justify-center mt-6">
-            <TotalPatientVsTodayPatient />
+          <div className="w-[100%] h-auto flex flex-col gap-2 items-center justify-center mt-6">
+            <TotalPatientVsTodayPatient patients={patientsIncluded} />
+            <TotalAppoitmentsVsTodayAppoitments appointments={appointmentsIncluded}/>
           </div>
         </div>
       </div>
     </div>
+
   );
 };
 
