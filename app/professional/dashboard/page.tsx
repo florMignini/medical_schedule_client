@@ -46,11 +46,11 @@ const ProfessionalDashboard = async () => {
 
 
   return (
-    <section className="w-full min-h-screen grid grid-cols-[70%,30%] lg:grid-cols-[70%,30%] p-1">
+    <section className="w-full min-h-screen flex min-[768px]:grid min-[768px]:grid-cols-[70%,30%] lg:grid-cols-[70%,30%] p-1">
       {/*left section*/}
       <div className="w-full h-auto lg:flex lg:flex-col gap-2 mx-auto items-center justify-start">
         {/* charts section */}
-        <div className="w-full mx-auto py-4 px-3 glass-effect flex items-center justify-center flex-col xl:grid xl:grid-cols-[60%,40%] text-color gap-1">
+        <div className="w-[100%] mx-auto py-4 px-3 glass-effect flex items-center justify-center flex-col xl:grid xl:grid-cols-[60%,40%] text-color gap-1">
           <PatientsByAge />
           <Categorization
           appointments={appointmentsIncluded.length}
@@ -72,7 +72,7 @@ const ProfessionalDashboard = async () => {
             ) : (
               <>
                 {/*header*/}
-                <div className="w-[99%] px-3 flex items-center justify-between border-b-[1px] mb-3 border-b-gray-500 text-gray-700">
+                <div className="w-[99%] px-3 flex items-center justify-between border-b-[1px] mb-3 border-b-gray-768 text-gray-700">
                   <p className="w-[25%] max-[690px]:w-[50%] h-10 text-sm font-medium text-start">
                     Nombre Completo
                   </p>
@@ -251,7 +251,7 @@ const ProfessionalDashboard = async () => {
         </div>
       </div>
       {/* professional profile section */}
-      <div className="w-full">
+      <div className="hidden min-[768px]:flex">
         <WelcomeSection professional={data} />
       </div>
     </section>
