@@ -51,7 +51,9 @@ const ProfessionalDashboard = async () => {
       <div className="w-full h-auto lg:flex lg:flex-col gap-2 mx-auto items-center justify-start">
         {/* charts section */}
         <div className="w-[100%] mx-auto py-4 px-3 glass-effect flex items-center justify-center flex-col xl:grid xl:grid-cols-[60%,40%] text-color gap-1">
-          <PatientsByAge />
+          <PatientsByAge 
+          patients={patientsIncluded}     
+          />
           <Categorization
           appointments={appointmentsIncluded.length}
           followsUp={followsUpIncluded.length}
