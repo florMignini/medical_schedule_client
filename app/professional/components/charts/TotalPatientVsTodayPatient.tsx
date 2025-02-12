@@ -17,6 +17,7 @@ import {
 } from "@/components/ui/chart";
 
 import { getFullYear, getMonth } from "@/utils";
+import { PatientsIncluded } from "@/interfaces";
 
 const chartConfig = {
   hoy: {
@@ -29,22 +30,26 @@ const chartConfig = {
   },
 } satisfies ChartConfig;
 
-const TotalPatientVsTodayPatient = () => {
+const TotalPatientVsTodayPatient = ({
+  patients,
+}: {
+  patients: PatientsIncluded[];
+}) => {
 
   const month = getMonth();
   const year = getFullYear();
   const chartData = [{ month, hoy: 1260, totales: 570 }];
   const totalVisitors = chartData[0].hoy + chartData[0].totales;
   return (
-    <Card className="flex flex-col h-[180px] bg-gradient-to-br from-[#f9f9f9] to-[#f1f1f1]">
-      <CardHeader className="items-center pb-2">
+    <Card className="w-full flex flex-col h-[180px] bg-gradient-to-br from-[#f9f9f9] to-[#f1f1f1] py-0">
+      <CardHeader className="flex w-full h-[80px] bg-transparent items-center justify-start">
         <CardTitle>Pacientes</CardTitle>
         <CardDescription>{month} - {year}</CardDescription>
       </CardHeader>
-      <CardContent className="flex w-full items-center pb-2">
+      <CardContent className="flex w-full items-center">
         <ChartContainer
           config={chartConfig}
-          className="mx-auto aspect-square w-full"
+          className="mx-auto h-[130px] w-full"
         >
           <RadialBarChart
           className="w-[100%]"
@@ -103,14 +108,6 @@ const TotalPatientVsTodayPatient = () => {
           </RadialBarChart>
         </ChartContainer>
       </CardContent>
-      {/* <CardFooter className="flex-col gap-2 text-sm">
-        <div className="flex items-center gap-2 font-medium leading-none">
-          Trending up by 5.2% this month <TrendingUp className="h-4 w-4" />
-        </div>
-        <div className="leading-none text-muted-foreground">
-          Showing total visitors for the last 6 months
-        </div>
-      </CardFooter> */}
     </Card>
   );
 };
