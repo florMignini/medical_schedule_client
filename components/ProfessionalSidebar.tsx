@@ -12,6 +12,7 @@ import { toggleSideI } from "@/interfaces";
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib";
 import { closeSessionServer } from "@/app/actions";
+import ArrowRight from "@/app/professional/components/icons/ArrowRight";
 
 const ProfessionalSidebar = ({
   isOpen,
@@ -79,13 +80,13 @@ const ProfessionalSidebar = ({
             href={item.path}
             key={index}
             className={cn(
-              `w-[80%] flex gap-1 justify-start items-center text-color h-8 my-2 px-2 mx-auto ${
+              `w-[80%] flex gap-1 justify-start items-center text-color h-10 my-2 px-2 mx-auto ${
                 isOpen
                   ? "justify-center  hover:font-extrabold text-[#929292]"
                   : "pl-1 rounded-xl text-[#839cc7]"
               } ${
                 pathname === item.path
-                  ? "w-[95%] glass-effect text-black/80"
+                  ? "w-[95%] glass-effect"
                   : ""
               }`
             )}
@@ -102,7 +103,11 @@ const ProfessionalSidebar = ({
               {item.label}
             </span>
             {pathname === item.path && (
-              <Image src={arrowRight} alt={arrowRight} width={18} height={18} />
+              <ArrowRight
+              width={20}
+              height={20}
+              color="#FFFFFF"
+              />
             )}
           </Link>
         ))}
