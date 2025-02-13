@@ -225,7 +225,7 @@
   }
 
   .glass-effect {
-    @apply relative z-40 bg-white backdrop:blur-3xl px-2 py-3 rounded-lg shadow-sm shadow-[#6e6e6e] border border-white/20
+    @apply relative z-40 bg-transparent backdrop:blur-3xl px-2 py-3 rounded-lg shadow-sm shadow-[#a4a3a3] border border-white/50
   }
 
   /* =====  SHADCN OVERRIDES */
