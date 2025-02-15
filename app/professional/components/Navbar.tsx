@@ -77,9 +77,9 @@ const Navbar = ({ isOpen, setIsOpen }: toggleSideI) => {
               <SearchIcon width={25} height={25} color={"#bfbfbf"} />
             </button>
             <div
-              className={`transition-all duration-300 ${
-                openResponsiveNav ? "opacity-100 w-[75%] h-10 flex items-center justify-center" : "opacity-0 w-0"
-              } overflow-hidden`}
+              className={`transition-all duration-300${
+                openResponsiveNav ? "opacity-100 w-[75%] top-0 flex items-center justify-center" : "opacity-0 w-0"
+              } `}
             >
               {
                 openResponsiveNav && <Search path={path} />
