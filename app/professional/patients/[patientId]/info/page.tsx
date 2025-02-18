@@ -7,7 +7,7 @@ import Link from "next/link";
 import { DinamicPage } from "@/data";
 import clsx from "clsx";
 import { PatientInfoSection } from "@/app/professional/components";
-import AppointmentRecordSection from "@/app/professional/components/Calendar";
+
 import { Skeleton } from "@/components/ui/skeleton";
 import { Patient } from "@/interfaces";
 import PastAppointments from "@/app/professional/components/PastAppointments";
@@ -64,18 +64,18 @@ console.log(patientInfo)
         {/* top section */}
         <div className="w-[95%] h-auto flex flex-col bg-white gap-5 shadow-[inset_0px_-2px_3px_rgba(73,73,73,0.2)] rounded-md">
           {/* top */}
-          <div className="w-[100%] h-auto px-2 pt-3 grid grid-cols-[20%,80%] ">
+          <div className="w-[100%] h-auto px-2 pt-3 flex flex-col min-[768px]:grid min-[768px]:grid-cols-[40%,60%] mx-auto">
             <Image
               src={patientInfo.patientPhotoUrl}
               alt="patient-photo"
               width={80}
               height={80}
-              className="rounded-full flex items-center justify-center"
+              className="mx-auto rounded-full flex items-center justify-end mb-3"
             />
             {/* patient name and identity */}
-            <div className="w-full h-auto text-black flex  items-center justify-center my-auto">
+            <div className="w-full h-auto text-black flex  items-center justify-around flex-col min-[768px]:flex-row my-auto">
               {/* left side */}
-              <div className="w-[50%] text-[14px] md:text-18-bold flex flex-col ">
+              <div className="w-[95%] text-[14px] md:text-18-bold flex flex-col items-center justify-center mb-2 min-[768px]:mb-0">
                 <h1 className="">{`${patientInfo.firstName} ${patientInfo.lastName}`}</h1>
                 <p className="">
                   <strong className="">
@@ -86,9 +86,9 @@ console.log(patientInfo)
               </div>
               {/* rightside */}
 
-              <div className="w-[45%] max-[690px]:w-[50%] h-auto flex flex-col justify-start md:justify-center gap-2">
+              <div className="w-[95%] h-auto flex min-[768px]:flex-col justify-center gap-2">
                 <Link
-                  className="w-[60%] md:w-[50%] flex justify-center bg-blue-700 p-1 rounded-lg cursor-pointer hover:scale-105 active:outline-none"
+                  className="w-[60%] md:w-[50%] flex items-center justify-center bg-blue-700 p-1 rounded-lg cursor-pointer hover:scale-105 active:outline-none"
                   href={`/professional/patients/${patientId}/new-appointment`}
                 >
                   <p className="text-white max-[690px]:text-[11px] text-14-medium">
@@ -126,7 +126,7 @@ console.log(patientInfo)
                 key={index}
                 onClick={() => setDinamicPage(data.name)}
                 className={clsx(
-                  "font-light text-sm",
+                  "font-light text-xs md:text-sm",
                   dinamicPage === data.name
                     ? "text-blue-500 underline   underline-blue-500 font-bold" // Active link styles
                     : "text-gray-500 hover:text-black" // Inactive link styles
