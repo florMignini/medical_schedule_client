@@ -1,5 +1,5 @@
 import Image from "next/image";
-import LogoImage from "../public/assets/medical_schedule-logo.svg";
+import LogoImage from "../public/assets/medical_schedule-transparent.png";
 import WelcomeImage from "../public/assets/welcome.jpg";
 import { FaGithub } from "react-icons/fa";
 import ProfessionalLoginForm from "@/components/forms/ProfessionalLoginForm";
@@ -15,7 +15,7 @@ export default function Home({ searchParams }: any) {
       {/* If admin Session */}
       {isAdmin && <PasskeyModal />}
       {/* Left section */}
-      <section className="h-screen w-[100%] my-auto md:w-[50%] text-white px-2">
+      <section className="h-screen w-[100%] my-auto md:w-[50%] text-black/50 px-2">
         {/* Logo */}
         <div className="sub-container max-w-[496px]">
           <Image
@@ -43,7 +43,7 @@ export default function Home({ searchParams }: any) {
               <Link className="w-[20%] h-auto flex items-center justify-center px-2 py-1 border-none bg-black/30 rounded-lg "
               href="/?admin=true"
               >
-                <p className="text-white font-semibold">Admin</p>
+                <p className="text-black/50 font-semibold">Admin</p>
               </Link>
             </div>
           </div>
