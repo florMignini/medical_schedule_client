@@ -13,7 +13,7 @@ const SubmitButton = ({loading, className, children}: SubmitButtonI) => {
    <button
    type='submit'
    disabled={loading}
-   className={`text-sm font-medium tracking-w-normal text-white transition duration-200 ease-in-out ${className}`}
+   className={`text-sm font-medium tracking-w-normal text-black transition duration-200 ease-in-out ${className}`}
    >
     {loading ? (
         <div className='flex items-center gap-3'>

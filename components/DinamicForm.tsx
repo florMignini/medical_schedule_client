@@ -126,7 +126,7 @@ export const DinamicField = ({
       );
     case FormFieldType.DATE_PICKER:
       return (
-        <div className="flex rounded-md border border-[#6e6e6e] bg-white">
+        <div className="flex rounded-md border-[#6e6e6e] bg-white border-black/20 border-[1px]">
           <CalendarIcon
             height={24}
             width={24}
