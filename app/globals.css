@@ -11,7 +11,13 @@
 }
 
 @layer base {
-
+  .global-border-outline {
+    border: var(--border-border);
+    outline: var(--outline-ring/50);
+  }
+  .body-styles {
+    @apply bg-background text-foreground;
+  }
   /* Remove scrollbar */
   .remove-scrollbar::-webkit-scrollbar {
     width: 0px;
@@ -413,3 +419,4 @@
 .PhoneInputInput::placeholder {
   color: #000000;
 }
+
