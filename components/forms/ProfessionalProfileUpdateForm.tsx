@@ -36,11 +36,10 @@ const ProfessionalProfileUpdateForm = (professionalInfo: any) => {
       firstName: professionalInfo.firstName,
       lastName: professionalInfo.lastName,
       username: professionalInfo.username,
-      password: professionalInfo.password,
-      phoneNumber: professionalInfo.phoneNumber,
-      email: professionalInfo.email,
+      phoneNumber: "",
+      email: "",
       gender: professionalInfo.gender,
-      specialty: professionalInfo.specialty,
+      specialty: "",
       userImage: [],
       instagramUrl: professionalInfo.instagramUrl,
       linkedInUrl: professionalInfo.instagramUrl,
@@ -70,10 +69,6 @@ const ProfessionalProfileUpdateForm = (professionalInfo: any) => {
         values.username === undefined
           ? professionalInfo.username
           : values.username,
-      password:
-        values.password === undefined
-          ? professionalInfo.password
-          : values.password,
       phoneNumber:
         values.phoneNumber === undefined
           ? professionalInfo.phoneNumber
@@ -212,7 +207,7 @@ const ProfessionalProfileUpdateForm = (professionalInfo: any) => {
               />
             </div>
 
-            {/* username & password */}
+            {/* username  */}
             <div className="flex gap-2 mb-2">
               <DinamicForm
                 fieldType={FormFieldType.INPUT}
@@ -220,13 +215,6 @@ const ProfessionalProfileUpdateForm = (professionalInfo: any) => {
                 name="username"
                 label="Usuario"
                 disable
-              />
-              <DinamicForm
-                fieldType={FormFieldType.INPUT}
-                control={form.control}
-                name="password"
-                label="Contraseña"
-                type="password"
               />
             </div>
 
@@ -239,6 +227,7 @@ const ProfessionalProfileUpdateForm = (professionalInfo: any) => {
                 label="Email"
                 iconSrc={mailIcon}
                 iconAlt="user-email"
+                placeholder={professionalInfo.email}
               />
               <DinamicForm
                 fieldType={FormFieldType.PHONE_INPUT}
@@ -247,6 +236,7 @@ const ProfessionalProfileUpdateForm = (professionalInfo: any) => {
                 label="Número de teléfono"
                 iconSrc={phoneIcon}
                 iconAlt="phone-icon"
+                placeholder={professionalInfo.phoneNumber}
               />
             </div>
             {/* gender & specialty */}
@@ -281,6 +271,7 @@ const ProfessionalProfileUpdateForm = (professionalInfo: any) => {
                 control={form.control}
                 name="specialty"
                 label="Especialidad médica"
+                placeholder={professionalInfo.specialty}
               />
             </div>
           </div>
@@ -288,7 +279,7 @@ const ProfessionalProfileUpdateForm = (professionalInfo: any) => {
 
         <div className="w-full flex">
           <SubmitButton
-            className="w-[95%] mx-auto border-[1px] border-gray-600 hover:bg-gradient-to-b from-black to-[#807f7f] text-white text-center hover:opacity-50 p-2 rounded-lg ease-in-out"
+            className="w-[95%] mx-auto border-[1px] border-gray-600 hover:bg-gradient-to-b from-black to-[#807f7f] text-black text-center hover:text-white p-2 rounded-lg ease-in-out"
             loading={loading}
           >
             Actualizar Perfil
