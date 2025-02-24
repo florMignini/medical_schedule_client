@@ -72,3 +72,20 @@ export async function updateProfessionalProfileAction({
     console.log(error);
   }
 }
+
+export async function updateProfessionalPasswordAction(passwordValues: any) {
+  "use server";
+  const cookieStore = cookies();
+  const professionalId = cookieStore.get("professional-id")?.value;
+
+  try {
+    const { data } = await apiServer.put(
+      `/professional/update-password/${professionalId}`,
+      passwordValues
+    );
+
+    return data;
+  } catch (error: any) {
+   return (error.response.data);
+  }
+}
