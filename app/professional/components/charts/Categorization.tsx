@@ -41,7 +41,7 @@ const Categorization = ({appointments, followsUp} : any) => {
     return chartData.reduce((acc, curr) => acc + curr.amount, 0);
   }, []);
   return (
-    <Card className="w-[50%] md:w-[90%] mx-auto lg:mx-0 h-[250px] lg:h-auto">
+    <Card className="w-full mx-auto lg:mx-0 h-[250px] lg:h-auto">
       <CardHeader className="items-start pb-0">
         <CardTitle>Categorizacion</CardTitle>
         <CardDescription>Turnos y seguimientos</CardDescription>
@@ -49,7 +49,7 @@ const Categorization = ({appointments, followsUp} : any) => {
       <CardContent>
         <ChartContainer
           config={chartConfig}
-          className="w-[50%] md:w-[90%] lg:mx-0 h-[150px] lg:h-[250px] mx-auto"
+          className="w-full lg:mx-0 h-[150px] lg:h-[250px] mx-auto"
         >
           <PieChart
           >
