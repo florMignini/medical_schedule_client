@@ -1,12 +1,10 @@
 "use client";
 
-import { TrendingUp } from "lucide-react";
 import { Area, AreaChart, CartesianGrid, XAxis } from "recharts";
 import {
   Card,
   CardContent,
   CardDescription,
-  CardFooter,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
@@ -16,6 +14,7 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from "@/components/ui/chart";
+import { filtrarByAgeRange } from "@/utils/getChartsHelpers";
 
 const chartConfig = {
   femenino: {
@@ -27,19 +26,37 @@ const chartConfig = {
     color: "hsl(var(--chart-2))",
   },
 } satisfies ChartConfig;
-// data to render
-const chartData = [
-  { age: 20, femenino: 186, masculino: 80 },
-  { age: 30, femenino: 305, masculino: 200 },
-  { age: 40, femenino: 237, masculino: 120 },
-  { age: 50, femenino: 73, masculino: 190 },
-  { age: 60, femenino: 209, masculino: 130 },
-  { age: 70, femenino: 214, masculino: 140 },
-];
 
-const PatientsByAge = () => {
+
+const PatientsByAge = ({patients} : any) => {
+
+const patient20F = filtrarByAgeRange(patients, 20, 29, "F");
+const patient20M = filtrarByAgeRange(patients, 20, 29, "M");
+const patient30F = filtrarByAgeRange(patients, 30, 39, "F");
+const patient30M = filtrarByAgeRange(patients, 30, 39, "M");
+const patient40F = filtrarByAgeRange(patients, 40, 49, "F");
+const patient40M = filtrarByAgeRange(patients, 40, 49, "M");
+const patient50F = filtrarByAgeRange(patients, 50, 59, "F");
+const patient50M = filtrarByAgeRange(patients, 50, 59, "M");
+const patient60F = filtrarByAgeRange(patients, 60, 69, "F");
+const patient60M = filtrarByAgeRange(patients, 60, 69, "M");
+const patient70F = filtrarByAgeRange(patients, 70, 79, "F");
+const patient70M = filtrarByAgeRange(patients, 70, 79, "M");
+const patient80F = filtrarByAgeRange(patients, 80, 89, "F");
+const patient80M = filtrarByAgeRange(patients, 80, 89, "M");
+
+  // data to render
+const chartData = [
+  { age: 20, femenino: patient20F.length, masculino: patient20M.length },
+  { age: 30, femenino: patient30F.length, masculino: patient30M.length },
+  { age: 40, femenino: patient40F.length, masculino: patient40M.length },
+  { age: 50, femenino: patient50F.length, masculino: patient50M.length },
+  { age: 60, femenino: patient60F.length, masculino: patient60M.length },
+  { age: 70, femenino: patient70F.length, masculino: patient70M.length },
+  { age: 80, femenino: patient80F.length, masculino: patient80M.length },
+];
   return (
-    <Card className="w-[50%] md:w-[90%] mx-auto lg:mx-0 h-[300px] lg:h-auto">
+    <Card className="w-full z-40 mx-auto lg:mx-0 h-[300px] lg:h-auto">
       <CardHeader>
         <CardTitle>Pacientes por edad</CardTitle>
         <CardDescription>
@@ -48,7 +65,7 @@ const PatientsByAge = () => {
       </CardHeader>
       <CardContent>
         <ChartContainer
-        className="w-[50%] md:w-[90%] lg:mx-0 h-[200px] lg:h-[250px] mx-auto"
+        className="w-full lg:mx-0 h-[200px] lg:h-[250px] mx-auto"
         config={chartConfig}>
           <AreaChart
             accessibilityLayer
@@ -64,7 +81,7 @@ const PatientsByAge = () => {
               tickLine={false}
               axisLine={false}
               tickMargin={5}
-            //   tickFormatter={(value) => value.slice(0, 3)}
+              // tickFormatter={(value) => value.slice(0, 3)}
             />
             <ChartTooltip
               cursor={false}
@@ -89,18 +106,6 @@ const PatientsByAge = () => {
           </AreaChart>
         </ChartContainer>
       </CardContent>
-      {/* <CardFooter>
-        <div className="flex w-full items-start gap-2 text-sm">
-          <div className="grid gap-2">
-            <div className="flex items-center gap-2 font-medium leading-none">
-              Trending up by 5.2% this month <TrendingUp className="h-4 w-4" />
-            </div>
-            <div className="flex items-center gap-2 leading-none text-muted-foreground">
-              January - June 2024
-            </div>
-          </div>
-        </div>
-      </CardFooter> */}
     </Card>
   );
 };
