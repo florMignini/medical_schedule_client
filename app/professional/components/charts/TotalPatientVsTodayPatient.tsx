@@ -17,7 +17,8 @@ import {
 } from "@/components/ui/chart";
 
 import { getFullYear, getMonth } from "@/utils";
-import { PatientsIncluded } from "@/interfaces";
+import { AppointmentsIncluded, PatientsIncluded } from "@/interfaces";
+import { filterTodayAppointments } from "@/utils/getChartsHelpers";
 
 const chartConfig = {
   hoy: {
@@ -32,13 +33,16 @@ const chartConfig = {
 
 const TotalPatientVsTodayPatient = ({
   patients,
+  appointments,
 }: {
-  patients: PatientsIncluded[];
+  patients: PatientsIncluded[],
+  appointments: AppointmentsIncluded[];
 }) => {
-
+  // today appointments === today patients
+const filteredResult = filterTodayAppointments(appointments);
   const month = getMonth();
   const year = getFullYear();
-  const chartData = [{ month, hoy: 1260, totales: 570 }];
+  const chartData = [{ month, hoy: filteredResult.length, totales: patients.length }];
   const totalVisitors = chartData[0].hoy + chartData[0].totales;
   return (
     <Card className="w-full flex flex-col h-[180px] bg-gradient-to-br from-[#f9f9f9] to-[#f1f1f1] py-0">
@@ -55,7 +59,7 @@ const TotalPatientVsTodayPatient = ({
           className="w-[100%]"
             data={chartData}
             endAngle={180}
-            innerRadius={65}
+            innerRadius={70}
             outerRadius={50}
           >
             <ChartTooltip
