@@ -48,7 +48,7 @@ const Search = ({ path }: any) => {
 
   return (
     <div className="relative w-[99%] h-auto flex flex-col items-center justify-center text-color">
-      <div className="absolute w-[99%] h-20 flex flex-col items-center justify-center lg:justify-end mx-auto">
+      <div className="absolute w-[99%] h-20 flex flex-col items-center justify-center mx-auto">
         {/* search section */}
         <div className="w-[100%] grid grid-cols-[15%,85%] align-middle justify-center bg-white rounded-md px-2 shadow-md shadow-[#cccccc] border-[1px] border-[#cccccc]">
           <button className="w-[90%] gap-2 flex items-center justify-center">
