@@ -39,9 +39,9 @@ const ProfessionalDashboard = ({
         setIsOpen={setIsOpen}
       />
       {/* rightside */}
-      <div className="gap-3 flex-1 flex-col bg-gradient rounded-lg">
+      <div className="gap-5 flex-1 flex-col bg-gradient rounded-lg">
         <Navbar setIsOpen={setIsOpen} isOpen={isOpen} />
-        {children}
+        <div className="rounded-lg pt-3">{children}</div>
       </div>
     </section>
   );
