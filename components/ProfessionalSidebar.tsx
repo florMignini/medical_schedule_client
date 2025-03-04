@@ -4,7 +4,7 @@ import Link from "next/link";
 import Image from "next/image";
 import Logo from "../public/assets/medical_schedule-transparent.png";
 import { ProfessionalSidebarData } from "@/data";
-import CloseIcon from "../public/assets/icons/close.svg";
+
 import logOutIcon from "../public/assets/icons/logout.svg";
 import { toggleSideI } from "@/interfaces";
 import { usePathname } from "next/navigation";
@@ -12,6 +12,7 @@ import { cn } from "@/lib";
 import { closeSessionServer } from "@/app/actions";
 import ArrowRight from "@/app/professional/components/icons/ArrowRight";
 import Logout from "@/app/professional/components/icons/Logout";
+import CloseIcon from "@/app/professional/components/icons/CloseIcon";
 
 const ProfessionalSidebar = ({
   isOpen,
@@ -31,7 +32,7 @@ const ProfessionalSidebar = ({
       <aside
       className={` ${
         isOpen
-          ? "inset-y-0 top-0 w-64 rounded-r-xl md:w-[35%] bg-[#F2F3F0] z-50 transform transition-transform duration-1000 ease-in-out"
+          ? "inset-y-0 top-0 w-64 rounded-r-xl md:w-[35%] bg-[#F2F3F0] z-50 transform transition-transform duration-300 ease-in-out"
           : "hidden lg:block w-[20%] mx-auto"
       } h-screen mb-2  items-center fixed justify-start flex-col`}
     >
@@ -53,7 +54,7 @@ const ProfessionalSidebar = ({
             className="flex items-start justify-start"
             onClick={() => setIsOpen(false)}
           >
-            <Icon src={CloseIcon} alt="close-icon" width={20} height={20} />
+            <CloseIcon width={25} height={25} color="#000000" />
           </button>
         </div>
       )}
