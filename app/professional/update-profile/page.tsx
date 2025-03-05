@@ -1,7 +1,9 @@
 
 import { apiServer } from "@/api/api-server";
+import ProfessionalPasswordUpdateForm from "@/components/forms/ProfessionalPasswordUpdateForm";
 import ProfessionalProfileUpdateForm from "@/components/forms/ProfessionalProfileUpdateForm";
-import { ProfessionalInformation } from "@/interfaces";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+
 import { cookies } from "next/headers";
 
 const ProfessionalProfileUpdate = async () => {
@@ -13,10 +15,23 @@ const ProfessionalProfileUpdate = async () => {
     );
 
   return (
-    <section className="w-full h-screen flex flex-col items-center justify-start gap-2">
+    <section className="w-full h-screen flex flex-col items-center justify-start pl-2 gap-2">
+      <Tabs defaultValue="profile" className="w-full">
+      <TabsList className="grid w-full grid-cols-2">
+        <TabsTrigger
+        value="profile">Perfil</TabsTrigger>
+        <TabsTrigger value="password">Contraseña</TabsTrigger>
+      </TabsList>
+      <TabsContent value="profile">
       <ProfessionalProfileUpdateForm 
       {...data}
       />
+      </TabsContent>
+      <TabsContent value="password">
+        <ProfessionalPasswordUpdateForm/>
+      </TabsContent>
+      </Tabs>
+      
     </section>
   );
 };
