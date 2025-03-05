@@ -39,6 +39,9 @@ import PastAppointmentForm from "@/components/forms/PastAppointmentForm";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import Clock from "./icons/Clock";
 import CalendarIcon from "./icons/CalendarIcon";
+import ArrowRight from "./icons/ArrowRight";
+import ArrowLeft from "./icons/ArrowLeft";
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTrigger } from "@/components/ui/dialog";
 
 const Calendar = ({ appointments }: any) => {
   const [currentMonth, setCurrentMonth] = useState(dayjs().month());
@@ -90,33 +93,37 @@ const Calendar = ({ appointments }: any) => {
     <div className="w-[90%] p-4 h-screen">
       {/* top section */}
       <div className="w-[100%] flex items-center justify-between text-black">
-        <button
-          onClick={handlePrevMonth}
-          className="w-[33%] flex justify-start font-semibold   text-lg hover:text-gray-500"
-        >
-          Anterior
-        </button>
-        <h2 className="w-[33%] flex justify-center font-semibold   text-lg">
+        <h2 className="w-[33%] flex items-center justify-start font-light text-lg">
           {dayjs(`${currentYear}-${currentMonth + 1}`).format("MMMM YYYY")}
         </h2>
-        <button
-          className="w-[33%] flex justify-end font-semibold   text-lg hover:text-gray-500"
-          onClick={handleNextMonth}
-        >
-          Siguiente
-        </button>
+        <div className="flex items-center justify-center w-[33%] gap-4">
+          <button
+            onClick={handlePrevMonth}
+            className="w-[33%] flex justify-start font-semibold   text-lg hover:text-gray-500"
+          >
+            <ArrowLeft width={20} height={20} />
+          </button>
+          <button
+            className="w-[33%] flex justify-end font-semibold   text-lg hover:text-gray-500"
+            onClick={handleNextMonth}
+          >
+            <ArrowRight width={20} height={20} />
+          </button>
+        </div>
       </div>
       {/* Calendar section */}
       <div className="grid grid-cols-7 gap-1 mt-4">
         {/* Days of the week */}
         {["Dom", "Lun", "Mar", "Mié", "Jue", "Vie", "Sáb"].map((day) => (
-          <div key={day} className="text-center font-semibold">
+          <div key={day} className="text-center font-light">
             {day}
           </div>
         ))}
         {/* Empty spaces before first day */}
         {Array.from({ length: startDay }).map((_, idx) => (
-          <div key={idx}></div>
+          <div
+          className="bg-white/35 rounded-lg"
+          key={idx}></div>
         ))}
         {/* Days of the week */}
         {Array.from({ length: daysInMonth }).map((_, idx) => {
@@ -130,29 +137,28 @@ const Calendar = ({ appointments }: any) => {
               date
           );
           return (
-            <Drawer key={day}>
+            <Dialog key={day}>
               <div className="w-full h-20 glass-effect border rounded-md mx-auto">
                 <h1 className="font-bold text-black text-end">{day}</h1>
                 {dayEvents.length > 0 && (
                   <>
-                    <DrawerTrigger className="w-full flex items-center justify-center ">
-                      <div className="flex items-center justify-center size-7 rounded-full border-[1px] border-black p-1">
+                    <DialogTrigger asChild className=" flex items-center justify-center ">
+                      <div className="flex items-center justify-center size-8 bg-black text-white font-bold rounded-full border-[1px] border-black p-1">
                         {dayEvents.length}
                       </div>
-                    </DrawerTrigger>
-                    <DrawerContent className="min-h-[50%] bg-black/70 py-3 ">
-                      <DrawerHeader className="w-[90%] flex items-center justify-center">
-                        <DrawerTitle className="font-bold text-white text-4xl">
+                    </DialogTrigger>
+                    <DialogContent className="w-full h-[80%] bg-black/70 py-3 flex px-3 flex-col items-start justify-start">
+                      <DialogHeader className="w-[90%] h-10 flex items-start justify-start">
+                        <DrawerTitle className="font-medium text-white text-4xl">
                           Eventos del dia
                         </DrawerTitle>
-                      </DrawerHeader>
-                      <DrawerDescription
-                      className="flex flex-col gap-2"
-                      >
+                      </DialogHeader>
+                      <DialogDescription className="flex items-start justify-center flex-col gap-2">
                         {dayEvents.map((event: any) => (
-                          <Sheet key={event.appointment.id}
-                          >
-                            <SheetTrigger asChild >
+                          <Sheet key={event.appointment.id}>
+                            <SheetTrigger
+                            className="w-[90%] h-auto"
+                            asChild>
                               <button
                                 className="flex flex-col w-[90%] h-auto truncate text-white mx-auto rounded-lg shadow-sm shadow-white mt-1 hover:shadow-[#575656] bg-white/5 py-2"
                                 onClick={() =>
@@ -167,10 +173,7 @@ const Calendar = ({ appointments }: any) => {
                                     </p>
                                     <div className="flex items-center justify-center gap-8">
                                       <div className="flex items-center justify-center text-white gap-1">
-                                        <CalendarIcon
-                                        width={20}
-                                        height={20}
-                                        />
+                                        <CalendarIcon width={20} height={20} />
                                         <p>
                                           {dayjs(
                                             event.appointment.schedule
@@ -178,10 +181,7 @@ const Calendar = ({ appointments }: any) => {
                                         </p>
                                       </div>
                                       <div className="flex items-center justify-center text-white gap-1">
-                                        <Clock 
-                                        width={20}
-                                        height={20}
-                                        />
+                                        <Clock width={20} height={20} />
                                         <p>
                                           {dayjs(
                                             event.appointment.schedule
@@ -360,7 +360,7 @@ const Calendar = ({ appointments }: any) => {
                                 </div>
                               </ScrollArea>
 
-                           {/*    <SheetFooter>
+                              {/*    <SheetFooter>
                                 <SheetClose asChild>
                                   <Button type="submit">Finalizar Consulta</Button>
                                 </SheetClose>
@@ -368,12 +368,12 @@ const Calendar = ({ appointments }: any) => {
                             </SheetContent>
                           </Sheet>
                         ))}
-                      </DrawerDescription>
-                    </DrawerContent>
+                      </DialogDescription>
+                    </DialogContent>
                   </>
                 )}
               </div>
-            </Drawer>
+            </Dialog>
           );
         })}
       </div>
