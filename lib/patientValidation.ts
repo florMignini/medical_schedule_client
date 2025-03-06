@@ -64,6 +64,10 @@ export const patientsRegisterValidation = z.object({
   // anthropometric measurements
   patientHeight: z.string().optional(),
   patientWeight: z.string().optional(),
+  patientWaist: z.string().optional(),
+  patientHip: z.string().optional(),
+  patientArm: z.string().optional(),
+  patientTricepsFold: z.string().optional(),
   patientBMI: z.string().optional(),
   patientBFP: z.string().optional(),
   ObservationsComments: z.string().optional(),
@@ -132,6 +136,10 @@ medicalHistoryType: z.enum(["Clinico", "Hematologico", "Oncologico", "Quirurgico
 // anthropometric measurements
 patientHeight: z.string().optional(),
 patientWeight: z.string().optional(),
+patientWaist: z.string().optional(),
+patientHip: z.string().optional(),
+patientArm: z.string().optional(),
+patientTricepsFold: z.string().optional(),
 patientBMI: z.string().optional(),
 patientBFP: z.string().optional(),
 ObservationsComments: z.string().optional(),
