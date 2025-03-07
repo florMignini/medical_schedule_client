@@ -3,7 +3,7 @@ import React from 'react'
 
 const NewAppointment = ({params}: {params: {patientId: string}}) => {
   return (
-    <section className="w-full h-screen flex flex-col items-center justify-start gap-2">
+    <section className="w-full h-screen flex flex-col items-center mx-auto justify-center gap-2">
         <NewAppointmentForm
         patientId={params.patientId}
         type="create"
