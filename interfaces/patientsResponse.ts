@@ -49,4 +49,5 @@ export interface Patient {
   isActive: boolean;
   pastAppointmentsIncluded?: any[];
   appointmentsIncluded?: any[];
+  followUpIncluded?: any[];
 }
