@@ -27,18 +27,23 @@ export const NewProfessionalSchema = z.object({
     firstName: z.string().optional(),
     lastName: z.string().optional(),
     username: z.string().optional(),
-    password: z.string().min(6, "La contraseña debe tener al menos 6 caracteres.").optional(),
     phoneNumber: z
     .string()
     .refine(
       (phone) => /^\+\d{10,15}$/.test(phone),
       "Número de teléfono inválido"
-    ).optional(),
+    ),
     instagramUrl: z.string().optional(),
     linkedInUrl: z.string().optional(),
     newTwitterUrl: z.string().optional(),
-    email: z.string().email("Email inválido").optional(),
+    email: z.string().email("Email inválido"),
     gender: z.enum(["M", "F", "X"]).optional(),
     specialty: z.string().optional(),
     userImage: z.custom<File[]>().optional(),
   })
+
+  export const UpdateProfessionalPasswordSchema = z.object({ 
+    password: z.string().min(6, "La contraseña debe tener al menos 6 caracteres."),
+    newPassword: z.string().min(6, "La contraseña debe tener al menos 6 caracteres."),
+    confirmPassword: z.string().min(6, "La contraseña debe tener al menos 6 caracteres.").optional()
+   });
