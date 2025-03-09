@@ -13,7 +13,6 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
-import Image from "next/image";
 import CalendarIcon from "./icons/CalendarIcon";
 import NoteIcon from "./icons/NoteIcon";
 import FileAttachmentIcon from "./icons/FileAttachmentIcon";
@@ -30,7 +29,7 @@ const PastAppointments = (patientInfo: Patient) => {
       setProfInfo(proffessionalInfo);
     }
   }, []);
-console.log(pastAppointmentsIncluded)
+
   return (
     <section className="w-full flex flex-col items-center justify-start gap-3">
       <div className="w-[95%] flex flex-col items-start justify-start bg-white px-2 py-3 shadow-[inset_0px_-2px_3px_rgba(73,73,73,0.2)] rounded-md">
