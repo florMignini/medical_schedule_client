@@ -86,6 +86,7 @@ const PatientProfileUpdateForm = (patientInfo: Patient) => {
       patientPhoto: [],
       emergencyContactName: patientInfo.emergencyContactName,
       emergencyContactNumber: patientInfo.emergencyContactNumber,
+      contactRelationship: patientInfo.contactRelationship,
       insuranceProvider: patientInfo.insuranceProvider,
       insurancePolicyNumber: patientInfo.insurancePolicyNumber,
       allergic: patientInfo.allergic as BooleanOption,
@@ -98,6 +99,10 @@ const PatientProfileUpdateForm = (patientInfo: Patient) => {
       medicalHistoryType: patientInfo.medicalHistoryType as MedicalHistory,
       patientHeight: patientInfo.patientHeight,
       patientWeight: patientInfo.patientWeight,
+      patientWaist: patientInfo.patientWaist,
+      patientHip: patientInfo.patientHip,
+      patientArm: patientInfo.patientArm,
+      patientTricepsFold: patientInfo.patientTricepsFold,
       patientBMI: patientInfo.patientBMI,
       patientBFP: patientInfo.patientBFP,
       ObservationsComments: patientInfo.ObservationsComments,
@@ -139,6 +144,10 @@ const PatientProfileUpdateForm = (patientInfo: Patient) => {
         values.emergencyContactNumber === undefined
           ? patientInfo.emergencyContactNumber
           : values.emergencyContactNumber,
+      contactRelationship:
+        values.contactRelationship === undefined
+          ? patientInfo.contactRelationship
+          : values.contactRelationship,
       insuranceProvider:
         values.insuranceProvider === undefined
           ? patientInfo.insuranceProvider
@@ -181,6 +190,22 @@ const PatientProfileUpdateForm = (patientInfo: Patient) => {
         values.patientWeight === undefined
           ? patientInfo.patientWeight
           : values.patientWeight,
+          patientWaist:
+        values.patientWaist === undefined
+          ? patientInfo.patientWaist
+          : values.patientWaist,
+          patientHip:
+        values.patientHip === undefined
+          ? patientInfo.patientHip
+          : values.patientHip,
+          patientArm:
+        values.patientArm === undefined
+          ? patientInfo.patientArm
+          : values.patientArm,
+          patientTricepsFold:
+        values.patientTricepsFold === undefined
+          ? patientInfo.patientTricepsFold
+          : values.patientTricepsFold,
       patientBMI:
         values.patientBMI === undefined
           ? patientInfo.patientBMI
