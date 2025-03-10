@@ -80,6 +80,7 @@ const PatientRegistrationForm = () => {
       identificationType: "DNI",
       identityNumber: "",
       emergencyContactName: "",
+      contactRelationship: "",
       emergencyContactNumber: "",
       insuranceProvider: "",
       insurancePolicyNumber: "",
@@ -98,6 +99,10 @@ const PatientRegistrationForm = () => {
       patientWeight: "",
       patientBMI: "",
       patientBFP: "",
+      patientWaist: "",
+      patientHip: "",
+      patientArm: "",
+      patientTricepsFold: "",
       ObservationsComments: "",
       isActive: true,
     },
@@ -371,6 +376,15 @@ const PatientRegistrationForm = () => {
                   iconAlt="phone-icon"
                 />
               </div>
+              <div className="flex gap-2 mb-2 flex-wrap">
+                <DinamicForm
+                  fieldType={FormFieldType.INPUT}
+                  control={form.control}
+                  name="contactRelationship"
+                  label="Vinculo con el contacto"
+                  placeholder="Vinculo"
+                />
+              </div>
             </div>
           </div>
         </div>
@@ -630,6 +644,40 @@ const PatientRegistrationForm = () => {
               label="Peso"
               fieldType={FormFieldType.INPUT}
             />
+          </div>
+          <div className="flex gap-2 mb-2 flex-wrap">
+            <DinamicForm
+              name="patientWaist"
+              control={form.control}
+              placeholder="cintura"
+              label="Cintura"
+              fieldType={FormFieldType.INPUT}
+            />
+            <DinamicForm
+              name="patientHip"
+              control={form.control}
+              placeholder="cadera"
+              label="Cadera"
+              fieldType={FormFieldType.INPUT}
+            />
+          </div>
+          <div className="flex gap-2 mb-2 flex-wrap">
+            <DinamicForm
+              name="patientArm"
+              control={form.control}
+              placeholder="brazo"
+              label="Brazo"
+              fieldType={FormFieldType.INPUT}
+            />
+            <DinamicForm
+              name="patientTricepsFold"
+              control={form.control}
+              placeholder="pliegue del triceps"
+              label="Pliegue del Tricep"
+              fieldType={FormFieldType.INPUT}
+            />
+          </div>
+          <div className="flex gap-2 mb-2 flex-wrap">
             <DinamicForm
               name="patientBMI"
               control={form.control}
