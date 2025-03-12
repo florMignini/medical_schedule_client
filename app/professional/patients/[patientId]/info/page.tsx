@@ -144,7 +144,9 @@ console.log(patientInfo)
           ) : dinamicPage === "Historial de Citas" ? (
             <PastAppointments {...patientInfo} />
           ) : dinamicPage === "Seguimientos" ? (
-            <FollowUp />
+            <FollowUp
+            {...patientInfo}
+            />
           ) : (
             <div>Unknown dinamicPage</div>
           )}
