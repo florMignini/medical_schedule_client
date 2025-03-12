@@ -42,6 +42,10 @@ export const patientsRegisterValidation = z.object({
       (emergencyContactNumber) => /^\+\d{10,15}$/.test(emergencyContactNumber),
       "Invalid phone number"
     ).optional(),
+    contactRelationship: z
+  .string()
+  .min(2, "Relación de Contacto debe tener al menos 6 caracteres")
+  .max(50, "Relación de Contacto debe tener como máximo 50 caracteres").optional(),
   // medical
   insuranceProvider: z
     .string()
@@ -114,6 +118,10 @@ emergencyContactNumber: z
     (phone) => /^\+\d{10,15}$/.test(phone ?? ""),
     "Número de teléfono inválido"
   ).optional(), 
+  contactRelationship: z
+  .string()
+  .min(2, "Relación de Contacto debe tener al menos 6 caracteres")
+  .max(50, "Relación de Contacto debe tener como máximo 50 caracteres").optional(),
 // medical
 insuranceProvider: z
   .string()
