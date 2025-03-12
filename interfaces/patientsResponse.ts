@@ -24,6 +24,7 @@ export interface Patient {
   gender: string;
   emergencyContactName: string;
   emergencyContactNumber: string;
+  contactRelationship: string;
   insuranceProvider: string;
   insurancePolicyNumber: string;
   smoker: string;
