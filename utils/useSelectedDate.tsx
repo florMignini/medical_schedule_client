@@ -1,7 +1,11 @@
-import { useState } from "react";
+import { SelectedDateContext } from "@/app/context/SeletedDateContext";
+import { useContext } from "react";
 
-export default function useSelectedDate() {
-  const [selectedDate, setSelectedDate] = useState(new Date());
 
-  return { selectedDate, setSelectedDate };
+export function useSelectedDate() {
+  const context = useContext(SelectedDateContext);
+  if (!context) {
+    throw new Error("useSelectedDate must be used within a SelectedDateProvider");
+  }
+  return context;
 }

@@ -2,6 +2,7 @@
 import { useCallback, useEffect, useState } from "react";
 import ProfessionalSidebar from "@/components/ProfessionalSidebar";
 import Navbar from "./components/Navbar";
+import { SelectedDateProvider } from "../context/SeletedDateContext";
 
 const ProfessionalDashboard = ({
   children,
@@ -32,7 +33,8 @@ const ProfessionalDashboard = ({
   }, [toggleSidebar]);
 
   return (
-    <section className="md:grid lg:grid-cols-[20%,80%]">
+    <SelectedDateProvider>
+      <section className="md:grid lg:grid-cols-[20%,80%]">
       {/*leftside*/}
       <ProfessionalSidebar
         /* toggleSidebar={toggleSidebar} */ isOpen={isOpen}
@@ -44,6 +46,7 @@ const ProfessionalDashboard = ({
         <div className="rounded-lg pt-3">{children}</div>
       </div>
     </section>
+    </SelectedDateProvider>
   );
 };
 
