@@ -87,11 +87,12 @@ const PastAppointmentForm = ({ patient, appointment }: any) => {
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit)}
-        className="w-[100%] space-y-6 flex-1"
+        className="w-[100%] space-y-2 flex-1"
       >
         {/* appointment detail */}
-        {/* diagnosis */}
-        <div className="w-full flex items-start justify-center flex-col">
+       <div className="w-full flex flex-wrap mb-5 items-start justify-center">
+         {/* diagnosis */}
+         <div className="w-[50%] flex items-start justify-center flex-col">
           <Label
             htmlFor="details"
             className="w-full p-0 text-start font-light text-[13px] text-gray-500"
@@ -106,7 +107,7 @@ const PastAppointmentForm = ({ patient, appointment }: any) => {
           />
         </div>
         {/* prescription */}
-        <div className="w-full flex items-start justify-center flex-col">
+        <div className="w-[50%] flex items-start justify-center flex-col">
           <Label
             htmlFor="details"
             className="w-full p-0 text-start font-light text-[13px] text-gray-500"
@@ -120,8 +121,10 @@ const PastAppointmentForm = ({ patient, appointment }: any) => {
             fieldType={FormFieldType.TEXTAREA}
           />
         </div>
+       </div>
+       <div className="w-full flex flex-wrap mb-5 items-start justify-center">
         {/* notes */}
-        <div className="w-full flex items-start justify-center flex-col">
+        <div className="w-[50%] flex items-start justify-center flex-col">
           <Label
             htmlFor="details"
             className="w-full p-0 text-start font-light text-[13px] text-gray-500"
@@ -136,7 +139,7 @@ const PastAppointmentForm = ({ patient, appointment }: any) => {
           />
         </div>
         {/* followUpRequired  */}
-        <div className="w-full flex items-start justify-center">
+        <div className="w-[50%] flex items-start justify-center">
           <Label
             htmlFor="details"
             className="w-full p-0 text-start font-light text-[13px] text-gray-500"
@@ -148,6 +151,7 @@ const PastAppointmentForm = ({ patient, appointment }: any) => {
             control={form.control}
             fieldType={FormFieldType.CHECKBOX}
           />
+        </div>
         </div>
         <div className="w-[100%] flex items-start justify-center">
           {form?.getValues()?.patientAttachedFilesUrl?.length! >= 0 ? (
@@ -185,7 +189,7 @@ const PastAppointmentForm = ({ patient, appointment }: any) => {
           )}
         </div>
         <SubmitButton
-          className="w-[100%] border-dark-600 bg-dark-500/80 hover:bg-dark-500 p-2 rounded-lg"
+          className="w-[100%] text-black hover:text-white border-white/20 bg-white/80 hover:bg-black p-2 rounded-lg"
           loading={loading}
         >
           Finalizar cita
