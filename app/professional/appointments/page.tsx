@@ -43,7 +43,7 @@ const Appointments = async () => {
         appointments={appointmentsIncluded} />
         </div>
         {/* Lista de eventos */}
-        <div className="w-[100%] flex items-start justify-start">
+        <div className="w-full py-4 px-3 glass-effect flex flex-col text-color mt-2">
         <AppointmentsList appointments={appointmentsIncluded} />
         </div>
       </div>
