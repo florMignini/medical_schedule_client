@@ -249,7 +249,7 @@ const PatientProfileUpdateForm = (patientInfo: Patient) => {
       >
         {/* appointment detail */}
         <div className="flex px-2 gap-2 mb-5">
-          <div className="h-5 border-x-2 border-white" />
+          <div className="h-5 border-x-2 border-black" />
           <h1 className="text-16-semibold">
             Actualizar información del paciente
           </h1>
@@ -383,7 +383,7 @@ const PatientProfileUpdateForm = (patientInfo: Patient) => {
             </div>
             {/* identification type & identification number */}
             <div className="flex flex-col justify-end md:flex-row gap-2 mb-2">
-              <div className="flex w-[40%] rounded-md items-center justify-center border border-dark-500 gap-2 p-1 outline-none bg-dark-400 flex-col">
+              <div className="flex w-[40%] rounded-md items-center justify-center border shadow-md gap-2 p-1 outline-none bg-white flex-col">
                 <DropdownMenu>
                   <DropdownMenuTrigger 
                   disabled
@@ -481,6 +481,15 @@ const PatientProfileUpdateForm = (patientInfo: Patient) => {
                 iconAlt="phone-icon"
               />
             </div>
+            <div className="flex gap-2 mb-2">
+              <DinamicForm
+                fieldType={FormFieldType.INPUT}
+                control={form.control}
+                name="contactRelationship"
+                label="Parentesco con el paciente"
+                defaultValue={patientInfo.emergencyContactName}
+              />
+            </div>
           </div>
         </div>
 
@@ -488,7 +497,7 @@ const PatientProfileUpdateForm = (patientInfo: Patient) => {
         <div className="mb-10">
           {/* head */}
           <div className="flex px-2 gap-2 mb-5">
-            <div className="h-5 border-x-2 border-white" />
+            <div className="h-5 border-x-2 border-black" />
             <h1 className="text-16-semibold capitalize">registros médicos</h1>
           </div>
           {/* forms */}
@@ -678,7 +687,7 @@ const PatientProfileUpdateForm = (patientInfo: Patient) => {
             </div>
             {/* medical history */}
             <div className="flex flex-col justify-end md:flex-row gap-2 mb-2">
-              <div className="flex w-[40%] rounded-md items-center justify-center border border-dark-500 gap-2 p-1 outline-none bg-dark-400 flex-col">
+              <div className="flex w-[40%] rounded-md items-center justify-center border shadow-md gap-2 p-1 outline-none bg-white flex-col">
                 <DropdownMenu>
                   <DropdownMenuTrigger className="flex items-center justify-center gap-1 outline-none">
                     Antecedentes Médicos
@@ -726,7 +735,7 @@ const PatientProfileUpdateForm = (patientInfo: Patient) => {
         <div className="mb-10">
           {/* head */}
           <div className="flex px-2 gap-2 mb-5">
-            <div className="h-5 border-x-2 border-white" />
+            <div className="h-5 border-x-2 border-black" />
             <h1 className="text-16-semibold capitalize">
               Medidas Antropométricas
             </h1>
@@ -774,7 +783,7 @@ const PatientProfileUpdateForm = (patientInfo: Patient) => {
 
         <div className="w-full flex">
           <SubmitButton
-            className="w-[95%] mx-auto border-[1px] border-gray-600 hover:bg-gradient-to-b from-black to-[#807f7f] text-white text-center hover:opacity-50 p-2 rounded-lg ease-in-out"
+            className="w-[95%] mx-auto border-[1px] border-gray-600 hover:bg-black text-black bg-white text-center p-2 rounded-lg ease-in-out hover:text-white"
             loading={loading}
           >
             Actualizar Paciente
