@@ -381,7 +381,7 @@ const PatientRegistrationForm = () => {
                   fieldType={FormFieldType.INPUT}
                   control={form.control}
                   name="contactRelationship"
-                  label="Vinculo con el contacto"
+                  label="Parentesco con el paciente"
                   placeholder="Vinculo"
                 />
               </div>
