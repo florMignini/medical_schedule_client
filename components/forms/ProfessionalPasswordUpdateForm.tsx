@@ -10,10 +10,12 @@ import { z } from "zod";
 import DinamicForm from "../DinamicForm";
 import { FormFieldType } from "./ProfessionalLoginForm";
 import SubmitButton from "../SubmitButton";
+import { updateProfessionalPasswordAction } from "@/app/actions";
 
 const ProfessionalPasswordUpdateForm = () => {
   const [loading, setLoading] = useState<boolean>(false);
-  const [verifyPassword, setVerifyPassword] = useState<boolean>(false);
+  const [verifyPassword, setVerifyPassword] =
+    useState<boolean>(false);
   const router = useRouter();
   const form = useForm<z.infer<typeof UpdateProfessionalPasswordSchema>>({
     resolver: zodResolver(UpdateProfessionalPasswordSchema),
@@ -24,39 +26,35 @@ const ProfessionalPasswordUpdateForm = () => {
     },
   });
 
-  //--------------------------------------
-  
-  // verify actual password
-const verifyPasswordFn = async() => {
-  console.log(form.getValues().password)
-}
   // -------------------------------------
-
+  form.watch;
   // onSubmit form
   async function onSubmit(
     values: z.infer<typeof UpdateProfessionalPasswordSchema>
   ) {
     setLoading(true);
-
-    const valuesUpdated = {};
-
+    const passwordValues = {
+      password: values.password,
+      newPassword: values.newPassword,
+    };
     try {
-      // const updateProfessionalData = {
-      //   ...valuesUpdated,
-      //   userImage:
-      //     formData !== undefined ? formData : professionalInfo.userImage,
-      // };
-      // const response = await updateProfessionalProfileAction(
-      //   updateProfessionalData
-      // );
-      // if (response) {
-      //   setLoading(false);
-      //   router.push(`/professional/dashboard`);
-      // }
+      const response = await updateProfessionalPasswordAction(passwordValues);
+
+      if (response.statusCode === 400) {
+        setLoading(false);
+        setVerifyPassword(true);
+      }else{
+        setLoading(false);
+        router.push(`/professional/profile`);
+      }
     } catch (error) {
       console.error(error);
     }
   }
+  setTimeout(() => {
+    setVerifyPassword(false);
+  }, 3000);
+
   return (
     <Form {...form}>
       <form
@@ -80,47 +78,51 @@ const verifyPasswordFn = async() => {
                 name="password"
                 label="Contraseña actual"
               />
-              <button 
-              className="glass-effect"
-              onClick={verifyPasswordFn}
-              >
-                Verificar contraseña
-              </button>
+              <div>
+                {verifyPassword ? (
+                  <p className="text-red-500">
+                    La contraseña actual es incorrecta
+                  </p>
+                ) : (
+                  <></>
+                )}
+              </div>
             </div>
             {/* new password */}
-            {verifyPassword && (
-              <>
-                <DinamicForm
-                  fieldType={FormFieldType.INPUT}
-                  control={form.control}
-                  name="newPassword"
-                  label="Nueva Contraseña"
-                />
 
-                {/* confirm password */}
-                <DinamicForm
-                  fieldType={FormFieldType.INPUT}
-                  control={form.control}
-                  name="confirmPassword"
-                  label="Confirmar Contraseña"
-                />
-              </>
-            )}
+            <DinamicForm
+              fieldType={FormFieldType.INPUT}
+              control={form.control}
+              name="newPassword"
+              label="Nueva Contraseña"
+            />
+
+            {/* confirm password */}
+            <DinamicForm
+              fieldType={FormFieldType.INPUT}
+              control={form.control}
+              name="confirmPassword"
+              label="Confirmar Contraseña"
+            />
           </div>
+          {form.watch("newPassword") ===
+          form.watch("confirmPassword") ? <></> : (
+            <div className="w-full flex justify-center">
+              <p className="text-red-500">Las contraseñas no coinciden</p>
+            </div>
+          )}
         </div>
 
-        {
-          verifyPassword && (
-            <div className="w-full flex">
+        <div className="w-full flex">
           <SubmitButton
             className="w-[95%] mx-auto border-[1px] border-gray-600 hover:bg-gradient-to-b from-black to-[#807f7f] text-black text-center hover:text-white p-2 rounded-lg ease-in-out"
-            loading={loading}
+            disabled={
+              form.watch("newPassword") !== form.watch("confirmPassword")
+            }
           >
             Actualizar Contraseña
           </SubmitButton>
         </div>
-          )
-        }
       </form>
     </Form>
   );
