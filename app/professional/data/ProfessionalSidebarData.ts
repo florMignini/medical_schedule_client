@@ -1,20 +1,22 @@
-import person from "../public/assets/icons/users.svg"
-import institute from "../public/assets/icons/institute.svg"
-import calendar from "../public/assets/icons/calendar.svg"
+import CalendarIcon from "../components/icons/CalendarIcon";
+import Institution from "../components/icons/Institution"
+import Users from "../components/icons/Users";
+
+
 export const ProfessionalSidebarData =  [
       {
         label: "Pacientes",
-        icon: person,
+        component: Users,
         path: "/professional/patients",
       },
       {
         label: "Instituciones",
-        icon: institute,
+        component: Institution,
         path: "/professional/institutions",
       },
       {
         label: "Mis Citas",
-        icon: calendar,
+        component: CalendarIcon,
         path: "/professional/appointments",
       },
     ];
