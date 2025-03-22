@@ -7,9 +7,9 @@ import {
   BloodFactor,
   MedicalHistory,
   BooleanOption,
-} from "@/data";
+} from "@/app/professional/data";
 import { cookies } from "next/headers";
-import { booleanOption } from "@/data";
+import { booleanOption } from "@/app/professional/data";
 import { InputFile } from "node-appwrite/file";
 import { PATIENT_PROFILE_BUCKET_ID, ENDPOINT, PROJECT_ID, storage } from "@/lib";
 import { ID } from "node-appwrite";
