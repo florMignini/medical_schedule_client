@@ -10,7 +10,7 @@ interface IpatientIDs {
   appointment: string | undefined;
 }
 export async function createAppointment(appointmentData: ICreateAppointment) {
-  console.log(appointmentData);
+
   "use server";
   try {
     const { data } = await apiServer.post(
