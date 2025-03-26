@@ -1,3 +1,4 @@
+"use server";
 import { apiServer } from "@/api/api-server";
 import { ICreateReminder } from "@/interfaces/reminder.interface";
 interface IIDs{
