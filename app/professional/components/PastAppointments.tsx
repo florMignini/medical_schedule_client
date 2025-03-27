@@ -2,10 +2,6 @@
 import { Patient } from "@/interfaces";
 import { useEffect, useState } from "react";
 
-import Icon from "@/components/ui/icon";
-import calendarIcon from "../../../public/assets/icons/calendar.svg";
-import notesIcon from "../../../public/assets/icons/notes.svg";
-import fileIcon from "../../../public/assets/icons/fileAttachment.svg";
 import dayjs from "dayjs";
 import {
   Tooltip,
@@ -17,6 +13,7 @@ import CalendarIcon from "./icons/CalendarIcon";
 import NoteIcon from "./icons/NoteIcon";
 import FileAttachmentIcon from "./icons/FileAttachmentIcon";
 import Link from "next/link";
+import ConfigButton from "./ConfigButton";
 const PastAppointments = (patientInfo: Patient) => {
   const [profInfo, setProfInfo] = useState<string | null>(null);
   const { pastAppointmentsIncluded } = patientInfo!;
@@ -53,21 +50,31 @@ const PastAppointments = (patientInfo: Patient) => {
                       <button className="w-[250px] h-auto glass-effect rounded-md px-4 py-2 flex flex-col items-center justify-center gap-2 text-dark-600 hover:shadow-md hover:shadow-dark-600  hover:transition-shadow">
                         {/* date and hr */}
                         <div className="w-[100%] flex flex-row items-center justify-start font-light text-xs gap-2">
+                          <div className="w-[90%] flex">
                           <CalendarIcon
                             width={20}
                             height={20}
+                            className="mr-2"
                           />
                           <p>
                             {dayjs(
                               pastAppointment?.createdAt
                             ).format("DD MMMM  YYYY")}{" "}
-                            <strong className="text-black pl-2">|</strong>{" "}
+                            <strong className="text-black px-1">|</strong>{" "}
                           </p>
                           <p>
                             {dayjs(
                               pastAppointment?.pastApppointments?.createdAt
                             ).format("HH:mm A")}
                           </p>
+                          </div>
+                          <div className="w-[10%]">
+                          <ConfigButton
+                          id={pastAppointment.pastAppointments
+                            .id}
+                            component={"pastAppointment"}
+                          />
+                          </div>
                         </div>
                           {/* treatment diagnosis */}
                           <div className="w-[100%] flex flex-row items-start justify-start font-light text-xs gap-2">
