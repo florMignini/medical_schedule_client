@@ -81,7 +81,7 @@ const FollowUp = (patientInfo: Patient) => {
                     </TooltipTrigger>
                   );
                 })}
-                <TooltipContent className="flex items-center justify-center w-[400px] h-full p-2 backdrop-blur-lg">
+                <TooltipContent className="flex items-center justify-start ml-5 flex-col w-[500px] h-auto p-2 backdrop-blur-lg">
                   {/* appointment info */}
                   <div className="w-auto flex items-center justify-center pt-5">
                     {followUpIncluded.map((followUp) => (

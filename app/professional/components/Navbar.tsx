@@ -11,7 +11,7 @@ import { useState } from "react";
 
 import Link from "next/link";
 import { closeSessionServer } from "@/app/actions";
-import { ProfessionalSidebarData } from "@/data";
+import { ProfessionalSidebarData } from "@/app/professional/data";
 import { cn } from "@/lib";
 
 const Navbar = ({ isOpen, setIsOpen }: toggleSideI) => {

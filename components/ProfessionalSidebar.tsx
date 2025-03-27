@@ -1,11 +1,10 @@
 "use client";
-import Icon from "../components/ui/icon";
+
 import Link from "next/link";
 import Image from "next/image";
 import Logo from "../public/assets/medical_schedule-transparent.png";
-import { ProfessionalSidebarData } from "@/data";
+import { ProfessionalSidebarData } from "@/app/professional/data";
 
-import logOutIcon from "../public/assets/icons/logout.svg";
 import { toggleSideI } from "@/interfaces";
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib";
@@ -32,7 +31,7 @@ const ProfessionalSidebar = ({
       <aside
       className={` ${
         isOpen
-          ? "inset-y-0 top-0 w-64 rounded-r-xl md:w-[35%] bg-[#F2F3F0] z-50 transform transition-transform duration-300 ease-in-out"
+          ? "inset-y-0 top-0 w-64 rounded-r-xl md:w-[35%] bg-[#0B111C] z-50 transform transition-transform duration-300 ease-in-out"
           : "hidden lg:block w-[20%] mx-auto"
       } h-screen mb-2  items-center fixed justify-start flex-col`}
     >
@@ -54,7 +53,7 @@ const ProfessionalSidebar = ({
             className="flex items-start justify-start"
             onClick={() => setIsOpen(false)}
           >
-            <CloseIcon width={25} height={25} color="#000000" />
+            <CloseIcon width={25} height={25} color="#ffffff" />
           </button>
         </div>
       )}
@@ -83,30 +82,29 @@ const ProfessionalSidebar = ({
               `w-[80%] flex gap-1 justify-start items-center text-color h-10 my-2 px-2 mx-auto ${
                 isOpen
                   ? "justify-center  hover:font-extrabold text-[#929292]"
-                  : "pl-1 rounded-xl text-black/40"
+                  : "pl-1 rounded-xl text-gray-400"
               } ${
                 pathname === item.path
-                  ? "w-[95%] text-black"  
+                  ? "w-[95%] text-gray-400"  
                   : ""
               }`
             )}
             onClick={() => setIsOpen(false)}
           >
-            <Image
-              src={item.icon.src}
-              alt={item.icon.alt}
-              width={32}
-              height={32}
-              className="pl-2"
+            <item.component
+            width={30}
+            height={30}
+            color="#ffffff"
+            className="pl-2"
             />
-            <span className="w-[80%] text-center text-xl font-light">
+            <span className="w-[80%] text-center text-base font-normal">
               {item.label}
             </span>
             {pathname === item.path && (
               <ArrowRight
               width={20}
               height={20}
-              color="#000000"
+              color="#ffffff"
               />
             )}
           </Link>
@@ -116,15 +114,15 @@ const ProfessionalSidebar = ({
         className={`w-[90%] ${
           isOpen
             ? "pt-[200px] xl:pt-[400px] text-[#929292]"
-            : "pt-[300px] 2xl:pt-[450px] text-black/40"
+            : "pt-[300px] 2xl:pt-[450px] text-gray-400"
         }`}
       >
         <button
           className="h-10 text-base mx-auto flex items-center justify-center gap-2"
           onClick={closeSession}
         >
-          <Logout width={25} height={25} color="#000000"/>
-          <p className="font-semibold">Cerrar Sesión</p>
+          <Logout width={25} height={25} color="#ffffff"/>
+          <p className="font-normal">Cerrar Sesión</p>
         </button>
       </div>
     </aside>

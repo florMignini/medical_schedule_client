@@ -34,7 +34,7 @@ const ProfessionalDashboard = ({
 
   return (
     <SelectedDateProvider>
-      <section className="md:grid lg:grid-cols-[20%,80%]">
+      <section className="md:grid p-1 bg-[#0B111C] lg:grid-cols-[20%,80%]">
       {/*leftside*/}
       <ProfessionalSidebar
         /* toggleSidebar={toggleSidebar} */ isOpen={isOpen}

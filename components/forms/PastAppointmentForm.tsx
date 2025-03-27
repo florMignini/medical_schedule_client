@@ -14,6 +14,7 @@ import  { useRouter } from "next/navigation";
 
 import FileUploaderPlus from "../FileUploaderPlus";
 
+
 const PastAppointmentForm = ({ patient, appointment }: any) => {
   const router = useRouter();
 
@@ -34,6 +35,7 @@ const PastAppointmentForm = ({ patient, appointment }: any) => {
   // onSubmit form
 
   async function onSubmit(values: z.infer<typeof NewPastAppointmentSchema>) {
+    console.log(values)
     setLoading(true);
     let formData: FormData | undefined;
 
@@ -89,13 +91,13 @@ const PastAppointmentForm = ({ patient, appointment }: any) => {
         onSubmit={form.handleSubmit(onSubmit)}
         className="w-[100%] space-y-2 flex-1"
       >
-        {/* appointment detail */}
+         {/* appointment detail */}
        <div className="w-full flex flex-wrap mb-5 items-start justify-center">
          {/* diagnosis */}
          <div className="w-[50%] flex items-start justify-center flex-col">
           <Label
             htmlFor="details"
-            className="w-full p-0 text-start font-light text-[13px] text-gray-500"
+            className="w-full p-0 text-start font-light text-[13px] text-gray-300"
           >
             Diagnostico:
           </Label>
@@ -110,7 +112,7 @@ const PastAppointmentForm = ({ patient, appointment }: any) => {
         <div className="w-[50%] flex items-start justify-center flex-col">
           <Label
             htmlFor="details"
-            className="w-full p-0 text-start font-light text-[13px] text-gray-500"
+            className="w-full p-0 text-start font-light text-[13px] text-gray-300"
           >
             Prescribir medicamento:
           </Label>
@@ -127,7 +129,7 @@ const PastAppointmentForm = ({ patient, appointment }: any) => {
         <div className="w-[50%] flex items-start justify-center flex-col">
           <Label
             htmlFor="details"
-            className="w-full p-0 text-start font-light text-[13px] text-gray-500"
+            className="w-full p-0 text-start font-light text-[13px] text-gray-300"
           >
             Notas adicionales:
           </Label>
@@ -138,11 +140,13 @@ const PastAppointmentForm = ({ patient, appointment }: any) => {
             fieldType={FormFieldType.TEXTAREA}
           />
         </div>
-        {/* followUpRequired  */}
-        <div className="w-[50%] flex items-start justify-center">
+        {/* followUpRequired & reminder  */}
+        <div className="w-[50%] py-1 flex flex-col items-start justify-end gap-4">
+          {/* followUpRequired */}
+          <div className="w-full flex items-center justify-center ">
           <Label
             htmlFor="details"
-            className="w-full p-0 text-start font-light text-[13px] text-gray-500"
+            className="w-[70%] p-0 text-start font-light text-[13px] text-gray-300"
           >
             Requiere Seguimiento?
           </Label>
@@ -151,6 +155,7 @@ const PastAppointmentForm = ({ patient, appointment }: any) => {
             control={form.control}
             fieldType={FormFieldType.CHECKBOX}
           />
+          </div>
         </div>
         </div>
         <div className="w-[100%] flex items-start justify-center">
@@ -161,7 +166,7 @@ const PastAppointmentForm = ({ patient, appointment }: any) => {
                >
                 <Label
                   htmlFor="patientAttachedFilesUrl"
-                  className="p-0 font-light text-[13px] text-gray-500"
+                  className="p-0 font-light text-[13px] text-gray-300"
                 >
                   <p>Agregar Árchivos Lab-Médicos</p>
                 </Label>

@@ -24,7 +24,7 @@ import {
   genderOptions,
   BooleanOption,
   AllergiesTypeEnum,
-} from "@/data";
+} from "@/app/professional/data";
 import phoneIcon from "../../public/assets/icons/phone.svg";
 import closeIcon from "../../public/assets/icons/close.svg";
 import UserIcon from "../../public/assets/icons/user-verification.svg";

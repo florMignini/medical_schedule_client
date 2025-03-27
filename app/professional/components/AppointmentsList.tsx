@@ -17,6 +17,7 @@ import ConfigAppointmentButton from "./ConfigAppointmentButton";
 import Image from "next/image";
 import PastAppointmentForm from "@/components/forms/PastAppointmentForm";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import ReminderButton from "./ReminderButton";
 
 const AppointmentsList = ({ appointments }: any) => {
   // loading state
@@ -58,7 +59,7 @@ const AppointmentsList = ({ appointments }: any) => {
               {events.map((event: any, index: number) => (
                 <DialogTrigger asChild key={index}>
                   <button
-                    className="w-full md:w-[98%] mx-auto p-1 gap-2 flex items-center justify-between border-b-[1px] hover:transition-shadow border-[#cccccc] rounded-md border-[1px] mb-1 hover:shadow-lg hover:shadow-[#cccccc] text-gray-700"
+                    className="w-full md:w-[98%] mx-auto p-1 gap-2 flex items-center justify-between hover:transition-shadow rounded-md mb-1 shadow-md hover:shadow-inner hover:shadow-[#cccccc] text-gray-700"
                     onClick={() => handleAppintmentDetail(event.appointment.id)}
                   >
                     {/* TIME */}
@@ -78,16 +79,19 @@ const AppointmentsList = ({ appointments }: any) => {
                 </DialogTrigger>
               ))}
 
-              <DialogContent className="sm:max-w-[500px] h-[70%] backdrop-blur-md bg-white/5 flex flex-col items-start justify-start text-white bg-opacity-50 p-4 rounded-lg shadow-md gap-5">
-              
-                <DialogHeader className="w-[100%] flex items-center justify-between gap-5 text-black">
+              <DialogContent className="sm:max-w-[500px] h-[70%] bg-black/50 flex flex-col items-start justify-start text-white bg-opacity-50 p-4 rounded-lg shadow-md gap-5">
+                <DialogHeader className="w-[100%] flex items-center justify-center text-white">
                   <div className="flex items-center justify-between w-full">
-                    <DialogTitle className=" font-light text-xl">
+                    <DialogTitle className="w-[60%] font-light text-xl text-white">
                       Detalles del Turno
                     </DialogTitle>
-                    <ConfigAppointmentButton />
+                    <div className="w-[40%] flex items-center justify-center gap-2">
+                      <ConfigAppointmentButton />
+
+                      <ReminderButton/>
+                    </div>
                   </div>
-                  <DialogDescription className="w-[100%] h-20 flex items-center justify-around gap-2 rounded-lg shadow-md bg-white/5">
+                  <DialogDescription className="w-[100%] h-20 flex items-center justify-around gap-2 rounded-lg shadow-md bg-black/70">
                     {/* foto */}
                     <Image
                       src={patient?.patient?.patientPhotoUrl}
@@ -100,93 +104,98 @@ const AppointmentsList = ({ appointments }: any) => {
                       <p className="w-[100%] flex items-start justify-start text-xs font-light text-gray-400">
                         Nombre del paciente
                       </p>
-                      <h3 className="text-2xl text-black">{`${patient?.patient?.firstName} ${patient?.patient?.lastName}`}</h3>
+                      <h3 className="text-2xl text-white">{`${patient?.patient?.firstName} ${patient?.patient?.lastName}`}</h3>
                     </div>
                   </DialogDescription>
                 </DialogHeader>
                 <ScrollArea className="w-full h-[80%]">
-                <div className="border-t-[1px] border-[#cccccc] w-[100%] p-2">
-                  <div className="flex px-2 items-start justify-around">
-                    <div className="flex-col">
-                      <p className="text-[12px] font-light text-gray-400">
-                        DETALLES:
-                      </p>
-                      <h3 className="truncate text-sm">{appointment?.notes}</h3>
-                    </div>
-                    <div className="flex-col">
-                      <p className="text-[12px] font-light text-gray-400">
-                        FECHA Y HORA:
-                      </p>
-                      <h3 className="truncate text-sm text-white">
-                        {dayjs(appointment?.schedule).format(
-                          "DD/MM/YYYY HH:mm"
-                        )}
-                      </h3>
-                    </div>
-                  </div>
-                </div>
-                <div className="border-t-[1px] border-[#cccccc] w-[100%] p-2 z-40">
-                  <h3 className="text-white font-semibold text-lg mb-2">
-                    Información general
-                  </h3>
-                  {/* fullname - phone */}
-                  <div className="w-[95%] flex items-start justify-center flex-wrap mb-2">
-                    <div className="w-[50%] flex flex-col items-start justify-center">
-                      <label className="text-gray-300 text-xs font-thin">
-                        Nombre Completo:
-                      </label>
-                      <span className="text-sm text-white font-light">{`${patient?.patient?.firstName} ${patient?.patient?.lastName}`}</span>
-                    </div>
-                    <div className="w-[50%] flex flex-col items-start justify-center">
-                      <label className="text-gray-300 text-xs font-thin">
-                        Numero de Teléfono:
-                      </label>
-                      <span className="text-sm text-white font-light">
-                        {patient?.patient.phone}
-                      </span>
+                  <div className="border-t-[1px] border-[#cccccc] w-[100%] p-2">
+                    <div className="flex px-2 items-start justify-around">
+                      <div className="flex-col">
+                        <p className="text-[12px] font-light text-gray-400">
+                          DETALLES:
+                        </p>
+                        <h3 className="truncate text-sm">
+                          {appointment?.notes}
+                        </h3>
+                      </div>
+                      <div className="flex-col">
+                        <p className="text-[12px] font-light text-gray-400">
+                          FECHA Y HORA:
+                        </p>
+                        <h3 className="truncate text-sm text-white">
+                          {dayjs(appointment?.schedule).format(
+                            "DD/MM/YYYY HH:mm"
+                          )}
+                        </h3>
+                      </div>
                     </div>
                   </div>
-                  {/* age - mail */}
-                  <div className="w-[95%] flex items-start justify-center flex-wrap mb-2">
-                    <div className="w-[50%] flex flex-col items-start justify-center">
-                      <label className="text-gray-300 text-xs font-thin">
-                        Edad:
-                      </label>
-                      <span className="text-sm text-white font-light">{`${patientAge} años`}</span>
+                  <div className="border-t-[1px] border-[#cccccc] w-[100%] p-2 z-40">
+                    <h3 className="text-white font-semibold text-lg mb-2">
+                      Información general
+                    </h3>
+                    {/* fullname - phone */}
+                    <div className="w-[95%] flex items-start justify-center flex-wrap mb-2">
+                      <div className="w-[50%] flex flex-col items-start justify-center">
+                        <label className="text-gray-300 text-xs font-thin">
+                          Nombre Completo:
+                        </label>
+                        <span className="text-sm text-white font-light">{`${patient?.patient?.firstName} ${patient?.patient?.lastName}`}</span>
+                      </div>
+                      <div className="w-[50%] flex flex-col items-start justify-center">
+                        <label className="text-gray-300 text-xs font-thin">
+                          Numero de Teléfono:
+                        </label>
+                        <span className="text-sm text-white font-light">
+                          {patient?.patient.phone}
+                        </span>
+                      </div>
                     </div>
-                    <div className="w-[50%] flex flex-col items-start justify-center">
-                      <label className="text-gray-300 text-xs font-thin">
-                        Email:
-                      </label>
-                      <span className="text-sm text-white font-light">
-                        {patient?.patient.email}
-                      </span>
+                    {/* age - mail */}
+                    <div className="w-[95%] flex items-start justify-center flex-wrap mb-2">
+                      <div className="w-[50%] flex flex-col items-start justify-center">
+                        <label className="text-gray-300 text-xs font-thin">
+                          Edad:
+                        </label>
+                        <span className="text-sm text-white font-light">{`${patientAge} años`}</span>
+                      </div>
+                      <div className="w-[50%] flex flex-col items-start justify-center">
+                        <label className="text-gray-300 text-xs font-thin">
+                          Email:
+                        </label>
+                        <span className="text-sm text-white font-light">
+                          {patient?.patient.email}
+                        </span>
+                      </div>
+                    </div>
+                    {/* gender - address */}
+                    <div className="w-[95%] flex items-start justify-center flex-wrap mb-2">
+                      <div className="w-[50%] flex flex-col items-start justify-center">
+                        <label className="text-gray-300 text-xs font-thin">
+                          Genero:
+                        </label>
+                        <span className="text-sm text-white font-light">
+                          {patient?.patient?.gender === "M"
+                            ? "Masculino"
+                            : "Femenino"}
+                        </span>
+                      </div>
+                      <div className="w-[50%] flex flex-col items-start justify-center">
+                        <label className="text-gray-300 text-xs font-thin">
+                          Dirección:
+                        </label>
+                        <span className="text-sm font-light">
+                          {patient?.patient.address}
+                        </span>
+                      </div>
                     </div>
                   </div>
-                  {/* gender - address */}
-                  <div className="w-[95%] flex items-start justify-center flex-wrap mb-2">
-                    <div className="w-[50%] flex flex-col items-start justify-center">
-                      <label className="text-gray-300 text-xs font-thin">
-                        Genero:
-                      </label>
-                      <span className="text-sm text-white font-light">
-                        {patient?.patient?.gender === "M"
-                          ? "Masculino"
-                          : "Femenino"}
-                      </span>
-                    </div>
-                    <div className="w-[50%] flex flex-col items-start justify-center">
-                      <label className="text-gray-300 text-xs font-thin">
-                        Dirección:
-                      </label>
-                      <span className="text-sm font-light">
-                        {patient?.patient.address}
-                      </span>
-                    </div>
-                  </div>
-                </div>
-                
-                  <PastAppointmentForm />
+
+                  <PastAppointmentForm
+                    patient={patient?.patient}
+                    appointment={appointment}
+                  />
                 </ScrollArea>
               </DialogContent>
             </div>

@@ -105,7 +105,7 @@ export const DinamicField = ({
           <Textarea
             placeholder={placeholder}
             {...field}
-            className="shad-textArea"
+            className="shad-textArea text-gray-500"
             disabled={props.disable}
             defaultValue={defaultValue}
           />

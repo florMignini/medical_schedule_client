@@ -8,7 +8,7 @@ import { Form, FormControl } from "@/components/ui/form";
 
 import { NewProfessionalSchema } from "@/lib";
 
-import { Gender, genderOptions, IdentificationType } from "@/data";
+import { Gender, genderOptions, IdentificationType } from "@/app/professional/data";
 
 import DropdownIcon from "../../../../public/assets/icons/arrowDown.svg";
 import {
