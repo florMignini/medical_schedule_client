@@ -88,7 +88,11 @@ const AppointmentsList = ({ appointments }: any) => {
                     <div className="w-[40%] flex items-center justify-center gap-2">
                       <ConfigAppointmentButton />
 
-                      <ReminderButton/>
+                      {appointment && (
+                        <ReminderButton
+                          appointment={appointment}
+                        />
+                      )}
                     </div>
                   </div>
                   <DialogDescription className="w-[100%] h-20 flex items-center justify-around gap-2 rounded-lg shadow-md bg-black/70">
