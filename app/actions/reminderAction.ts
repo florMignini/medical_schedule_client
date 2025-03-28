@@ -10,9 +10,9 @@ export async function createReminder(reminderData: ICreateReminder) {
   "use server";
   try {
     const { data } = await apiServer.post(
-      `/reminders/create-reminder`,
+      `/reminder/create-reminder`,
       reminderData
-    );
+    );    
     return data;
   } catch (error) {
     if (error instanceof Error) {
@@ -25,9 +25,12 @@ export async function createReminder(reminderData: ICreateReminder) {
 
 //professional reminder relation
 export async function createProfessionalReminderRelation (IDs: IIDs) {
+
+  "use server";
   const professionalReminderRelation = await apiServer.post(
-    `/reminders/add-reminder-relation`,
+    `/professional/add-reminder-relation`,
     IDs
   );
+  console.log(professionalReminderRelation.data)
     return professionalReminderRelation.data;
 }
