@@ -1,8 +1,9 @@
 import ReminderBell from './icons/ReminderBell'
 import { Drawer, DrawerContent, DrawerTrigger } from '@/components/ui/drawer'
 import AppointmentReminderForm from '@/components/forms/AppointmentReminderForm'
+import { Appointment } from '@/interfaces'
+const ReminderButton = ({ appointment }: { appointment: Appointment }) => {
 
-const ReminderButton = () => {
   return (
     <Drawer>
         <DrawerTrigger>
@@ -18,7 +19,9 @@ const ReminderButton = () => {
               </button>
         </DrawerTrigger>
         <DrawerContent className="flex h-[50%] flex-col gap-4 text-white bg-black/90 rounded-md border-none p-4">
-        <AppointmentReminderForm/>
+        <AppointmentReminderForm
+        appointmentId={appointment.id}
+        />
         </DrawerContent>
     </Drawer>
   )
