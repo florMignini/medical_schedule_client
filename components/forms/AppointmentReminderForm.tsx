@@ -4,76 +4,69 @@ import { NewReminderSchema } from "@/lib/reminderValidation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-import { Form, FormControl, Label } from "../ui";
+import { Form, Label } from "../ui";
 import DinamicForm from "../DinamicForm";
 import { FormFieldType } from "./ProfessionalLoginForm";
-import { RadioGroup, RadioGroupItem } from "../ui/radio-group";
-import { reminderTypeOptions } from "@/app/professional/data/reminderOptions";
+
 import SubmitButton from "../SubmitButton";
 import { useEffect, useState } from "react";
-import { createProfessionalReminderRelation, createReminder } from "@/app/actions/reminderAction";
+import { createReminder } from "@/app/actions/reminderAction";
 import Whatsapp from "@/app/professional/components/icons/Whatsapp";
 
 interface ReminderFormProps {
   appointmentId?: string;
   userId?: string;
-  initialData?: Partial<Reminder>;
 }
 
 const AppointmentReminderForm: React.FC<ReminderFormProps> = ({
   appointmentId,
-  userId,
-  initialData = {},
 }) => {
   const form = useForm<z.infer<typeof NewReminderSchema>>({
     resolver: zodResolver(NewReminderSchema),
     defaultValues: {
-      message: initialData.message || "",
-      scheduledFor: initialData.scheduledFor || new Date(),
+      message: "",
+      status: "pending",
+      scheduledFor: new Date(),
     },
   });
   const [profData, setProfData] = useState<any>({});
-    //get professional id
-    useEffect(() => {
-      const profData = localStorage.getItem("infoProfSession");
-      if (profData) {
-        setProfData(JSON.parse(profData));
-      }
-    }, []);
-    const { id } = profData!;
+  //get professional id
+  useEffect(() => {
+    const profData = localStorage.getItem("infoProfSession");
+    if (profData) {
+      setProfData(JSON.parse(profData));
+    }
+  }, []);
+  const { id } = profData!;
   const [loading, setLoading] = useState<boolean>(false);
-  const buttonLabel = initialData.id
-    ? "actualizar recordatorio"
-    : "crear recordatorio";
+  const buttonLabel = "crear recordatorio";
   const {
     register,
     formState: { errors },
   } = form;
 
-  
   async function onSubmit(values: z.infer<typeof NewReminderSchema>) {
-   setLoading(true);
-   console.log(values)
-const reminderData = {
-  appointmentId,
-  userId,
-  ...values,
-}
-   try {
-    const response = await createReminder(reminderData);
-    console.log(response);
-    if (profData) {
-            const IDs = {
-              professional: profData.id,
-              reminder: response.id,
-            };
-            const data = await createProfessionalReminderRelation(IDs);
-          }
-
-   } catch (error) {
-    console.error(error);
-    setLoading(false);
-   }
+    try {
+      setLoading(true);
+      const reminderData = {
+        appointmentId,
+        userId: id,
+        ...values,
+      };
+      console.log(reminderData);
+      const response = await createReminder(reminderData);
+      console.log(response);
+      // if (profData && response) {
+      //         const IDs = {
+      //           professional: profData.id,
+      //           reminder: response.id,
+      //         };
+      //         const data = await createProfessionalReminderRelation(IDs);
+      //       }
+    } catch (error) {
+      console.error(error);
+      setLoading(false);
+    }
   }
 
   return (
@@ -81,9 +74,13 @@ const reminderData = {
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
         {/* reminder title */}
         <div className="px-10 w-full flex items-center justify-start">
-          <h2 className="text-base min-[375px]:text-xl min-[375px]:font-bold">Nuevo Recordatorio</h2>
+          <h2 className="text-base min-[375px]:text-xl min-[375px]:font-bold">
+            Nuevo Recordatorio
+          </h2>
           <Whatsapp className="h-6 w-6 ml-2" color="#AFE67F" />
-          <h2 className="text-base min-[375px]:text-xl min-[375px]:font-bold">:</h2>
+          <h2 className="text-base min-[375px]:text-xl min-[375px]:font-bold">
+            :
+          </h2>
         </div>
         {/* message and schedule */}
         <div className="w-[75%] flex flex-col gap-5 mb-5 items-center justify-center mx-auto">
@@ -102,27 +99,26 @@ const reminderData = {
             />
           </div>
           <div className="w-full min-[768px]:w-[40%] flex flex-col items-center justify-center">
-          <Label
-            htmlFor="scheduledFor"
-            className="pb-2 text-start font-light text-[13px] text-gray-300"
-          >
-            Programado para:
-          </Label>
-          <DinamicForm
-            fieldType={FormFieldType.DATE_PICKER}
-            control={form.control}
-            name="scheduledFor"
-            showTimeSelect
-            defaultValue={new Date()}
-            dateFormat="dd/MM/yyyy - h:mm aa"
-          />
-          {errors.scheduledFor && (
-            <p className="mt-1 text-sm text-red-600">
-              {errors.scheduledFor.message}
-            </p>
-          )}
-        </div>
-        
+            <Label
+              htmlFor="scheduledFor"
+              className="pb-2 text-start font-light text-[13px] text-gray-300"
+            >
+              Programado para:
+            </Label>
+            <DinamicForm
+              fieldType={FormFieldType.DATE_PICKER}
+              control={form.control}
+              name="scheduledFor"
+              showTimeSelect
+              defaultValue={new Date()}
+              dateFormat="dd/MM/yyyy - h:mm aa"
+            />
+            {errors.scheduledFor && (
+              <p className="mt-1 text-sm text-red-600">
+                {errors.scheduledFor.message}
+              </p>
+            )}
+          </div>
         </div>
         {/* submit button */}
         <div className="w-[40%] min-[768px]:w-[60%] flex mb-5 items-center justify-center mx-auto">
