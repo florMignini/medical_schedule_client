@@ -54,16 +54,15 @@ const AppointmentReminderForm: React.FC<ReminderFormProps> = ({
         ...values,
         scheduledFor: values.scheduledFor.toISOString(),
       };
-      console.log(reminderData);
+
       const response = await createReminder(reminderData);
-      console.log(response);
+
       if (response) {
               const IDs = {
                 professional: profData.id,
                 reminder: response.id,
               };
               const data = await createProfessionalReminderRelation(IDs);
-              console.log(data)
               form.reset();
         setLoading(false);
         buttonLabel = "Recordatorio creado";
