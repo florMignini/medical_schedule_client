@@ -126,7 +126,6 @@ const PatientRegistrationForm = () => {
         patientPhoto: formData,
         isActive: true,
       };
-      console.log(patientData);
       // @ts-ignore
       const response = await patientRegistration(patientData);
 
