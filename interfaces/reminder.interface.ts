@@ -1,5 +1,4 @@
-
-export type ReminderStatus = "pending" | "sent" | "failed" | "canceled";
+export type ReminderStatus = 'pending' | 'sent' | 'failed' | 'canceled';
 
 export interface Reminder {
   id: string;
@@ -7,12 +6,15 @@ export interface Reminder {
   userId?: string;
   message: string;
   status: ReminderStatus;
-  scheduledFor: Date | undefined;
-  sentAt: string | null;
+  scheduledFor: string | undefined;
+  sentAt?: string | null;
 }
 
 // server interface
 export interface ICreateReminder {
+  appointmentId: string | undefined;
+  userId: string | undefined;
+  message: string;
   status: ReminderStatus;
-  scheduledFor: Date | undefined;
+  scheduledFor: string | undefined;
 }
