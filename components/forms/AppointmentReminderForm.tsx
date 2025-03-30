@@ -1,5 +1,4 @@
 // components/reminder/ReminderForm.tsx
-import { Reminder } from "@/interfaces/reminder.interface";
 import { NewReminderSchema } from "@/lib/reminderValidation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
@@ -10,8 +9,9 @@ import { FormFieldType } from "./ProfessionalLoginForm";
 
 import SubmitButton from "../SubmitButton";
 import { useEffect, useState } from "react";
-import { createReminder } from "@/app/actions/reminderAction";
+import { createProfessionalReminderRelation, createReminder } from "@/app/actions/reminderAction";
 import Whatsapp from "@/app/professional/components/icons/Whatsapp";
+import { useRouter } from "next/navigation";
 
 interface ReminderFormProps {
   appointmentId?: string;
@@ -26,7 +26,7 @@ const AppointmentReminderForm: React.FC<ReminderFormProps> = ({
     defaultValues: {
       message: "",
       status: "pending",
-      scheduledFor: new Date(),
+      scheduledFor: new Date(Date.now()),
     },
   });
   const [profData, setProfData] = useState<any>({});
@@ -39,7 +39,7 @@ const AppointmentReminderForm: React.FC<ReminderFormProps> = ({
   }, []);
   const { id } = profData!;
   const [loading, setLoading] = useState<boolean>(false);
-  const buttonLabel = "crear recordatorio";
+  let buttonLabel = "crear recordatorio";
   const {
     register,
     formState: { errors },
@@ -52,17 +52,24 @@ const AppointmentReminderForm: React.FC<ReminderFormProps> = ({
         appointmentId,
         userId: id,
         ...values,
+        scheduledFor: values.scheduledFor.toISOString(),
       };
       console.log(reminderData);
       const response = await createReminder(reminderData);
       console.log(response);
-      // if (profData && response) {
-      //         const IDs = {
-      //           professional: profData.id,
-      //           reminder: response.id,
-      //         };
-      //         const data = await createProfessionalReminderRelation(IDs);
-      //       }
+      if (response) {
+              const IDs = {
+                professional: profData.id,
+                reminder: response.id,
+              };
+              const data = await createProfessionalReminderRelation(IDs);
+              console.log(data)
+              form.reset();
+        setLoading(false);
+        buttonLabel = "Recordatorio creado";
+            }
+
+            
     } catch (error) {
       console.error(error);
       setLoading(false);
