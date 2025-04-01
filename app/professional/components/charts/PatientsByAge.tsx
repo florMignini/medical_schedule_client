@@ -56,8 +56,8 @@ const chartData = [
   { age: 80, femenino: patient80F.length, masculino: patient80M.length },
 ];
   return (
-    <Card className="w-full z-40 mx-auto lg:mx-0 h-[300px] lg:h-auto">
-      <CardHeader>
+    <Card className="w-full z-40 mx-auto text-black bg-white lg:mx-0 h-[250px] lg:h-auto border border-[#E4E7EC] rounded-lg shadow-[0px_6px_15px_rgba(0,0,0,0.3)]">
+      <CardHeader className="px-auto py-1">
         <CardTitle>Pacientes por edad</CardTitle>
         <CardDescription>
           Total de pacientes por edad según género
@@ -65,7 +65,7 @@ const chartData = [
       </CardHeader>
       <CardContent>
         <ChartContainer
-        className="w-full lg:mx-0 h-[200px] lg:h-[250px] mx-auto"
+        className="w-full lg:mx-0 h-[200px] lg:h-[200px] mx-auto"
         config={chartConfig}>
           <AreaChart
             accessibilityLayer
@@ -73,6 +73,8 @@ const chartData = [
             margin={{
               left: 10,
               right: 10,
+              top: 30,
+              bottom: 5,
             }}
           >
             <CartesianGrid vertical={false} />
@@ -85,7 +87,7 @@ const chartData = [
             />
             <ChartTooltip
               cursor={false}
-              content={<ChartTooltipContent indicator="dot" />}
+              content={<ChartTooltipContent indicator="line" />}
             />
             <Area
               dataKey="masculino"

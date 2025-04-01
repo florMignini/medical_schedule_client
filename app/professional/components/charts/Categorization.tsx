@@ -41,15 +41,15 @@ const Categorization = ({appointments, followsUp} : any) => {
     return chartData.reduce((acc, curr) => acc + curr.amount, 0);
   }, []);
   return (
-    <Card className="w-full mx-auto lg:mx-0 h-[250px] lg:h-auto">
-      <CardHeader className="items-start pb-0">
-        <CardTitle>Categorizacion</CardTitle>
+    <Card className=" w-full z-40 mx-auto flex justify-between text-black bg-white lg:mx-0 h-[200px] lg:h-auto border border-[#E4E7EC] rounded-lg shadow-[0px_6px_15px_rgba(0,0,0,0.3)]">
+      <CardHeader className="w-[40%] min-[425px]:w-[60%] min-[768px]:w-full flex items-end justify-center pr-0">
+        <CardTitle className="text-base min-[425px]:text-2xl min-[768px]:text-3xl">Categorizacion</CardTitle>
         <CardDescription>Turnos y seguimientos</CardDescription>
       </CardHeader>
-      <CardContent>
+      <CardContent className="w-[60%] p-0 flex items-start justify-start">
         <ChartContainer
           config={chartConfig}
-          className="w-full lg:mx-0 h-[150px] lg:h-[250px] mx-auto"
+          className="w-[100%] flex items-start justify-start min-[768px]:w-full lg:mx-0 h-[200px] lg:h-[250px] mx-auto p-0"
         >
           <PieChart
           >
@@ -84,9 +84,9 @@ const Categorization = ({appointments, followsUp} : any) => {
                         <tspan
                           x={viewBox.cx}
                           y={(viewBox.cy || 0) + 15}
-                          className="flex flex-col fill-muted-foreground"
+                          className="flex flex-col backdrop-blur-lg"
                         >
-                          Citas
+                          Turnos
                         </tspan>
                       </text>
                     );
