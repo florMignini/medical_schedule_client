@@ -28,14 +28,17 @@ const PatientsPage = async () => {
   return (
     <section className="w-full h-screen flex flex-col items-center justify-start gap-2 text-color">
       {/* Title */}
-      <div className="flex w-[90%] h-10 items-start justify-start px-2">
-        <h1 className="text-18-bold text-start">Pacientes</h1>
+      <div className="flex flex-col w-[95%] h-14 items-start justify-center px-2 border-b-[1px] border-b-gray-500">
+        <h1 className="text-2xl text-black font-semibold text-start">Pacientes</h1>
+        <p className="hidden md:flex text-xs font-light text-gray-600">Aquí encontrara la lista de pacientes que se encuentran en su cartera</p>
       </div>
       {/* top section */}
       <div className="w-[90%] flex items-center justify-between my-5">
         {/* leftside */}
         <div className="w-[50%] flex items-center justify-start gap-2">
           <User height={25} width={25} />
+          <div className="flex flex-col items-start justify-center">
+          <p className="text-xs font-light text-gray-600">Actualmente posee: </p>
           <div className="text-[14px] font-semibold md:text-18-bold flex items-center justify-start gap-1 ">
             <h1 className="">
               {patientsIncluded.length}
@@ -43,6 +46,7 @@ const PatientsPage = async () => {
             <p className="">
               {patientsIncluded.length < 2 ? `paciente` : `pacientes`}
             </p>
+          </div>
           </div>
         </div>
         {/* rightside */}
@@ -104,7 +108,7 @@ const PatientsPage = async () => {
                     </div>
                   </div>
                   <div
-                    className="hidden max-[690px]:w-[50%] px-1 py-2 sm:flex items-center justify-start"
+                    className="hidden max-[690px]:w-[50%] px-1 py-2 sm:flex items-center justify-start truncate"
                     key={patient.phone}
                   >
                     <div className="text-[14px] font-normal flex gap-1">
@@ -112,19 +116,19 @@ const PatientsPage = async () => {
                         width={20}
                         height={20}
                       />
-                      <p className="truncate">{patient.phone}</p>
+                      <p className="">{patient.phone}</p>
                     </div>
                   </div>
                   <div
                     className="max-[690px]:hidden w-[25%] px-1 py-2 flex items-center justify-start"
                     key={patient.email}
                   >
-                    <div className="text-[14px] font-normal flex gap-1">
+                    <div className="text-[14px] font-normal flex gap-1 truncate">
                       <Mail
                         width={20}
                         height={20}
                       />
-                      <p className="truncate">{patient.email}</p>
+                      <p className="">{patient.email}</p>
                     </div>
                   </div>
                   <div
