@@ -44,22 +44,21 @@ export async function updateProfessionalProfileAction({
   "use server";
   const cookieStore = cookies();
   const professionalId = cookieStore.get("professional-id")?.value;
-
   try {
     let file;
-    if (userImage) {
+    if (typeof userImage !== "string") {
       const inputFile = InputFile.fromBuffer(
         userImage?.get("blobFile") as Blob,
         userImage?.get("fileName") as string
       );
       file = await storage.createFile(PROFESSIONALYINSTITUTION_PROFILE_BUCKET_ID!, ID.unique(), inputFile);
     }
-
+console.log(file)
     const professionalUpdateData = {
-      userImage: file
+      userImage: file !== undefined
         ? `${ENDPOINT}/storage/buckets/${PROFESSIONALYINSTITUTION_PROFILE_BUCKET_ID}/files/${file?.$id}/view?project=${PROJECT_ID}`
         : 
-        `https://avatar.iran.liara.run/public/job/doctor/male`,
+       userImage,
       ...professionalUpdate,
     };
     const { data } = await apiServer.put(
