@@ -53,7 +53,7 @@ const ProfessionalPasswordUpdateForm = () => {
   }
   setTimeout(() => {
     setVerifyPassword(false);
-  }, 3000);
+  }, 5000);
 
   return (
     <Form {...form}>

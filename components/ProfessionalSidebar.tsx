@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import Logo from "../public/assets/medical_schedule-transparent.png";
+import Logo from "../public/assets/medical_schedule-logo.svg";
 import { ProfessionalSidebarData } from "@/app/professional/data";
 
 import { toggleSideI } from "@/interfaces";
@@ -31,11 +31,12 @@ const ProfessionalSidebar = ({
       <aside
       className={` ${
         isOpen
-          ? "inset-y-0 top-0 w-64 rounded-r-xl md:w-[35%] bg-[#0B111C] z-50 transform transition-transform duration-300 ease-in-out"
+          ? "inset-y-0 top-0 w-64 rounded-r-xl md:w-[35%] bg-[#121133] z-50 transform transition-transform duration-1000 ease-in-out translate-x-0"
           : "hidden lg:block w-[20%] mx-auto"
       } h-screen mb-2  items-center fixed justify-start flex-col`}
     >
       {isOpen && (
+        // logo
         <div className="w-full pt-2 px-5 flex items-center justify-between">
           <Link
             href="/professional/dashboard"
@@ -59,7 +60,7 @@ const ProfessionalSidebar = ({
       )}
       <Link
         href="/professional/dashboard"
-        className="w-[90%] pl-[10%] pt-5 hidden lg:block items-center justify-center"
+        className="w-[90%] pl-[10%] pt-5 hidden lg:block items-center justify-center "
         onClick={() => setIsOpen(false)}
       >
         <Image
@@ -69,8 +70,9 @@ const ProfessionalSidebar = ({
           width={180}
         />
       </Link>
+      {/* links */}
       <div
-        className={`w-full pt-[20%] flex flex-col items-center justify-between mx-auto gap-2 ${
+        className={`w-full pt-[20%] flex flex-col items-center justify-center mx-auto ${
           isOpen ? "py-16" : ""
         }`}
       >
@@ -79,34 +81,27 @@ const ProfessionalSidebar = ({
             href={item.path}
             key={index}
             className={cn(
-              `w-[80%] flex gap-1 justify-start items-center text-color h-10 my-2 px-2 mx-auto ${
+              `w-[90%] flex justify-center items-center text-color h-10 my-2 mx-auto ${
                 isOpen
-                  ? "justify-center  hover:font-extrabold text-[#929292]"
-                  : "pl-1 rounded-xl text-gray-400"
+                  ? "justify-center hover:text-white rounded-xl"
+                  : "rounded-xl pl-0 text-gray-400 hover:text-white"
               } ${
                 pathname === item.path
-                  ? "w-[95%] text-gray-400"  
+                  ? "text-white bg-[#5D58FD]"  
                   : ""
               }`
             )}
             onClick={() => setIsOpen(false)}
           >
             <item.component
-            width={30}
-            height={30}
-            color="#ffffff"
-            className="pl-2"
+            width={25}
+            height={25}
+            color={`${pathname === item.path ? "#ffffff" : "#6b7280"}`}
+            className=""
             />
-            <span className="w-[80%] text-center text-base font-normal">
+            <span className="w-[80%] text-center text-base md:text-lg font-normal">
               {item.label}
             </span>
-            {pathname === item.path && (
-              <ArrowRight
-              width={20}
-              height={20}
-              color="#ffffff"
-              />
-            )}
           </Link>
         ))}
       </div>
@@ -121,8 +116,8 @@ const ProfessionalSidebar = ({
           className="h-10 text-base mx-auto flex items-center justify-center gap-2"
           onClick={closeSession}
         >
-          <Logout width={25} height={25} color="#ffffff"/>
-          <p className="font-normal">Cerrar Sesión</p>
+          <Logout width={25} height={25} color="#d1d1d3"/>
+          <p className="font-normal text-gray-300 hover:text-white">Cerrar Sesión</p>
         </button>
       </div>
     </aside>

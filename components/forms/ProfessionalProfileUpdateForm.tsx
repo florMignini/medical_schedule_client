@@ -36,10 +36,10 @@ const ProfessionalProfileUpdateForm = (professionalInfo: any) => {
       firstName: professionalInfo.firstName,
       lastName: professionalInfo.lastName,
       username: professionalInfo.username,
-      phoneNumber: "",
-      email: "",
+      phoneNumber: professionalInfo.phoneNumber,
+      email: professionalInfo.email,
       gender: professionalInfo.gender,
-      specialty: "",
+      specialty: professionalInfo.specialty,
       userImage: [],
       instagramUrl: professionalInfo.instagramUrl,
       linkedInUrl: professionalInfo.instagramUrl,
@@ -50,6 +50,7 @@ const ProfessionalProfileUpdateForm = (professionalInfo: any) => {
   // onSubmit form
 
   async function onSubmit(values: z.infer<typeof UpdateProfessionalSchema>) {
+    console.log(values);
     setLoading(true);
 
     let formData;
@@ -65,10 +66,7 @@ const ProfessionalProfileUpdateForm = (professionalInfo: any) => {
     const valuesUpdated = {
       firstName: professionalInfo.firstName,
       lastName: professionalInfo.lastName,
-      username:
-        values.username === undefined
-          ? professionalInfo.username
-          : values.username,
+      username: professionalInfo.username,
       phoneNumber:
         values.phoneNumber === undefined
           ? professionalInfo.phoneNumber
@@ -90,13 +88,14 @@ const ProfessionalProfileUpdateForm = (professionalInfo: any) => {
         userImage:
           formData !== undefined ? formData : professionalInfo.userImage,
       };
-
+      console.log(updateProfessionalData);
       const response = await updateProfessionalProfileAction(
         updateProfessionalData
       );
 
       if (response) {
         setLoading(false);
+        router.refresh();
         router.push(`/professional/dashboard`);
       }
     } catch (error) {
@@ -228,6 +227,7 @@ const ProfessionalProfileUpdateForm = (professionalInfo: any) => {
                 iconSrc={mailIcon}
                 iconAlt="user-email"
                 placeholder={professionalInfo.email}
+                defaultValue={professionalInfo.email}
               />
               <DinamicForm
                 fieldType={FormFieldType.PHONE_INPUT}
@@ -237,6 +237,7 @@ const ProfessionalProfileUpdateForm = (professionalInfo: any) => {
                 iconSrc={phoneIcon}
                 iconAlt="phone-icon"
                 placeholder={professionalInfo.phoneNumber}
+                defaultValue={professionalInfo.phoneNumber}
               />
             </div>
             {/* gender & specialty */}
@@ -272,6 +273,7 @@ const ProfessionalProfileUpdateForm = (professionalInfo: any) => {
                 name="specialty"
                 label="Especialidad médica"
                 placeholder={professionalInfo.specialty}
+                defaultValue={professionalInfo.specialty}
               />
             </div>
           </div>
@@ -279,7 +281,7 @@ const ProfessionalProfileUpdateForm = (professionalInfo: any) => {
 
         <div className="w-full flex">
           <SubmitButton
-            className="w-[95%] mx-auto border-[1px] border-gray-600 hover:bg-gradient-to-b from-black to-[#807f7f] text-black text-center hover:text-white p-2 rounded-lg ease-in-out"
+            className="w-[95%] mx-auto border-[1px] border-white/20 hover:bg-black bg-white text-black text-center hover:text-white shadow-[0px_6px_15px_rgba(0,0,0,0.3)] p-2 rounded-lg ease-in-out"
             loading={loading}
           >
             Actualizar Perfil
