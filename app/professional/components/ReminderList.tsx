@@ -1,4 +1,4 @@
-import { Reminder, ReminderStatus, ReminderType } from "@/interfaces/reminder.interface";
+import { Reminder, ReminderStatus } from "@/interfaces/reminder.interface";
 import Link from "next/link";
 export interface ReminderListProps {
   reminders: Reminder[];

@@ -49,7 +49,7 @@ const AppointmentsList = ({ appointments }: any) => {
   );
   return (
     <Dialog>
-      <div className="h-screen flex-1 justify-start items-start p-1 rounded-lg shadow-md">
+      <div className="h-screen flex-1 justify-start items-start p-1">
         {events.length > 0 ? (
           <div className="w-full flex flex-col gap-4">
             <h2 className="text-xl font-bold">
