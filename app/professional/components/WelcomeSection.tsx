@@ -1,7 +1,6 @@
 "use client";
 import { useEffect, useState } from "react";
 import Image from "next/image";
-import { Badge } from "@/components/ui/badge";
 import { getDate, getDay } from "@/utils/getDate";
 import instagram from "../../../public/assets/icons/instagram.svg";
 import twitter from "../../../public/assets/icons/newTwitter.svg";
@@ -12,8 +11,10 @@ import Link from "next/link";
 import TotalPatientVsTodayPatient from "./charts/TotalPatientVsTodayPatient";
 import TotalAppoitmentsVsTodayAppoitments from "./charts/TotalAppointmentsVsTodayAppointments";
 import EditIcon from "./icons/EditIcon";
-import Phone from "./icons/Phone";
-import Mail from "./icons/Mail";
+
+import dayjs from "dayjs";
+import LocalizedFormat from "dayjs/plugin/localizedFormat";
+dayjs.extend(LocalizedFormat);
 
 const WelcomeSection = ({
   professional,
@@ -54,9 +55,11 @@ const WelcomeSection = ({
 
       <div className="w-[95%] mx-auto h-full flex flex-col  bg-white glass-effect">
       {/* profile section */}
-      <div className="w-[99%] h-auto flex items-start flex-col gap-5 px-2 py-1">
-        <div className="w-[100%] flex flex-col gap-3 items-center justify-center mx-auto">
-          <Image
+      <div className="w-[99%] h-auto flex items-center justify-start flex-col px-2 py-1 broder-[#f8f9f9] border-b-[1px]">
+        <div className="w-[100%] flex flex-col items-center justify-center mx-auto">
+         <div className="w-[100%] flex items-center justify-center ">
+         <div className="w-[80%] flex items-center justify-end pr-3">
+         <Image
             src={
               professional.userImage
                 ? professional.userImage
@@ -64,13 +67,24 @@ const WelcomeSection = ({
                 ? `https://avatar.iran.liara.run/public/job/doctor/male`
                 : `https://avatar.iran.liara.run/public/job/doctor/female`
             }
-            width={200}
-            height={200}
+            width={100}
+            height={100}
             priority
             alt="professional-image"
-            className="flex items-center justify-center rounded-full"
+            className="flex items-center justify-end rounded-full"
           />
-          <div className="w-[80%] flex items-center justify-between px-3">
+         </div>
+         <Link
+            href={`/professional/update-profile`}
+            className="w-[20%] h-full flex items-start justify-end"
+          >
+            <div className="flex items-center justify-center rounded-xl border-[1px] border-[#d1d5db] p-[2px] text-transparent hover:opacity-70 gap-1 transition-opacity duration-400 ease-in-out">
+            <EditIcon width={10} height={10} color="#d1d5db" className="flex items-center justify-center"/>
+            <p className="text-xs text-gray-300">editar</p>
+            </div>
+          </Link>
+         </div>
+          <div className="w-[90%] flex flex-col items-center justify-center text-xs px-3">
             <Link
               href={
                 professional?.instagramUrl?.length! > 2
@@ -81,14 +95,17 @@ const WelcomeSection = ({
                 professional?.newTwitterUrl?.length! > 2
                   ? "p-1 rounded-full hover:bg-gradient-to-b hover:from-black hover:to-[#807f7f] text-transparent text-center hover:opacity-50"
                   : "opacity-40"
-              }`}
+              } flex items-center justify-center gap-2`}
+              target="_blank"
+              rel="noopener noreferrer"
             >
               <Image
                 src={instagram}
                 alt="instagram-icon"
-                width={20}
-                height={20}
+                width={12}
+                height={12}
               />
+              <p>{professional?.instagramUrl ? professional?.instagramUrl : "@instagram"}</p>
             </Link>
             <Link
               href={
@@ -100,9 +117,12 @@ const WelcomeSection = ({
                 professional?.newTwitterUrl?.length! > 2
                   ? "p-1 rounded-full hover:bg-gradient-to-b hover:from-black hover:to-[#807f7f] text-transparent text-center hover:opacity-50"
                   : "opacity-40"
-              }`}
+              } flex items-center justify-center gap-2`}
+              target="_blank"
+              rel="noopener noreferrer"
             >
-              <Image src={twitter} alt="twitter-icon" width={20} height={20} />
+              <Image src={twitter} alt="twitter-icon" width={12} height={12} />
+              <p>{professional?.linkedInUrl ? professional?.linkedInUrl : "@linkedIn"}</p>
             </Link>
             <Link
               href={
@@ -114,72 +134,84 @@ const WelcomeSection = ({
                 professional?.linkedInUrl?.length! > 2
                   ? "p-1 rounded-full hover:bg-gradient-to-b hover:from-black hover:to-[#807f7f] text-transparent text-center hover:opacity-50"
                   : "opacity-40"
-              }`}
+              } flex items-center justify-center gap-2`}
+              target="_blank"
+              rel="noopener noreferrer"
             >
               <Image
                 src={linkedin}
                 alt="linkedin-icon"
-                width={20}
-                height={20}
+                width={12}
+                height={12}
               />
+              <p>{professional?.newTwitterUrl ? professional?.newTwitterUrl : "@twitter/x"}</p>
             </Link>
           </div>
         </div>
       </div>
 
       {/* Welcome */}
-      <div className="w-full h-full flex flex-col items-start px-1 py-3 justify-start gap-6">
-        <div className="w-[95%] flex items-center justify-center gap-3 text-gradient pb-3">
-          <div className="flex items-center justify-center md:justify-start flex-col">
-            <h1 className="text-lg font-semibold text-black">{`${professional.firstName} ${professional.lastName}`}</h1>
-            <p className="text-gray-400">{professional.gender === "M" ? `Dr.` : `Dra.`} {professional.specialty}</p>
-            <Badge
-              className="w-auto text-color flex items-center justify-center border-[#A7B3C8]"
-              variant={professional.isActive ? "outline" : "destructive"}
-            >
-              {professional.isActive ? "activo" : "inactivo"}
-            </Badge>
-          </div>
-          <Link
-            href={`/professional/update-profile`}
-            className="flex w-[8] h-[8] p-2 rounded-full  text-transparent hover:opacity-50"
-          >
-            <EditIcon width={20} height={20} color="#000000"/>
-          </Link>
-        </div>
-        {/* professional and personal info */}
+      <div className="w-full h-full flex flex-col items-start px-1 py-3 justify-start">
+        {/* account and personal info */}
         <div className="w-full min-[520px]:w-[95%] min-[520px]:flex flex-col items-center justify-center mx-auto">
-          
-         <div className="w-full flex flex-col items-center justify-start gap-5">
-           {/* phone Number */}
-           <div className="w-full flex flex-col items-center justify-start gap-3 text-xs font-medium border-gray-400 border-b-[1px]">
-            <label className="w-full text-black font-semibold text-[15px]">
-              Teléfono:{" "}
-            </label>
-            <div className="w-[90%] flex items-center justify-start gap-5 mb-3">
-              <Phone width={20} height={20} color="#bec0bf"/>
-            <input
-              disabled
-              value={professional.phoneNumber}
-              className="text-gray-800 font-light text-[14px] bg-transparent"
-            />
-            </div>
-          </div>
-          {/* email */}
-          <div className="w-full flex flex-col items-center justify-start gap-3 text-xs font-medium border-gray-400 border-b-[1px]">
-            <label className="w-full text-black font-bold text-[15px]">Email: </label>
-            <div className="w-[90%] flex items-center justify-start gap-5 mb-3">
-              <Mail width={20} height={20} color="#bec0bf"/>
-            <input
-              disabled
-              value={professional.email}
-              className="text-gray-800 font-light text-[14px] bg-transparent"
-            />
-            </div>
-          </div>
-         </div>
-
-
+      {/* personal details */}
+      <h1 className="w-full text-start text-sm font-semibold text-black">Datos personales:</h1>
+      <div className="w-full h-auto flex flex-col items-center justify-start border-b-[1px] border-[#f8f9f9] pb-2">
+        {/* fullname */}
+        <div className="w-[100%] flex items-center justify-between py-1">
+          <p className="text-xs font-medium text-gray-400">Nombre completo: </p>
+          <p className="text-xs font-light text-black">{`${professional?.firstName} ${professional?.lastName} `}</p>
+        </div>
+        {/* specialty */}
+        <div className="w-[100%] flex items-center justify-between py-1">
+          <p className="text-xs font-medium text-gray-400">Especialidad: </p>
+          <p className="text-xs font-light text-black">{professional?.specialty}</p>
+        </div>
+        {/* gender */}
+        <div className="w-[100%] flex items-center justify-between py-1">
+          <p className="text-xs font-medium text-gray-400">fecha de Nacimiento: </p>
+          <p className="text-xs font-light text-black">{professional?.gender === "M" ? "Masculino" : "Femenino"}</p>
+        </div>
+        {/* phone */}
+        <div className="w-[100%] flex items-center justify-between py-1">
+          <p className="text-xs font-medium text-gray-400">Número de teléfono: </p>
+          <p className="text-xs font-light text-black">{professional?.phoneNumber}</p>
+        </div>
+        {/* email */}
+        <div className="w-[100%] flex items-center justify-between py-1">
+          <p className="text-xs font-medium text-gray-400">Email: </p>
+          <p className="text-xs font-light text-black">{professional?.email}</p>
+        </div>
+      </div>
+      {/* account details */}
+      <h1 className="w-full text-start text-sm font-semibold text-black py-1">Detalles de la cuenta:</h1>
+      <div className="w-full h-auto flex flex-col items-center justify-start border-b-[1px] border-[#f8f9f9] pb-2">
+        {/* username */}
+        <div className="w-[100%] flex items-center justify-between py-1">
+          <p className="text-xs font-medium text-gray-400">Nombre de usuario: </p>
+          <p className="text-xs font-light text-black">{professional.gender === "M" ? "Dr. " : "Dra. "}{`${professional?.firstName} ${professional?.lastName}`}</p>
+        </div>
+        {/* specialty */}
+        <div className="w-[100%] flex items-center justify-between py-1">
+          <p className="text-xs font-medium text-gray-400">Especialidad: </p>
+          <p className="text-xs font-light text-black">{professional?.specialty}</p>
+        </div>
+        {/* account created */}
+        <div className="w-[100%] flex items-center justify-between py-1">
+          <p className="text-xs font-medium text-gray-400">Creación de la cuenta: </p>
+          <p className="text-xs font-light text-black">{dayjs(professional?.createdAt).format("LL")}</p>
+        </div>
+        {/* phone */}
+        <div className="w-[100%] flex items-center justify-between py-1">
+          <p className="text-xs font-medium text-gray-400">Número de teléfono: </p>
+          <p className="text-xs font-light text-black">{professional?.phoneNumber}</p>
+        </div>
+        {/* email */}
+        <div className="w-[100%] flex items-center justify-between py-1">
+          <p className="text-xs font-medium text-gray-400">Email: </p>
+          <p className="text-xs font-light text-black">{professional?.email}</p>
+        </div>
+      </div>
           {/* patients & appointments */}
           <div className="hidden min-[520px]:w-full min-[520px]:flex items-center justify-start gap-2 mt-5">
             <div className="w-[50%] flex flex-col items-start justify-start">
