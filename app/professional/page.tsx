@@ -34,14 +34,14 @@ const ProfessionalDashboard = ({
 
   return (
     <SelectedDateProvider>
-      <section className="md:grid p-1 bg-[#0B111C] lg:grid-cols-[20%,80%]">
+      <section className="md:grid p-3 bg-[#121133] lg:grid-cols-[20%,80%]">
       {/*leftside*/}
       <ProfessionalSidebar
         /* toggleSidebar={toggleSidebar} */ isOpen={isOpen}
         setIsOpen={setIsOpen}
       />
       {/* rightside */}
-      <div className="gap-5 flex-1 flex-col bg-gradient rounded-lg">
+      <div className="gap-5 flex-1 flex-col bg-[#DFE0E0] rounded-lg">
         <Navbar setIsOpen={setIsOpen} isOpen={isOpen} />
         <div className="rounded-lg pt-3">{children}</div>
       </div>
