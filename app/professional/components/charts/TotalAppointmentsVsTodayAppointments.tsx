@@ -47,7 +47,7 @@ const TotalAppoitmentsVsTodayAppoitments = ({
         <CardTitle>Turnos</CardTitle>
         <CardDescription>{month} - {year}</CardDescription>
       </CardHeader>
-      <CardContent className="flex w-full items-center">
+      <CardContent className="flex w-full items-center p-0 min-[768px]:p-3">
         <ChartContainer
           config={chartConfig}
           className="mx-auto h-[130px] w-full"
