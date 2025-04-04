@@ -53,12 +53,21 @@ const WelcomeSection = ({
 
   return (
 
-      <div className="w-[95%] mx-auto h-full flex flex-col  bg-white glass-effect">
+      <div className="w-[95%] mx-auto flex flex-col  bg-white glass-effect">
       {/* profile section */}
       <div className="w-[99%] h-auto flex items-center justify-start flex-col px-2 py-1 broder-[#f8f9f9] border-b-[1px]">
         <div className="w-[100%] flex flex-col items-center justify-center mx-auto">
-         <div className="w-[100%] flex items-center justify-center ">
-         <div className="w-[80%] flex items-center justify-end pr-3">
+         <div className="w-[100%] flex flex-col items-center justify-center ">
+         <Link
+            href={`/professional/update-profile`}
+            className="w-[100%] h-full flex items-start justify-end"
+          >
+            <div className="flex items-center justify-center rounded-xl border-[1px] border-[#d1d5db] p-[2px] text-transparent hover:opacity-70 gap-1 transition-opacity duration-400 ease-in-out">
+            <EditIcon width={10} height={10} color="#d1d5db" className="flex items-center justify-center"/>
+            <p className="text-xs text-gray-300">editar</p>
+            </div>
+          </Link>
+         <div className="w-[100%] flex items-center justify-center pr-3">
          <Image
             src={
               professional.userImage
@@ -73,18 +82,10 @@ const WelcomeSection = ({
             alt="professional-image"
             className="flex items-center justify-end rounded-full"
           />
+         
          </div>
-         <Link
-            href={`/professional/update-profile`}
-            className="w-[20%] h-full flex items-start justify-end"
-          >
-            <div className="flex items-center justify-center rounded-xl border-[1px] border-[#d1d5db] p-[2px] text-transparent hover:opacity-70 gap-1 transition-opacity duration-400 ease-in-out">
-            <EditIcon width={10} height={10} color="#d1d5db" className="flex items-center justify-center"/>
-            <p className="text-xs text-gray-300">editar</p>
-            </div>
-          </Link>
          </div>
-          <div className="w-[90%] flex flex-col items-center justify-center text-xs px-3">
+          <div className="w-[100%] flex flex-col items-center justify-center mx-auto text-xs px-3">
             <Link
               href={
                 professional?.instagramUrl?.length! > 2
@@ -151,12 +152,12 @@ const WelcomeSection = ({
       </div>
 
       {/* Welcome */}
-      <div className="w-full h-full flex flex-col items-start px-1 py-3 justify-start">
+      <div className="w-full flex flex-col items-start px-1 py-3 justify-start">
         {/* account and personal info */}
-        <div className="w-full min-[520px]:w-[95%] min-[520px]:flex flex-col items-center justify-center mx-auto">
+        <div className="w-full h-full min-[520px]:w-[95%] min-[520px]:flex flex-col items-center justify-center mx-auto">
       {/* personal details */}
       <h1 className="w-full text-start text-sm font-semibold text-black">Datos personales:</h1>
-      <div className="w-full h-auto flex flex-col items-center justify-start border-b-[1px] border-[#f8f9f9] pb-2">
+      <div className="w-full h-auto flex flex-col items-center justify-center border-b-[1px] border-[#f8f9f9] pb-2">
         {/* fullname */}
         <div className="w-[100%] flex items-center justify-between py-1">
           <p className="text-xs font-medium text-gray-400">Nombre completo: </p>
@@ -213,7 +214,7 @@ const WelcomeSection = ({
         </div>
       </div>
           {/* patients & appointments */}
-          <div className="hidden min-[520px]:w-full min-[520px]:flex items-center justify-start gap-2 mt-5">
+          <div className="min-[520px]:w-full min-[520px]:flex items-center justify-start gap-2 mt-5">
             <div className="w-[50%] flex flex-col items-start justify-start">
               <h2 className="font-bold text-base">2543</h2>
               <p className="font-light truncate text-xs">turnos del día</p>
@@ -224,7 +225,7 @@ const WelcomeSection = ({
             </div>
           </div>
           {/* today & total patients chart */}
-          <div className="hidden min-[520px]:w-full min-[520px]:flex h-auto flex-col gap-2 items-center justify-center mt-6">
+          <div className="min-[520px]:w-full min-[520px]:flex h-auto flex-col gap-2 items-center justify-center mt-6">
             <TotalPatientVsTodayPatient patients={patientsIncluded}
             appointments={appointmentsIncluded}
             />
