@@ -41,19 +41,19 @@ const Categorization = ({appointments, followsUp} : any) => {
     return chartData.reduce((acc, curr) => acc + curr.amount, 0);
   }, []);
   return (
-    <Card className=" w-full z-40 mx-auto flex justify-between text-black bg-white lg:mx-0 h-[200px] lg:h-auto border border-[#E4E7EC] rounded-lg shadow-[0px_6px_15px_rgba(0,0,0,0.3)]">
-      <CardHeader className="w-[40%] min-[425px]:w-[60%] min-[768px]:w-full flex items-end justify-center pr-0">
+    <Card className=" w-full z-40 mx-auto flex-col flex justify-between text-black bg-white lg:mx-0 h-auto border border-[#E4E7EC] rounded-lg shadow-[0px_6px_15px_rgba(0,0,0,0.3)]">
+      <CardHeader className="w-[40%] h-auto min-[425px]:w-[60%] min-[768px]:w-full flex items-start justify-center px-5 py-0 pt-2">
         <CardTitle className="text-base min-[425px]:text-2xl min-[768px]:text-3xl">Categorizacion</CardTitle>
         <CardDescription>Turnos y seguimientos</CardDescription>
       </CardHeader>
-      <CardContent className="w-[60%] p-0 flex items-start justify-start">
+      <CardContent className="w-[60%] h-[150px] lg:h-[210px] p-0 flex items-start justify-start">
         <ChartContainer
           config={chartConfig}
-          className="w-[100%] flex items-start justify-start min-[768px]:w-full lg:mx-0 h-[200px] lg:h-[250px] mx-auto p-0"
+          className="w-[100%] flex items-start justify-start min-[768px]:w-full lg:mx-0 h-[150px] lg:h-[200px] mx-auto p-0"
         >
           <PieChart
           >
-            <ChartTooltip
+        <ChartTooltip
               cursor={false}
               content={<ChartTooltipContent hideLabel />}
             />
@@ -61,8 +61,9 @@ const Categorization = ({appointments, followsUp} : any) => {
               data={chartData}
               dataKey="amount"
               nameKey="meets"
-              innerRadius={40}
+              innerRadius={30}
               strokeWidth={1}
+              outerRadius={50}
             >
               <Label
                 content={({ viewBox }) => {
@@ -97,14 +98,6 @@ const Categorization = ({appointments, followsUp} : any) => {
           </PieChart>
         </ChartContainer>
       </CardContent>
-      {/* <CardFooter className="flex-col gap-2 text-sm">
-        <div className="flex items-center gap-2 font-medium leading-none">
-          Trending up by 5.2% this month <TrendingUp className="h-4 w-4" />
-        </div>
-        <div className="leading-none text-muted-foreground">
-          Showing total visitors for the last 6 months
-        </div>
-      </CardFooter> */}
     </Card>
   );
 };
