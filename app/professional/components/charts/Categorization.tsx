@@ -41,7 +41,7 @@ const Categorization = ({appointments, followsUp} : any) => {
     return chartData.reduce((acc, curr) => acc + curr.amount, 0);
   }, []);
   return (
-    <Card className=" w-full z-40 mx-auto flex-col flex justify-between text-black bg-white lg:mx-0 h-auto border border-[#E4E7EC] rounded-lg shadow-[0px_6px_15px_rgba(0,0,0,0.3)]">
+    <Card className=" w-full z-40 mx-auto flex justify-between text-black bg-white lg:mx-0 h-auto border border-[#E4E7EC] rounded-lg shadow-[0px_6px_15px_rgba(0,0,0,0.3)]">
       <CardHeader className="w-[40%] h-auto min-[425px]:w-[60%] min-[768px]:w-full flex items-start justify-center px-5 py-0 pt-2">
         <CardTitle className="text-base min-[425px]:text-2xl min-[768px]:text-3xl">Categorizacion</CardTitle>
         <CardDescription>Turnos y seguimientos</CardDescription>
