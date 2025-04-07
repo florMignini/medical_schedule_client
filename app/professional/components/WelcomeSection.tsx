@@ -14,6 +14,9 @@ import EditIcon from "./icons/EditIcon";
 
 import dayjs from "dayjs";
 import LocalizedFormat from "dayjs/plugin/localizedFormat";
+import LinkedIn from "./icons/LinkedIn";
+import NewTwitter from "./icons/NewTwitter";
+import { filterTodayAppointments } from "@/utils/getChartsHelpers";
 dayjs.extend(LocalizedFormat);
 
 const WelcomeSection = ({
@@ -50,6 +53,7 @@ const WelcomeSection = ({
 
   // @ts-ignore
     const { patientsIncluded }: { patientsIncluded: PatientsIncluded[] } = professional;
+  const filteredResult = filterTodayAppointments(appointmentsIncluded);
 
   return (
 
@@ -62,9 +66,9 @@ const WelcomeSection = ({
             href={`/professional/update-profile`}
             className="w-[100%] h-full flex items-start justify-end"
           >
-            <div className="flex items-center justify-center rounded-xl border-[1px] border-[#d1d5db] p-[2px] text-transparent hover:opacity-70 gap-1 transition-opacity duration-400 ease-in-out">
-            <EditIcon width={10} height={10} color="#d1d5db" className="flex items-center justify-center"/>
-            <p className="text-xs text-gray-300">editar</p>
+            <div className="flex items-center justify-center rounded-xl border-[1px] border-[#6b7280] p-[2px] text-transparent hover:opacity-70 gap-1 transition-opacity duration-400 ease-in-out">
+            <EditIcon width={10} height={10} color="#6b7280" className="flex items-center justify-center"/>
+            <p className="text-xs text-gray-500">editar</p>
             </div>
           </Link>
          <div className="w-[100%] flex items-center justify-center pr-3">
@@ -85,7 +89,7 @@ const WelcomeSection = ({
          
          </div>
          </div>
-          <div className="w-[100%] flex flex-col items-center justify-center mx-auto text-xs px-3">
+          <div className="w-[100%] flex flex-col items-center justify-center mx-auto text-xs">
             <Link
               href={
                 professional?.instagramUrl?.length! > 2
@@ -105,6 +109,7 @@ const WelcomeSection = ({
                 alt="instagram-icon"
                 width={12}
                 height={12}
+                color="#000000"
               />
               <p>{professional?.instagramUrl ? professional?.instagramUrl : "@instagram"}</p>
             </Link>
@@ -122,7 +127,7 @@ const WelcomeSection = ({
               target="_blank"
               rel="noopener noreferrer"
             >
-              <Image src={twitter} alt="twitter-icon" width={12} height={12} />
+              <LinkedIn width={12} height={12} color="#000000" />
               <p>{professional?.linkedInUrl ? professional?.linkedInUrl : "@linkedIn"}</p>
             </Link>
             <Link
@@ -139,9 +144,8 @@ const WelcomeSection = ({
               target="_blank"
               rel="noopener noreferrer"
             >
-              <Image
-                src={linkedin}
-                alt="linkedin-icon"
+              <NewTwitter
+color="#000000"
                 width={12}
                 height={12}
               />
@@ -216,11 +220,11 @@ const WelcomeSection = ({
           {/* patients & appointments */}
           <div className="min-[520px]:w-full min-[520px]:flex items-center justify-start gap-2 mt-5">
             <div className="w-[50%] flex flex-col items-start justify-start">
-              <h2 className="font-bold text-base">2543</h2>
-              <p className="font-light truncate text-xs">turnos del día</p>
+              <h2 className="font-bold text-base">{filteredResult.length}</h2>
+              <p className="font-light truncate text-xs">{`${filteredResult.length > 1 ? "turno del día" : "turnos del día"} `}</p>
             </div>
             <div className="w-[50%] flex flex-col items-start justify-start">
-              <h2 className="font-bold text-base">3567</h2>
+              <h2 className="font-bold text-base">{filteredResult.length}</h2>
               <p className="font-light truncate text-xs">pacientes hoy</p>
             </div>
           </div>
