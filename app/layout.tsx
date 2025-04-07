@@ -26,11 +26,11 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en"
-    className="bg-[#F2F3F0] h-full"
+    className="bg-[#121133]"
     >
       <body
         className={cn(
-          "h-full flex flex-col bg-[#F2F3F0] font-sans antialiased m-0 p-0 overflow-x-hidden",
+          "h-screen flex flex-col bg-[#F2F3F0] font-sans antialiased m-0 p-0 overflow-x-hidden",
           PlusFont.variable
         )}
       >
