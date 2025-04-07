@@ -77,8 +77,13 @@ export async function patientRegistration({ patientPhoto, ...patient }: IPatient
       );
 
     return data;
-  } catch (error) {
-    console.log(error);
+  } catch (error:any) {
+    if(error?.response.message){
+      return error?.response.message
+    }else{
+      return error
+    }
+    
   }
 }
 
