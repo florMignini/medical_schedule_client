@@ -40,10 +40,11 @@ const TotalPatientVsTodayPatient = ({
 }) => {
   // today appointments === today patients
 const filteredResult = filterTodayAppointments(appointments);
+
   const month = getMonth();
   const year = getFullYear();
   const chartData = [{ month, hoy: filteredResult.length, totales: patients.length }];
-  const totalVisitors = chartData[0].hoy + chartData[0].totales;
+  const totalVisitors = chartData[0].hoy;
   return (
     <Card className="w-full flex flex-col h-[180px] bg-gradient-to-br from-[#f9f9f9] to-[#f1f1f1] py-0">
       <CardHeader className="flex w-full h-[80px] bg-transparent items-center justify-start">
