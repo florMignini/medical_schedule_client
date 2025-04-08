@@ -109,11 +109,11 @@ const ProfessionalSidebar = ({
         className={`w-[90%] ${
           isOpen
             ? "pt-[200px] xl:pt-[400px] text-[#929292]"
-            : "pt-[300px] 2xl:pt-[450px] text-gray-400"
+            : "pt-[270px] 2xl:pt-[450px] text-gray-400"
         }`}
       >
         <button
-          className="h-10 text-base mx-auto flex items-center justify-center gap-2"
+          className="text-base mx-auto flex items-center justify-center gap-2"
           onClick={closeSession}
         >
           <Logout width={25} height={25} color="#d1d1d3"/>
