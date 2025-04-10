@@ -50,7 +50,7 @@ const ProfessionalProfileUpdateForm = (professionalInfo: any) => {
   // onSubmit form
 
   async function onSubmit(values: z.infer<typeof UpdateProfessionalSchema>) {
-    console.log(values);
+
     setLoading(true);
 
     let formData;
