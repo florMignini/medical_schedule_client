@@ -12,24 +12,19 @@ import { Label } from "../ui";
 import { patientsRegisterValidation } from "@/lib";
 import { FormFieldType } from "./ProfessionalLoginForm";
 import {
-  AllergiesType,
-  AllergiesDescription,
   booleanOption,
   IdentificationType,
-  MedicalHistory,
   Gender,
   bloodType,
   bloodFactor,
   medicalHistory,
   genderOptions,
   BooleanOption,
-  AllergiesTypeEnum,
 } from "@/app/professional/data";
 import phoneIcon from "../../public/assets/icons/phone.svg";
 import closeIcon from "../../public/assets/icons/close.svg";
 import UserIcon from "../../public/assets/icons/user-verification.svg";
 import DropdownIcon from "../../public/assets/icons/arrowDown.svg";
-import mailIcon from "../../public/assets/icons/email.svg";
 
 import { RadioGroup, RadioGroupItem } from "../ui/radio-group";
 
@@ -46,7 +41,6 @@ import {
   patientRegistration,
 } from "@/app/actions";
 import SubmitButton from "../SubmitButton";
-import Mail from "@/app/professional/components/icons/Mail";
 
 const PatientRegistrationForm = () => {
   const [loading, setLoading] = useState(false);
@@ -61,10 +55,11 @@ const PatientRegistrationForm = () => {
     }
   }, []);
   const { id } = profData!;
+  console.log(isThereAnImage);
   // dropdown states
   const [medicalHistoryType, setMedicalHistoryType] = useState("");
   const [identificationType, setIdentificationType] = useState("");
-
+  const [fileError, setFileError] = useState<string | null>(null);
   const form = useForm<z.infer<typeof patientsRegisterValidation>>({
     resolver: zodResolver(patientsRegisterValidation),
     defaultValues: {
@@ -143,9 +138,13 @@ const PatientRegistrationForm = () => {
       }
     } catch (error) {
       console.error(error);
+      setFileError(error as string);
+      setLoading(false);
     }
   }
-
+setTimeout(() => {
+  setFileError(null)
+}, 5000);
   return (
     <Form {...form}>
       <form
@@ -702,7 +701,9 @@ const PatientRegistrationForm = () => {
             />
           </div>
         </div>
-
+        <div className="flex w-[90%] items-center justify-start">
+        {fileError && <p className="text-red-500 text-start">{fileError}</p>}
+        </div>
         <SubmitButton
           className="w-[95%] mx-auto border-[1px] border-gray-600 bg-gradient-to-b from-black to-[#807f7f] text-white hover:bg-gradient-to-b hover:from-white hover:to-[#222222] hover:text-[#1c1c1c] text-center p-2 rounded-lg"
           loading={loading}
