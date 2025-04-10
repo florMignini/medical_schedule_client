@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useMemo } from "react";
+import React, { useState, useMemo, useEffect } from "react";
 import router, { useRouter } from "next/navigation";
 import { Form, FormControl } from "@/components/ui/form";
 import DinamicForm from "../DinamicForm";
@@ -16,7 +16,10 @@ import FileUploader from "../FileUploader";
 import Image from "next/image";
 
 import { Patient } from "@/interfaces";
-import { updateInstitutionAction, updatePatientProfileAction } from "@/app/actions";
+import {
+  updateInstitutionAction,
+  updatePatientProfileAction,
+} from "@/app/actions";
 
 import { FormFieldType } from "./ProfessionalLoginForm";
 import {
@@ -34,6 +37,7 @@ import {
   BloodFactor,
   BloodType,
   IdentificationTypeEnum,
+  MedicalHistory,
 } from "@/app/professional/data";
 import phoneIcon from "../../public/assets/icons/phone.svg";
 import closeIcon from "../../public/assets/icons/close.svg";
@@ -50,7 +54,10 @@ import {
   DropdownMenuRadioItem,
   DropdownMenuTrigger,
 } from "../ui/dropdown-menu";
-
+import { type } from "node:os";
+type Props = {
+  patientInfo: Patient;
+};
 type professionalType = {
   id: string;
   firstName: string;
@@ -58,66 +65,80 @@ type professionalType = {
   gender: string;
 };
 
-const PatientProfileUpdateForm = (patientInfo: Patient) => {
-
+const PatientProfileUpdateForm = ({ patientInfo }: Props) => {
   const [loading, setLoading] = useState(false);
   const [isThereAnImage, setIsTthereAnImage] = useState<boolean>(false);
   const [medicalHistoryType, setMedicalHistoryType] = useState("");
   const router = useRouter();
-
   const form = useForm<z.infer<typeof patientsUpdateValidationSchema>>({
     resolver: zodResolver(patientsUpdateValidationSchema),
     defaultValues: {
-      firstName: patientInfo.firstName,
-      lastName: patientInfo.lastName,
-      medicalHistoryType: patientInfo.medicalHistoryType,
-      identificationType: patientInfo.identificationType as IdentificationTypeEnum,
+      firstName: patientInfo?.firstName,
+      lastName: patientInfo?.lastName,
+      identificationType:
+        patientInfo?.identificationType as IdentificationTypeEnum,
       // @ts-ignore
-      identificationNumber: patientInfo.identificationNumber,
-      bloodType: patientInfo.bloodType as BloodType,
-      bloodFactor: patientInfo.bloodFactor as BloodFactor,
-      gender: patientInfo.gender as Gender,
+      identificationNumber: patientInfo?.identificationNumber,
+      bloodType: patientInfo?.bloodType as BloodType,
+      bloodFactor: patientInfo?.bloodFactor as BloodFactor,
+      gender: patientInfo?.gender as Gender,
       // @ts-ignore
-      birthdate: patientInfo.birthdate as Date,
-      address: patientInfo.address,
-      occupation: patientInfo.occupation,
-      email: patientInfo.email,
-      phone: patientInfo.phone,
+      birthdate: patientInfo?.birthdate as Date,
+      address: patientInfo?.address,
+      occupation: patientInfo?.occupation,
+      email: patientInfo?.email,
+      phone: patientInfo?.phone,
       patientPhoto: [],
-      emergencyContactName: patientInfo.emergencyContactName,
-      emergencyContactNumber: patientInfo.emergencyContactNumber,
-      contactRelationship: patientInfo.contactRelationship,
-      insuranceProvider: patientInfo.insuranceProvider,
-      insurancePolicyNumber: patientInfo.insurancePolicyNumber,
-      allergic: patientInfo.allergic as BooleanOption,
-      allergies: patientInfo.allergies,
-      familyMedicalHistory: patientInfo.familyMedicalHistory,
-      pastMedicalHistory: patientInfo.pastMedicalHistory,
-      currentMedication: patientInfo.currentMedication,
-      medicalHistory: patientInfo.medicalHistory,
+      emergencyContactName: patientInfo?.emergencyContactName,
+      emergencyContactNumber: patientInfo?.emergencyContactNumber,
+      contactRelationship: patientInfo?.contactRelationship,
+      insuranceProvider: patientInfo?.insuranceProvider,
+      insurancePolicyNumber: patientInfo?.insurancePolicyNumber,
+      allergic: patientInfo?.allergic as BooleanOption,
+      allergies: patientInfo?.allergies,
+      smoker: patientInfo?.smoker as BooleanOption,
+      exSmoker: patientInfo?.exSmoker as BooleanOption,
+      familyMedicalHistory: patientInfo?.familyMedicalHistory,
+      pastMedicalHistory: patientInfo?.pastMedicalHistory,
+      currentMedication: patientInfo?.currentMedication,
+      medicalHistory: patientInfo?.medicalHistory,
       // @ts-ignore
-      medicalHistoryType: patientInfo.medicalHistoryType as MedicalHistory,
-      patientHeight: patientInfo.patientHeight,
-      patientWeight: patientInfo.patientWeight,
-      patientWaist: patientInfo.patientWaist,
-      patientHip: patientInfo.patientHip,
-      patientArm: patientInfo.patientArm,
-      patientTricepsFold: patientInfo.patientTricepsFold,
-      patientBMI: patientInfo.patientBMI,
-      patientBFP: patientInfo.patientBFP,
-      ObservationsComments: patientInfo.ObservationsComments,
-      isActive: patientInfo.isActive,
+      medicalHistoryType: patientInfo?.medicalHistoryType as MedicalHistory,
+      patientHeight: patientInfo?.patientHeight,
+      patientWeight: patientInfo?.patientWeight,
+      patientWaist: patientInfo?.patientWaist,
+      patientHip: patientInfo?.patientHip,
+      patientArm: patientInfo?.patientArm,
+      patientTricepsFold: patientInfo?.patientTricepsFold,
+      patientBMI: patientInfo?.patientBMI,
+      patientBFP: patientInfo?.patientBFP,
+      ObservationsComments: patientInfo?.ObservationsComments,
+      isActive: patientInfo?.isActive,
     },
   });
   // -------------------------------------
+  useEffect(() => {
+    if (patientInfo) {
+      form.reset({
+        ...patientInfo,
+        identificationType: patientInfo.identificationType as IdentificationTypeEnum,
+        medicalHistoryType: patientInfo.medicalHistoryType as any,
+        bloodType: patientInfo.bloodType as BloodType,
+        bloodFactor: patientInfo.bloodFactor as BloodFactor,
+        gender: patientInfo.gender as Gender,
+        allergic: patientInfo.allergic as BooleanOption,
+        smoker: patientInfo.smoker as BooleanOption,
+        exSmoker: patientInfo.exSmoker as BooleanOption,
+      });
+    }
+  }, [patientInfo, form.reset]);
   // onSubmit form
-
   async function onSubmit(
     values: z.infer<typeof patientsUpdateValidationSchema>
   ) {
     setLoading(true);
     let formData;
-
+    console.log(values);
     if (values.patientPhoto !== undefined) {
       const blobFile = new Blob([values.patientPhoto[0]], {
         type: values.patientPhoto?.[0]?.type,
@@ -128,12 +149,18 @@ const PatientProfileUpdateForm = (patientInfo: Patient) => {
     }
 
     const valuesUpdated = {
+      firstName: patientInfo.firstName,
+      lastName: patientInfo.lastName,
+      birthdate: patientInfo.birthDate,
+      occupation: values.occupation,
+      bloodType: patientInfo.bloodType as BloodType,
+      bloodFactor: patientInfo.bloodFactor as BloodFactor,
+      gender: patientInfo.gender as Gender,
+      IdentificationType:
+        patientInfo.identificationType as IdentificationTypeEnum,
+      IdentityNumber: patientInfo.identityNumber,
       address:
         values.address === undefined ? patientInfo.address : values.address,
-      occupation:
-        values.occupation === undefined
-          ? patientInfo.occupation
-          : values.occupation,
       email: values.email === undefined ? patientInfo.email : values.email,
       phone: values.phone === undefined ? patientInfo.phone : values.phone,
       emergencyContactName:
@@ -162,6 +189,14 @@ const PatientProfileUpdateForm = (patientInfo: Patient) => {
         values.allergies === undefined
           ? patientInfo.allergies
           : values.allergies,
+      smoker:
+        values.smoker === undefined
+          ? (patientInfo.smoker as BooleanOption)
+          : (values.smoker as BooleanOption),
+      exSmoker:
+        values.exSmoker === undefined
+          ? (patientInfo.exSmoker as BooleanOption)
+          : (values.exSmoker as BooleanOption),
       familyMedicalHistory:
         values.familyMedicalHistory === undefined
           ? patientInfo.familyMedicalHistory
@@ -190,19 +225,19 @@ const PatientProfileUpdateForm = (patientInfo: Patient) => {
         values.patientWeight === undefined
           ? patientInfo.patientWeight
           : values.patientWeight,
-          patientWaist:
+      patientWaist:
         values.patientWaist === undefined
           ? patientInfo.patientWaist
           : values.patientWaist,
-          patientHip:
+      patientHip:
         values.patientHip === undefined
           ? patientInfo.patientHip
           : values.patientHip,
-          patientArm:
+      patientArm:
         values.patientArm === undefined
           ? patientInfo.patientArm
           : values.patientArm,
-          patientTricepsFold:
+      patientTricepsFold:
         values.patientTricepsFold === undefined
           ? patientInfo.patientTricepsFold
           : values.patientTricepsFold,
@@ -221,7 +256,6 @@ const PatientProfileUpdateForm = (patientInfo: Patient) => {
       isActive:
         values.isActive === undefined ? patientInfo.isActive : values.isActive,
     };
-
 
     try {
       const updatePatientData = {
@@ -331,7 +365,7 @@ const PatientProfileUpdateForm = (patientInfo: Patient) => {
                 control={form.control}
                 name="firstName"
                 label="Nombre/s"
-                defaultValue={patientInfo.firstName}
+                defaultValue={patientInfo?.firstName}
                 disable
               />
               <DinamicForm
@@ -340,7 +374,7 @@ const PatientProfileUpdateForm = (patientInfo: Patient) => {
                 name="lastName"
                 label="Apellido/s"
                 disable
-                defaultValue={patientInfo.lastName}
+                defaultValue={patientInfo?.lastName}
               />
             </div>
             {/* address & occupation */}
@@ -350,14 +384,14 @@ const PatientProfileUpdateForm = (patientInfo: Patient) => {
                 control={form.control}
                 name="address"
                 label="Dirección"
-                placeholder="Av. Independencia 1111, Mar del Plata"
+                defaultValue={patientInfo?.address}
               />
               <DinamicForm
                 fieldType={FormFieldType.INPUT}
                 control={form.control}
                 name="occupation"
                 label="Ocupación"
-                placeholder="Ingeniero en software"
+                defaultValue={patientInfo?.occupation}
               />
             </div>
             {/* email & phone number */}
@@ -367,27 +401,28 @@ const PatientProfileUpdateForm = (patientInfo: Patient) => {
                 control={form.control}
                 name="email"
                 label="Email"
-                placeholder="paciente@email.com"
                 iconSrc={mailIcon}
                 iconAlt="user-email"
+                defaultValue={patientInfo?.email}
               />
               <DinamicForm
                 fieldType={FormFieldType.PHONE_INPUT}
                 control={form.control}
                 name="phone"
                 label="Número de teléfono"
-                placeholder="(0223) 1-234567"
                 iconSrc={phoneIcon}
                 iconAlt="phone-icon"
+                defaultValue={patientInfo?.phone}
               />
             </div>
             {/* identification type & identification number */}
             <div className="flex flex-col justify-end md:flex-row gap-2 mb-2">
               <div className="flex w-[40%] rounded-md items-center justify-center border shadow-md gap-2 p-1 outline-none bg-white flex-col">
                 <DropdownMenu>
-                  <DropdownMenuTrigger 
-                  disabled
-                  className="flex items-center justify-center gap-1 outline-none">
+                  <DropdownMenuTrigger
+                    disabled
+                    className="flex items-center justify-center gap-1 outline-none"
+                  >
                     Tipo de Documento
                     <Icon
                       src={DropdownIcon}
@@ -398,7 +433,7 @@ const PatientProfileUpdateForm = (patientInfo: Patient) => {
                   </DropdownMenuTrigger>
                   <DropdownMenuContent className="ml-5 w-full flex items-center justify-start">
                     <DropdownMenuRadioGroup
-                      defaultValue={patientInfo.identificationType}
+                      defaultValue={patientInfo?.identificationType}
                       className="flex w-full flex-col items-center gap-1 rounded-md  border-dark-500 bg-dark-400
                       text-white text-ellipsis"
                     >
@@ -413,7 +448,7 @@ const PatientProfileUpdateForm = (patientInfo: Patient) => {
                       ))}
                     </DropdownMenuRadioGroup>
                   </DropdownMenuContent>
-                  <p>{patientInfo.identificationType}</p>
+                  <p>{patientInfo?.identificationType}</p>
                 </DropdownMenu>
               </div>
 
@@ -423,7 +458,7 @@ const PatientProfileUpdateForm = (patientInfo: Patient) => {
                 name="identificationNumber"
                 label="Número de Documento"
                 disable
-                defaultValue={patientInfo.identityNumber}
+                defaultValue={patientInfo?.identityNumber}
               />
             </div>
             {/* birthdate & gender */}
@@ -444,10 +479,10 @@ const PatientProfileUpdateForm = (patientInfo: Patient) => {
                 renderSkeleton={(field) => (
                   <FormControl>
                     <RadioGroup
-                    disabled
+                      disabled
                       className="flex h-12 xl:justify-between"
                       onValueChange={field.onChange}
-                      defaultValue={field.value}
+                      defaultValue={patientInfo?.gender}
                     >
                       {genderOptions.map((gender: string) => (
                         <div key={gender} className="radio-group gap-1">
@@ -469,14 +504,14 @@ const PatientProfileUpdateForm = (patientInfo: Patient) => {
                 control={form.control}
                 name="emergencyContactName"
                 label="Nombre de Contacto en caso de Emergencia"
-                defaultValue={patientInfo.emergencyContactName}
+                defaultValue={patientInfo?.emergencyContactName}
               />
               <DinamicForm
                 fieldType={FormFieldType.PHONE_INPUT}
                 control={form.control}
                 name="emergencyContactNumber"
                 label="Número de Contacto en caso de Emergencia"
-                defaultValue={patientInfo.emergencyContactNumber}
+                defaultValue={patientInfo?.emergencyContactNumber}
                 iconSrc={phoneIcon}
                 iconAlt="phone-icon"
               />
@@ -487,7 +522,7 @@ const PatientProfileUpdateForm = (patientInfo: Patient) => {
                 control={form.control}
                 name="contactRelationship"
                 label="Parentesco con el paciente"
-                defaultValue={patientInfo.emergencyContactName}
+                defaultValue={patientInfo?.contactRelationship}
               />
             </div>
           </div>
@@ -509,14 +544,14 @@ const PatientProfileUpdateForm = (patientInfo: Patient) => {
                 control={form.control}
                 name="insuranceProvider"
                 label="Cobertura Médica"
-                placeholder="PAMI"
+                defaultValue={patientInfo?.insuranceProvider}
               />
               <DinamicForm
                 fieldType={FormFieldType.INPUT}
                 control={form.control}
                 name="insurancePolicyNumber"
                 label="Número de Afiliado"
-                placeholder="123456789012/00"
+                defaultValue={patientInfo?.insurancePolicyNumber}
               />
             </div>
             {/* smoker & ex-smoker */}
@@ -534,7 +569,7 @@ const PatientProfileUpdateForm = (patientInfo: Patient) => {
                       disabled
                       className="flex h-12 xl:justify-between"
                       onValueChange={field.onChange}
-                      defaultValue={field.value}
+                      defaultValue={patientInfo?.smoker}
                     >
                       {booleanOption.map((bool: string) => (
                         <div key={bool} className="radio-group gap-1">
@@ -561,7 +596,7 @@ const PatientProfileUpdateForm = (patientInfo: Patient) => {
                       disabled
                       className="flex h-12 xl:justify-between"
                       onValueChange={field.onChange}
-                      defaultValue={field.value}
+                      defaultValue={patientInfo?.exSmoker}
                     >
                       {booleanOption.map((bool: string) => (
                         <div key={bool} className="radio-group gap-1">
@@ -589,7 +624,7 @@ const PatientProfileUpdateForm = (patientInfo: Patient) => {
                     <RadioGroup
                       className="flex h-12 xl:justify-between"
                       onValueChange={field.onChange}
-                      defaultValue={field.value}
+                      defaultValue={patientInfo?.bloodType}
                       disabled
                     >
                       {bloodType.map((type: string) => (
@@ -610,6 +645,7 @@ const PatientProfileUpdateForm = (patientInfo: Patient) => {
                 control={form.control}
                 name="bloodFactor"
                 label="Factor"
+                defaultValue={patientInfo?.bloodFactor}
                 disable
                 renderSkeleton={(field) => (
                   <FormControl>
@@ -617,7 +653,7 @@ const PatientProfileUpdateForm = (patientInfo: Patient) => {
                       disabled
                       className="flex h-12 xl:justify-between"
                       onValueChange={field.onChange}
-                      defaultValue={field.value}
+                      defaultValue={field?.value}
                     >
                       {bloodFactor.map((factor: string) => (
                         <div key={factor} className="radio-group gap-1">
@@ -638,6 +674,7 @@ const PatientProfileUpdateForm = (patientInfo: Patient) => {
               <DinamicForm
                 fieldType={FormFieldType.SKELETON}
                 control={form.control}
+                defaultValue={patientInfo?.allergic}
                 name="allergic"
                 label="Alergico/a"
                 renderSkeleton={(field) => (
@@ -645,7 +682,7 @@ const PatientProfileUpdateForm = (patientInfo: Patient) => {
                     <RadioGroup
                       className="flex h-12 xl:justify-between"
                       onValueChange={field.onChange}
-                      defaultValue={field.value}
+                      defaultValue={patientInfo?.allergic}
                     >
                       {booleanOption.map((bool: string) => (
                         <div key={bool} className="radio-group gap-1">
@@ -664,7 +701,7 @@ const PatientProfileUpdateForm = (patientInfo: Patient) => {
                 control={form.control}
                 name="allergies"
                 label="Enumere Alergias"
-                placeholder="Ex: Polen, Penicilina, Mani, Otros"
+                defaultValue={patientInfo?.allergies}
                 fieldType={FormFieldType.TEXTAREA}
               />
             </div>
@@ -674,14 +711,14 @@ const PatientProfileUpdateForm = (patientInfo: Patient) => {
                 control={form.control}
                 name="currentMedication"
                 label="Medicamentos Actuales"
-                placeholder="Ex: Prednisone, Amoxicilina, Paracetamol"
+                defaultValue={patientInfo?.currentMedication}
                 fieldType={FormFieldType.TEXTAREA}
               />
               <DinamicForm
                 control={form.control}
                 name="familyMedicalHistory"
                 label="Antecedentes Familiares"
-                placeholder="Diabetes, Cáncer..."
+                defaultValue={patientInfo?.familyMedicalHistory}
                 fieldType={FormFieldType.TEXTAREA}
               />
             </div>
@@ -716,7 +753,7 @@ const PatientProfileUpdateForm = (patientInfo: Patient) => {
                       ))}
                     </DropdownMenuRadioGroup>
                   </DropdownMenuContent>
-                  <p>{medicalHistoryType}</p>
+                  <p>{patientInfo?.medicalHistoryType}</p>
                 </DropdownMenu>
               </div>
               {/* add relevant information */}
@@ -725,7 +762,7 @@ const PatientProfileUpdateForm = (patientInfo: Patient) => {
                 control={form.control}
                 name="pastMedicalHistory"
                 label="Observaciones/Comentarios"
-                placeholder="Agregar comentarios/observaciones relevantes"
+                defaultValue={patientInfo?.pastMedicalHistory}
               />
             </div>
           </div>
@@ -744,28 +781,28 @@ const PatientProfileUpdateForm = (patientInfo: Patient) => {
             <DinamicForm
               name="patientHeight"
               control={form.control}
-              defaultValue={patientInfo.patientHeight}
+              defaultValue={patientInfo?.patientHeight}
               label="Altura"
               fieldType={FormFieldType.INPUT}
             />
             <DinamicForm
               name="patientWeight"
               control={form.control}
-              defaultValue={patientInfo.patientWeight}
+              defaultValue={patientInfo?.patientWeight}
               label="Peso"
               fieldType={FormFieldType.INPUT}
             />
             <DinamicForm
               name="patientBMI"
               control={form.control}
-              defaultValue={patientInfo.patientBMI}
+              defaultValue={patientInfo?.patientBMI}
               label="IMC"
               fieldType={FormFieldType.INPUT}
             />
             <DinamicForm
               name="patientBFP"
               control={form.control}
-              defaultValue={patientInfo.patientBFP}
+              defaultValue={patientInfo?.patientBFP}
               label="Porcentaje de grasa corporal"
               fieldType={FormFieldType.INPUT}
             />
@@ -774,7 +811,7 @@ const PatientProfileUpdateForm = (patientInfo: Patient) => {
             <DinamicForm
               name="ObservationsComments"
               control={form.control}
-              defaultValue={patientInfo.ObservationsComments}
+              defaultValue={patientInfo?.ObservationsComments}
               label="Observaciones/Comentarios"
               fieldType={FormFieldType.TEXTAREA}
             />
