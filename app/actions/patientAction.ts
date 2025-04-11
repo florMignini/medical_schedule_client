@@ -89,18 +89,16 @@ export async function patientRegistration({ patientPhoto, ...patient }: IPatient
 
  export async function updatePatientProfileAction({patientPhoto, ...patientUpdate}: IPatient) {
     "use server";
-
-    try {
+  try {
       const {patientId, ...rest} = patientUpdate
         let file;
-        if(patientPhoto === "object" ){
+        if(patientPhoto){
             const inputFile = InputFile.fromBuffer(
                 patientPhoto?.get("blobFile") as Blob,
                 patientPhoto?.get("fileName") as string
             );
             file = await storage.createFile(PATIENT_PROFILE_BUCKET_ID!, ID.unique(), inputFile);
         }
-
         const patientUpdateData = {
           patientPhotoUrl: file ? `${ENDPOINT}/storage/buckets/${PATIENT_PROFILE_BUCKET_ID}/files/${file?.$id}/view?project=${PROJECT_ID}` : `https://static.vecteezy.com/system/resources/thumbnails/037/336/395/small_2x/user-profile-flat-illustration-avatar-person-icon-gender-neutral-silhouette-profile-picture-free-vector.jpg`,
             ...rest}
