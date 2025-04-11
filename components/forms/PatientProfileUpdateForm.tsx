@@ -32,7 +32,6 @@ import {
   bloodFactor,
   medicalHistory,
   genderOptions,
-  AllergiesTypeEnum,
   BooleanOption,
   BloodFactor,
   BloodType,
@@ -83,7 +82,7 @@ const PatientProfileUpdateForm = ({ patientInfo }: Props) => {
       bloodFactor: patientInfo?.bloodFactor as BloodFactor,
       gender: patientInfo?.gender as Gender,
       // @ts-ignore
-      birthdate: patientInfo?.birthdate as Date,
+      birthDate: patientInfo?.birthdate as Date,
       address: patientInfo?.address,
       occupation: patientInfo?.occupation,
       email: patientInfo?.email,
@@ -138,7 +137,6 @@ const PatientProfileUpdateForm = ({ patientInfo }: Props) => {
   ) {
     setLoading(true);
     let formData;
-    console.log(values);
     if (values.patientPhoto !== undefined) {
       const blobFile = new Blob([values.patientPhoto[0]], {
         type: values.patientPhoto?.[0]?.type,
@@ -151,14 +149,14 @@ const PatientProfileUpdateForm = ({ patientInfo }: Props) => {
     const valuesUpdated = {
       firstName: patientInfo.firstName,
       lastName: patientInfo.lastName,
-      birthdate: patientInfo.birthDate,
+      birthDate: patientInfo.birthDate,
       occupation: values.occupation,
       bloodType: patientInfo.bloodType as BloodType,
       bloodFactor: patientInfo.bloodFactor as BloodFactor,
       gender: patientInfo.gender as Gender,
-      IdentificationType:
+      identificationType:
         patientInfo.identificationType as IdentificationTypeEnum,
-      IdentityNumber: patientInfo.identityNumber,
+      identityNumber: patientInfo.identityNumber,
       address:
         values.address === undefined ? patientInfo.address : values.address,
       email: values.email === undefined ? patientInfo.email : values.email,
