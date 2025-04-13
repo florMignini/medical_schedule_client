@@ -55,7 +55,7 @@ const PatientRegistrationForm = () => {
     }
   }, []);
   const { id } = profData!;
-  console.log(isThereAnImage);
+
   // dropdown states
   const [medicalHistoryType, setMedicalHistoryType] = useState("");
   const [identificationType, setIdentificationType] = useState("");
@@ -142,9 +142,10 @@ const PatientRegistrationForm = () => {
       setLoading(false);
     }
   }
-setTimeout(() => {
-  setFileError(null)
-}, 5000);
+  console.log(form.getValues());
+  setTimeout(() => {
+    setFileError(null);
+  }, 5000);
   return (
     <Form {...form}>
       <form
@@ -162,19 +163,50 @@ setTimeout(() => {
           <div className="mb-5 space-y-4 flex flex-wrap items-center justify-center lg:grid lg:grid-cols-[30%,70%] ">
             {/* left side */}
             <div className="flex items-start justify-center py-4">
-              {isThereAnImage ? (
-                <div className="w-full h-[100%] flex-col flex items-start justify-end pt-0">
-                  <button
-                    className="w-full flex items-center justify-end"
-                    onClick={() => setIsTthereAnImage(false)}
+            {form?.getValues()?.patientPhoto?.length! > 0 ? (
+              <div className="w-full h-full  flex-col flex items-start justify-center pt-0 text-black">
+                <button
+                  className="flex items-center justify-end"
+                  onClick={() => {
+                    setIsTthereAnImage(false);
+                    form.resetField("patientPhoto");
+                  }}
+                >
+                  <Icon
+                    src={closeIcon}
+                    alt="close-icon"
+                    height={30}
+                    width={30}
+                  />
+                </button>
+                <DinamicForm
+                  fieldType={FormFieldType.SKELETON}
+                  control={form.control}
+                  name="patientPhoto"
+                  renderSkeleton={(field) => (
+                    <FormControl className="w-full">
+                      <FileUploader
+                        files={
+                          isThereAnImage ? field.value : (field.value = [])
+                        }
+                        onChange={field.onChange}
+                      />
+                    </FormControl>
+                  )}
+                />
+              </div>
+            ) : (
+              <>
+                <div
+                  className="w-[100%]"
+                  onClick={() => setIsTthereAnImage(true)}
+                >
+                  <Label
+                    htmlFor="patientPhoto"
+                    className="p-0 font-light text-[13px] text-gray-500"
                   >
-                    <Icon
-                      src={closeIcon}
-                      alt="close-icon"
-                      height={30}
-                      width={30}
-                    />
-                  </button>
+                    Imágen del paciente
+                  </Label>
                   <DinamicForm
                     fieldType={FormFieldType.SKELETON}
                     control={form.control}
@@ -191,36 +223,8 @@ setTimeout(() => {
                     )}
                   />
                 </div>
-              ) : (
-                <>
-                  <Image
-                    src={UserIcon}
-                    alt="user-photo-placeholder"
-                    width={100}
-                    height={100}
-                  />
-                  <div
-                    className="h-[100%] flex items-start justify-end pt-[35%]"
-                    onClick={() => setIsTthereAnImage(true)}
-                  >
-                    <DinamicForm
-                      fieldType={FormFieldType.SKELETON}
-                      control={form.control}
-                      name="patientPhoto"
-                      renderSkeleton={(field) => (
-                        <FormControl>
-                          <FileUploader
-                            files={
-                              isThereAnImage ? field.value : (field.value = [])
-                            }
-                            onChange={field.onChange}
-                          />
-                        </FormControl>
-                      )}
-                    />
-                  </div>
-                </>
-              )}
+              </>
+            )}
             </div>
             {/* rightside */}
             <div className="w-[95%]">
@@ -702,7 +706,7 @@ setTimeout(() => {
           </div>
         </div>
         <div className="flex w-[90%] items-center justify-start">
-        {fileError && <p className="text-red-500 text-start">{fileError}</p>}
+          {fileError && <p className="text-red-500 text-start">{fileError}</p>}
         </div>
         <SubmitButton
           className="w-[95%] mx-auto border-[1px] border-gray-600 bg-gradient-to-b from-black to-[#807f7f] text-white hover:bg-gradient-to-b hover:from-white hover:to-[#222222] hover:text-[#1c1c1c] text-center p-2 rounded-lg"
