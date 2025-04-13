@@ -2,7 +2,6 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { z } from "zod";
-import Image from "next/image";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { Form, FormControl } from "@/components/ui/form";
@@ -23,7 +22,6 @@ import {
 } from "@/app/professional/data";
 import phoneIcon from "../../public/assets/icons/phone.svg";
 import closeIcon from "../../public/assets/icons/close.svg";
-import UserIcon from "../../public/assets/icons/user-verification.svg";
 import DropdownIcon from "../../public/assets/icons/arrowDown.svg";
 
 import { RadioGroup, RadioGroupItem } from "../ui/radio-group";
@@ -133,6 +131,7 @@ const PatientRegistrationForm = () => {
       }
       if (response) {
         form.reset();
+        router.refresh();
         setLoading(false);
         router.push("/professional/patients");
       }
@@ -142,10 +141,11 @@ const PatientRegistrationForm = () => {
       setLoading(false);
     }
   }
-  console.log(form.getValues());
+
   setTimeout(() => {
     setFileError(null);
   }, 5000);
+
   return (
     <Form {...form}>
       <form
