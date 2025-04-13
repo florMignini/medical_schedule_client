@@ -68,6 +68,7 @@ const PatientProfileUpdateForm = ({ patientInfo }: Props) => {
   const [loading, setLoading] = useState(false);
   const [isThereAnImage, setIsTthereAnImage] = useState<boolean>(false);
   const [medicalHistoryType, setMedicalHistoryType] = useState("");
+
   const router = useRouter();
   const form = useForm<z.infer<typeof patientsUpdateValidationSchema>>({
     resolver: zodResolver(patientsUpdateValidationSchema),
@@ -76,8 +77,8 @@ const PatientProfileUpdateForm = ({ patientInfo }: Props) => {
       lastName: patientInfo?.lastName,
       identificationType:
         patientInfo?.identificationType as IdentificationTypeEnum,
+        identityNumber: patientInfo?.identityNumber,
       // @ts-ignore
-      identificationNumber: patientInfo?.identificationNumber,
       bloodType: patientInfo?.bloodType as BloodType,
       bloodFactor: patientInfo?.bloodFactor as BloodFactor,
       gender: patientInfo?.gender as Gender,
@@ -130,7 +131,8 @@ const PatientProfileUpdateForm = ({ patientInfo }: Props) => {
         exSmoker: patientInfo.exSmoker as BooleanOption,
       });
     }
-  }, [patientInfo, form.reset]);
+  }, [patientInfo, form.reset, form]);
+
   // onSubmit form
   async function onSubmit(
     values: z.infer<typeof patientsUpdateValidationSchema>
@@ -266,6 +268,7 @@ const PatientProfileUpdateForm = ({ patientInfo }: Props) => {
       const response = await updatePatientProfileAction(updatePatientData);
       if (response) {
         setLoading(false);
+        router.refresh();
         router.push(`/professional/patients/${patientInfo.id}/info`);
       }
     } catch (error) {
@@ -299,12 +302,11 @@ const PatientProfileUpdateForm = ({ patientInfo }: Props) => {
                     form.resetField("patientPhoto");
                   }}
                 >
-                  <Image
+                  <Icon
                     src={closeIcon}
                     alt="close-icon"
                     height={30}
                     width={30}
-                    className="z-30"
                   />
                 </button>
                 <DinamicForm
@@ -453,7 +455,7 @@ const PatientProfileUpdateForm = ({ patientInfo }: Props) => {
               <DinamicForm
                 fieldType={FormFieldType.INPUT}
                 control={form.control}
-                name="identificationNumber"
+                name="identityNumber"
                 label="Número de Documento"
                 disable
                 defaultValue={patientInfo?.identityNumber}
