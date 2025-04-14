@@ -1,6 +1,6 @@
 "use client";
-import React, { useState, useMemo } from "react";
-import router, { useRouter } from "next/navigation";
+import React, { useState } from "react";
+import { useRouter } from "next/navigation";
 import { Form, FormControl } from "@/components/ui/form";
 import DinamicForm from "../DinamicForm";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -12,11 +12,10 @@ import { useForm } from "react-hook-form";
 import { Label } from "../ui";
 import Icon from "../ui/icon";
 import closeIcon from "../../public/assets/icons/close.svg";
-import uploadIcon from "../../public/assets/icons/upload.svg";
+
 import FileUploader from "../FileUploader";
-import Image from "next/image";
 import phoneIcon from "../../public/assets/icons/phone.svg";
-import UserIcon from "../../public/assets/icons/user-verification.svg";
+
 import mailIcon from "../../public/assets/icons/email.svg";
 import {
   updateInstitutionAction,
@@ -46,9 +45,10 @@ const ProfessionalProfileUpdateForm = (professionalInfo: any) => {
       newTwitterUrl: professionalInfo.instagramUrl,
     },
   });
+
   // -------------------------------------
   // onSubmit form
-
+console.log(form.getValues());
   async function onSubmit(values: z.infer<typeof UpdateProfessionalSchema>) {
 
     setLoading(true);
@@ -88,7 +88,7 @@ const ProfessionalProfileUpdateForm = (professionalInfo: any) => {
         userImage:
           formData !== undefined ? formData : professionalInfo.userImage,
       };
-      console.log(updateProfessionalData);
+
       const response = await updateProfessionalProfileAction(
         updateProfessionalData
       );
@@ -102,14 +102,14 @@ const ProfessionalProfileUpdateForm = (professionalInfo: any) => {
       console.error(error);
     }
   }
-
+  
   return (
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit)}
         className="w-[100%] space-y-6 flex-1"
       >
-        {/* appointment detail */}
+        {/* professional profile detail */}
         <div className="flex px-2 gap-2 mb-5">
           <div className="h-5 border-x-2 border-black" />
           <h1 className="text-16-semibold">
@@ -129,12 +129,11 @@ const ProfessionalProfileUpdateForm = (professionalInfo: any) => {
                     form.resetField("userImage");
                   }}
                 >
-                  <Image
+                  <Icon
                     src={closeIcon}
                     alt="close-icon"
                     height={30}
                     width={30}
-                    className="z-30"
                   />
                 </button>
                 <DinamicForm
@@ -160,7 +159,7 @@ const ProfessionalProfileUpdateForm = (professionalInfo: any) => {
                   onClick={() => setIsTthereAnImage(true)}
                 >
                   <Label
-                    htmlFor="institutionImage"
+                    htmlFor="userImage"
                     className="p-0 font-light text-[13px] text-gray-500"
                   >
                     Imágen de perfil

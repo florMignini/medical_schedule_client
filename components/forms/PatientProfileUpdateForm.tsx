@@ -282,7 +282,7 @@ const PatientProfileUpdateForm = ({ patientInfo }: Props) => {
         onSubmit={form.handleSubmit(onSubmit)}
         className="w-[100%] space-y-6 flex-1"
       >
-        {/* appointment detail */}
+        {/* appointment profile detail */}
         <div className="flex px-2 gap-2 mb-5">
           <div className="h-5 border-x-2 border-black" />
           <h1 className="text-16-semibold">
