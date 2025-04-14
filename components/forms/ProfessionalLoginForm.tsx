@@ -50,6 +50,7 @@ const [loginError, setLoginError] = useState<string>()
         firstname: res?.firstName,
         lastname: res?.lastName,
         gender: res?.gender,
+        userImage: res?.userImage,
         id: res?.id,
       }))
  
