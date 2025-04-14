@@ -16,6 +16,10 @@ import AddButton from "../components/AddButton";
 
 import PatientsByAge from "../components/charts/PatientsByAge";
 import Categorization from "../components/charts/Categorization";
+import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import PatientRegistrationForm from "@/components/forms/PatientRegisterForm";
+import Plus from "../components/icons/Plus";
 
 
 
@@ -47,7 +51,8 @@ const ProfessionalDashboard = async () => {
 
   return (
     <section className="w-full z-40 min-h-screen flex min-[768px]:grid min-[768px]:grid-cols-[70%,30%] lg:grid-cols-[70%,30%] p-1">
-      {/*left section*/}
+      <Dialog>
+        {/*left section*/}
       <div className="w-full h-auto lg:flex lg:flex-col gap-2 mx-auto items-center justify-start">
         {/* charts section */}
         <div className="w-[100%] mx-auto py-4 px-3 glass-effect flex items-center justify-center flex-col xl:grid xl:grid-cols-[60%,40%] text-color gap-1">
@@ -69,7 +74,14 @@ const ProfessionalDashboard = async () => {
             {data && data.patientsIncluded?.length! < 1 ? (
               <div className="w-[90%] flex items-center justify-center gap-10">
                 <p>Aún no posee pacientes activos</p>
-                <AddButton to="/professional/patient-registration" />
+                 <DialogTrigger asChild>
+                              <button className="transition duration-200 ease-in-out flex items-center justify-center gap-2.5 p-1 border-[1px] border-gray-600 rounded-md bg-gradient-to-b from-black to-[#807f7f] text-white text-center hover:bg-gradient-to-b hover:from-white hover:to-[#222222] hover:text-[#1c1c1c]">
+                                <p className="text-[12px] md:text-[14px] font-medium">
+                                  agregar
+                                </p>
+                                <Plus width={15} height={15} />
+                              </button>
+                            </DialogTrigger>
               </div>
             ) : (
               <>
@@ -256,6 +268,13 @@ const ProfessionalDashboard = async () => {
       <div className="hidden min-[768px]:flex">
         <WelcomeSection professional={data} />
       </div>
+      {/* add patient modal */}
+      <DialogContent className="w-[90%] max-w-none lg:w-[70%] lg:max-w-[60%] h-[90%] bg-white flex flex-col items-start justify-start  bg-opacity-90 p-2 rounded-lg shadow-md gap-5">
+          <ScrollArea className="h-[98%] w-[99%]">
+            <PatientRegistrationForm />
+          </ScrollArea>
+        </DialogContent>
+      </Dialog>
     </section>
   );
 };
