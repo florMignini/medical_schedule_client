@@ -89,6 +89,7 @@ export async function patientRegistration({ patientPhoto, ...patient }: IPatient
 
  export async function updatePatientProfileAction({patientPhoto, ...patientUpdate}: IPatient) {
     "use server";
+    console.log(patientUpdate)
   try {
       const {patientId, ...rest} = patientUpdate
         let file;
@@ -107,7 +108,7 @@ export async function patientRegistration({ patientPhoto, ...patient }: IPatient
               `/patients/update/${patientId}`,
               patientUpdateData
             );
-            console.log(data)
+            // console.log(data)
             return data;
         } catch (error:any) {
             console.log(error.response);
