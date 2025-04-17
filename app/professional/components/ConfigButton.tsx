@@ -1,4 +1,9 @@
 "use client";
+import { useEffect, useState } from "react";
+import Link from "next/link";
+import { apiServer } from "@/api/api-server";
+import { usePathname, useRouter } from "next/navigation";
+import Configuration from "./icons/Configuration";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -17,28 +22,35 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import Image from "next/image";
-import settingIcon from "@/public/assets/icons/settings.svg";
-import Link from "next/link";
-import { apiServer } from "@/api/api-server";
-import { useLocalStorage } from "@/utils";
-import { usePathname, useRouter } from "next/navigation";
-import Configuration from "./icons/Configuration";
+
+
 
 const ConfigButton = ({ id, component }: any) => {
   const pathname = usePathname();
   const router = useRouter();
   let path = pathname && pathname.split("/")[pathname.split("/").length - 1];
-  const [storedValue] = useLocalStorage("infoProfSession");
+  const [storedValue, setStoredValue ] = useState<any>(null);
+
+  useEffect(() => {
+    let data = localStorage.getItem("infoProfSession");
+    if (data) {
+      setStoredValue(JSON.parse(data));
+    }
+  }, []);
+  
 
   const deleteComponent = async (id: string) => {
-    const { data } = await apiServer.delete(
-      `/${component}/${id}/${storedValue.id}`
-    );
-    if (data.affected === 1 && path === "dashboard") {
-      router.push(`/professional/${component}`);
-    } else {
-      router.push(`/professional/dashboard`);
+    if(component === "patients"){
+      try {
+        const res = await apiServer.delete(`/patients/delete/${id}`);
+        console.log(res);
+        if (res.status === 200) {
+          router.push(`/professional/patients/${storedValue?.id}`);
+        }
+      } catch (error: any) {
+        console.log(error.response);
+      }
+      
     }
   };
   return (
@@ -71,11 +83,17 @@ const ConfigButton = ({ id, component }: any) => {
         <AlertDialogContent className="AlertDialogContent gap-5">
           <AlertDialogHeader className="w-[100%] gap-5 flex flex-col items-center justify-center">
             <AlertDialogTitle className="text-[24px] font-semibold">
-              Estás seguro de eliminar la institución?
+              {
+                component === "institution"
+                  ? "¿Estás seguro de eliminar la institución?"
+                  : "¿Estás seguro de eliminar el paciente?"
+              }
             </AlertDialogTitle>
             <AlertDialogDescription className="text-[18px] font-light ">
-              Ésta acción no se puede deshacer y eliminaría toda la información
-              relacionada a la institución
+              {
+                `Ésta acción no se puede deshacer y eliminaría toda la información
+              relacionada a${component === "institution" ? " la institución" : "l paciente"}`
+              }
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
