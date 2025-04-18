@@ -15,6 +15,7 @@ import {
   ChartTooltipContent,
 } from "@/components/ui/chart";
 import { filtrarByAgeRange } from "@/utils/getChartsHelpers";
+import { useActivefilter } from "@/utils/useActiveFilter";
 
 const chartConfig = {
   femenino: {
@@ -29,21 +30,22 @@ const chartConfig = {
 
 
 const PatientsByAge = ({patients} : any) => {
+  const activePatients = useActivefilter(patients);
 
-const patient20F = filtrarByAgeRange(patients, 20, 29, "F");
-const patient20M = filtrarByAgeRange(patients, 20, 29, "M");
-const patient30F = filtrarByAgeRange(patients, 30, 39, "F");
-const patient30M = filtrarByAgeRange(patients, 30, 39, "M");
-const patient40F = filtrarByAgeRange(patients, 40, 49, "F");
-const patient40M = filtrarByAgeRange(patients, 40, 49, "M");
-const patient50F = filtrarByAgeRange(patients, 50, 59, "F");
-const patient50M = filtrarByAgeRange(patients, 50, 59, "M");
-const patient60F = filtrarByAgeRange(patients, 60, 69, "F");
-const patient60M = filtrarByAgeRange(patients, 60, 69, "M");
-const patient70F = filtrarByAgeRange(patients, 70, 79, "F");
-const patient70M = filtrarByAgeRange(patients, 70, 79, "M");
-const patient80F = filtrarByAgeRange(patients, 80, 89, "F");
-const patient80M = filtrarByAgeRange(patients, 80, 89, "M");
+const patient20F = filtrarByAgeRange(activePatients, 20, 29, "F");
+const patient20M = filtrarByAgeRange(activePatients, 20, 29, "M");
+const patient30F = filtrarByAgeRange(activePatients, 30, 39, "F");
+const patient30M = filtrarByAgeRange(activePatients, 30, 39, "M");
+const patient40F = filtrarByAgeRange(activePatients, 40, 49, "F");
+const patient40M = filtrarByAgeRange(activePatients, 40, 49, "M");
+const patient50F = filtrarByAgeRange(activePatients, 50, 59, "F");
+const patient50M = filtrarByAgeRange(activePatients, 50, 59, "M");
+const patient60F = filtrarByAgeRange(activePatients, 60, 69, "F");
+const patient60M = filtrarByAgeRange(activePatients, 60, 69, "M");
+const patient70F = filtrarByAgeRange(activePatients, 70, 79, "F");
+const patient70M = filtrarByAgeRange(activePatients, 70, 79, "M");
+const patient80F = filtrarByAgeRange(activePatients, 80, 89, "F");
+const patient80M = filtrarByAgeRange(activePatients, 80, 89, "M");
 
   // data to render
 const chartData = [
@@ -55,6 +57,8 @@ const chartData = [
   { age: 70, femenino: patient70F.length, masculino: patient70M.length },
   { age: 80, femenino: patient80F.length, masculino: patient80M.length },
 ];
+
+
   return (
     <Card className="w-full z-40 mx-auto text-black bg-white lg:mx-0 h-[250px] lg:h-auto border border-[#E4E7EC] rounded-lg shadow-[0px_6px_15px_rgba(0,0,0,0.3)]">
       <CardHeader className="px-auto py-1">
