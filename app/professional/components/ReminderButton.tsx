@@ -2,7 +2,7 @@ import ReminderBell from './icons/ReminderBell'
 import { Drawer, DrawerContent, DrawerTrigger } from '@/components/ui/drawer'
 import AppointmentReminderForm from '@/components/forms/AppointmentReminderForm'
 import { Appointment } from '@/interfaces'
-const ReminderButton = ({ appointment }: { appointment: Appointment }) => {
+const ReminderButton = ({ appointment }: any) => {
 
   return (
     <Drawer>
