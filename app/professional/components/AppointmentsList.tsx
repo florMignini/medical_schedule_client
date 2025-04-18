@@ -82,17 +82,12 @@ const AppointmentsList = ({ appointments }: any) => {
               <DialogContent className="sm:max-w-[500px] h-[70%] bg-black/50 flex flex-col items-start justify-start text-white bg-opacity-50 p-4 rounded-lg shadow-md gap-5">
                 <DialogHeader className="w-[100%] flex items-center justify-center text-white">
                   <div className="flex items-center justify-between w-full">
-                    <DialogTitle className="w-[60%] font-light text-xl text-white">
+                    <DialogTitle className="w-[70%] font-light text-xl text-white text-start">
                       Detalles del Turno
                     </DialogTitle>
-                    <div className="w-[40%] flex items-center justify-center gap-2">
+                    <div className="w-[30%] flex items-center justify-center">
                       <ConfigAppointmentButton />
-
-                      {appointment && (
-                        <ReminderButton
-                          appointment={appointment}
-                        />
-                      )}
+Editar
                     </div>
                   </div>
                   <DialogDescription className="w-[100%] h-20 flex items-center justify-around gap-2 rounded-lg shadow-md bg-black/70">
