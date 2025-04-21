@@ -4,6 +4,7 @@ import { Roboto } from "next/font/google";
 import "./globals.css";
 import { cn } from "@/lib/utils";
 import { Provider } from "./providers";
+import { Toaster } from "@/components/ui/toaster";
 
 
 const PlusFont = Roboto({
@@ -35,7 +36,7 @@ export default function RootLayout({
         )}
       >
         {children}
-        
+        <Toaster/>
       </body>
     </html>
   );
