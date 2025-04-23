@@ -27,6 +27,24 @@ export async function createAppointment(appointmentData: ICreateAppointment) {
   }
 }
 
+export async function rescheduleAppointment(appointmentData: ICreateAppointment) {
+  "use server";
+  const {appointmentId, ...rest} = appointmentData
+  try {
+    const { data } = await apiServer.put(
+      `/appointment/reschedule-appointment/${appointmentId}`,
+      rest
+    );
+    return data;
+  } catch (error) {
+    if (error instanceof Error) {
+      console.log(error.message);
+    } else {
+      console.log(error);
+    }
+  }
+}
+
 export async function createProfessionalAppointmentRelation(IDs: IIDs) {
   const res = await apiServer.post(`/professional/add-appointment-relation`,IDs);
 }
