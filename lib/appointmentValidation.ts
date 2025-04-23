@@ -10,7 +10,7 @@ export const CreateAppointmentSchema = z.object({
   cancellationReason: z.string().optional(),
 });
 
-export const ScheduleAppointmentSchema = z.object({
+export const RescheduleAppointmentSchema = z.object({
   schedule: z.coerce.date(),
   reason: z.string().optional(),
   notes: z.string().optional(),
@@ -44,6 +44,6 @@ export function getAppointmentSchema(type: string) {
     case "cancel":
       return CancelAppointmentSchema;
     default:
-      return ScheduleAppointmentSchema;
+      return RescheduleAppointmentSchema;
   }
 }

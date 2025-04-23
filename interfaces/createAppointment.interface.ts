@@ -1,9 +1,9 @@
 export interface ICreateAppointment {
+  appointmentId?: string | undefined;
   schedule: Date;
   reason: string | undefined;
   notes: string | undefined;
-  // patientId: string,
-  // professionalId: string | undefined,
+  cancellationReason?: string | undefined;
 }
 
 export interface ICreatePastAppointment {
