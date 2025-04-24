@@ -1,23 +1,21 @@
 "use client";
 import React, { useState, useMemo, useEffect } from "react";
-import router, { useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { Form, FormControl } from "@/components/ui/form";
 import DinamicForm from "../DinamicForm";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { patientsUpdateValidationSchema, UpdateInstitutionSchema } from "@/lib";
+import { patientsUpdateValidationSchema } from "@/lib";
 import { z } from "zod";
 import SubmitButton from "../SubmitButton";
 import { useForm } from "react-hook-form";
 import { Label } from "../ui";
 import Icon from "../ui/icon";
 
-import uploadIcon from "../../public/assets/icons/upload.svg";
 import FileUploader from "../FileUploader";
-import Image from "next/image";
+
 
 import { Patient } from "@/interfaces";
 import {
-  updateInstitutionAction,
   updatePatientProfileAction,
 } from "@/app/actions";
 
@@ -53,7 +51,7 @@ import {
   DropdownMenuRadioItem,
   DropdownMenuTrigger,
 } from "../ui/dropdown-menu";
-import { type } from "node:os";
+
 type Props = {
   patientInfo: Patient;
 };
