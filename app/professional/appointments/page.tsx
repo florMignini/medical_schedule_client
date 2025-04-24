@@ -19,7 +19,7 @@ const Appointments = async () => {
   }: { appointmentsIncluded: AppointmentsIncluded[] } = data ?? {
     appointmentsIncluded: [],
   };
-console.log(appointmentsIncluded);
+
   return (
     <section className="w-full min-h-screen flex flex-col items-center justify-start gap-2 text-color">
       {/* Title */}

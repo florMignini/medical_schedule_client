@@ -21,11 +21,13 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import FollowUpForm from "@/components/forms/FollowUpForm";
+import NewAppointmentForm from "@/components/forms/NewAppointmentForm";
+import ReminderButton from "@/app/professional/components/ReminderButton";
 
 const PatientInfo = () => {
   const { patientId } = useParams<{ patientId: string }>();
   const [patientInfo, setPatientInfo] = useState<Patient>();
-console.log(patientInfo)
+ 
   useEffect(() => {
     async function fetchPatientInfo() {
       let res = await fetch(
@@ -39,6 +41,8 @@ console.log(patientInfo)
   const [dinamicPage, setDinamicPage] = useState<string>(
     "Informacion del Paciente"
   );
+ 
+  const [turnoOcita, setTurnoOcita] = useState<string | null>(null);
   //  skeleton
   if (!patientInfo) {
     return (
@@ -87,34 +91,48 @@ console.log(patientInfo)
               {/* rightside */}
 
               <div className="w-[95%] h-auto flex min-[768px]:flex-col justify-center gap-2">
-                <Link
-                  className="w-[60%] md:w-[50%] flex items-center justify-center bg-blue-700 p-1 rounded-lg cursor-pointer hover:scale-105 active:outline-none"
-                  href={`/professional/patients/${patientId}/new-appointment`}
-                >
-                  <p className="text-white max-[690px]:text-[11px] text-14-medium">
+                <DialogTrigger className="w-[60%] md:w-[50%] flex items-center justify-center bg-blue-700 p-1 rounded-lg cursor-pointer hover:scale-105 active:outline-none">
+                  <button
+                    className="text-white max-[690px]:text-[11px] text-14-medium"
+                    onClick={() => setTurnoOcita("Turno")}
+                  >
                     Crear turno
-                  </p>
-                </Link>
-
+                  </button>
+                </DialogTrigger>
                 {/* follow up dialog */}
                 <DialogTrigger
                   className="w-[60%] md:w-[50%] flex items-center justify-center bg-blue-700 px-5 py-1 rounded-lg cursor-pointer hover:scale-105 active:outline-none"
-                  asChild
                 >
-                  <button className="text-white max-[690px]:text-[10px] text-14-medium">
+                  <button
+                    className="text-white max-[690px]:text-[10px] text-14-medium"
+                    onClick={() => setTurnoOcita("Seguimiento")}
+                  >
                     Agregar seguimiento
                   </button>
                 </DialogTrigger>
                 <DialogContent className="w-[90%] bg-dark-200">
                   <DialogHeader>
-                    <DialogTitle className="font-bold text-3xl text-center text-gray-500">Crear seguimiento</DialogTitle>
+                    <DialogTitle className="w-full flex font-bold text-3xl items-center justify-between text-gray-500">
+                      {turnoOcita === "Turno"
+                        ? "Crear Turno"
+                        : "Agregar Seguimiento"}
+                     <div className="pr-5">
+                     {patientInfo?.appointmentsIncluded && (
+                        <ReminderButton appointment={patientInfo?.appointmentsIncluded} />
+                      )}
+                     </div>
+                    </DialogTitle>
                     <DialogDescription className="text-gray-500 text-start font-light text-base">
-                      Crear nuevo seguimiento al paciente
+                      {turnoOcita === "Turno"
+                        ? "Crear un nuevo turno para el paciente"
+                        : "Agregar un seguimiento para el paciente"}
                     </DialogDescription>
                   </DialogHeader>
-                  <FollowUpForm 
-                  patientId={patientId}
-                  />
+                  {turnoOcita === "Turno" ? (
+                    <NewAppointmentForm patientId={patientId} type="create" />
+                  ) : (
+                    <FollowUpForm patientId={patientId} />
+                  )}
                 </DialogContent>
               </div>
             </div>
@@ -144,9 +162,7 @@ console.log(patientInfo)
           ) : dinamicPage === "Historial de Citas" ? (
             <PastAppointments {...patientInfo} />
           ) : dinamicPage === "Seguimientos" ? (
-            <FollowUp
-            {...patientInfo}
-            />
+            <FollowUp {...patientInfo} />
           ) : (
             <div>Unknown dinamicPage</div>
           )}
