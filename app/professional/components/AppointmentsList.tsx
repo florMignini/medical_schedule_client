@@ -17,7 +17,6 @@ import ConfigAppointmentButton from "./ConfigAppointmentButton";
 import Image from "next/image";
 import PastAppointmentForm from "@/components/forms/PastAppointmentForm";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import ReminderButton from "./ReminderButton";
 
 const AppointmentsList = ({ appointments }: any) => {
   // loading state
@@ -26,8 +25,13 @@ const AppointmentsList = ({ appointments }: any) => {
   const [appointment, setAppointment] = useState<Appointment>();
   // patient info
   const [patient, setPatient] = useState<any>();
+  const [appointmentId, setAppointmentId] = useState<string>("");
   const { selectedDate } = useSelectedDate();
   const events = getTodayAppointments(appointments, selectedDate);
+const appointmentEdit = events.find(
+    (event: any) => event.appointment.id === appointmentId
+  );
+
   const handleAppintmentDetail = async (appointmentId: string) => {
     setLoading(true);
     try {
@@ -47,6 +51,7 @@ const AppointmentsList = ({ appointments }: any) => {
     dayjs(patient?.patient.birthDate),
     "year"
   );
+
   return (
     <Dialog>
       <div className="h-screen flex-1 justify-start items-start p-1">
@@ -60,7 +65,10 @@ const AppointmentsList = ({ appointments }: any) => {
                 <DialogTrigger asChild key={index}>
                   <button
                     className="w-full md:w-[98%] mx-auto p-1 gap-2 flex items-center justify-between hover:transition-shadow rounded-md mb-1 shadow-md hover:shadow-inner hover:shadow-[#cccccc] text-gray-700"
-                    onClick={() => handleAppintmentDetail(event.appointment.id)}
+                    onClick={() => {
+                      setAppointmentId(event.appointment.id);
+                      handleAppintmentDetail(event.appointment.id)
+                    }}
                   >
                     {/* TIME */}
                     <div className="w-[30%] flex items-center justify-center font-semibold">
@@ -86,8 +94,10 @@ const AppointmentsList = ({ appointments }: any) => {
                       Detalles del Turno
                     </DialogTitle>
                     <div className="w-[30%] flex items-center justify-center">
-                      <ConfigAppointmentButton />
-Editar
+                      <ConfigAppointmentButton
+                      id={appointmentId}
+                      appointment={appointmentEdit}
+                      />
                     </div>
                   </div>
                   <DialogDescription className="w-[100%] h-20 flex items-center justify-around gap-2 rounded-lg shadow-md bg-black/70">
