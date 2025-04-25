@@ -85,7 +85,9 @@ const Calendar = ({ appointments }: any) => {
 
           return (
             <button
-              className="cursor-pointer flex items-start w-full h-20 glass-effect border rounded-md mx-auto"
+              className={
+                `cursor-pointer flex items-start w-full h-20  border rounded-md mx-auto ${dayEvents.length > 0 ? "bg-green-500" : "bg-black/10"} ` 
+              }
               key={idx}
               onClick={() => {
                 const newDate = dayjs(`${currentYear}-${currentMonth + 1}-${day}`).toDate();
@@ -94,11 +96,11 @@ const Calendar = ({ appointments }: any) => {
                 }
               }}
             >
-              <div className="flex flex-col items-end justify-start w-full h-full">
+              <div className="flex flex-col rounded-lg p-1 items-end justify-start w-full h-full">
               <h1 className="font-bold text-black text-end">{day}</h1>
               {dayEvents.length > 0 && (
-                <div className="flex items-center justify-center size-8 bg-black text-white font-bold rounded-full border-[1px] border-black p-1">
-                  {dayEvents.length}
+                <div className="flex items-center justify-center  text-white text-xl font-bold p-1">
+                  <p className="text-base font-bold text-center">{dayEvents.length} {dayEvents.length > 1 ? "turnos" : "turno"}</p>
                 </div>
               )}
               </div>
