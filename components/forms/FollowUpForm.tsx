@@ -141,10 +141,10 @@ const FollowUpForm = ({ patientId }: { patientId: string }) => {
       >
         {/* personal information */}
         <div className="mb-5 text-gray-500">
-          <div className="flex px-2 gap-2 mb-5">
+          {/* <div className="flex px-2 gap-2 mb-5">
             <div className="h-5 border-x-2 border-gray-500" />
             <h1 className="text-16-semibold text-">Información Personal</h1>
-          </div>
+          </div> */}
           <div>
             <Label>Fecha del seguimiento</Label>
             <DinamicForm
