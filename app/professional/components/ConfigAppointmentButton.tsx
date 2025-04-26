@@ -17,82 +17,120 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import Image from "next/image";
-import settingIcon from "@/public/assets/icons/settings.svg";
-import Link from "next/link";
-import { apiServer } from "@/api/api-server";
-import { useLocalStorage } from "@/utils";
-import { usePathname, useRouter } from "next/navigation";
-import Configuration from "./icons/Configuration";
-import EditIcon from "./icons/EditIcon";
 
-const ConfigAppointmentButton = ({ id, component }: any) => {
+import { apiServer } from "@/api/api-server";
+import { usePathname, useRouter } from "next/navigation";
+import EditIcon from "./icons/EditIcon";
+import { Dialog } from "@/components/ui/dialog";
+
+import { useState } from "react";
+import RescheduleAppointmentForm from "@/components/forms/RescheduleAppointmentForm";
+
+const ConfigAppointmentButton = ({ id, component, appointment }: any) => {
+
   const pathname = usePathname();
   const router = useRouter();
+  const [status, setStatus] = useState<string | null>(null);
   let path = pathname && pathname.split("/")[pathname.split("/").length - 1];
-  const [storedValue] = useLocalStorage("infoProfSession");
 
-  const deleteComponent = async (id: string) => {
-    const { data } = await apiServer.delete(
-      `/${component}/${id}/${storedValue.id}`
-    );
-    if (data.affected === 1 && path === "dashboard") {
-      router.push(`/professional/${component}`);
-    } else {
-      router.push(`/professional/dashboard`);
+  const [deleteError, setDeleteError] = useState<string | null>(null);
+
+  const deleteAppointment = async (id: string) => {
+    try {
+      const { data } = await apiServer.delete(
+        `/appointment/delete-appointment/${id}`
+      );
+      if (data) {
+        router.push(`/professional/appointments`);
+        router.refresh();
+      }
+    } catch (error) {
+      console.error("Error deleting appointment", error);
+      setDeleteError(`No se pudo eliminar el turno`);
     }
   };
+
+  setTimeout(() => {
+    setDeleteError(null);
+  }, 5000);
+
   return (
-    <AlertDialog>
-      <DropdownMenu>
-        <DropdownMenuTrigger asChild>
-          <button className="w-[25%] flex items-center justify-center bg-transparent text-gray-400">
-          <EditIcon width={20} height={20}/>
-          </button>
-        </DropdownMenuTrigger>
-        <DropdownMenuContent className="backdrop-blur-lg bg-black/30 min-w-[170px]">
-          <DropdownMenuItem className="w-[90%]">
-            <Link
-              href={``}
-              className="text-[16px] flex items-center justify-start text-white"
-            >
-              Editar turno
-            </Link>
-          </DropdownMenuItem>
-          <AlertDialogTrigger>
-            <DropdownMenuItem className="w-full mx-auto">
-              <button className="text-base flex items-center justify-start text-red-400">
-                Eliminar turno
-              </button>
-            </DropdownMenuItem>
-          </AlertDialogTrigger>
-        </DropdownMenuContent>
-      </DropdownMenu>
-      <AlertDialogOverlay className="bg-transparent backdrop-blur-[2px]">
-        <AlertDialogContent className="AlertDialogContent gap-5">
-          <AlertDialogHeader className="w-[100%] gap-5 flex flex-col items-center justify-center">
-            <AlertDialogTitle className="text-[24px] font-semibold">
-              Estás seguro de eliminar el turno?
-            </AlertDialogTitle>
-            <AlertDialogDescription className="text-[18px] font-light ">
-              Ésta acción no se puede deshacer y eliminaría toda la información
-              relacionada al turno
-            </AlertDialogDescription>
-          </AlertDialogHeader>
-          <AlertDialogFooter>
-            <AlertDialogCancel className="bg-black/15 text-light-200  outline-none">
-              Cancelar
-            </AlertDialogCancel>
-            <AlertDialogAction
-              className="bg-black/15 text-light-200"
-              onClick={() => deleteComponent(id)}
-            >
-              Continuar
-            </AlertDialogAction>
-          </AlertDialogFooter>
-        </AlertDialogContent>
-      </AlertDialogOverlay>
-    </AlertDialog>
+    <Dialog>
+      <AlertDialog>
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <button className="w-[40%] flex items-center justify-center bg-transparent gap-2 text-gray-400">
+              <EditIcon width={20} height={20} />
+              <p className="text-xs">Editar</p>
+            </button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent className="backdrop-blur-lg bg-black/30 min-w-[170px] flex flex-col items-center justify-center rounded-lg shadow-md">
+            <AlertDialogTrigger>
+              <DropdownMenuItem className="w-[90%]">
+                <button
+                  className="text-sm flex items-center justify-start text-white"
+                  onClick={() => setStatus("reschedule")}
+                >
+                  Reprogramar turno
+                </button>
+              </DropdownMenuItem>
+            </AlertDialogTrigger>
+            <AlertDialogTrigger>
+              <DropdownMenuItem className="w-full mx-auto">
+                <button
+                  className="text-sm flex items-center justify-start text-red-400"
+                  onClick={() => setStatus("delete")}
+                >
+                  Cancelar turno
+                </button>
+              </DropdownMenuItem>
+            </AlertDialogTrigger>
+          </DropdownMenuContent>
+        </DropdownMenu>
+        <AlertDialogOverlay className="bg-transparent backdrop-blur-[2px]">
+          {status && (
+            <AlertDialogContent className="AlertDialogContent gap-5">
+              <AlertDialogHeader className="w-[100%] gap-5 flex flex-col items-center justify-center">
+                <AlertDialogTitle className="text-[24px] font-semibold">
+                  {status === "reschedule"
+                    ? "Reprogramar turno"
+                    : "Cancelar turno"}
+                </AlertDialogTitle>
+                <AlertDialogDescription className="text-[18px] font-light ">
+                  {status === "reschedule" ? (
+                    <RescheduleAppointmentForm 
+                    appointment={appointment}
+                    id={id} />
+                  ) : (
+                    `Ésta acción no se puede deshacer y eliminaría toda la
+                      información relacionada al turno`
+                  )}
+                </AlertDialogDescription>
+              </AlertDialogHeader>
+              {status === "delete" ? (
+                <AlertDialogFooter>
+                  <AlertDialogCancel className="bg-black/15 text-light-200  outline-none">
+                    Cancelar
+                  </AlertDialogCancel>
+                  <AlertDialogAction
+                    className="bg-black/15 text-light-200"
+                    onClick={() => deleteAppointment(id)}
+                  >
+                    Continuar
+                  </AlertDialogAction>
+                </AlertDialogFooter>
+              ) : (
+                <AlertDialogFooter>
+                  <AlertDialogCancel className="bg-black/15 text-light-200  outline-none">
+                    Cancelar
+                  </AlertDialogCancel>
+                </AlertDialogFooter>
+              )}
+            </AlertDialogContent>
+          )}
+        </AlertDialogOverlay>
+      </AlertDialog>
+    </Dialog>
   );
 };
 
