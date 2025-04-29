@@ -77,6 +77,7 @@ const NewAppointmentForm = ({
         form.reset();
         setLoading(false);
         router.push("/professional/appointments");
+        router.refresh();
       }
     } catch (error: any) {
       console.error(error);
@@ -102,36 +103,41 @@ const NewAppointmentForm = ({
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6 flex-1">
-        <section className="mb-12 space-y-4">
-          <h3 className="header">Crear nuevo turno</h3>
-        </section>
+        
         {type !== "cancel" && (
           <>
             {/* pick date */}
+            <div className="flex flex-col gap-1">
+              <label className="text-gray-500">Fecha del turno</label>
             <DinamicForm
               fieldType={FormFieldType.DATE_PICKER}
               control={form.control}
               name="schedule"
-              label="Fecha del Turno"
               showTimeSelect
               defaultValue={new Date()}
               dateFormat="dd/MM/yyyy - h:mm aa"
             />
+            </div>
             <div className="flex flex-col gap-5 xl:flex-row">
-              <DinamicForm
+             <div className="flex flex-col gap-1">
+              <label className="text-gray-500">Motivo de la consulta</label>
+             <DinamicForm
                 fieldType={FormFieldType.TEXTAREA}
                 control={form.control}
                 name="reason"
-                label="Motivo de la consulta"
                 placeholder="Ingrese el motivo de la consulta"
               />
+             </div>
+             <div className="flex flex-col gap-1">
+              <label className="text-gray-500">Información adicional</label>
               <DinamicForm
                 fieldType={FormFieldType.TEXTAREA}
                 control={form.control}
                 name="notes"
-                label="Información adicional"
-                placeholder="Ingrese innformación adicional"
+                placeholder="Ingrese información adicional"
               />
+             </div>
+              
             </div>
           </>
         )}
