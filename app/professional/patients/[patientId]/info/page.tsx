@@ -23,17 +23,18 @@ import {
 import FollowUpForm from "@/components/forms/FollowUpForm";
 import NewAppointmentForm from "@/components/forms/NewAppointmentForm";
 import ReminderButton from "@/app/professional/components/ReminderButton";
+import { apiServer } from "../../../../../api/api-server";
 
 const PatientInfo = () => {
   const { patientId } = useParams<{ patientId: string }>();
   const [patientInfo, setPatientInfo] = useState<Patient>();
- 
+
   useEffect(() => {
     async function fetchPatientInfo() {
-      let res = await fetch(
-        `http://localhost:3001/api/patients/get-patient/${patientId}`
+      let {data} = await apiServer.get(
+        `https://medical-schedule-server.onrender.com/api/patients/get-patient/${patientId}`
       );
-      let data = await res.json();
+
       setPatientInfo(data);
     }
     fetchPatientInfo();

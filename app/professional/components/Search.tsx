@@ -16,30 +16,30 @@ const Search = ({ path }: any) => {
   const [result, setResult] = useState<any>([]);
 
   //search
-  useEffect(() => {
-    if (path !== "dashboard") {
-      setLoading(true);
-      const fetchSearchData = async () => {
-        const { data } = await apiServer.get(`/${path}/search?value=${value}`);
-        setResult(data);
-        setLoading(false);
-      };
-      fetchSearchData();
-    } else {
-      setLoading(true);
-      const fetchFullSearchData = async () => {
-        const resPatient = await apiServer.get(
-          `/patients/search?value=${value}`
-        );
-        const resInstitution = await apiServer.get(
-          `/institutions/search?value=${value}`
-        );
-        setResult(resInstitution.data.concat(resPatient.data));
-        setLoading(false);
-      };
-      fetchFullSearchData();
-    }
-  }, [value, path]);
+  // useEffect(() => {
+  //   if (path !== "dashboard") {
+  //     setLoading(true);
+  //     const fetchSearchData = async () => {
+  //       const { data } = await apiServer.get(`/${path}/search?value=${value}`);
+  //       setResult(data);
+  //       setLoading(false);
+  //     };
+  //     fetchSearchData();
+  //   } else {
+  //     setLoading(true);
+  //     const fetchFullSearchData = async () => {
+  //       const resPatient = await apiServer.get(
+  //         `/patients/search?value=${value}`
+  //       );
+  //       const resInstitution = await apiServer.get(
+  //         `/institutions/search?value=${value}`
+  //       );
+  //       setResult(resInstitution.data.concat(resPatient.data));
+  //       setLoading(false);
+  //     };
+  //     fetchFullSearchData();
+  //   }
+  // }, [value, path]);
 
   const clearInput = () => {
     setQuery("");

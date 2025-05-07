@@ -27,7 +27,7 @@ const AppointmentsList = ({ appointments }: any) => {
   const [patient, setPatient] = useState<any>();
   const [appointmentId, setAppointmentId] = useState<string>("");
   const { selectedDate } = useSelectedDate();
-  const events = getTodayAppointments(appointments, selectedDate);
+  const events = getTodayAppointments(appointments, selectedDate || new Date());
 const appointmentEdit = events.find(
     (event: any) => event.appointment.id === appointmentId
   );

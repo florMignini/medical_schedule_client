@@ -86,7 +86,6 @@ const PatientRegistrationForm = () => {
       familyMedicalHistory: "",
       pastMedicalHistory: "",
       currentMedication: "",
-      medicalHistory: "",
       medicalHistoryType: "Clinico",
       patientHeight: "",
       patientWeight: "",
@@ -120,6 +119,7 @@ const PatientRegistrationForm = () => {
         isActive: true,
       };
       // @ts-ignore
+      console.log("patientData", patientData);
       const response = await patientRegistration(patientData);
 
       if (profData) {

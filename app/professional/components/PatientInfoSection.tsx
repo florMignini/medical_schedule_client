@@ -225,16 +225,7 @@ export const PatientInfoSection = (patientInfo: Patient) => {
             </Label>
             <h6 className="text-[12px] md:text-[14px]">{medicalHistoryType}</h6>
           </div>
-           {/* medical history  */}
-           <div className="flex flex-col">
-            <Label
-              htmlFor="family medical history"
-              className="font-light text-[13px] text-gray-600"
-            >
-              Antecedentes Médicos
-            </Label>
-            <h6 className="text-[12px] md:text-[14px]">{medicalHistory === "" ? pastMedicalHistory : medicalHistory}</h6>
-          </div>
+           
         </div>
       </div>
     </section>
