@@ -38,7 +38,7 @@ const ConfigAppointmentButton = ({ id, component, appointment }: any) => {
   const deleteAppointment = async (id: string) => {
     try {
       const { data } = await apiServer.delete(
-        `/appointment/delete-appointment/${id}`
+        `https://medical-schedule-server.onrender.com/api/appointment/delete-appointment/${id}`
       );
       if (data) {
         router.push(`/professional/appointments`);
