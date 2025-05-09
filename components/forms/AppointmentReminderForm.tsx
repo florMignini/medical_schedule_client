@@ -55,7 +55,7 @@ const AppointmentReminderForm: React.FC<ReminderFormProps> = ({
         scheduledFor: values.scheduledFor.toISOString(),
       };
 
-      const response = await createReminder(reminderData);
+      const response = await createReminder(reminderData) as { id: string };
 
       if (response) {
               const IDs = {
