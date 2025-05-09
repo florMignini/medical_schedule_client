@@ -20,7 +20,7 @@ import ConfigButton from "@/app/professional/components/ConfigButton";
 import IsActiveLink from "@/app/professional/components/icons/IsActiveLink";
 
 const page = async () => {
-  let { data } = await apiServer.get(`/professional/get-all-professionals`);
+  let { data } = await apiServer.get<ProfessionalInformation[]>(`/professional/get-all-professionals`);
   return (
     <section className="w-full h-screen flex flex-col items-center justify-start gap-2 text-color">
       {/* Title */}
@@ -33,9 +33,9 @@ const page = async () => {
         <div className="w-[50%] flex items-center justify-start gap-2">
           <User height={25} width={25} />
           <div className="text-[14px] font-semibold md:text-18-bold flex items-center justify-start gap-1 ">
-            <h1 className="">{data.length}</h1>
+            <h1 className="">{data?.length}</h1>
             <p className="">
-              {data.length < 2 ? `professional` : `professionals`}
+              {data?.length < 2 ? `professional` : `professionals`}
             </p>
           </div>
         </div>
