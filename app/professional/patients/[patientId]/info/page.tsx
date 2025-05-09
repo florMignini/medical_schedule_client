@@ -31,11 +31,11 @@ const PatientInfo = () => {
 
   useEffect(() => {
     async function fetchPatientInfo() {
-      let {data} = await apiServer.get(
+      let {data} = await apiServer.get<Patient>(
         `https://medical-schedule-server.onrender.com/api/patients/get-patient/${patientId}`
       );
 
-      setPatientInfo(data);
+      setPatientInfo(data as Patient);
     }
     fetchPatientInfo();
   }, [patientId]);
