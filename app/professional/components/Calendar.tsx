@@ -1,20 +1,23 @@
 "use client";
 import { useState } from "react";
 import dayjs from "dayjs";
-
+import { CalendarX, PartyPopper } from "lucide-react"
 
 import { Patient } from "@/interfaces";
-
 
 import ArrowRight from "./icons/ArrowRight";
 import ArrowLeft from "./icons/ArrowLeft";
 
 import { useSelectedDate } from "@/utils/useSelectedDate";
+import { useHolidays } from "@/hooks/useHolidays";
+import { Tooltip,TooltipContent,/*  TooltipContent, TooltipContent, */ TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 
 const Calendar = ({ appointments }: any) => {
-  const {selectedDate, setSelectedDate } = useSelectedDate();
+  const { selectedDate, setSelectedDate } = useSelectedDate();
   const [currentMonth, setCurrentMonth] = useState(dayjs().month());
   const [currentYear, setCurrentYear] = useState(dayjs().year());
+  //useHolidays
+  const holidays = useHolidays();
 
   // patient info
   const [patient, setPatient] = useState<Patient>();
@@ -72,41 +75,85 @@ const Calendar = ({ appointments }: any) => {
           <div className="bg-white/35 rounded-lg" key={idx}></div>
         ))}
         {/* Days of the week */}
-        {Array.from({ length: daysInMonth }).map((_, idx) => {
+       <TooltipProvider>
+       {Array.from({ length: daysInMonth }).map((_, idx: number) => {
           const day = idx + 1;
-          const date = dayjs(
-            `${currentYear}-${currentMonth + 1}-${day}`
-          ).format("DD-MM-YYYY");
+          const date = dayjs(`${currentYear}-${currentMonth + 1}-${day}`);
+          const formattedDate = date.format("DD-MM-YYYY");
+          const isHoliday = holidays.some(
+            (holiday: any) => {
+              return dayjs(holiday.fecha).format("DD-MM") === date.format("DD-MM")
+            }
+          );
           const dayEvents = appointments.filter(
             (appointment: any) =>
               dayjs(appointment.appointment.schedule).format("DD-MM-YYYY") ===
-              date
+              formattedDate
           );
 
+          const isSelected = dayjs(selectedDate).isSame(date, "day");
           return (
             <button
-              className={
-                `cursor-pointer flex items-start w-full h-20  border rounded-md mx-auto ${dayEvents.length > 0 ? "bg-green-500" : "bg-black/10"} ` 
-              }
+              className={`cursor-pointer flex items-start w-full h-20 border rounded-md mx-auto
+        ${
+          isHoliday
+            ? "bg-red-300 cursor-not-allowed"
+            : dayEvents.length > 0
+            ? "bg-green-500"
+            : "bg-black/10"
+        }
+        ${isSelected && !isHoliday ? "ring-2 ring-black" : ""}
+      `}
               key={idx}
               onClick={() => {
-                const newDate = dayjs(`${currentYear}-${currentMonth + 1}-${day}`).toDate();
-                if (!dayjs(selectedDate).isSame(newDate, "day")) {
-                  setSelectedDate(newDate);
+                if (!isHoliday) {
+                  const newDate = date.toDate();
+                  if (!isSelected) {
+                    setSelectedDate(newDate);
+                  }
                 }
               }}
+              disabled={isHoliday}
             >
               <div className="flex flex-col rounded-lg p-1 items-end justify-start w-full h-full">
-              <h1 className="font-bold text-black text-end">{day}</h1>
-              {dayEvents.length > 0 && (
-                <div className="flex items-center justify-center  text-white text-xl font-bold p-1">
-                  <p className="text-base font-bold text-center">{dayEvents.length} {dayEvents.length > 1 ? "turnos" : "turno"}</p>
-                </div>
-              )}
+                <h1 className="font-bold text-black text-end">{day}</h1>
+
+                {dayEvents.length > 0 && (
+                  <div className="flex items-end justify-end text-white text-xl font-bold p-1 flex-col">
+                    <p className="text-base font-bold text-center">
+                      {dayEvents.length}
+                    </p>
+                    <p className="hidden min-[900px]:flex text-base font-bold text-end">
+                      {dayEvents.length > 1 ? "turnos" : "turno"}
+                    </p>
+                  </div>
+                )}
+
+                {isHoliday && (
+              
+                  <Tooltip key={idx}>
+                    <TooltipTrigger asChild>
+                      <p className="text-xs text-red-700 font-semibold text-end w-full">
+                        Feriado
+                      </p>
+                    </TooltipTrigger>
+                    {/* <TooltipContent className="flex items-center justify-start ml-5 flex-col w-auto h-auto p-2 backdrop-blur-lg">
+                    {
+                      holidays[idx] && typeof holidays[idx] !== 'string' && (
+                        <>
+                          <p className="font-semibold">{holidays[idx].nombre}</p>
+                          <p className="text-xs">{holidays[idx].tipo === 'inamovible' ? <CalendarX className="w-4 h-4 text-red-500" /> : <PartyPopper className="w-4 h-4 text-red-500" />}</p>
+                        </>
+                      )
+                    }
+                    </TooltipContent> */}
+                  </Tooltip>
+                )}
               </div>
             </button>
           );
         })}
+       </TooltipProvider>
       </div>
     </div>
   );
