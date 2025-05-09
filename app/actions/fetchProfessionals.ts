@@ -5,7 +5,7 @@ import { apiServer } from "@/api/api-server";
 export async function fetchProfessionals() {
   "use server";
   try {
-    const res = await apiServer.get(`/professionals/get-all-professionals`);
+    const res = await apiServer.get(`/professional/get-all-professionals`);
 
     return res;
   } catch (error) {
