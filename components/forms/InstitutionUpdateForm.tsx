@@ -78,7 +78,7 @@ const InstitutionUpdateForm = (institutionInfo: ICreateInstitution) => {
           formData !== undefined ? formData : institutionInfo.institutionImage,
       };
 
-      const response = await updateInstitutionAction(updateInstitutionData);
+      const response = await updateInstitutionAction(updateInstitutionData) as { id: string };
       if (response) {
         setLoading(false);
         router.push(`/professional/institutions`);

@@ -62,7 +62,7 @@ const FollowUpForm = ({ patientId }: { patientId: string }) => {
 
     try {
 
-      const response: any = await createFollowUp(values);
+      const response = await createFollowUp(values) as { id: string };
       if (response) {
         const professionalIDs = {
           professional: professionalId?.id,
@@ -88,7 +88,7 @@ const FollowUpForm = ({ patientId }: { patientId: string }) => {
           reason: values.currentSymptoms,
           notes: values.notes,
         };
-        const appointmentResponse = await createAppointment(appointmentData);
+        const appointmentResponse = await createAppointment(appointmentData) as { id: string };
         if (appointmentResponse) {
           const professionalIDs = {
             professional: professionalId?.id,

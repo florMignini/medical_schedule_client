@@ -29,6 +29,10 @@ type professionalType = {
     gender: string;
 }
 
+type InstitutionResponse = {
+  id: string;
+};
+
 const InstitutionRegisterForm = () => {
 const [professional, setProfessional] = useState<professionalType>()
 const [loading, setLoading] = useState(false);
@@ -76,7 +80,7 @@ const [isThereAnImage, setIsTthereAnImage] = useState<boolean>(false);
             institutionImage: formData,
           };
 
-          const response = await createNewInstitution(newInstitutionData);
+          const response = await createNewInstitution(newInstitutionData) as InstitutionResponse;
     
           if (response) {
             const IDs = {

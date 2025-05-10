@@ -21,6 +21,11 @@ export type professionalDataType = {
   firstname: string;
   lastname: string;
 };
+
+type AppointmentResponse = {
+  id: string;
+};
+
 const NewAppointmentForm = ({
   type,
   patientId,
@@ -57,7 +62,7 @@ const NewAppointmentForm = ({
         reason: values.reason,
         notes: values.notes,
       };
-      const response = await createAppointment(appointmentData);
+      const response = await createAppointment(appointmentData) as AppointmentResponse;
 
       if (response) {
         const professionalIDs = {

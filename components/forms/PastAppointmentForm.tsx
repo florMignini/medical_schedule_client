@@ -61,7 +61,7 @@ const PastAppointmentForm = ({ patient, appointment }: any) => {
         scheduled: appointment.schedule,
         patientAttachedFilesUrl: dataArr,
       };
-      const response: any = await createPastAppointment(pastAppointmentData);
+      const response: any = await createPastAppointment(pastAppointmentData) as {id:string};
 
       if (response !== undefined) {
         const IDs = {
