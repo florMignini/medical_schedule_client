@@ -18,7 +18,7 @@ export const getAppointmentDetail = async (
   appointmentId: string
 ): Promise<appointmentResult | undefined> => {
   try {
-    const { data } = await apiServer(
+    const { data } = await apiServer.get<appointmentResult>(
       `https://medical-schedule-server.onrender.com/api/appointment/get-appointment/${appointmentId}`
     );
     return data;
