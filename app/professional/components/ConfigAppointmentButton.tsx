@@ -35,10 +35,12 @@ const ConfigAppointmentButton = ({ id, component, appointment }: any) => {
 
   const [deleteError, setDeleteError] = useState<string | null>(null);
 
-  const deleteAppointment = async (id: string) => {
+  const deleteAppointment = async (idOrAppointment: string | any) => {
     try {
+      const appointmentId = typeof idOrAppointment === 'string' ? idOrAppointment : idOrAppointment._id;
+      
       const { data } = await apiServer.delete(
-        `https://medical-schedule-server.onrender.com/api/appointment/delete-appointment/${id}`
+        `https://medical-schedule-server.onrender.com/api/appointment/delete-appointment/${appointmentId}`
       );
       if (data) {
         router.push(`/professional/appointments`);
@@ -89,9 +91,9 @@ const ConfigAppointmentButton = ({ id, component, appointment }: any) => {
         </DropdownMenu>
         <AlertDialogOverlay className="bg-transparent backdrop-blur-[2px]">
           {status && (
-            <AlertDialogContent className="AlertDialogContent gap-5">
+            <AlertDialogContent className="bg-white/15 backdrop-blur-[5px] gap-5">
               <AlertDialogHeader className="w-[100%] gap-5 flex flex-col items-center justify-center">
-                <AlertDialogTitle className="text-[24px] font-semibold">
+                <AlertDialogTitle className="text-[24px] text-white font-semibold">
                   {status === "reschedule"
                     ? "Reprogramar turno"
                     : "Cancelar turno"}
@@ -100,10 +102,10 @@ const ConfigAppointmentButton = ({ id, component, appointment }: any) => {
                   {status === "reschedule" ? (
                     <RescheduleAppointmentForm 
                     appointment={appointment}
-                    id={id} />
+                    id={appointment.appointment.id || id} />
                   ) : (
-                    `Ésta acción no se puede deshacer y eliminaría toda la
-                      información relacionada al turno`
+                    <h2 className="text-red-500 font-bold">Ésta acción no se puede deshacer y eliminaría toda la
+                      información relacionada al turno</h2>
                   )}
                 </AlertDialogDescription>
               </AlertDialogHeader>
@@ -114,7 +116,7 @@ const ConfigAppointmentButton = ({ id, component, appointment }: any) => {
                   </AlertDialogCancel>
                   <AlertDialogAction
                     className="bg-black/15 text-light-200"
-                    onClick={() => deleteAppointment(id)}
+                    onClick={() => deleteAppointment(appointment.appointment.id || id)}
                   >
                     Continuar
                   </AlertDialogAction>
