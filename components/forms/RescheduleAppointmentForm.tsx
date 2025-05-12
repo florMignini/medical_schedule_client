@@ -66,7 +66,8 @@ const RescheduleAppointmentForm = ({ id, appointment }: Props) => {
           description: "El turno ha sido reprogramado correctamente",
           duration: 2000,
         });
-        router.push("/professional/dashboard");
+        form.reset();
+        router.push("/professional/appointments");
         router.refresh();
       }
     } catch (error) {
@@ -78,16 +79,16 @@ const RescheduleAppointmentForm = ({ id, appointment }: Props) => {
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit)}
-        className="w-[100%] space-y-6 flex-1"
+        className="w-full space-y-6 flex-1"
       >
         <div className="flex px-2 gap-2 mb-5">
           <div className="h-5 border-x-2 border-black" />
           <h1 className="text-16-semibold">Reasignar turno</h1>
         </div>
-        <div className="mb-5 space-y-4 flex flex-wrap items-center justify-center lg:grid lg:grid-cols-[40%,60%] gap-2">
+        <div className="w-full mb-5 space-y-4 flex flex-wrap items-center justify-center gap-2">
           <div className="w-[95%]">
             {/* name & lastname */}
-            <div className="flex gap-2 mb-2">
+            <div className="w-full flex gap-2 mb-2">
               <DinamicForm
                 fieldType={FormFieldType.INPUT}
                 control={form.control}

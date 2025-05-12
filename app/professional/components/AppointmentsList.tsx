@@ -7,7 +7,12 @@ import { Appointment, AppointmentsIncluded } from "@/interfaces";
 import { getTodayAppointments } from "@/utils/getTodayAppointments";
 import { getAppointmentDetail } from "@/utils/getAppointmentDetail";
 import { useSelectedDate } from "@/utils/useSelectedDate";
-
+import ConfigAppointmentButton from "./ConfigAppointmentButton";
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
+import ReminderButton from "./ReminderButton";
+import NewAppointmentForm from "@/components/forms/NewAppointmentForm";
+import FollowUpForm from "@/components/forms/FollowUpForm";
 
 const AppointmentsList = ({ appointments }: any) => {
   // loading state
@@ -17,12 +22,13 @@ const AppointmentsList = ({ appointments }: any) => {
   // patient info
   const [patient, setPatient] = useState<any>();
   const [appointmentId, setAppointmentId] = useState<string>("");
+
   const { selectedDate } = useSelectedDate();
   const events = getTodayAppointments(appointments, selectedDate || new Date());
   const appointmentEdit = events.find(
     (event: any) => event.appointment.id === appointmentId
   );
-
+const [turnoOcita, setTurnoOcita] = useState<string>("");
   // get time slots
   const timeSlots = useMemo(() => {
     const slots = [];
@@ -56,11 +62,6 @@ const AppointmentsList = ({ appointments }: any) => {
       setLoading(false);
     }
   };
-  const today = new Date();
-  const patientAge = dayjs(today).diff(
-    dayjs(patient?.patient.birthDate),
-    "year"
-  );
 
   const getRandomHue = () => Math.floor(Math.random() * 180) + 180; // Range from 180 to 240 for muted blues/teals
   const getSlotColor = (hue: number) => `hsla(${hue}, 40%, 90%, 0.8)`; // Reduced saturation to 40%, increased lightness to 90%
@@ -81,22 +82,39 @@ const AppointmentsList = ({ appointments }: any) => {
           return (
             <div
               key={i}
-              className="w-full h-[80px] border-[1px] flex items-center text-black text-sm cursor-pointer rounded-md mb-1"
-              style={{ backgroundColor: slotColor, borderColor }}
+              className="w-full h-[80px] border-b-[1px] border-t-[1px] flex items-center text-black text-sm cursor-pointer mb-1"
+              style={{
+                backgroundColor: appt ? slotColor : "transparent",
+                borderColor: appt ? borderColor : "inherit",
+              }}
             >
               {/* appointment info card */}
               <div className="flex w-full px-2 gap-2 items-center justify-center">
                 <span className="text-sm ">{format(time, "HH:mm")}</span>
-                <div className={`h-16 border-x-[2px]`} style={{ borderColor }} />
+                <div
+                  className={`h-16 border-x-[2px]`}
+                  style={{ borderColor: appt ? borderColor : "inherit" }}
+                />
                 {appt ? (
-                  <div className="w-full flex-col border-none h-[80px] flex items-start justify-center">
+                  <div
+                    className="w-full flex-col border-none h-[80px] flex items-start justify-center"
+                    style={{
+                      backgroundColor: slotColor,
+                      borderColor: borderColor,
+                    }}
+                  >
                     <div className="w-full flex flex-col items-start justify-start">
-                      <p className="font-bold">{appt.appointment.notes}</p>
-                      <p className="text-sm text-muted-foreground">
+                      <div className="w-full h-3 pt-1 flex items-center justify-end">
+                        <ConfigAppointmentButton appointment={appt} />
+                      </div>
+                      <p className="font-bold truncate">
+                        {appt.appointment.notes}
+                      </p>
+                      <p className="text-xs min-[1024px]:text-sm text-muted-foreground truncate">
                         {appt.appointment.reason}
                       </p>
                     </div>
-                    <div className="text-sm text-muted-foreground text-start">
+                    <div className="text-xs min-[1024px]:text-sm text-muted-foreground text-start">
                       {`${format(
                         new Date(appt.appointment.schedule),
                         "HH:mm"
@@ -107,13 +125,61 @@ const AppointmentsList = ({ appointments }: any) => {
                     </div>
                   </div>
                 ) : (
-                  // Espacio libre
-                  <button
-                    // onClick={() => handleScheduleClick(time)}
-                    className="w-full p-2 bg-muted text-sm rounded-md hover:bg-primary/10 transition"
-                  >
-                    + Agendar
-                  </button>
+                  // Empty time slot
+                  <div className="w-full h-full flex items-center justify-center">
+                    <Dialog>
+                    <DropdownMenu>
+                      <DropdownMenuTrigger asChild>
+                      <button className="text-sm text-black border-b-[1px] border-black/20">agregar evento</button>
+                      </DropdownMenuTrigger>
+                      <DropdownMenuContent className="backdrop-blur-[5px] bg-black/10 text-black border-[1px] border-black/20">
+                        <DropdownMenuLabel>seleccione tipo</DropdownMenuLabel>
+                        <DropdownMenuSeparator className="bg-slate-100"/>
+                        <DropdownMenuItem 
+                        className="font-bold text-black hover:bg-black hover:text-white rounded-md"
+                        onClick={() => setTurnoOcita("turno")}>
+                          <DialogTrigger
+                          >
+                          turno
+                          </DialogTrigger>
+                        </DropdownMenuItem>
+                        <DropdownMenuItem
+                        className="font-bold text-black hover:bg-black hover:text-white rounded-md"
+                        onClick={() => setTurnoOcita("seguimiento")}>
+                          <DialogTrigger
+                          >
+                          seguimiento
+                          </DialogTrigger>
+                        </DropdownMenuItem>
+                      </DropdownMenuContent>
+                    </DropdownMenu>
+                    <DialogContent className="w-[90%] bg-dark-200 [&>button]:text-white [&>button]:hover:text-white/80">
+                  <DialogHeader>
+                    <DialogTitle className="w-full flex font-bold text-3xl items-center justify-between text-gray-500">
+                      {turnoOcita === "turno"
+                        ? "Crear Turno"
+                        : "Agregar Seguimiento"}
+                     <div className="pr-5">
+                     {patient && (
+                        <ReminderButton appointment={patient?.appointmentsIncluded} />
+                      )}
+                     </div>
+                    </DialogTitle>
+                    <DialogDescription className="text-gray-500 text-start font-light text-base">
+                      {turnoOcita === "turno"
+                        ? "Crear un nuevo turno para el paciente"
+                        : "Agregar un seguimiento para el paciente"}
+                    </DialogDescription>
+                  </DialogHeader>
+                  {turnoOcita === "turno" ? (
+                    <NewAppointmentForm patientId={patient?.id}
+                    type="create" />
+                  ) : (
+                    <FollowUpForm patientId={patient?.id} />
+                  )}
+                </DialogContent>
+                  </Dialog>
+                  </div>
                 )}
               </div>
             </div>

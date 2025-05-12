@@ -29,9 +29,11 @@ type AppointmentResponse = {
 const NewAppointmentForm = ({
   type,
   patientId,
+  defaultSchedule,
 }: {
   type: AppointmentType;
   patientId: string;
+  defaultSchedule?: Date | null;
 }) => {
   const [loading, setLoading] = useState(false);
   const [professionalId, setProfessionalId] = useState<professionalDataType>();
@@ -48,7 +50,7 @@ const NewAppointmentForm = ({
   const form = useForm<z.infer<typeof appointmentValidation>>({
     resolver: zodResolver(appointmentValidation),
     defaultValues: {
-      schedule: new Date(),
+      schedule: defaultSchedule ? new Date(defaultSchedule) : new Date(),
       reason: "",
       notes: "",
       cancellationReason: "",
@@ -69,7 +71,6 @@ const NewAppointmentForm = ({
           professional: professionalId?.id,
           appointment: response?.id,
         };
-        console.log(professionalIDs);
         const profData = await createProfessionalAppointmentRelation(
           professionalIDs
         );
@@ -119,7 +120,7 @@ const NewAppointmentForm = ({
               control={form.control}
               name="schedule"
               showTimeSelect
-              defaultValue={new Date()}
+              defaultValue={defaultSchedule || new Date()}
               dateFormat="dd/MM/yyyy - h:mm aa"
             />
             </div>
