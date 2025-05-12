@@ -17,7 +17,7 @@ const PatientsPage = async () => {
   const { patientsIncluded }: { patientsIncluded: PatientsIncluded[] } = data;
 
   return (
-    <section className="w-[99%] mx-auto h-screen flex flex-col items-center justify-start gap-2 text-color">
+    <section className="w-[99%] pt-5 mx-auto h-screen flex flex-col items-center justify-start gap-2 text-color">
       <Dialog>
         <PatientsTable patients={patientsIncluded} component={"patients"} />
       </Dialog>

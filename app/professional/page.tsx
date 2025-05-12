@@ -43,7 +43,7 @@ const ProfessionalDashboard = ({
         {/* rightside */}
         <div className="gap-5 flex-1 flex-col bg-[#DFE0E0] rounded-lg">
           <Navbar setIsOpen={setIsOpen} isOpen={isOpen} />
-          <div className="rounded-lg pt-3">{children}</div>
+          <div className="rounded-lg">{children}</div>
         </div>
       </SelectedDateProvider>
     </section>

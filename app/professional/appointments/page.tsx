@@ -21,31 +21,32 @@ const Appointments = async () => {
   };
 
   return (
-    <section className="w-full min-h-screen flex flex-col items-center justify-start gap-2 text-color">
+    <section className="w-full h-full flex flex-col items-center justify-center gap-2 text-color">
       {/* Title */}
-      <div className="flex w-[90%] h-10 items-start justify-start px-2">
+      <div className="flex w-[90%] h-10 min-[768px]:mt-6 items-center justify-start px-2">
         <h1 className="text-18-bold text-start">Reservaciones</h1>
       </div>
       {/* top section */}
-      <div className="w-[90%] flex items-center justify-start gap-2">
+      <div className="w-[90%] flex items-center justify-start gap-2 ">
         <CalendarIcon width={20} height={20} className="text-color" />
         <div className="flex items-center justify-center gap-1">
-          <h1 className="text-18-bold ">{appointmentsIncluded.length}</h1>
+          <h1 className="text-18-bold ">{appointmentsIncluded?.length}</h1>
           <p className="text-18-bold">
-            {appointmentsIncluded.length > 1 ? `Citas totales` : `Cita total`}
+            {appointmentsIncluded?.length > 1 ? `Citas totales` : `Cita total`}
           </p>
         </div>
       </div>
       {/* Calendar section */}
-      <div className="w-full grid grid-cols-[50,50] h-auto py-4 min-[768px]:flex min-[768px]:flex-row  xl:gap-8">
+      <div className="w-[98%] grid grid-cols-[50,50] h-auto py-4 min-[768px]:flex min-[768px]:flex-row min-[768px]:mt-10 xl:gap-8 bg-slate-50 border-[1px] border-gray-200 rounded-lg">
         <div className="w-[100%]">
         <Calendar 
         appointments={appointmentsIncluded} />
         </div>
         {/* Lista de eventos */}
-        <div className="w-full py-4 px-3 glass-effect flex flex-col text-color mt-2">
+       <div className="w-[100%] pr-1">
         <AppointmentsList appointments={appointmentsIncluded} />
-        </div>
+       </div>
+    
       </div>
     </section>
   );

@@ -15,7 +15,7 @@ const Profile = async() => {
       );
 
   return (
-    <section className="w-full h-auto flex flex-col items-center justify-start gap-2 py-1">
+    <section className="w-full h-auto flex pt-5 flex-col items-center justify-start gap-2 py-1">
         {/* <ScrollArea className='w-full h-full'> */}
         <WelcomeSection professional={data}/>
         {/* </ScrollArea> */}
