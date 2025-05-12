@@ -146,7 +146,7 @@ const InstitutionsPage = async () => {
     //     )}
     //   </div>
     // </section>
-    <section className="w-full h-screen flex flex-col items-center justify-start px-10 py-10 gap-2 text-color">
+    <section className="w-full pt-5 h-screen flex flex-col items-center justify-start px-10 py-10 gap-2 text-color">
       <h1 className="text-5xl font-light text-gray-400">Seccion en construcción, próximamente disponible</h1>
     </section>
   );
