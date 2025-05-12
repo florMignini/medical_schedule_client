@@ -1,22 +1,13 @@
 "use client";
-import { useState } from "react";
+import { useState, useMemo } from "react";
+import { ScrollArea } from "@/components/ui/scroll-area";
 import dayjs from "dayjs";
-import { Appointment, Patient } from "@/interfaces";
+import { addMinutes, format, setHours, setMinutes } from "date-fns";
+import { Appointment, AppointmentsIncluded } from "@/interfaces";
 import { getTodayAppointments } from "@/utils/getTodayAppointments";
 import { getAppointmentDetail } from "@/utils/getAppointmentDetail";
 import { useSelectedDate } from "@/utils/useSelectedDate";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
-import ConfigAppointmentButton from "./ConfigAppointmentButton";
-import Image from "next/image";
-import PastAppointmentForm from "@/components/forms/PastAppointmentForm";
-import { ScrollArea } from "@/components/ui/scroll-area";
+
 
 const AppointmentsList = ({ appointments }: any) => {
   // loading state
@@ -28,9 +19,28 @@ const AppointmentsList = ({ appointments }: any) => {
   const [appointmentId, setAppointmentId] = useState<string>("");
   const { selectedDate } = useSelectedDate();
   const events = getTodayAppointments(appointments, selectedDate || new Date());
-const appointmentEdit = events.find(
+  const appointmentEdit = events.find(
     (event: any) => event.appointment.id === appointmentId
   );
+
+  // get time slots
+  const timeSlots = useMemo(() => {
+    const slots = [];
+    const date = selectedDate || new Date();
+    for (let hour = 8; hour <= 20; hour++) {
+      slots.push({ time: setHours(setMinutes(date, 0), hour) });
+      slots.push({ time: setHours(setMinutes(date, 30), hour) });
+    }
+    return slots;
+  }, [selectedDate]);
+
+  // get appointment at selected date
+  const getAppointmentAt = (time: Date) =>
+    events.find(
+      (appt: AppointmentsIncluded) =>
+        dayjs(appt.appointment.schedule).format("HH:mm") ===
+        dayjs(time).format("HH:mm")
+    );
 
   const handleAppintmentDetail = async (appointmentId: string) => {
     setLoading(true);
@@ -52,168 +62,65 @@ const appointmentEdit = events.find(
     "year"
   );
 
+  const getRandomHue = () => Math.floor(Math.random() * 180) + 180; // Range from 180 to 240 for muted blues/teals
+  const getSlotColor = (hue: number) => `hsla(${hue}, 40%, 90%, 0.8)`; // Reduced saturation to 40%, increased lightness to 90%
+  const getBorderColor = (hue: number) => `hsl(${hue}, 40%, 90%)`; // Matching border color with reduced saturation
+
   return (
-    <Dialog>
-      <div className="h-screen flex-1 justify-start items-start p-1">
-        {events.length > 0 ? (
-          <div className="w-full flex flex-col gap-4">
-            <h2 className="text-xl font-bold">
-              Eventos del {dayjs(selectedDate).format("DD/MM/YYYY")}
-            </h2>
-            <div className="w-[100%] flex flex-col gap-4">
-              {events.map((event: any, index: number) => (
-                <DialogTrigger asChild key={index}>
-                  <button
-                    className="w-full md:w-[98%] mx-auto p-1 gap-2 flex items-center justify-between hover:transition-shadow rounded-md mb-1 shadow-md hover:shadow-inner hover:shadow-[#cccccc] text-gray-700"
-                    onClick={() => {
-                      setAppointmentId(event.appointment.id);
-                      handleAppintmentDetail(event.appointment.id)
-                    }}
-                  >
-                    {/* TIME */}
-                    <div className="w-[30%] flex items-center justify-center font-semibold">
-                      {dayjs(event.appointment.schedule).format("HH:mm")} {"-"}
-                    </div>
-                    {/* DETAILS */}
-                    <div className="w-[70%] flex items-center justify-around">
-                      <div className="flex flex-col items-start justify-start">
-                        <p>Motivo de la consulta:</p>
-                        <h3 className="text-sm font-semibold truncate">
-                          {event.appointment.reason}
-                        </h3>
-                      </div>
-                    </div>
-                  </button>
-                </DialogTrigger>
-              ))}
+    <div className="w-full flex flex-col items-center justify-center gap-2">
+      <h1 className="text-lg font-bold">{`Turnos del dia ${dayjs(
+        selectedDate || new Date()
+      ).format("DD/MM/YYYY")}`}</h1>
+      <ScrollArea className="w-full h-[500px] flex flex-col items-center justify-center ">
+        {timeSlots.map(({ time }, i) => {
+          const appt = getAppointmentAt(time);
+          const hue = getRandomHue();
+          const slotColor = getSlotColor(hue);
+          const borderColor = getBorderColor(hue);
 
-              <DialogContent className="sm:max-w-[500px] h-[70%] bg-black/50 flex flex-col items-start justify-start text-white bg-opacity-50 p-4 rounded-lg shadow-md gap-5">
-                <DialogHeader className="w-[100%] flex items-center justify-center text-white">
-                  <div className="flex items-center justify-between w-full">
-                    <DialogTitle className="w-[70%] font-light text-xl text-white text-start">
-                      Detalles del Turno
-                    </DialogTitle>
-                    <div className="w-[30%] flex items-center justify-center">
-                      <ConfigAppointmentButton
-                      id={appointmentId}
-                      appointment={appointmentEdit}
-                      />
-                    </div>
-                  </div>
-                  <DialogDescription className="w-[100%] h-20 flex items-center justify-around gap-2 rounded-lg shadow-md bg-black/70">
-                    {/* foto */}
-                    <Image
-                      src={patient?.patient?.patientPhotoUrl}
-                      width={60}
-                      height={60}
-                      className="flex rounded-full"
-                      alt="Foto del paciente"
-                    />
-                    <div className="w-[80%] flex flex-col items-start justify-start ">
-                      <p className="w-[100%] flex items-start justify-start text-xs font-light text-gray-400">
-                        Nombre del paciente
+          return (
+            <div
+              key={i}
+              className="w-full h-[80px] border-[1px] flex items-center text-black text-sm cursor-pointer rounded-md mb-1"
+              style={{ backgroundColor: slotColor, borderColor }}
+            >
+              {/* appointment info card */}
+              <div className="flex w-full px-2 gap-2 items-center justify-center">
+                <span className="text-sm ">{format(time, "HH:mm")}</span>
+                <div className={`h-16 border-x-[2px]`} style={{ borderColor }} />
+                {appt ? (
+                  <div className="w-full flex-col border-none h-[80px] flex items-start justify-center">
+                    <div className="w-full flex flex-col items-start justify-start">
+                      <p className="font-bold">{appt.appointment.notes}</p>
+                      <p className="text-sm text-muted-foreground">
+                        {appt.appointment.reason}
                       </p>
-                      <h3 className="text-2xl text-white">{`${patient?.patient?.firstName} ${patient?.patient?.lastName}`}</h3>
                     </div>
-                  </DialogDescription>
-                </DialogHeader>
-                <ScrollArea className="w-full h-[80%]">
-                  <div className="border-t-[1px] border-[#cccccc] w-[100%] p-2">
-                    <div className="flex px-2 items-start justify-around">
-                      <div className="flex-col">
-                        <p className="text-[12px] font-light text-gray-400">
-                          DETALLES:
-                        </p>
-                        <h3 className="truncate text-sm">
-                          {appointment?.notes}
-                        </h3>
-                      </div>
-                      <div className="flex-col">
-                        <p className="text-[12px] font-light text-gray-400">
-                          FECHA Y HORA:
-                        </p>
-                        <h3 className="truncate text-sm text-white">
-                          {dayjs(appointment?.schedule).format(
-                            "DD/MM/YYYY HH:mm"
-                          )}
-                        </h3>
-                      </div>
+                    <div className="text-sm text-muted-foreground text-start">
+                      {`${format(
+                        new Date(appt.appointment.schedule),
+                        "HH:mm"
+                      )} - ${format(
+                        addMinutes(new Date(appt.appointment.schedule), 30),
+                        "HH:mm"
+                      )}`}
                     </div>
                   </div>
-                  <div className="border-t-[1px] border-[#cccccc] w-[100%] p-2 z-40">
-                    <h3 className="text-white font-semibold text-lg mb-2">
-                      Información general
-                    </h3>
-                    {/* fullname - phone */}
-                    <div className="w-[95%] flex items-start justify-center flex-wrap mb-2">
-                      <div className="w-[50%] flex flex-col items-start justify-center">
-                        <label className="text-gray-300 text-xs font-thin">
-                          Nombre Completo:
-                        </label>
-                        <span className="text-sm text-white font-light">{`${patient?.patient?.firstName} ${patient?.patient?.lastName}`}</span>
-                      </div>
-                      <div className="w-[50%] flex flex-col items-start justify-center">
-                        <label className="text-gray-300 text-xs font-thin">
-                          Numero de Teléfono:
-                        </label>
-                        <span className="text-sm text-white font-light">
-                          {patient?.patient.phone}
-                        </span>
-                      </div>
-                    </div>
-                    {/* age - mail */}
-                    <div className="w-[95%] flex items-start justify-center flex-wrap mb-2">
-                      <div className="w-[50%] flex flex-col items-start justify-center">
-                        <label className="text-gray-300 text-xs font-thin">
-                          Edad:
-                        </label>
-                        <span className="text-sm text-white font-light">{`${patientAge} años`}</span>
-                      </div>
-                      <div className="w-[50%] flex flex-col items-start justify-center">
-                        <label className="text-gray-300 text-xs font-thin">
-                          Email:
-                        </label>
-                        <span className="text-sm text-white font-light">
-                          {patient?.patient.email}
-                        </span>
-                      </div>
-                    </div>
-                    {/* gender - address */}
-                    <div className="w-[95%] flex items-start justify-center flex-wrap mb-2">
-                      <div className="w-[50%] flex flex-col items-start justify-center">
-                        <label className="text-gray-300 text-xs font-thin">
-                          Genero:
-                        </label>
-                        <span className="text-sm text-white font-light">
-                          {patient?.patient?.gender === "M"
-                            ? "Masculino"
-                            : "Femenino"}
-                        </span>
-                      </div>
-                      <div className="w-[50%] flex flex-col items-start justify-center">
-                        <label className="text-gray-300 text-xs font-thin">
-                          Dirección:
-                        </label>
-                        <span className="text-sm font-light">
-                          {patient?.patient.address}
-                        </span>
-                      </div>
-                    </div>
-                  </div>
-
-                  <PastAppointmentForm
-                    patient={patient?.patient}
-                    appointment={appointment}
-                  />
-                </ScrollArea>
-              </DialogContent>
+                ) : (
+                  // Espacio libre
+                  <button
+                    // onClick={() => handleScheduleClick(time)}
+                    className="w-full p-2 bg-muted text-sm rounded-md hover:bg-primary/10 transition"
+                  >
+                    + Agendar
+                  </button>
+                )}
+              </div>
             </div>
-          </div>
-        ) : (
-          <h2 className="text-xl font-bold">No hay eventos para hoy</h2>
-        )}
-      </div>
-    </Dialog>
+          );
+        })}
+      </ScrollArea>
+    </div>
   );
 };
 
