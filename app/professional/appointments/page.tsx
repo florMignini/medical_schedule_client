@@ -43,7 +43,7 @@ const Appointments = async () => {
         appointments={appointmentsIncluded} />
         </div>
         {/* Lista de eventos */}
-       <div className="w-[100%] pr-1">
+       <div className="w-[100%] mx-auto">
         <AppointmentsList appointments={appointmentsIncluded} />
        </div>
     
