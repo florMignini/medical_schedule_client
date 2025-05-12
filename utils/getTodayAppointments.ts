@@ -1,8 +1,7 @@
-
 import { Appointment, AppointmentsIncluded } from "@/interfaces";
 
-export const getTodayAppointments = (appointments: Appointment[], scheduleDate: Date) => {
-const todayAppointments = (appointments).filter((appointment: any) => {
+export const getTodayAppointments = (appointments: AppointmentsIncluded[], scheduleDate: Date) => {
+const todayAppointments = appointments.filter((appointment) => {
    if(scheduleDate !== null){
     const appointmentDate = new Date(appointment.appointment.schedule);
     const today = new Date();
