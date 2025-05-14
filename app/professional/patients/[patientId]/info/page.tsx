@@ -3,7 +3,6 @@ import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 import Image from "next/image";
 
-import Link from "next/link";
 import { DinamicPage } from "@/app/professional/data";
 import clsx from "clsx";
 import { PatientInfoSection } from "@/app/professional/components";
