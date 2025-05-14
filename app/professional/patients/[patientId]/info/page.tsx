@@ -131,7 +131,11 @@ const PatientInfo = () => {
                   {turnoOcita === "Turno" ? (
                     <NewAppointmentForm patientId={patientId} type="create" />
                   ) : (
-                    <FollowUpForm patientId={patientId} />
+                    <FollowUpForm 
+                      patientId={patientId} 
+                      onSuccess={() => setTurnoOcita(null)}
+                      initialDateTime={null}
+                    />
                   )}
                 </DialogContent>
               </div>
