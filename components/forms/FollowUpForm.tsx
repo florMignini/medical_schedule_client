@@ -29,13 +29,13 @@ import "react-datepicker/dist/react-datepicker.css";
 import "react-phone-number-input/style.css";
 import { professionalDataType } from "./NewAppointmentForm";
 
-const FollowUpForm = ({ patientId }: { patientId: string }) => {
+const FollowUpForm = ({ patientId, onSuccess, initialDateTime }: { patientId: string, onSuccess: () => void, initialDateTime: Date | null }) => {
   const router = useRouter();
   const [professionalId, setProfessionalId] = useState<professionalDataType>();
   const [loading, setLoading] = useState(false);
   const [ifFollowUp, setIfFollowUp] = useState(false);
   const [nextAppointmentSchedule, setNextAppointmentSchedule] =
-    useState<Date | null>(new Date());
+    useState<Date | null>(initialDateTime);
 
   useEffect(() => {
     const professionalData = localStorage.getItem("infoProfSession");
