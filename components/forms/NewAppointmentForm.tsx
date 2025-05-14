@@ -14,6 +14,8 @@ import {
   createPatientAppointmentRelation,
   createProfessionalAppointmentRelation,
 } from "@/app/actions";
+import { useToast } from "@/hooks/use-toast";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../ui/select";
 
 type AppointmentType = "create" | "cancel" | "schedule";
 export type professionalDataType = {
@@ -29,11 +31,15 @@ type AppointmentResponse = {
 const NewAppointmentForm = ({
   type,
   patientId,
-  defaultSchedule,
+  initialDateTime,
+  onSuccess,
+  component,
 }: {
   type: AppointmentType;
   patientId: string;
-  defaultSchedule?: Date | null;
+  initialDateTime?: Date | null;
+  onSuccess?: () => void;
+  component?: string;
 }) => {
   const [loading, setLoading] = useState(false);
   const [professionalId, setProfessionalId] = useState<professionalDataType>();
@@ -45,12 +51,12 @@ const NewAppointmentForm = ({
       setProfessionalId(parsedData);
     }
   }, []);
-
+  const { toast } = useToast();
   const router = useRouter();
   const form = useForm<z.infer<typeof appointmentValidation>>({
     resolver: zodResolver(appointmentValidation),
     defaultValues: {
-      schedule: defaultSchedule ? new Date(defaultSchedule) : new Date(),
+      schedule: initialDateTime ? new Date(initialDateTime) : new Date(),
       reason: "",
       notes: "",
       cancellationReason: "",
@@ -78,11 +84,18 @@ const NewAppointmentForm = ({
           patient: patientId,
           appointment: response?.id,
         };
+
         const patientData = await createPatientAppointmentRelation(patientsIDs);
-      
-        form.reset();
+
         setLoading(false);
-        router.push("/professional/appointments");
+        toast({
+          className: "bg-emerald-500 text-black",
+          title: "Programando Turno...",
+          description: "El turno ha sido creado correctamente",
+          duration: 5000,
+        });
+        onSuccess?.();
+        form.reset();
         router.refresh();
       }
     } catch (error: any) {
@@ -112,6 +125,21 @@ const NewAppointmentForm = ({
         
         {type !== "cancel" && (
           <>
+          {component === "calendar" && (
+            <div>
+              <h3>Seleccione paciente:</h3>
+              <Select>
+                <SelectTrigger>
+                  <SelectValue placeholder="Seleccione paciente" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="1">Paciente 1</SelectItem>
+                  <SelectItem value="2">Paciente 2</SelectItem>
+                  <SelectItem value="3">Paciente 3</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+          )}
             {/* pick date */}
             <div className="flex flex-col gap-1">
               <label className="text-gray-500">Fecha del turno</label>
@@ -120,7 +148,7 @@ const NewAppointmentForm = ({
               control={form.control}
               name="schedule"
               showTimeSelect
-              defaultValue={defaultSchedule || new Date()}
+              defaultValue={initialDateTime || new Date()}
               dateFormat="dd/MM/yyyy - h:mm aa"
             />
             </div>
