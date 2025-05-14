@@ -185,7 +185,7 @@ const AppointmentsList = ({ appointments }: any) => {
                           </DialogDescription>
                         </DialogHeader>
                         {turnoOcita === "turno" ? (
-                          <div className="w-full flex flex-col items-center justify-center gap-4 py-4">
+                          
                             <NewAppointmentForm
                               component={`calendar`}
                               onSuccess={() => {
@@ -196,7 +196,7 @@ const AppointmentsList = ({ appointments }: any) => {
                               type="create"
                               initialDateTime={selectedTime}
                             />
-                          </div>
+                    
                         ) : (
                           <FollowUpForm
                             onSuccess={() => {
