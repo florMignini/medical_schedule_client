@@ -30,7 +30,7 @@ const Search = ({ path }: any) => {
       try {
         const normalizedValue = capitalizeWords(value);
         console.log(normalizedValue)
-        if (path !== "dashboard") {
+        if (path !== "dashboard" && path !== "appointments") {
           const { data } = await apiServer.get(`https://medical-schedule-server.onrender.com/api/${path}/search?value=${normalizedValue}`);
           setResult(data);
         } else {
