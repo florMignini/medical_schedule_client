@@ -74,7 +74,7 @@ const AppointmentsList = ({ appointments }: any) => {
           const hue = getRandomHue();
           const slotColor = getSlotColor(hue);
           const borderColor = getBorderColor(hue);
-          
+
           return (
             <div
               key={i}
@@ -85,9 +85,11 @@ const AppointmentsList = ({ appointments }: any) => {
               }}
               onClick={async () => {
                 if (appt) {
-                  const patientIdData = await getAppointmentDetail(appt?.appointment?.id)
+                  const patientIdData = await getAppointmentDetail(
+                    appt?.appointment?.id
+                  );
                   setPatientId(patientIdData?.patientsIncluded[0]?.id);
-                }else{
+                } else {
                   setSelectedTime(time);
                 }
               }}
@@ -164,7 +166,7 @@ const AppointmentsList = ({ appointments }: any) => {
                     </DropdownMenu>
 
                     <Dialog open={isOpen} onOpenChange={setIsOpen}>
-                      <DialogContent className="w-[90%] bg-dark-200 [&>button]:text-white [&>button]:hover:text-white/80">
+                      <DialogContent className="w-[90%] max-h-[90vh] overflow-y-auto bg-white z-[100] [&>button]:text-white [&>button]:hover:text-white/80 text-black">
                         <DialogHeader>
                           <DialogTitle className="w-full flex font-bold text-3xl items-center justify-between text-gray-500">
                             {turnoOcita === "turno"
@@ -172,9 +174,7 @@ const AppointmentsList = ({ appointments }: any) => {
                               : "Agregar Seguimiento"}
                             <div className="pr-5">
                               {patientId && (
-                                <ReminderButton
-                                  appointment={patientId}
-                                />
+                                <ReminderButton appointment={patientId} />
                               )}
                             </div>
                           </DialogTitle>
@@ -185,18 +185,17 @@ const AppointmentsList = ({ appointments }: any) => {
                           </DialogDescription>
                         </DialogHeader>
                         {turnoOcita === "turno" ? (
-                          <div className="w-full z-50 min-h-[300px] flex items-center justify-center backdrop-blur-lg bg-black/10">
-
+                          <div className="w-full flex flex-col items-center justify-center gap-4 py-4">
                             <NewAppointmentForm
-                            component={`calendar`}
-                            onSuccess={() => {
-                              setIsOpen(false);
-                              setTurnoOcita("");
-                            }}
-                            patientId={patientId}
-                            type="create"
-                            initialDateTime={selectedTime} 
-                          />
+                              component={`calendar`}
+                              onSuccess={() => {
+                                setIsOpen(false);
+                                setTurnoOcita("");
+                              }}
+                              patientId={patientId}
+                              type="create"
+                              initialDateTime={selectedTime}
+                            />
                           </div>
                         ) : (
                           <FollowUpForm
@@ -205,7 +204,7 @@ const AppointmentsList = ({ appointments }: any) => {
                               setTurnoOcita("");
                             }}
                             patientId={patientId}
-                            initialDateTime={selectedTime} 
+                            initialDateTime={selectedTime}
                           />
                         )}
                       </DialogContent>
