@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { useDebounce } from "@/utils";
 import { Input } from "@/components/ui/input";
 
@@ -8,43 +8,67 @@ import { apiServer } from "@/api/api-server";
 
 import Link from "next/link";
 import Image from "next/image";
+import { Patient } from "@/interfaces";
+import { capitalizeWords } from "@/utils/normalizeInput";
 
 const Search = ({ path }: any) => {
   const [query, setQuery] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(false);
   const value: string = useDebounce(query);
   const [result, setResult] = useState<any>([]);
+  const [isFocused, setIsFocused] = useState<boolean>(false);
 
-  //search
-  // useEffect(() => {
-  //   if (path !== "dashboard") {
-  //     setLoading(true);
-  //     const fetchSearchData = async () => {
-  //       const { data } = await apiServer.get(`/${path}/search?value=${value}`);
-  //       setResult(data);
-  //       setLoading(false);
-  //     };
-  //     fetchSearchData();
-  //   } else {
-  //     setLoading(true);
-  //     const fetchFullSearchData = async () => {
-  //       const resPatient = await apiServer.get(
-  //         `/patients/search?value=${value}`
-  //       );
-  //       const resInstitution = await apiServer.get(
-  //         `/institutions/search?value=${value}`
-  //       );
-  //       setResult(resInstitution.data.concat(resPatient.data));
-  //       setLoading(false);
-  //     };
-  //     fetchFullSearchData();
-  //   }
-  // }, [value, path]);
+  const inputRef = useRef<HTMLInputElement>(null);
+
+  // search
+  useEffect(() => {
+    if (!value) return;
+
+    setLoading(true);
+
+    const fetchSearchData = async () => {
+      try {
+        const normalizedValue = capitalizeWords(value);
+        console.log(normalizedValue)
+        if (path !== "dashboard") {
+          const { data } = await apiServer.get(`https://medical-schedule-server.onrender.com/api/${path}/search?value=${normalizedValue}`);
+          setResult(data);
+        } else {
+          const resPatient = await apiServer.get(`https://medical-schedule-server.onrender.com/api/patients/search?value=${normalizedValue}`);
+          const resInstitution = await apiServer.get(`https://medical-schedule-server.onrender.com/api/institutions/search?value=${normalizedValue}`);
+          setResult((resInstitution.data as any[]).concat(resPatient.data as any[]));
+        }
+      } catch (err) {
+        console.error("Error searching:", err);
+        setResult([]);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchSearchData();
+  }, [value, path]);
 
   const clearInput = () => {
     setQuery("");
     setResult([]);
   };
+
+  // Hide results if clicked outside the input
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (inputRef.current && !inputRef.current.contains(event.target as Node)) {
+        //avoid close the search when click on the link
+        setTimeout(() => {
+          setIsFocused(false);
+        }, 1000); 
+      }
+    };
+  
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+  
 
   return (
     <div className="relative w-[99%] h-auto flex flex-col items-center justify-center text-color">
@@ -56,6 +80,7 @@ const Search = ({ path }: any) => {
             <div className="h-5 border-x-[1px] border-black/20" />
           </button>
           <Input
+            ref={inputRef}
             type="text"
             placeholder={`buscar ${
               path === "institutions"
@@ -68,44 +93,42 @@ const Search = ({ path }: any) => {
             value={query}
             autoComplete="off"
             onChange={({ target }) => setQuery(target.value)}
+            onFocus={() => setIsFocused(true)}
           />
         </div>
 
         {/* result section */}
-        <>
-          {value && (
-            <div className="w-[90%] absolute z-50 rounded-md py-5 px-2 top-[82px] gap-2 bg-backdrop backdrop-blur-[9px]">
-              {result && result?.length > 0 ? (
-                result?.map((patient: any) => (
-                  <Link
-                    key={patient.id}
-                    href={`/professional/patients/${patient.id}/info`}
-                    className=" w-[99%] grid grid-cols-[50%,50%] align-middle justify-center my-2 px-1 py-2 hover:rounded-2xl hover:bg-gradient-to-b from-[#525252] to-[#979798] text-transparent hover:opacity-80 z-50"
-                    onClick={clearInput}
-                  >
-                    <div className="w-[100%] flex items-center justify-center">
-                      <Image
-                        src={patient.patientPhotoUrl}
-                        alt="patient-photo"
-                        width={50}
-                        height={50}
-                        className="rounded-full grid items-center justify-center"
-                      />
-                    </div>
-                    <p className="text-black text-base flex items-center justify-start font-semibold">
-                      {`${patient.firstName} ${patient.lastName}`}
-                    </p>
-                  </Link>
-                ))
-              ) : (
-                <p className="w-[100%] flex items-center justify-center text-base font-bold text-">
-                  {" "}
-                  No se encontraron resultados
-                </p>
-              )}
-            </div>
-          )}
-        </>
+        {value && isFocused && (
+          <div className="w-[90%] absolute z-50 rounded-md py-5 px-2 top-[82px] gap-2 bg-backdrop backdrop-blur-[9px]">
+            {loading ? (
+              <p className="w-full text-center text-sm text-gray-500">Buscando...</p>
+            ) : result && result.length > 0 ? (
+              result.map((patient: Patient) => (
+                <Link
+                  key={patient.id}
+                  href={`/professional/patients/${patient.id}/info`}
+                  className="w-[99%] grid grid-cols-[50%,50%] align-middle justify-center my-2 px-1 py-2 hover:rounded-2xl hover:bg-gradient-to-b from-[#525252] to-[#979798] text-transparent hover:opacity-80 z-50"
+                  onClick={clearInput}
+                >
+                  <div className="w-[100%] flex items-center justify-center">
+                    <Image
+                      src={patient.patientPhotoUrl}
+                      alt="patient-photo"
+                      width={50}
+                      height={50}
+                      className="rounded-full grid items-center justify-center"
+                    />
+                  </div>
+                  <p className="text-black text-base flex items-center justify-start font-semibold">
+                    {`${patient.firstName} ${patient.lastName}`}
+                  </p>
+                </Link>
+              ))
+            ) : (
+              <p className="w-full text-center font-semibold">No se encontraron resultados</p>
+            )}
+          </div>
+        )}
       </div>
     </div>
   );
