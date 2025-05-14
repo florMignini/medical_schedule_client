@@ -185,7 +185,7 @@ const AppointmentsList = ({ appointments }: any) => {
                           </DialogDescription>
                         </DialogHeader>
                         {turnoOcita === "turno" ? (
-                          <div className="w-full min-h-[300px] flex items-center justify-center backdrop-blur-lg bg-black/10">
+                          <div className="w-full z-50 min-h-[300px] flex items-center justify-center backdrop-blur-lg bg-black/10">
 
                             <NewAppointmentForm
                             component={`calendar`}
