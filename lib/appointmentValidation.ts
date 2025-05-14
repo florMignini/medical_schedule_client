@@ -8,6 +8,7 @@ export const CreateAppointmentSchema = z.object({
     .max(500, "Reason must be at most 500 characters"),
   notes: z.string().optional(),
   cancellationReason: z.string().optional(),
+  patientId: z.string().min(1, "Patient must be selected"),
 });
 
 export const RescheduleAppointmentSchema = z.object({
@@ -15,6 +16,7 @@ export const RescheduleAppointmentSchema = z.object({
   reason: z.string().optional(),
   notes: z.string().optional(),
   cancellationReason: z.string().optional(),
+  patientId: z.string().min(1, "Patient must be selected").optional(),
 });
 
 export const NewPastAppointmentSchema = z.object({
@@ -24,6 +26,7 @@ export const NewPastAppointmentSchema = z.object({
   followUpRequired: z.boolean().optional(),
   scheduled: z.coerce.date(),
   patientAttachedFilesUrl: z.custom<File[]>().optional(),
+  patientId: z.string().min(1, "Patient must be selected"),
 });
 
 export const CancelAppointmentSchema = z.object({
@@ -35,6 +38,7 @@ export const CancelAppointmentSchema = z.object({
     .string()
     .min(2, "Reason must be at least 2 characters")
     .max(500, "Reason must be at most 500 characters"),
+  patientId: z.string().min(1, "Patient must be selected"),
 });
 
 export function getAppointmentSchema(type: string) {

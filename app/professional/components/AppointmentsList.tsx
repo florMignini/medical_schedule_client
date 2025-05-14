@@ -86,7 +86,6 @@ const AppointmentsList = ({ appointments }: any) => {
               onClick={async () => {
                 if (appt) {
                   const patientIdData = await getAppointmentDetail(appt?.appointment?.id)
-                  console.log(patientIdData)
                   setPatientId(patientIdData?.patientsIncluded[0]?.id);
                 }else{
                   setSelectedTime(time);
