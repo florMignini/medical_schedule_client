@@ -34,13 +34,6 @@ const AppointmentsList = ({ appointments }: any) => {
   // dialog state
   const [isOpen, setIsOpen] = useState(false);
   
-  useEffect(() => {
-    if (isOpen) {
-      document.body.style.overflow = 'hidden';
-    } else {
-      document.body.style.overflow = '';
-    }
-  }, [isOpen]);
   const { selectedDate } = useSelectedDate();
   // time at specific slot
   const [selectedTime, setSelectedTime] = useState<Date | null>(null);
@@ -175,6 +168,7 @@ const AppointmentsList = ({ appointments }: any) => {
 
                     <Dialog open={isOpen} onOpenChange={setIsOpen}>
                       <DialogContent className="border border-red-500 max-h-[90vh] overflow-y-auto sm:max-w-[480px] w-[90vw] [&>button]:text-white [&>button]:hover:text-white/80">
+                        <ScrollArea className="max-h-[80vh] overflow-y-auto">
                         <DialogHeader>
                           <DialogTitle className="w-full flex font-bold text-3xl items-center justify-between text-gray-500">
                             {turnoOcita === "turno"
@@ -215,6 +209,7 @@ const AppointmentsList = ({ appointments }: any) => {
                             initialDateTime={selectedTime}
                           />
                         )}
+                        </ScrollArea>
                       </DialogContent>
                     </Dialog>
                   </div>
