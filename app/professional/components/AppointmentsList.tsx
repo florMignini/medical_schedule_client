@@ -133,7 +133,7 @@ const AppointmentsList = ({ appointments }: any) => {
                   </div>
                 ) : (
                   // Empty time slot
-                  <div className="w-full h-full flex items-center justify-center">
+                  <>
                   <DropdownMenu>
                     <DropdownMenuTrigger asChild>
                       <button className="text-sm text-black border-b-[1px] border-black/20">
@@ -216,7 +216,7 @@ const AppointmentsList = ({ appointments }: any) => {
                       </ScrollArea>
                     </DialogContent>
                   </Dialog>
-                </div>
+                </>
                 
                 )}
               </div>
