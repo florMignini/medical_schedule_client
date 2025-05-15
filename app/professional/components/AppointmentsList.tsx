@@ -133,7 +133,7 @@ const AppointmentsList = ({ appointments }: any) => {
                   </div>
                 ) : (
                   // Empty time slot
-                  <>
+                  <div className="w-full h-full flex items-center justify-center">
                   <DropdownMenu>
                     <DropdownMenuTrigger asChild>
                       <button className="text-sm text-black border-b-[1px] border-black/20">
@@ -177,7 +177,7 @@ const AppointmentsList = ({ appointments }: any) => {
                     if (!open) setTurnoOcita(""); // limpiar tipo al cerrar
                   }}>
                     <DialogContent className="border z-[9999] border-red-500 bg-white p-4 max-h-[90vh] overflow-y-auto sm:max-w-[480px] w-[90vw] [&>button]:text-white [&>button]:hover:text-white/80">
-                      {/* <ScrollArea className="max-h-[80vh] overflow-y-auto">
+                      <ScrollArea className="max-h-[80vh] overflow-y-auto">
                         <DialogHeader>
                           <DialogTitle className="w-full flex font-bold text-3xl items-center justify-between text-gray-500">
                             {turnoOcita === "turno" ? "Crear Turno" : "Agregar Seguimiento"}
@@ -213,11 +213,10 @@ const AppointmentsList = ({ appointments }: any) => {
                             initialDateTime={selectedTime}
                           />
                         )}
-                      </ScrollArea> */}
-                      <h1>hola soy un dialog</h1>
+                      </ScrollArea>
                     </DialogContent>
                   </Dialog>
-                </>
+                </div>
                 
                 )}
               </div>
