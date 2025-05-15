@@ -5,6 +5,7 @@ import "./globals.css";
 import { cn } from "@/lib/utils";
 import { Provider } from "./providers";
 import { Toaster } from "@/components/ui/toaster";
+import Head from "./head";
 
 
 const PlusFont = Roboto({
@@ -29,6 +30,7 @@ export default function RootLayout({
     <html lang="en"
     className="bg-[#121133]"
     >
+      <Head/>
       <body
         className={cn(
           "h-screen flex flex-col bg-[#F2F3F0] font-sans antialiased m-0 p-0 overflow-x-hidden",
