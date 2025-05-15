@@ -1,5 +1,5 @@
 "use client";
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import dayjs from "dayjs";
 import { addMinutes, format, setHours, setMinutes } from "date-fns";
@@ -33,6 +33,14 @@ const AppointmentsList = ({ appointments }: any) => {
 
   // dialog state
   const [isOpen, setIsOpen] = useState(false);
+  
+  useEffect(() => {
+    if (isOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+  }, [isOpen]);
   const { selectedDate } = useSelectedDate();
   // time at specific slot
   const [selectedTime, setSelectedTime] = useState<Date | null>(null);
@@ -166,7 +174,7 @@ const AppointmentsList = ({ appointments }: any) => {
                     </DropdownMenu>
 
                     <Dialog open={isOpen} onOpenChange={setIsOpen}>
-                      <DialogContent className="w-[90%] max-h-[90vh] overflow-y-auto bg-white z-[100] [&>button]:text-white [&>button]:hover:text-white/80 text-black">
+                      <DialogContent className="w-[90%] max-h-[calc(100dvh-20px)] z-[100] overflow-y-auto [&>button]:text-white [&>button]:hover:text-white/80">
                         <DialogHeader>
                           <DialogTitle className="w-full flex font-bold text-3xl items-center justify-between text-gray-500">
                             {turnoOcita === "turno"
