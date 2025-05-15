@@ -200,10 +200,10 @@ const AppointmentsList = ({ appointments }: any) => {
                         </DialogHeader>
 
                         {turnoOcita === "turno" ? (
-                          <div className="max-h-[100vh] overflow-y-auto">
-                           <NewAppointmentForm
-                            component="calendar"
-                            onSuccess={() => {
+                          <ScrollArea className="max-h-[80vh] overflow-y-auto">
+                            <NewAppointmentForm
+                              component="calendar"
+                              onSuccess={() => {
                               setIsOpen(false);
                               setTurnoOcita("");
                             }}
@@ -211,7 +211,7 @@ const AppointmentsList = ({ appointments }: any) => {
                             type="create"
                             initialDateTime={selectedTime}
                           />
-                         </div>
+                         </ScrollArea>
                         ) : (
                           <FollowUpForm
                             onSuccess={() => {
