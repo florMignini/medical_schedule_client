@@ -200,7 +200,7 @@ const AppointmentsList = ({ appointments }: any) => {
                         </DialogHeader>
 
                         {turnoOcita === "turno" ? (
-                          <div className="max-h-[80vh] overflow-y-auto">
+                          <div className="max-h-[100vh] overflow-y-auto">
                            <NewAppointmentForm
                             component="calendar"
                             onSuccess={() => {
