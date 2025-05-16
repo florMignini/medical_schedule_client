@@ -27,6 +27,7 @@ import ReminderButton from "./ReminderButton";
 import NewAppointmentForm from "@/components/forms/NewAppointmentForm";
 import FollowUpForm from "@/components/forms/FollowUpForm";
 import { useRouter } from "next/navigation";
+import { cn } from "@/lib";
 
 const AppointmentsList = ({ appointments }: any) => {
   // patient info
@@ -173,54 +174,64 @@ const AppointmentsList = ({ appointments }: any) => {
                         </DropdownMenuContent>
                       </DropdownMenu>
                     </div>
-                    {/* Dialog va afuera y no está anidado en el dropdown */}
+
                     <Dialog
                       open={isOpen}
                       onOpenChange={(open) => {
                         setIsOpen(open);
-                        if (!open) setTurnoOcita(""); // limpiar tipo al cerrar
+                        if (!open) setTurnoOcita("");
                       }}
                     >
-                     <DialogContent className="max-h-[90vh] overflow-y-auto sm:max-w-[480px] w-[90vw] [&>button]:text-white [&>button]:hover:text-white/80">
-  <DialogHeader>
-    <DialogTitle className="w-full flex font-bold text-3xl items-center justify-between text-gray-500">
-      {turnoOcita === "turno" ? "Crear Turno" : "Agregar Seguimiento"}
-      <div className="pr-5">
-        {patientId && <ReminderButton appointment={patientId} />}
-      </div>
-    </DialogTitle>
-    <DialogDescription className="text-gray-500 text-start font-light text-base">
-      {turnoOcita === "turno"
-        ? "Crear un nuevo turno para el paciente"
-        : "Agregar un seguimiento para el paciente"}
-    </DialogDescription>
-  </DialogHeader>
+                      <DialogContent
+                        className={cn(
+                          "w-[90vw] max-w-[480px] sm:max-w-[600px]",
+                          "sm:w-full",
+                          "max-h-[90vh]",
+                          "p-4 rounded-xl shadow-xl [&>button]:text-white [&>button]:hover:text-white/80"
+                        )}
+                      >
+                        <DialogHeader>
+                          <DialogTitle className="w-full flex font-bold text-3xl items-center justify-between text-gray-500">
+                            {turnoOcita === "turno"
+                              ? "Crear Turno"
+                              : "Agregar Seguimiento"}
+                            <div className="pr-5">
+                              {patientId && (
+                                <ReminderButton appointment={patientId} />
+                              )}
+                            </div>
+                          </DialogTitle>
+                          <DialogDescription className="text-gray-500 text-start font-light text-base">
+                            {turnoOcita === "turno"
+                              ? "Crear un nuevo turno para el paciente"
+                              : "Agregar un seguimiento para el paciente"}
+                          </DialogDescription>
+                        </DialogHeader>
 
-  {turnoOcita === "turno" ? (
-    <ScrollArea className="max-h-[80vh] overflow-y-auto">
-      <NewAppointmentForm
-        component="calendar"
-        patientId={patientId}
-        type="create"
-        initialDateTime={selectedTime}
-        onSuccess={() => {
-          setIsOpen(false);
-          setTurnoOcita("");
-        }}
-      />
-    </ScrollArea>
-  ) : (
-    <FollowUpForm
-      patientId={patientId}
-      initialDateTime={selectedTime}
-      onSuccess={() => {
-        setIsOpen(false);
-        setTurnoOcita("");
-      }}
-    />
-  )}
-</DialogContent>
-
+                        {turnoOcita === "turno" ? (
+                          <ScrollArea className="h-full max-h-[80vh] pr-2">
+                            <NewAppointmentForm
+                              component="calendar"
+                              patientId={patientId}
+                              type="create"
+                              initialDateTime={selectedTime}
+                              onSuccess={() => {
+                                setIsOpen(false);
+                                setTurnoOcita("");
+                              }}
+                            />
+                          </ScrollArea>
+                        ) : (
+                          <FollowUpForm
+                            patientId={patientId}
+                            initialDateTime={selectedTime}
+                            onSuccess={() => {
+                              setIsOpen(false);
+                              setTurnoOcita("");
+                            }}
+                          />
+                        )}
+                      </DialogContent>
                     </Dialog>
                   </>
                 )}
