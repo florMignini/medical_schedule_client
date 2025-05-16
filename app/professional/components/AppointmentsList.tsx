@@ -181,7 +181,8 @@ const AppointmentsList = ({ appointments }: any) => {
                         if (!open) setTurnoOcita(""); 
                       }}
                     >
-                     <DialogContent className="w-[90vw] max-w-[480px] sm:max-w-[600px] max-h-[90vh] p-4 overflow-y-auto rounded-2xl shadow-lg">
+                     <DialogContent className="w-[90vw] max-w-[480px] sm:max-w-[600px] max-h-[90vh] p-4 overflow-y-auto rounded-2xl shadow-lg [&>button]:text-white [&>button]:hover:text-white/80">
+                      
   <DialogHeader>
     <DialogTitle className="w-full flex font-bold text-3xl items-center justify-between text-gray-500">
       {turnoOcita === "turno" ? "Crear Turno" : "Agregar Seguimiento"}
