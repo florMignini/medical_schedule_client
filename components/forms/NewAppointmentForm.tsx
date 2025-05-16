@@ -204,7 +204,7 @@ const NewAppointmentForm = ({
                     )}
                   />
                 ) : (
-                  <div className="w-full space-y-2">
+                  <div className="w-full flex items-center justify-center space-y-2">
                     <Skeleton className="h-16 bg-white/20 w-[75%] rounded-md" />
                   </div>
                 )}
