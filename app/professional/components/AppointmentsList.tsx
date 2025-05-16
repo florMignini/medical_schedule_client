@@ -26,6 +26,7 @@ import {
 import ReminderButton from "./ReminderButton";
 import NewAppointmentForm from "@/components/forms/NewAppointmentForm";
 import FollowUpForm from "@/components/forms/FollowUpForm";
+import { useRouter } from "next/navigation";
 
 const AppointmentsList = ({ appointments }: any) => {
   // patient info
@@ -180,49 +181,46 @@ const AppointmentsList = ({ appointments }: any) => {
                         if (!open) setTurnoOcita(""); // limpiar tipo al cerrar
                       }}
                     >
-                      <DialogContent className="max-h-[90vh] overflow-y-auto sm:max-w-[480px] w-[90vw] [&>button]:text-white [&>button]:hover:text-white/80">
-                        <DialogHeader>
-                          <DialogTitle className="w-full flex font-bold text-3xl items-center justify-between text-gray-500">
-                            {turnoOcita === "turno"
-                              ? "Crear Turno"
-                              : "Agregar Seguimiento"}
-                            <div className="pr-5">
-                              {patientId && (
-                                <ReminderButton appointment={patientId} />
-                              )}
-                            </div>
-                          </DialogTitle>
-                          <DialogDescription className="text-gray-500 text-start font-light text-base">
-                            {turnoOcita === "turno"
-                              ? "Crear un nuevo turno para el paciente"
-                              : "Agregar un seguimiento para el paciente"}
-                          </DialogDescription>
-                        </DialogHeader>
+                     <DialogContent className="max-h-[90vh] overflow-y-auto sm:max-w-[480px] w-[90vw] [&>button]:text-white [&>button]:hover:text-white/80">
+  <DialogHeader>
+    <DialogTitle className="w-full flex font-bold text-3xl items-center justify-between text-gray-500">
+      {turnoOcita === "turno" ? "Crear Turno" : "Agregar Seguimiento"}
+      <div className="pr-5">
+        {patientId && <ReminderButton appointment={patientId} />}
+      </div>
+    </DialogTitle>
+    <DialogDescription className="text-gray-500 text-start font-light text-base">
+      {turnoOcita === "turno"
+        ? "Crear un nuevo turno para el paciente"
+        : "Agregar un seguimiento para el paciente"}
+    </DialogDescription>
+  </DialogHeader>
 
-                        {turnoOcita === "turno" ? (
-                          <ScrollArea className="max-h-[80vh] overflow-y-auto">
-                            <NewAppointmentForm
-                              component="calendar"
-                              onSuccess={() => {
-                              setIsOpen(false);
-                              setTurnoOcita("");
-                            }}
-                            patientId={patientId}
-                            type="create"
-                            initialDateTime={selectedTime}
-                          />
-                         </ScrollArea>
-                        ) : (
-                          <FollowUpForm
-                            onSuccess={() => {
-                              setIsOpen(false);
-                              setTurnoOcita("");
-                            }}
-                            patientId={patientId}
-                            initialDateTime={selectedTime}
-                          />
-                        )}
-                      </DialogContent>
+  {turnoOcita === "turno" ? (
+    <ScrollArea className="max-h-[80vh] overflow-y-auto">
+      <NewAppointmentForm
+        component="calendar"
+        patientId={patientId}
+        type="create"
+        initialDateTime={selectedTime}
+        onSuccess={() => {
+          setIsOpen(false);
+          setTurnoOcita("");
+        }}
+      />
+    </ScrollArea>
+  ) : (
+    <FollowUpForm
+      patientId={patientId}
+      initialDateTime={selectedTime}
+      onSuccess={() => {
+        setIsOpen(false);
+        setTurnoOcita("");
+      }}
+    />
+  )}
+</DialogContent>
+
                     </Dialog>
                   </>
                 )}
