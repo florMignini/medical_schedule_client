@@ -185,7 +185,7 @@ const AppointmentsList = ({ appointments }: any) => {
                         if (!open) setTurnoOcita("");
                       }}
                     >
-                      <DialogContent className="w-full sm:max-w-[600px] max-h-[90vh] p-4 overflow-y-auto rounded-2xl shadow-lg [&>button]:text-white [&>button]:hover:text-white/80">
+                      <DialogContent className="w-[80vw] sm:max-w-[600px] max-h-[100vh] p-4 overflow-y-auto rounded-2xl shadow-lg [&>button]:text-white [&>button]:hover:text-white/80">
                         <DialogHeader>
                           <DialogTitle className="w-full flex font-bold text-3xl items-center justify-between text-gray-500">
                             {turnoOcita === "turno"
