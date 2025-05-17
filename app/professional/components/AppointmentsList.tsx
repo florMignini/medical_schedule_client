@@ -205,7 +205,7 @@ const AppointmentsList = ({ appointments }: any) => {
                         </DialogHeader>
 
                         {turnoOcita === "turno" ? (
-                          <ScrollArea className="h-full max-h-[80vh] pr-2">
+
                             <NewAppointmentForm
                               component="calendar"
                               patientId={patientId}
@@ -216,7 +216,7 @@ const AppointmentsList = ({ appointments }: any) => {
                                 setTurnoOcita("");
                               }}
                             />
-                          </ScrollArea>
+
                         ) : (
                           <FollowUpForm
                             patientId={patientId}
