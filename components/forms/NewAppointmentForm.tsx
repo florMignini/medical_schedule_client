@@ -124,9 +124,9 @@ const NewAppointmentForm = ({
 
         setLoading(false);
         toast({
-          className: "bg-emerald-500 text-black",
           title: "Programando Turno...",
           description: "El turno ha sido creado correctamente",
+          className: "bg-emerald-500 text-black",
           duration: 5000,
         });
         onSuccess?.();

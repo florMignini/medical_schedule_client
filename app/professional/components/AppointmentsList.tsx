@@ -153,7 +153,7 @@ const AppointmentsList = ({ appointments }: any) => {
                           <DropdownMenuItem
                             className="font-bold text-black hover:bg-black hover:text-white rounded-md"
                             onSelect={(e) => {
-                              e.preventDefault(); // evita que se cierre el dropdown automáticamente
+                              e.preventDefault(); 
                               setTurnoOcita("turno");
                               setSelectedTime(time);
                               setIsOpen(true);
