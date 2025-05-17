@@ -217,6 +217,7 @@ const NewAppointmentForm = ({
                 fieldType={FormFieldType.DATE_PICKER}
                 control={form.control}
                 name="schedule"
+                disable={component === "calendar" ? true : false}
                 showTimeSelect
                 defaultValue={initialDateTime || new Date()}
                 dateFormat="dd/MM/yyyy - h:mm aa"
