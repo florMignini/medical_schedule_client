@@ -25,6 +25,7 @@ import { Dialog } from "@/components/ui/dialog";
 
 import { useState } from "react";
 import RescheduleAppointmentForm from "@/components/forms/RescheduleAppointmentForm";
+import { useToast } from "@/hooks/use-toast";
 
 const ConfigAppointmentButton = ({ id, component, appointment }: any) => {
 
@@ -32,7 +33,7 @@ const ConfigAppointmentButton = ({ id, component, appointment }: any) => {
   const router = useRouter();
   const [status, setStatus] = useState<string | null>(null);
   let path = pathname && pathname.split("/")[pathname.split("/").length - 1];
-
+  const { toast } = useToast();
   const [deleteError, setDeleteError] = useState<string | null>(null);
 
   const deleteAppointment = async (idOrAppointment: string | any) => {
@@ -43,6 +44,12 @@ const ConfigAppointmentButton = ({ id, component, appointment }: any) => {
         `https://medical-schedule-server.onrender.com/api/appointment/delete-appointment/${appointmentId}`
       );
       if (data) {
+        toast({
+          title: "Eliminando turno...",
+          description: "El turno ha sido eliminado correctamente",
+          className: "bg-red-500 text-black",
+          duration: 5000,
+        });
         router.push(`/professional/appointments`);
         router.refresh();
       }
