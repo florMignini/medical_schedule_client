@@ -48,7 +48,7 @@ const Calendar = ({ appointments }: any) => {
   return (
     <div className="w-[100%] p-4 h-auto min-[768px]:h-screen">
       {/* top section */}
-      <div className="w-[100%] flex items-center justify-between text-black">
+      <div className="w-[100%] flex items-center justify-between mb-12 text-black">
         <h2 className="w-[33%] flex items-center justify-start font-light text-lg">
           {dayjs(`${currentYear}-${currentMonth + 1}`).format("MMMM YYYY")}
         </h2>
