@@ -2,6 +2,8 @@
 import { useState } from "react";
 import dayjs from "dayjs";
 import { CalendarX, PartyPopper } from "lucide-react";
+import "dayjs/locale/es";
+dayjs.locale("es");
 
 import { Patient } from "@/interfaces";
 
@@ -49,18 +51,23 @@ const Calendar = ({ appointments }: any) => {
     <div className="w-[100%] p-4 h-auto min-[768px]:h-screen">
       {/* top section */}
       <div className="w-[100%] flex items-center justify-between mb-12 text-black">
-        <h2 className="w-[33%] flex items-center justify-start font-light text-lg">
-          {dayjs(`${currentYear}-${currentMonth + 1}`).format("MMMM YYYY")}
+        <h2 className="w-[33%] flex items-center justify-start font-semibold text-lg">
+          {dayjs(`${currentYear}-${currentMonth + 1}`).locale("es").format(
+            "MMMM YYYY"
+          )[0].toUpperCase() +
+            dayjs(`${currentYear}-${currentMonth + 1}`).locale("es").format(
+              "MMMM YYYY"
+            ).slice(1)}
         </h2>
         <div className="flex items-center justify-center w-[33%] gap-4">
           <button
             onClick={handlePrevMonth}
-            className="w-[33%] flex justify-start font-semibold   text-lg hover:text-gray-500"
+            className="w-[33%] flex justify-start font-semibold text-lg hover:text-gray-500"
           >
             <ArrowLeft width={20} height={20} />
           </button>
           <button
-            className="w-[33%] flex justify-end font-semibold   text-lg hover:text-gray-500"
+            className="w-[33%] flex justify-end font-semibold text-lg hover:text-gray-500"
             onClick={handleNextMonth}
           >
             <ArrowRight width={20} height={20} />
