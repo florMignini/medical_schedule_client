@@ -6,7 +6,7 @@
 
 @layer components {
   .logo-ticker-image {
-    @apply h-20 w-auto
+    @apply h-20 w-auto;
   }
 }
 
@@ -47,7 +47,7 @@
     --chart-4: 43 74% 66%;
     --chart-5: 27 87% 67%;
   }
- 
+
   .dark {
     --chart-1: 220 70% 50%;
     --chart-2: 160 60% 45%;
@@ -81,7 +81,7 @@
   }
 
   .title {
-    @apply py-2 px-1 top-8 sm:top-12 max-[490px]:text-[20px] max-[768px]:text-[30px] max-[490px]:ml-0 max-[768px]:ml-7 sm:text-5xl sm:mx-auto font-bold tracking-tighter bg-gradient-to-b from-black to-[#001E80] text-transparent text-center sm:text-end bg-clip-text sm:leading-normal
+    @apply py-2 px-1 top-8 sm:top-12 max-[490px]:text-[20px] max-[768px]:text-[30px] max-[490px]:ml-0 max-[768px]:ml-7 sm:text-5xl sm:mx-auto font-bold tracking-tighter bg-gradient-to-b from-black to-[#001E80] text-transparent text-center sm:text-end bg-clip-text sm:leading-normal;
   }
 
   .header {
@@ -223,15 +223,15 @@
 
   /* ==== text gradient color */
   .text-color {
-    @apply text-[#474747]
+    @apply text-[#474747];
   }
 
   .bg-gradient {
-    @apply bg-[#EBEBEB]
+    @apply bg-[#EBEBEB];
   }
 
   .glass-effect {
-    @apply relative z-40 bg-white backdrop:blur-3xl px-2 py-3 rounded-lg shadow-sm shadow-[#a4a3a3] border border-white/50
+    @apply relative z-40 bg-white backdrop:blur-3xl px-2 py-3 rounded-lg shadow-sm shadow-[#a4a3a3] border border-white/50;
   }
 
   /* =====  SHADCN OVERRIDES */
@@ -280,7 +280,7 @@
   }
 
   .AlertDialogContent {
-    @apply bg-white/50 shadow-light-200 shadow-md fixed top-[50%] left-[50%] -translate-x-[50%] w-[90%] max-w-[500px] max-h-[90%] p-[25px]
+    @apply bg-white/50 shadow-light-200 shadow-md fixed top-[50%] left-[50%] -translate-x-[50%] w-[90%] max-w-[500px] max-h-[90%] p-[25px];
   }
 
   .AlertDialogContent:focus {
@@ -312,15 +312,15 @@
   }
 
   .shad-otp {
-    @apply w-full flex justify-between !important;
+    @apply w-full flex  justify-between !important;
   }
-
+  
   .shad-otp-slot {
-    @apply text-36-bold justify-center flex border border-white rounded-lg size-16 gap-4 !important;
+    @apply text-36-bold justify-center flex border text-white border-white rounded-lg size-12 lg:size-16 gap-4 !important;
   }
 
   .shad-alert-dialog {
-    @apply space-y-5 bg-white border-white outline-none !important;
+    @apply mx-auto max-w-sm p-4 border border-gray-200 rounded-xl shadow-md flex items-start flex-wrap gap-3 sm:max-w-xs z-50 space-y-5 bg-black outline-none !important;
   }
 
   .shad-sheet-content button {
@@ -329,7 +329,7 @@
 
   /* =====  REACT PHONE NUMBER INPUT OVERRIDES */
   .input-phone {
-    @apply mt-2 h-11 rounded-md px-3 text-sm bg-white border-black/20 placeholder:text-dark-700 border-[1px] focus-visible:ring-0 shadow-lg shadow-[#6e6e6e] bg-clip-text focus-visible:ring-offset-0 text-dark-600 !important
+    @apply mt-2 h-11 rounded-md px-3 text-sm bg-white border-black/20 placeholder:text-dark-700 border-[1px] focus-visible:ring-0 shadow-lg shadow-[#6e6e6e] bg-clip-text focus-visible:ring-offset-0 text-dark-600 !important;
   }
 
   /* =====  REACT DATE PICKER OVERRIDES */
@@ -361,13 +361,13 @@
 .react-datepicker__current-month,
 .react-datepicker__day-name,
 .react-datepicker-time__header {
-  color: #E8E9E9 !important;
+  color: #e8e9e9 !important;
 }
 
 .react-datepicker__triangle {
   fill: #000000 !important;
-  color: #E8E9E9 !important;
-  stroke: #E8E9E9 !important;
+  color: #e8e9e9 !important;
+  stroke: #e8e9e9 !important;
 }
 
 .react-datepicker__time-list-item:hover {
@@ -404,11 +404,10 @@
   background-color: #000000 !important;
   border-color: #646464 !important;
 }
-.react-datepicker__navigation--react-datepicker__navigation--years--react-datepicker__navigation--years-previous{
+.react-datepicker__navigation--react-datepicker__navigation--years--react-datepicker__navigation--years-previous {
   border-color: #646464 !important;
-  color: #ffffff
+  color: #ffffff;
 }
-
 
 /* =====  REACT PHONE NUMBER INPUT OVERRIDES */
 
@@ -423,4 +422,3 @@
 .PhoneInputInput::placeholder {
   color: #000000;
 }
-
