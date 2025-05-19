@@ -5,11 +5,12 @@ import { FaGithub } from "react-icons/fa";
 import ProfessionalLoginForm from "@/components/forms/ProfessionalLoginForm";
 import Link from "next/link";
 import PasskeyModal from "./professional/components/PasskeyModal";
+import { usePathname } from "next/navigation";
 
 export default function Home({ searchParams }: any) {
   
   const isAdmin = searchParams?.admin === "true";
-  
+
   return (
     <div className="flex w-[100%] h-[100%]">
       {/* If admin Session */}
