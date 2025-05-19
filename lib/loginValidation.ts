@@ -6,3 +6,7 @@ export const loginFormValidation = z.object({
     password: z.string()
     .min(6, "La contraseña debe tener al menos 6 caracteres.")
   });
+
+  export const inviteFormValidation = z.object({
+    email: z.string().email("Email inválido"),
+  })
