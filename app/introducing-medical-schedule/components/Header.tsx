@@ -23,7 +23,7 @@ const Header = () => {
                         Soy Usuario
                     </Link>
                     <Link
-                        href="/"
+                        href="/admin/professional-invite"
                         className="transition duration-200 ease-in-out flex items-center justify-center gap-2.5 px-1 py-2  border-[1px] border-gray-600 rounded-lg bg-gradient-to-b from-black to-[#807f7f] text-white text-center hover:bg-gradient-to-b hover:from-white hover:to-[#222222] hover:text-[#1c1c1c]"
                     >
                         Registrarme
