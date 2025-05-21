@@ -1,5 +1,5 @@
 import { ScrollArea } from "../../../../../components/ui/scroll-area";
-import ProfessionalRegistrationForm from "../components/forms/ProfessionalRegistrationForm";
+import ProfessionalRegistrationForm from "../../components/forms/ProfessionalRegistrationForm";
 
 
 const ProfessionalRegistration = () => {
