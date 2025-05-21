@@ -312,7 +312,7 @@
   }
 
   .shad-otp {
-    @apply w-full flex  justify-between !important;
+    @apply min-[600px]:w-[100%] flex justify-between !important;
   }
   
   .shad-otp-slot {
@@ -320,7 +320,7 @@
   }
 
   .shad-alert-dialog {
-    @apply mx-auto max-w-sm p-4 border border-gray-200 rounded-xl shadow-md flex items-start flex-wrap gap-3 sm:max-w-xs z-50 space-y-5 bg-black outline-none !important;
+    @apply min-[600px]:w-[100%] mx-auto max-w-sm p-4 border border-gray-200 rounded-xl shadow-md flex items-start flex-wrap gap-3 sm:max-w-xs z-50 space-y-5 bg-black outline-none !important;
   }
 
   .shad-sheet-content button {
