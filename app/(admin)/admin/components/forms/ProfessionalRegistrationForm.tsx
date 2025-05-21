@@ -14,12 +14,8 @@ import {
   IdentificationType,
 } from "@/app/(professional)/professional/data";
 
-import DropdownIcon from "../../../../public/assets/icons/arrowDown.svg";
-import {
-  createNewProfessional,
-  createProfessionalPatientRelation,
-  patientRegistration,
-} from "@/app/actions";
+import DropdownIcon from "../../../../../public/assets/icons/arrowDown.svg";
+import { createNewProfessional } from "@/app/actions";
 import FileUploader from "@/components/FileUploader";
 import SubmitButton from "@/components/SubmitButton";
 import { FormFieldType } from "@/components/forms";
