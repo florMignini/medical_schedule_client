@@ -21,7 +21,7 @@ import {
   updateInstitutionAction,
   updateProfessionalProfileAction,
 } from "@/app/actions";
-import { genderOptions } from "@/app/professional/data";
+import { genderOptions } from "@/app/(professional)/professional/data";
 import { RadioGroup, RadioGroupItem } from "../ui/radio-group";
 
 const ProfessionalProfileUpdateForm = (professionalInfo: any) => {

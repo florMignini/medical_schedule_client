@@ -20,7 +20,7 @@ import UserIcon from "../../public/assets/icons/user-verification.svg";
 import DropdownIcon from "../../public/assets/icons/arrowDown.svg";
 import mailIcon from "../../public/assets/icons/email.svg";
 import { createNewInstitution, createProfessionalInstitutionRelation } from "@/app/actions";
-import CloseIcon from "@/app/professional/components/icons/CloseIcon";
+import CloseIcon from "@/app/(professional)/professional/components/icons/CloseIcon";
 
 type professionalType = {
     id: string;

@@ -10,7 +10,7 @@ import { FormFieldType } from "./ProfessionalLoginForm";
 import SubmitButton from "../SubmitButton";
 import { useEffect, useState } from "react";
 import { createProfessionalReminderRelation, createReminder } from "@/app/actions/reminderAction";
-import Whatsapp from "@/app/professional/components/icons/Whatsapp";
+import Whatsapp from "@/app/(professional)/professional/components/icons/Whatsapp";
 import { useRouter } from "next/navigation";
 
 interface ReminderFormProps {

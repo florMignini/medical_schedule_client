@@ -3,15 +3,15 @@
 import Link from "next/link";
 import Image from "next/image";
 import Logo from "../public/assets/medical_schedule-logo.svg";
-import { ProfessionalSidebarData } from "@/app/professional/data";
+import { ProfessionalSidebarData } from "@/app/(professional)/professional/data";
 
 import { toggleSideI } from "@/interfaces";
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib";
 import { closeSessionServer } from "@/app/actions";
-import ArrowRight from "@/app/professional/components/icons/ArrowRight";
-import Logout from "@/app/professional/components/icons/Logout";
-import CloseIcon from "@/app/professional/components/icons/CloseIcon";
+import ArrowRight from "@/app/(professional)/professional/components/icons/ArrowRight";
+import Logout from "@/app/(professional)/professional/components/icons/Logout";
+import CloseIcon from "@/app/(professional)/professional/components/icons/CloseIcon";
 
 const ProfessionalSidebar = ({
   isOpen,

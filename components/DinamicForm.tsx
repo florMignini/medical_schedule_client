@@ -21,8 +21,8 @@ import calendarIcon from "../public/assets/icons/calendar.svg";
 import { Select, SelectContent, SelectTrigger, SelectValue } from "./ui/select";
 import { Textarea } from "./ui/textarea";
 import { Checkbox } from "./ui/checkbox";
-import CalendarIcon from "@/app/professional/components/icons/CalendarIcon";
-import Mail from "@/app/professional/components/icons/Mail";
+import CalendarIcon from "@/app/(professional)/professional/components/icons/CalendarIcon";
+import Mail from "@/app/(professional)/professional/components/icons/Mail";
 interface CustomProperty {
   type?: string;
   control: Control<any>;
