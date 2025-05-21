@@ -1,9 +1,7 @@
 import type { Metadata } from "next";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Roboto } from "next/font/google";
 import "./globals.css";
 import { cn } from "@/lib/utils";
-import { Provider } from "./providers";
 import { Toaster } from "@/components/ui/toaster";
 import Head from "./head";
 
