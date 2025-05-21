@@ -1,6 +1,4 @@
 import AdminNavbar from "../components/AdminNavbar";
-import AdminDashboard from "./page";
-
 
 const links = [
   { name: "accordion", href: "accordion" },
@@ -13,14 +11,11 @@ export default function AdminLayout({
   children: React.ReactNode;
 }) {
   return (
-    <>
-      <main className="bg-[#EBEBEB] w-full h-screen">
-      <AdminNavbar/>
-       {<AdminDashboard
-       // eslint-disable-next-line react/no-children-prop
-       children={children}
-       />}
-      </main>
-    </>
+    <div className="bg-[#EBEBEB] w-full h-screen">
+      <AdminNavbar />
+      <section className="flex flex-col items-center justify-center mx-auto">
+        {children}
+      </section>
+    </div>
   );
 }
