@@ -20,8 +20,8 @@ interface IIDs {
 export async function inviteProfessionalAction(email: string) {
   "use server";
   try {
-    const { data } = await axios.post(
-      `https://medical-schedule-server.onrender.com/api/auth/invite`,
+    const { data } = await apiServer.post(
+      `/auth/invite`,
       { email }
     );
     return {
