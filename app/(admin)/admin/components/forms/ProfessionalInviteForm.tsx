@@ -5,20 +5,21 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { Form } from "@/components/ui/form";
 import DinamicForm from "@/components/DinamicForm";
-
+import { useToast } from "@/hooks/use-toast";
 import UserIcon from "../../../../../public/assets/icons/user-shield.svg";
 import SubmitButton from "../../../../../components/SubmitButton";
 import { useState } from "react";
 import { inviteFormValidation } from "../../../../../lib/loginValidation";
 import { useRouter } from "next/navigation";
 import { FormFieldType } from "../../../../../components/forms/ProfessionalLoginForm";
+import { inviteProfessionalAction } from "@/app/actions";
 
 
 
 const ProfessionalInviteForm = () => {
   const [loading, setLoading] = useState(false);
 const [loginError, setLoginError] = useState<string>()
-
+const {toast} = useToast();
   const router = useRouter();
   const form = useForm<z.infer<typeof inviteFormValidation>>({
     resolver: zodResolver(inviteFormValidation),
@@ -34,17 +35,19 @@ const [loginError, setLoginError] = useState<string>()
   async function onSubmit(value: z.infer<typeof inviteFormValidation>) {
     setLoading(true);
     try {
-     
- 
-    //   if(typeof res === "string"){
-    //     setLoginError(`No existe el usuario ${value.username} ó la contraseña es incorrecta`)
-    //     setErrorTimed();
-    //   }
-    //   if(res === undefined){
-    //     setLoginError("Usuario ó Contraseña incorrectos")
-    //     setErrorTimed();
-    //   }
-    //   res ? router.push("/professional/dashboard") : router.push("/");
+      const response = await inviteProfessionalAction(value.email);
+      if (response?.status === 200) {
+        toast({
+          title: "enviando invitacion...",
+          description: response?.message,
+          className: "bg-emerald-500 text-black",
+          duration: 5000,
+        })
+      } else {
+        setLoginError(response?.message);
+        setErrorTimed();
+      }
+      form.reset();
       setLoading(false);
     } catch (error:any) {
       console.error(error);
