@@ -1,6 +1,5 @@
 "use client";
 import { useEffect, useState } from "react";
-import { useSearchParams } from "next/navigation";
 
 import { validateToken } from "@/app/actions";
 import { Skeleton } from "../../../../components/ui/skeleton";
@@ -20,18 +19,16 @@ interface ProfessionalRegistrationProps {
 }
 
 const ProfessionalRegistration = ({ token }: ProfessionalRegistrationProps) => {
-  const searchParams = useSearchParams();
-  const tokenFromProps = token || searchParams.get('token');
-  console.log("Token:", tokenFromProps);
+
   const [email, setEmail] = useState('');
   const [loading, setLoading] = useState(true);
   const [tokenValid, setTokenValid] = useState(false);
   const [error, setError] = useState('');
   useEffect(() => {
     (async () => {
-      if (!tokenFromProps) return;
+      if (!token) return;
       try {
-        const response = await validateToken(tokenFromProps as string) as TokenValidationResponse;
+        const response = await validateToken(token as string) as TokenValidationResponse;
         if (response.status === 200) {
           setEmail(response.data.email);
           setTokenValid(true);
@@ -45,7 +42,7 @@ const ProfessionalRegistration = ({ token }: ProfessionalRegistrationProps) => {
         setLoading(false);
       }
     })
-  }, [tokenFromProps]);
+  }, [token]);
   if (loading) return <Skeleton className="h-[90%] bg-gray-500 w-[95%] mx-auto my-auto rounded-md" />;
   if (!tokenValid) return <p className="text-red-500">Invalid or expired token.</p>;
   if (error) return <p className="text-red-500">{error}</p>;
