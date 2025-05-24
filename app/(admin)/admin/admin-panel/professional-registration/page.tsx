@@ -4,7 +4,7 @@ import { useRouter } from "next/router";
 import { ScrollArea } from "../../../../../components/ui/scroll-area";
 import ProfessionalRegistrationForm from "../../components/forms/ProfessionalRegistrationForm";
 import { validateToken } from "@/app/actions";
-import { Skeleton } from "@/components";
+import { Skeleton } from "../../../../../components/ui/skeleton";
 
 interface TokenValidationResponse {
   status: number;
