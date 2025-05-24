@@ -17,11 +17,11 @@ interface TokenValidationResponse {
   };
   message: string;
 }
-
+type Params = { token: string }
 const ProfessionalRegistration = () => {
   const searchParams = useSearchParams();
   const token = searchParams.get('token');
-
+console.log("Token:", token);
   const [email, setEmail] = useState('');
   const [loading, setLoading] = useState(true);
   const [tokenValid, setTokenValid] = useState(false);
