@@ -21,7 +21,6 @@ interface ProfessionalRegistrationProps {
 }
 
 const ProfessionalRegistration = ({ token }: ProfessionalRegistrationProps) => {
-  console.log("Token:", token);
   const [email, setEmail] = useState("");
   const [loading, setLoading] = useState(true);
   const [tokenValid, setTokenValid] = useState(false);
@@ -29,7 +28,7 @@ const ProfessionalRegistration = ({ token }: ProfessionalRegistrationProps) => {
   const router = useRouter();
   const { toast } = useToast();
   useEffect(() => {
-    async () => {
+    const validate = async () => {
       if (!token) {
         toast({
           title: "Token missing",
@@ -40,13 +39,10 @@ const ProfessionalRegistration = ({ token }: ProfessionalRegistrationProps) => {
         return;
       }
       try {
-        const response = (await validateToken(
-          token as string
-        )) as TokenValidationResponse;
+        const response = (await validateToken(token)) as TokenValidationResponse;
         if (response.status === 200) {
           setEmail(response.data.email);
           setTokenValid(true);
-          setLoading(false);
         } else {
           setError(response.message);
         }
@@ -57,7 +53,10 @@ const ProfessionalRegistration = ({ token }: ProfessionalRegistrationProps) => {
         setLoading(false);
       }
     };
+  
+    validate();
   }, [token]);
+  
   if (loading)
     return (
       <Skeleton className="h-[90%] bg-gray-500 w-[95%] mx-auto my-auto rounded-md" />
