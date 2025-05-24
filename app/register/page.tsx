@@ -3,10 +3,13 @@ export const dynamic = 'force-dynamic';
 
 import { useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
-import { ScrollArea } from "../../../../../components/ui/scroll-area";
-import ProfessionalRegistrationForm from "../../components/forms/ProfessionalRegistrationForm";
+
 import { validateToken } from "@/app/actions";
-import { Skeleton } from "../../../../../components/ui/skeleton";
+import { Skeleton } from "../../components/ui/skeleton";
+import { ScrollArea } from "../../components/ui/scroll-area";
+import ProfessionalRegistrationForm from "../(admin)/admin/components/forms/ProfessionalRegistrationForm";
+
+
 
 interface TokenValidationResponse {
   status: number;
@@ -43,7 +46,7 @@ const ProfessionalRegistration = () => {
       }
     })
   }, [token]);
-  if (loading) return <Skeleton className="h-36 bg-gray-500 w-[95%] rounded-md" />;
+  if (loading) return <Skeleton className="h-[90%] bg-gray-500 w-[95%] mx-auto my-auto rounded-md" />;
   if (!tokenValid) return <p className="text-red-500">Invalid or expired token.</p>;
   if (error) return <p className="text-red-500">{error}</p>;
   return (
