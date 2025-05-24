@@ -2,9 +2,9 @@
 import { useEffect, useState } from "react";
 
 import { validateToken } from "@/app/actions";
-import { Skeleton } from "../../../../components/ui/skeleton";
-import { ScrollArea } from "../../../../components/ui/scroll-area";
-import ProfessionalRegistrationForm from "../../../(admin)/admin/components/forms/ProfessionalRegistrationForm";
+import { Skeleton } from "../../../components/ui/skeleton"; 
+import { ScrollArea } from "../../../components/ui/scroll-area";
+import ProfessionalRegistrationForm from "../../(admin)/admin/components/forms/ProfessionalRegistrationForm";
 import { useToast } from "@/hooks/use-toast";
 import { useRouter } from "next/navigation";
 
