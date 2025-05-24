@@ -33,8 +33,10 @@ import CloseIcon from "@/app/(professional)/professional/components/icons/CloseI
 import Icon from "@/components/ui/icon";
 import User from "@/app/(professional)/professional/components/icons/User";
 import { useToast } from "@/hooks/use-toast";
-
-const ProfessionalRegistrationForm = () => {
+interface Props {
+  email: string;
+}
+const ProfessionalRegistrationForm = ({ email }: Props) => {
   const [loading, setLoading] = useState(false);
   const router = useRouter();
   const [isThereAnImage, setIsTthereAnImage] = useState<boolean>(false);
@@ -51,7 +53,7 @@ const ProfessionalRegistrationForm = () => {
       username: "",
       password: "",
       specialty: "",
-      email: "",
+      email: email,
       phoneNumber: "",
       gender: "M" as Gender,
       birthDate: new Date(Date.now()),
