@@ -37,6 +37,22 @@ export async function inviteProfessionalAction(email: string) {
   }
 }
 
+export async function validateToken(token: string) {
+  "use server";
+  try {
+    const { data } = await apiServer.get(
+      `/auth/validate-token/${token}`
+    );
+    return data;
+  }
+  catch (error: any) {
+    console.error("Error al validar token:", error.response?.data || error.message);
+    return {
+      status: error.response?.status || 500,
+      message: error.response?.data?.message || "Error al validar token, intente nuevamente"
+    };
+  }
+}
 
 export async function createNewProfessional({
   userImage,
