@@ -1,13 +1,8 @@
-import React, { Suspense } from "react";
 import ProfessionalRegistration from "./professional-registration/page";
 
 
-const Page = () => {
-  return (
-    <Suspense fallback={<div>Cargando...</div>}>
-      <ProfessionalRegistration />
-    </Suspense>
-  );
+const Page = ({ searchParams }: { searchParams: { token?: string } }) => {
+  return <ProfessionalRegistration token={searchParams.token} />;
 };
 
 export default Page;

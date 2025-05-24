@@ -7,8 +7,6 @@ import { Skeleton } from "../../../../components/ui/skeleton";
 import { ScrollArea } from "../../../../components/ui/scroll-area";
 import ProfessionalRegistrationForm from "../../../(admin)/admin/components/forms/ProfessionalRegistrationForm";
 
-
-
 interface TokenValidationResponse {
   status: number;
   data: {
@@ -16,20 +14,24 @@ interface TokenValidationResponse {
   };
   message: string;
 }
-type Params = { token: string }
-const ProfessionalRegistration = () => {
+
+interface ProfessionalRegistrationProps {
+  token?: string;
+}
+
+const ProfessionalRegistration = ({ token }: ProfessionalRegistrationProps) => {
   const searchParams = useSearchParams();
-  const token = searchParams.get('token');
-console.log("Token:", token);
+  const tokenFromProps = token || searchParams.get('token');
+  console.log("Token:", tokenFromProps);
   const [email, setEmail] = useState('');
   const [loading, setLoading] = useState(true);
   const [tokenValid, setTokenValid] = useState(false);
   const [error, setError] = useState('');
   useEffect(() => {
     (async () => {
-      if (!token) return;
+      if (!tokenFromProps) return;
       try {
-        const response = await validateToken(token as string) as TokenValidationResponse;
+        const response = await validateToken(tokenFromProps as string) as TokenValidationResponse;
         if (response.status === 200) {
           setEmail(response.data.email);
           setTokenValid(true);
@@ -43,7 +45,7 @@ console.log("Token:", token);
         setLoading(false);
       }
     })
-  }, [token]);
+  }, [tokenFromProps]);
   if (loading) return <Skeleton className="h-[90%] bg-gray-500 w-[95%] mx-auto my-auto rounded-md" />;
   if (!tokenValid) return <p className="text-red-500">Invalid or expired token.</p>;
   if (error) return <p className="text-red-500">{error}</p>;
