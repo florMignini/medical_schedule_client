@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { Roboto } from "next/font/google";
-
+import "@/app/globals.css";
 import { Toaster } from "@/components/ui/toaster";
 
 
@@ -19,10 +19,18 @@ export const metadata: Metadata = {
 
 export default function RegisterLayout({ children }: { children: React.ReactNode }) {
     return (
-      <section className="w-full h-screen flex flex-col items-center justify-center">
+<main className="min-h-screen w-full bg-gradient-to-br from-slate-100 to-slate-200 flex items-center justify-center px-4">
+      <div className="w-full max-w-2xl bg-white shadow-xl rounded-2xl p-8 border border-gray-200">
+        {/* Título opcional */}
+        <div className="mb-6 text-center">
+          <h1 className="text-2xl font-semibold text-gray-800">Registro de Profesional</h1>
+          <p className="text-sm text-gray-500">Completá tus datos para comenzar</p>
+        </div>
+
         {children}
         <Toaster />
-      </section>
+      </div>
+    </main>
     );
   }
   

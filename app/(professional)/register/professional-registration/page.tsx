@@ -5,9 +5,9 @@ import { useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
 
 import { validateToken } from "@/app/actions";
-import { Skeleton } from "../../components/ui/skeleton";
-import { ScrollArea } from "../../components/ui/scroll-area";
-import ProfessionalRegistrationForm from "../(admin)/admin/components/forms/ProfessionalRegistrationForm";
+import { Skeleton } from "../../../../components/ui/skeleton";
+import { ScrollArea } from "../../../../components/ui/scroll-area";
+import ProfessionalRegistrationForm from "../../../(admin)/admin/components/forms/ProfessionalRegistrationForm";
 
 
 
