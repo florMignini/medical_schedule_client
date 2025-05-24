@@ -32,6 +32,7 @@ const ProfessionalRegistration = ({ token }: ProfessionalRegistrationProps) => {
         if (response.status === 200) {
           setEmail(response.data.email);
           setTokenValid(true);
+          setLoading(false);
         } else {
           setError(response.message);
         }
