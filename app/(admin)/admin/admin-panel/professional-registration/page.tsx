@@ -1,4 +1,6 @@
 "use client";
+export const dynamic = 'force-dynamic';
+
 import { useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import { ScrollArea } from "../../../../../components/ui/scroll-area";
@@ -47,7 +49,9 @@ const ProfessionalRegistration = () => {
   return (
     <section className="w-full h-screen flex pt-2 flex-col items-center justify-start gap-2">
       <ScrollArea className="h-[98%] w-[99%] rounded-md border border-dark-500 p-4">
-        <ProfessionalRegistrationForm />
+        <ProfessionalRegistrationForm
+        email={email}
+        />
       </ScrollArea>
     </section>
   );
