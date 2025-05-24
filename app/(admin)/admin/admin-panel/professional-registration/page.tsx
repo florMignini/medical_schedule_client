@@ -1,6 +1,6 @@
 "use client";
 import { useEffect, useState } from "react";
-import { useRouter } from "next/router";
+import { useSearchParams } from "next/navigation";
 import { ScrollArea } from "../../../../../components/ui/scroll-area";
 import ProfessionalRegistrationForm from "../../components/forms/ProfessionalRegistrationForm";
 import { validateToken } from "@/app/actions";
@@ -15,8 +15,8 @@ interface TokenValidationResponse {
 }
 
 const ProfessionalRegistration = () => {
-  const router = useRouter();
-  const { token } = router.query;
+  const searchParams = useSearchParams();
+  const token = searchParams.get('token');
 
   const [email, setEmail] = useState('');
   const [loading, setLoading] = useState(true);
