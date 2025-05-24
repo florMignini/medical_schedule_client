@@ -5,6 +5,7 @@ import { validateToken } from "@/app/actions";
 import { Skeleton } from "../../../../components/ui/skeleton";
 import { ScrollArea } from "../../../../components/ui/scroll-area";
 import ProfessionalRegistrationForm from "../../../(admin)/admin/components/forms/ProfessionalRegistrationForm";
+import { useToast } from "@/hooks/use-toast";
 
 interface TokenValidationResponse {
   status: number;
@@ -19,14 +20,24 @@ interface ProfessionalRegistrationProps {
 }
 
 const ProfessionalRegistration = ({ token }: ProfessionalRegistrationProps) => {
-
+console.log("Token:", token);
   const [email, setEmail] = useState('');
   const [loading, setLoading] = useState(true);
   const [tokenValid, setTokenValid] = useState(false);
   const [error, setError] = useState('');
+
+  const { toast } = useToast();
   useEffect(() => {
     (async () => {
-      if (!token) return;
+      if (!token){
+        toast({
+          title: "Token missing",
+          description: "No registration token provided.",
+          variant: "destructive"
+        })
+        setLoading(false);
+        return;
+      };
       try {
         const response = await validateToken(token as string) as TokenValidationResponse;
         if (response.status === 200) {
