@@ -43,7 +43,7 @@ const ProfessionalRegistration = ({ token }: ProfessionalRegistrationProps) => {
         const response = (await validateToken(
           token
         )) as TokenValidationResponse;
-
+console.log("Response:", response);
         if (response) {
           setEmail(response.data.email);
           setTokenValid(true);
@@ -56,10 +56,10 @@ const ProfessionalRegistration = ({ token }: ProfessionalRegistrationProps) => {
 
     validate();
   }, [token]);
-console.log("Email:", email);
-console.log("Token Valid:", tokenValid);
-console.log("Error:", error);
-console.log("Loading:", loading);
+// console.log("Email:", email);
+// console.log("Token Valid:", tokenValid);
+// console.log("Error:", error);
+// console.log("Loading:", loading);
   return loading ? (
     <Skeleton className="h-[90%] bg-gray-500 w-[95%] mx-auto my-auto rounded-md" />
   ) : (
