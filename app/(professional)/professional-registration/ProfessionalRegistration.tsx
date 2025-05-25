@@ -43,6 +43,8 @@ const ProfessionalRegistration = ({ token }: ProfessionalRegistrationProps) => {
           setTokenValid(true);
         } else {
           setError(response.message || "Token inválido.");
+          router.push("/admin");
+          return;
         }
   
         setLoading(false);
