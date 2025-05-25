@@ -36,16 +36,16 @@ const ProfessionalRegistration = ({ token }: ProfessionalRegistrationProps) => {
           variant: "destructive",
         });
         setLoading(false);
+        router.push("/admin");
         return;
       }
       try {
         const response = (await validateToken(token)) as TokenValidationResponse;
-        if (response.status === 200) {
-          setEmail(response.data.email);
-          setTokenValid(true);
-        } else {
-          setError(response.message);
-        }
+        console.log(response)
+        // if (response) {
+        //   setEmail(response);
+        //   setTokenValid(true);
+        // }
       } catch (err: any) {
         console.error("Error validating token:", err);
         setError("Error validating token, please try again.");
@@ -56,7 +56,7 @@ const ProfessionalRegistration = ({ token }: ProfessionalRegistrationProps) => {
   
     validate();
   }, [token]);
-  
+  console.log(error, email, loading, tokenValid);
   if (loading)
     return (
       <Skeleton className="h-[90%] bg-gray-500 w-[95%] mx-auto my-auto rounded-md" />
