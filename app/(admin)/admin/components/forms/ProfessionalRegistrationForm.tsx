@@ -97,7 +97,7 @@ const ProfessionalRegistrationForm = ({ email }: Props) => {
           className: "bg-emerald-500 text-black",
           duration: 5000,
         });
-        router.push("/admin/admin-panel/professional-list");
+        router.push("/login");
       }
     } catch (error) {
       console.error(error);
@@ -341,7 +341,7 @@ const ProfessionalRegistrationForm = ({ email }: Props) => {
           className="w-[99%]  border-[1px] border-gray-600 bg-gradient-to-b from-black to-[#807f7f] text-white hover:bg-gradient-to-b hover:from-white hover:to-[#222222] hover:text-[#1c1c1c] text-center p-2 rounded-lg mx-auto"
           loading={loading}
         >
-          Agregar profesional
+          Crear mi usuario
         </SubmitButton>
       </form>
     </Form>
