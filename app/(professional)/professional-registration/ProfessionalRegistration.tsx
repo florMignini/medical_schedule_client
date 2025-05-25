@@ -22,41 +22,11 @@ interface ProfessionalRegistrationProps {
 }
 
 const ProfessionalRegistration = ({ email }: ProfessionalRegistrationProps) => {
-  const [loading, setLoading] = useState(true);
-  const [tokenValid, setTokenValid] = useState(false);
-  const [error, setError] = useState("");
-  const router = useRouter();
-  const { toast } = useToast();
-
-  useEffect(() => {
-    const validate = async () => {
-      try {
-        setTokenValid(true);
-      } catch (err: any) {
-        console.error("Error:", err);
-        setError("Error validating token, please try again.");
-      } finally {
-        setLoading(false);
-      }
-    };
-  
-    validate();
-  }, [email]);
-// console.log("Email:", email);
-// console.log("Token Valid:", tokenValid);
-// console.log("Error:", error);
-// console.log("Loading:", loading);
-  return loading ? (
-    <Skeleton className="h-[90%] bg-gray-500 w-[95%] mx-auto my-auto rounded-md" />
-  ) : (
+  return (
     <section className="w-full h-screen flex pt-2 flex-col items-center justify-start gap-2">
-      {email ? (
-        <ScrollArea className="h-[98%] w-[99%] rounded-md border border-dark-500 p-4">
-          <ProfessionalRegistrationForm email={email} />
-        </ScrollArea>
-      ) : (
-        <p className="text-red-500">{error}</p>
-      )}
+      <ScrollArea className="h-[98%] w-[99%] rounded-md border border-dark-500 p-4">
+        <ProfessionalRegistrationForm email={email} />
+      </ScrollArea>
     </section>
   );
 };
