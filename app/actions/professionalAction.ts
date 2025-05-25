@@ -43,6 +43,7 @@ export async function validateToken(token: string) {
     const { data } = await apiServer.get(
       `/auth/validate-token?token=${token}`
     );
+    console.log(data)
     return data;
   }
   catch (error: any) {
