@@ -40,7 +40,7 @@ export async function inviteProfessionalAction(email: string) {
 export async function validateToken(token: string) {
   "use server";
   try {
-    const { data } = await apiServer.get(
+    const  data  = await apiServer.get(
       `/auth/validate-token?token=${token}`
     );
     console.log(data)
