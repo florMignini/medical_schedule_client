@@ -7,6 +7,7 @@ import { ScrollArea } from "../../../components/ui/scroll-area";
 import ProfessionalRegistrationForm from "../../(admin)/admin/components/forms/ProfessionalRegistrationForm";
 import { useToast } from "@/hooks/use-toast";
 import { useRouter } from "next/navigation";
+import { validateTokenClient } from "@/utils/validateTokenClient";
 
 interface TokenValidationResponse {
   status: number;
@@ -30,24 +31,24 @@ const ProfessionalRegistration = ({ token }: ProfessionalRegistrationProps) => {
   useEffect(() => {
     const validate = async () => {
       if (!token) {
-
-        setError("Error validating token, please try again.");
+        setError("Token inválido.");
         setLoading(false);
         router.push("/admin");
-
-      }else{
-        const response = await validateToken(
-          token
-        );
-console.log("Response:", response);
-        // if (response) {
-        //   setEmail(response.email);
-        //   setTokenValid(true);
-        // }
-
+      } else {
+        const response = await validateTokenClient(token) as { email?: string; message?: string };
+        console.log("Response:", response);
+  
+        if (response.email) {
+          setEmail(response.email);
+          setTokenValid(true);
+        } else {
+          setError(response.message || "Token inválido.");
+        }
+  
+        setLoading(false);
       }
     };
-
+  
     validate();
   }, [token]);
 // console.log("Email:", email);
