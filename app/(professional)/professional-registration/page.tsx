@@ -1,7 +1,34 @@
+// app/admin/professional-registration/page.tsx
+import { validateToken } from "@/app/actions";
 import ProfessionalRegistration from "./ProfessionalRegistration";
 
-const Page = ({ searchParams }: { searchParams: { token?: string } }) => {
-  return <ProfessionalRegistration token={searchParams.token} />;
+
+interface Props {
+  searchParams: {
+    token?: string;
+  };
+}
+
+interface TokenResponse {
+  data: {
+    email: string;
+  };
+}
+
+const ProfessionalRegistrationPage = async ({ searchParams }: Props) => {
+  const token = searchParams.token;
+
+  if (!token) {
+    return <p className="text-red-500">Token no proporcionado.</p>;
+  }
+
+  const result = await validateToken(token) as TokenResponse;
+
+  if (!result?.data?.email) {
+    return <p className="text-red-500">Token inválido o expirado.</p>;
+  }
+
+  return <ProfessionalRegistration email={result.data.email} />;
 };
 
-export default Page;
+export default ProfessionalRegistrationPage;

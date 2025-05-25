@@ -18,41 +18,30 @@ interface TokenValidationResponse {
 }
 
 interface ProfessionalRegistrationProps {
-  token?: string;
+  email: string;
 }
 
-const ProfessionalRegistration = ({ token }: ProfessionalRegistrationProps) => {
-  const [email, setEmail] = useState("");
+const ProfessionalRegistration = ({ email }: ProfessionalRegistrationProps) => {
   const [loading, setLoading] = useState(true);
   const [tokenValid, setTokenValid] = useState(false);
   const [error, setError] = useState("");
   const router = useRouter();
   const { toast } = useToast();
+
   useEffect(() => {
     const validate = async () => {
-      if (!token) {
-        setError("Token inválido.");
-        setLoading(false);
-        router.push("/admin");
-      } else {
-        const response = await validateTokenClient(token) as { email?: string; message?: string };
-        console.log("Response:", response);
-  
-        if (response.email) {
-          setEmail(response.email);
-          setTokenValid(true);
-        } else {
-          setError(response.message || "Token inválido.");
-          router.push("/admin");
-          return;
-        }
-  
+      try {
+        setTokenValid(true);
+      } catch (err: any) {
+        console.error("Error:", err);
+        setError("Error validating token, please try again.");
+      } finally {
         setLoading(false);
       }
     };
   
     validate();
-  }, [token]);
+  }, [email]);
 // console.log("Email:", email);
 // console.log("Token Valid:", tokenValid);
 // console.log("Error:", error);
