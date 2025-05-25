@@ -2,7 +2,7 @@
 import { useEffect, useState } from "react";
 
 import { validateToken } from "@/app/actions";
-import { Skeleton } from "../../../components/ui/skeleton"; 
+import { Skeleton } from "../../../components/ui/skeleton";
 import { ScrollArea } from "../../../components/ui/scroll-area";
 import ProfessionalRegistrationForm from "../../(admin)/admin/components/forms/ProfessionalRegistrationForm";
 import { useToast } from "@/hooks/use-toast";
@@ -40,7 +40,9 @@ const ProfessionalRegistration = ({ token }: ProfessionalRegistrationProps) => {
         return;
       }
       try {
-        const response = (await validateToken(token)) as TokenValidationResponse;
+        const response = (await validateToken(
+          token
+        )) as TokenValidationResponse;
 
         if (response) {
           setEmail(response.data.email);
@@ -49,19 +51,18 @@ const ProfessionalRegistration = ({ token }: ProfessionalRegistrationProps) => {
       } catch (err: any) {
         console.error("Error validating token:", err);
         setError("Error validating token, please try again.");
-      } finally {
-        setLoading(false);
       }
     };
-  
+
     validate();
   }, [token]);
-  console.log(error, email, loading, tokenValid);
-  if (loading)
-    return (
-      <Skeleton className="h-[90%] bg-gray-500 w-[95%] mx-auto my-auto rounded-md" />
-    );
-  return (
+console.log("Email:", email);
+console.log("Token Valid:", tokenValid);
+console.log("Error:", error);
+console.log("Loading:", loading);
+  return loading ? (
+    <Skeleton className="h-[90%] bg-gray-500 w-[95%] mx-auto my-auto rounded-md" />
+  ) : (
     <section className="w-full h-screen flex pt-2 flex-col items-center justify-start gap-2">
       {email ? (
         <ScrollArea className="h-[98%] w-[99%] rounded-md border border-dark-500 p-4">
