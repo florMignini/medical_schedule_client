@@ -41,7 +41,7 @@ export async function validateToken(token: string) {
   "use server";
   try {
     const { data } = await apiServer.get(
-      `/auth/validate-token/${token}`
+      `/auth/validate-token?token=${token}`
     );
     return data;
   }
