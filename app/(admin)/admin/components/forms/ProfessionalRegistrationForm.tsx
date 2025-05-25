@@ -93,11 +93,11 @@ const ProfessionalRegistrationForm = ({ email }: Props) => {
         setLoading(false);
         toast({
           title: "Creando usuario...",
-          description: "El profesional ha sido creado correctamente",
+          description: "El usuario ha sido creado correctamente",
           className: "bg-emerald-500 text-black",
           duration: 5000,
         });
-        router.push("/admin/professional-list");
+        router.push("/admin/admin-panel/professional-list");
       }
     } catch (error) {
       console.error(error);
@@ -223,6 +223,7 @@ const ProfessionalRegistrationForm = ({ email }: Props) => {
                   name="email"
                   label="Email"
                   placeholder="paciente@email.com"
+                  disable={true}
                 />
 
                 <DinamicForm
