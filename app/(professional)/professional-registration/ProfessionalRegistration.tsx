@@ -41,11 +41,11 @@ const ProfessionalRegistration = ({ token }: ProfessionalRegistrationProps) => {
       }
       try {
         const response = (await validateToken(token)) as TokenValidationResponse;
-        console.log(response)
-        // if (response) {
-        //   setEmail(response);
-        //   setTokenValid(true);
-        // }
+
+        if (response) {
+          setEmail(response.data.email);
+          setTokenValid(true);
+        }
       } catch (err: any) {
         console.error("Error validating token:", err);
         setError("Error validating token, please try again.");
