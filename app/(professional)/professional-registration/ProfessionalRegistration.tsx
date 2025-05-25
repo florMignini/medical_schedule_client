@@ -30,16 +30,12 @@ const ProfessionalRegistration = ({ token }: ProfessionalRegistrationProps) => {
   useEffect(() => {
     const validate = async () => {
       if (!token) {
-        toast({
-          title: "Token missing",
-          description: "No registration token provided.",
-          variant: "destructive",
-        });
+
+        setError("Error validating token, please try again.");
         setLoading(false);
         router.push("/admin");
-        return;
-      }
-      try {
+
+      }else{
         const response = await validateToken(
           token
         );
@@ -48,9 +44,7 @@ console.log("Response:", response);
         //   setEmail(response.email);
         //   setTokenValid(true);
         // }
-      } catch (err: any) {
-        console.error("Error validating token:", err);
-        setError("Error validating token, please try again.");
+
       }
     };
 
