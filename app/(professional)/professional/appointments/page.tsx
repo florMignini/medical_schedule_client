@@ -17,7 +17,6 @@ const Appointments = async () => {
   let { data }: { data: ProfessionalInformation } = await apiServer.get(
     `/professional/get-professional/${professionalId}`
   );
-  console.log("Professional data:", data);
   // @ts-ignore
   const {
     appointmentsIncluded,
