@@ -26,12 +26,10 @@ import {
 import ReminderButton from "./ReminderButton";
 import NewAppointmentForm from "@/components/forms/NewAppointmentForm";
 import FollowUpForm from "@/components/forms/FollowUpForm";
-import { useRouter } from "next/navigation";
 
-const AppointmentsList = ({ appointments }: any) => {
+const AppointmentsList = ({ appointments, patients }: any) => {
   // patient info
   const [patientId, setPatientId] = useState<any | null>(null);
-
   // dialog state
   const [isOpen, setIsOpen] = useState(false);
 
@@ -207,6 +205,7 @@ const AppointmentsList = ({ appointments }: any) => {
                         {turnoOcita === "turno" ? (
 
                             <NewAppointmentForm
+                            patients={patients}
                               component="calendar"
                               patientId={patientId}
                               type="create"
