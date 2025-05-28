@@ -22,7 +22,7 @@ const SubmitButton = ({loading, className, children, disabled}: SubmitButtonI) =
             alt='loader'
             width={24}
             height={24}
-            className='animate-spin'
+            className='animate-spin flex items-center justify-center'
             />
         </div>
     ) : children}
