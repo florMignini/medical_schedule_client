@@ -43,43 +43,30 @@ type AppointmentResponse = {
 const NewAppointmentForm = ({
   type,
   patientId,
+  patients,
   initialDateTime,
   onSuccess,
   component,
 }: {
   type: AppointmentType;
   patientId: string;
+  patients?: Patient[];
   initialDateTime?: Date | null;
   onSuccess?: () => void;
   component?: string;
 }) => {
   const [loading, setLoading] = useState(false);
   const [professionalId, setProfessionalId] = useState<professionalDataType>();
-  const [patients, setPatients] = useState<any[]>([]);
+  const [patientsList, setPatientsList] = useState<any[]>([]);
   const appointmentValidation = getAppointmentSchema(type);
   useEffect(() => {
     const professionalData = localStorage.getItem("infoProfSession");
+    console.log(professionalData);
     if (professionalData) {
       const parsedData: professionalDataType = JSON.parse(professionalData);
       setProfessionalId(parsedData);
     }
   }, []);
-
-  // Fetch patients only when component is mounted
-  useEffect(() => {
-    const fetchPatients = async () => {
-      try {
-        const patientsData = await getAllPatients();
-        setPatients(patientsData as Patient[]);
-      } catch (error) {
-        console.error("Error fetching patients:", error);
-      }
-    };
-
-    if (component === "calendar") {
-      fetchPatients();
-    }
-  }, [component]);
 
   const { toast } = useToast();
   const router = useRouter();
@@ -112,9 +99,8 @@ const NewAppointmentForm = ({
           professional: professionalId?.id,
           appointment: response?.id,
         };
-        const profData = await createProfessionalAppointmentRelation(
-          professionalIDs
-        );
+        const profData =
+          await createProfessionalAppointmentRelation(professionalIDs);
         const patientsIDs = {
           patient: values.patientId,
           appointment: response?.id,
@@ -161,8 +147,10 @@ const NewAppointmentForm = ({
           <>
             {component === "calendar" && (
               <div className="w-full flex flex-col text-gray-500 gap-2 items-center justify-center bg-inherit">
-                <h3 className="w-full font-thin text-lg">Pacientes pertenecientes a su cartera:</h3>
-                {patients.length > 0 ? (
+                <h3 className="w-full font-thin text-lg">
+                  Pacientes pertenecientes a su cartera:
+                </h3>
+                {patients && patients?.length > 0 ? (
                   <FormField
                     control={form.control}
                     name="patientId"
@@ -177,7 +165,7 @@ const NewAppointmentForm = ({
                           </SelectTrigger>
                           <ScrollArea className="w-full max-h-[300px]">
                             <SelectContent className="flex flex-col gap-2 items-center justify-center bg-black/10 backdrop-blur-lg">
-                              {patients.map((patient: Patient) => (
+                              {patients.map(({ patient }: any) => (
                                 <SelectItem
                                   key={patient.id}
                                   value={patient.id}
@@ -205,7 +193,9 @@ const NewAppointmentForm = ({
                   />
                 ) : (
                   <div className="w-full flex items-center justify-center space-y-2">
-                    <Skeleton className="h-16 bg-white/20 w-[75%] rounded-md" />
+                    <div className="w-auto h-15 px-2 py-1 rounded-md shadow-inner shadow-white/20">
+                      <h1>Aún no tiene listado de pacientes</h1>
+                    </div>
                   </div>
                 )}
               </div>
@@ -230,6 +220,7 @@ const NewAppointmentForm = ({
                   fieldType={FormFieldType.TEXTAREA}
                   control={form.control}
                   name="reason"
+                  disable={(patients ?? []).length === 0}
                   placeholder="Ingrese el motivo de la consulta"
                 />
               </div>
@@ -239,6 +230,7 @@ const NewAppointmentForm = ({
                   fieldType={FormFieldType.TEXTAREA}
                   control={form.control}
                   name="notes"
+                  disable={(patients ?? []).length === 0}
                   placeholder="Ingrese información adicional"
                 />
               </div>
@@ -260,6 +252,7 @@ const NewAppointmentForm = ({
           className={`${
             type === "cancel" ? "shad-danger-btn" : "shad-primary-btn"
           } w-full rounded-md p-1`}
+          disabled={(patients ?? []).length === 0}
         >
           {buttonLabel}
         </SubmitButton>

@@ -1,6 +1,10 @@
 import { cookies } from "next/headers";
 import { apiServer } from "@/api/api-server";
-import { AppointmentsIncluded, ProfessionalInformation } from "@/interfaces";
+import {
+  AppointmentsIncluded,
+  PatientsIncluded,
+  ProfessionalInformation,
+} from "@/interfaces";
 
 import Calendar from "../components/Calendar";
 import CalendarIcon from "../components/icons/CalendarIcon";
@@ -13,12 +17,18 @@ const Appointments = async () => {
   let { data }: { data: ProfessionalInformation } = await apiServer.get(
     `/professional/get-professional/${professionalId}`
   );
+  console.log("Professional data:", data);
   // @ts-ignore
   const {
     appointmentsIncluded,
   }: { appointmentsIncluded: AppointmentsIncluded[] } = data ?? {
     appointmentsIncluded: [],
   };
+  // @ts-ignore
+  const { patientsIncluded }: { patientsIncluded: PatientsIncluded[] } =
+    data ?? {
+      appointmentsIncluded: [],
+    };
 
   return (
     <section className="w-full h-full flex flex-col items-center justify-center gap-2 text-color">
@@ -39,14 +49,14 @@ const Appointments = async () => {
       {/* Calendar section */}
       <div className="w-[98%] grid grid-cols-[50,50] h-auto py-4 min-[768px]:flex min-[768px]:flex-row min-[768px]:mt-10 xl:gap-8 bg-slate-50 border-[1px] border-gray-200 rounded-lg">
         <div className="w-[100%]">
-        <Calendar 
-        appointments={appointmentsIncluded} />
+          <Calendar appointments={appointmentsIncluded} />
         </div>
         {/* Lista de eventos */}
-       <div className="w-[100%] mx-auto">
-        <AppointmentsList appointments={appointmentsIncluded} />
-       </div>
-    
+        <div className="w-[100%] mx-auto">
+          <AppointmentsList 
+          patients={patientsIncluded}
+          appointments={appointmentsIncluded} />
+        </div>
       </div>
     </section>
   );
