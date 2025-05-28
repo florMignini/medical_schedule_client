@@ -163,27 +163,27 @@ color="#000000"
         {/* fullname */}
         <div className="w-[100%] flex items-center justify-between py-1">
           <p className="text-xs font-medium text-gray-400">Nombre completo: </p>
-          <p className="text-xs font-light text-black">{`${professional?.firstName} ${professional?.lastName} `}</p>
+          <p className="text-xs font-light text-black truncate">{`${professional?.firstName} ${professional?.lastName} `}</p>
         </div>
         {/* specialty */}
         <div className="w-[100%] flex items-center justify-between py-1">
           <p className="text-xs font-medium text-gray-400">Especialidad: </p>
-          <p className="text-xs font-light text-black">{professional?.specialty}</p>
+          <p className="text-xs font-light text-black truncate">{professional?.specialty}</p>
         </div>
         {/* gender */}
         <div className="w-[100%] flex items-center justify-between py-1">
           <p className="text-xs font-medium text-gray-400">fecha de Nacimiento: </p>
-          <p className="text-xs font-light text-black">{professional?.gender === "M" ? "Masculino" : "Femenino"}</p>
+          <p className="text-xs font-light text-black truncate">{professional?.gender === "M" ? "Masculino" : "Femenino"}</p>
         </div>
         {/* phone */}
         <div className="w-[100%] flex items-center justify-between py-1">
           <p className="text-xs font-medium text-gray-400">Número de teléfono: </p>
-          <p className="text-xs font-light text-black">{professional?.phoneNumber}</p>
+          <p className="text-xs font-light text-black truncate">{professional?.phoneNumber}</p>
         </div>
         {/* email */}
         <div className="w-[100%] flex items-center justify-between py-1">
           <p className="text-xs font-medium text-gray-400">Email: </p>
-          <p className="text-xs font-light text-black">{professional?.email}</p>
+          <p className="text-xs font-light text-black truncate">{professional?.email}</p>
         </div>
       </div>
       {/* account details */}
@@ -192,27 +192,27 @@ color="#000000"
         {/* username */}
         <div className="w-[100%] flex items-center justify-between py-1">
           <p className="text-xs font-medium text-gray-400">Nombre de usuario: </p>
-          <p className="text-xs font-light text-black">{professional.gender === "M" ? "Dr. " : "Dra. "}{`${professional?.firstName} ${professional?.lastName}`}</p>
+          <p className="text-xs font-light text-black truncate">{professional.gender === "M" ? "Dr. " : "Dra. "}{`${professional?.firstName} ${professional?.lastName}`}</p>
         </div>
         {/* specialty */}
         <div className="w-[100%] flex items-center justify-between py-1">
           <p className="text-xs font-medium text-gray-400">Especialidad: </p>
-          <p className="text-xs font-light text-black">{professional?.specialty}</p>
+          <p className="text-xs font-light text-black truncate">{professional?.specialty}</p>
         </div>
         {/* account created */}
         <div className="w-[100%] flex items-center justify-between py-1">
           <p className="text-xs font-medium text-gray-400">Creación de la cuenta: </p>
-          <p className="text-xs font-light text-black">{dayjs(professional?.createdAt).format("LL")}</p>
+          <p className="text-xs font-light text-black truncate">{dayjs(professional?.createdAt).format("LL")}</p>
         </div>
         {/* phone */}
         <div className="w-[100%] flex items-center justify-between py-1">
           <p className="text-xs font-medium text-gray-400">Número de teléfono: </p>
-          <p className="text-xs font-light text-black">{professional?.phoneNumber}</p>
+          <p className="text-xs font-light text-black truncate">{professional?.phoneNumber}</p>
         </div>
         {/* email */}
         <div className="w-[100%] flex items-center justify-between py-1">
           <p className="text-xs font-medium text-gray-400">Email: </p>
-          <p className="text-xs font-light text-black">{professional?.email}</p>
+          <p className="text-xs font-light text-black truncate">{professional?.email}</p>
         </div>
       </div>
           {/* patients & appointments */}
