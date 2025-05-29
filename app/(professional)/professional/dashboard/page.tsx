@@ -50,7 +50,7 @@ const ProfessionalDashboard = async () => {
 
 
   return (
-    <section className="w-full z-40 min-h-screen flex min-[768px]:grid min-[768px]:grid-cols-[50%,50%] lg:grid-cols-[70%,30%] p-1 overflow-x-scroll">
+    <section className="w-full z-40 min-h-screen flex min-[768px]:grid min-[768px]:grid-cols-[60%,40%] lg:grid-cols-[70%,30%] p-1 overflow-x-scroll">
       <Dialog>
         {/*left section*/}
       <div className="w-full h-auto lg:flex lg:flex-col gap-2 mx-auto items-center justify-start">
