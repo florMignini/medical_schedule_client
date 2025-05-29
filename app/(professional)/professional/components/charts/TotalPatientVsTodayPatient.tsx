@@ -38,13 +38,19 @@ const TotalPatientVsTodayPatient = ({
   patients: PatientsIncluded[],
   appointments: AppointmentsIncluded[];
 }) => {
-  // today appointments === today patients
-const filteredResult = filterTodayAppointments(appointments);
+  if (!appointments?.length || !patients?.length) return null;
+
+  const filteredResult = filterTodayAppointments(appointments);
 
   const month = getMonth();
   const year = getFullYear();
-  const chartData = [{ month, hoy: filteredResult.length, totales: patients.length }];
+  const chartData = [{
+    month,
+    hoy: filteredResult.length,
+    totales: patients.length
+  }];
   const totalVisitors = chartData[0].hoy;
+
   return (
     <Card className="w-full flex flex-col h-[180px] bg-gradient-to-br from-[#f9f9f9] to-[#f1f1f1] py-0">
       <CardHeader className="flex w-full h-[80px] bg-transparent items-center justify-start">
@@ -57,7 +63,7 @@ const filteredResult = filterTodayAppointments(appointments);
           className="mx-auto h-[130px] w-full"
         >
           <RadialBarChart
-          className="w-[100%]"
+            className="w-[100%]"
             data={chartData}
             endAngle={180}
             innerRadius={70}
@@ -67,48 +73,47 @@ const filteredResult = filterTodayAppointments(appointments);
               cursor={false}
               content={<ChartTooltipContent hideLabel />}
             />
-            <PolarRadiusAxis 
-            className=""
-            tick={false} tickLine={false} axisLine={false}>
+            <PolarRadiusAxis tick={false} tickLine={false} axisLine={false}>
               <Label
                 content={({ viewBox }) => {
                   if (viewBox && "cx" in viewBox && "cy" in viewBox) {
                     return (
-                      <text 
-                      x={viewBox.cx} y={viewBox.cy} textAnchor="middle">
+                      <text
+                        x={viewBox.cx}
+                        y={viewBox.cy}
+                        textAnchor="middle"
+                      >
                         <tspan
                           x={viewBox.cx}
                           y={(viewBox.cy || 0) - 10}
-                          className="text-gray-400 fill-foreground text-xl font-bold"
+                          className="text-gray-400 fill-gray-400 text-xs"
                         >
-                          {totalVisitors.toLocaleString()}
+                          Pacientes de hoy
                         </tspan>
                         <tspan
                           x={viewBox.cx}
-                          y={(viewBox.cy || 0) + 4}
-                          className="text-gray-400 fill-muted-foreground"
+                          y={(viewBox.cy || 0) + 10}
+                          className="text-black fill-black text-lg font-semibold"
                         >
-                          Pacientes
+                          {totalVisitors}
                         </tspan>
                       </text>
                     );
                   }
+                  return null;
                 }}
               />
             </PolarRadiusAxis>
             <RadialBar
-              dataKey="hoy"
-              stackId="a"
-              cornerRadius={5}
-              fill="var(--color-hoy)"
-              className="stroke-transparent"
+              background
+              dataKey="totales"
+              cornerRadius={10}
+              fill={chartConfig.totales.color}
             />
             <RadialBar
-              dataKey="totales"
-              fill="var(--color-totales)"
-              stackId="a"
-              cornerRadius={5}
-              className="stroke-transparent"
+              dataKey="hoy"
+              cornerRadius={10}
+              fill={chartConfig.hoy.color}
             />
           </RadialBarChart>
         </ChartContainer>
