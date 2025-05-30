@@ -92,7 +92,7 @@ const Calendar = ({ appointments }: any) => {
             const day = idx + 1;
             const date = dayjs(`${currentYear}-${currentMonth + 1}-${day}`);
             const formattedDate = date.format("DD-MM-YYYY");
-
+            const isPast = date.isBefore(today, "day");
             const matchingHoliday = holidays.find(
               (holiday: any) =>
                 dayjs(holiday.fecha).format("DD-MM") === date.format("DD-MM")
@@ -110,18 +110,23 @@ const Calendar = ({ appointments }: any) => {
 
             return (
               <button
-                className={`cursor-pointer flex items-start w-full h-20 border rounded-md mx-auto
+                className={`cursor-pointer border-[1px] shadow-lg flex items-start w-full h-20 rounded-md mx-auto
+                  ${
+                  isPast
+                    ? "opacity-50 cursor-not-allowed"
+                    : "hover:bg-black/20"}
         ${
           isHoliday
-            ? "bg-black/50 cursor-not-allowed"
+            ? "bg-black/90 text-white cursor-not-allowed"
             : dayEvents.length > 0
-            ? "bg-green-500"
-            : "bg-black/10"
+            ? "bg-emerald-500 text-black hover:bg-emerald-300"
+            : "bg-white "
         }
         ${isSelected && !isHoliday ? "ring-2 ring-black" : ""}
       `}
                 key={idx}
                 onClick={() => {
+                  if(isPast) return;
                   if (!isHoliday) {
                     const newDate = date.toDate();
                     if (!isSelected) {
@@ -132,7 +137,7 @@ const Calendar = ({ appointments }: any) => {
                 disabled={isHoliday}
               >
                 <div className="flex flex-col rounded-lg p-1 items-end justify-start w-full h-full">
-                  <h1 className="font-bold text-black text-end">{day}</h1>
+                  <h1 className={`font-bold text-end ${isHoliday ? "text-white" : "text-black"}`}>{day}</h1>
 
                   {dayEvents.length > 0 && (
                     <div className="flex items-end justify-end text-white text-xl font-bold p-1 flex-col">
