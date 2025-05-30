@@ -30,7 +30,7 @@ const Appointments = async () => {
     };
 
   return (
-    <section className="w-full h-full flex flex-col items-center justify-center gap-2 text-color">
+    <section className="w-full h-auto pb-5 flex flex-col items-center justify-center gap-2 text-color">
       {/* Title */}
       <div className="flex w-[90%] h-10 min-[768px]:mt-6 items-center justify-start px-2">
         <h1 className="text-18-bold text-start">Reservaciones</h1>
@@ -46,7 +46,7 @@ const Appointments = async () => {
         </div>
       </div>
       {/* Calendar section */}
-      <div className="w-[98%] grid grid-cols-[50,50] h-auto py-4 min-[768px]:flex min-[768px]:flex-row min-[768px]:mt-10 xl:gap-8 bg-slate-50 border-[1px] border-gray-200 rounded-lg">
+      <div className="w-[98%] h-auto grid grid-cols-[50,50] py-4 min-[768px]:flex min-[768px]:flex-row min-[768px]:mt-10 xl:gap-8 bg-slate-50 border-[1px] border-gray-200 rounded-lg">
         <div className="w-[100%]">
           <Calendar appointments={appointmentsIncluded} />
         </div>

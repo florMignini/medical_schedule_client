@@ -48,7 +48,7 @@ const Calendar = ({ appointments }: any) => {
   const age = today.diff(dateOfBirth, "years");
 
   return (
-    <div className="w-[100%] p-4 h-auto min-[768px]:h-screen">
+    <div className="w-[100%] p-4 h-auto">
       {/* top section */}
       <div className="w-[100%] flex items-center justify-between mb-12 text-black">
         <h2 className="w-[33%] flex items-center justify-start font-semibold text-lg">

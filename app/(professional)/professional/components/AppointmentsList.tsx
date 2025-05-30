@@ -64,7 +64,7 @@ const AppointmentsList = ({ appointments, patients }: any) => {
   const getBorderColor = (hue: number) => `hsl(${hue}, 40%, 90%)`;
 
   return (
-    <div className="w-full flex flex-col gap-2">
+    <div className="w-full h-auto flex flex-col gap-2">
       <h1 className="w-full p-4 text-lg font-semibold text-start">{`Turnos del dia ${dayjs(
         selectedDate || new Date()
       ).format("DD/MM/YYYY")}`}</h1>
