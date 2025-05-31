@@ -92,27 +92,28 @@ const Calendar = ({ appointments }: any) => {
             const day = idx + 1;
             const date = dayjs(`${currentYear}-${currentMonth + 1}-${day}`);
             const formattedDate = date.format("DD-MM-YYYY");
-            const isPast = date.isBefore(today, "day");
+            
             const matchingHoliday = holidays.find(
               (holiday: any) =>
                 dayjs(holiday.fecha).format("DD-MM") === date.format("DD-MM")
             ) as Holiday | undefined;
-
+            
             const isHoliday = Boolean(matchingHoliday);
-
+            
             const dayEvents = appointments.filter(
               (appointment: any) =>
                 dayjs(appointment.appointment.schedule).format("DD-MM-YYYY") ===
-                formattedDate
+              formattedDate
             );
-
+            
+            const isPast = date.isBefore(today, "day") && dayEvents.length === 0;
             const isSelected = dayjs(selectedDate).isSame(date, "day");
 
             return (
               <button
                 className={`cursor-pointer border-[1px] shadow-lg flex items-start w-full h-20 rounded-md mx-auto
                   ${
-                  isPast
+                  isPast && !dayEvents.includes(isSelected)
                     ? "opacity-50 cursor-not-allowed"
                     : "hover:bg-black/20"}
         ${
@@ -134,7 +135,7 @@ const Calendar = ({ appointments }: any) => {
                     }
                   }
                 }}
-                disabled={isHoliday}
+                disabled={isHoliday || isPast}
               >
                 <div className="flex flex-col rounded-lg p-1 items-end justify-start w-full h-full">
                   <h1 className={`font-bold text-end ${isHoliday ? "text-white" : "text-black"}`}>{day}</h1>
@@ -153,11 +154,11 @@ const Calendar = ({ appointments }: any) => {
                   {isHoliday && matchingHoliday && (
                     <Tooltip key={idx}>
                       <TooltipTrigger asChild>
-                        <p className="text-xs text-white truncate font-semibold text-end w-full">
+                        <p className="text-xs truncate font-semibold text-end w-full">
                           {matchingHoliday.nombre}{" "}
                         </p>
                       </TooltipTrigger>
-                      <TooltipContent className="flex items-center justify-start ml-5 flex-col w-auto h-auto p-2 backdrop-blur-lg">
+                      <TooltipContent className="flex items-center justify-start ml-5 flex-col text-black w-auto h-auto p-2 backdrop-blur-lg">
                         <p className="font-semibold">
                           {matchingHoliday.nombre}
                         </p>
