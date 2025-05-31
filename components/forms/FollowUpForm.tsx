@@ -29,7 +29,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import "react-phone-number-input/style.css";
 import { professionalDataType } from "./NewAppointmentForm";
 
-const FollowUpForm = ({ patientId, onSuccess, initialDateTime }: { patientId: string, onSuccess: () => void, initialDateTime: Date | null }) => {
+const FollowUpForm = ({component, patientId, onSuccess, initialDateTime  }: { component:string, patientId: string, onSuccess: () => void, initialDateTime: Date | null }) => {
   const router = useRouter();
   const [professionalId, setProfessionalId] = useState<professionalDataType>();
   const [loading, setLoading] = useState(false);
@@ -50,7 +50,7 @@ const FollowUpForm = ({ patientId, onSuccess, initialDateTime }: { patientId: st
       treatment: "",
       currentSymptoms: "",
       notes: "",
-      scheduled: new Date(),
+      scheduled: initialDateTime ? new Date(initialDateTime) : new Date(),
       suggestedAnalysis: "",
     },
   });
@@ -141,16 +141,13 @@ const FollowUpForm = ({ patientId, onSuccess, initialDateTime }: { patientId: st
       >
         {/* personal information */}
         <div className="mb-5 text-gray-500">
-          {/* <div className="flex px-2 gap-2 mb-5">
-            <div className="h-5 border-x-2 border-gray-500" />
-            <h1 className="text-16-semibold text-">Información Personal</h1>
-          </div> */}
           <div>
             <Label>Fecha del seguimiento</Label>
             <DinamicForm
               fieldType={FormFieldType.DATE_PICKER}
               control={form.control}
               name="scheduled"
+              disable={component === "calendar" ? true : false}
               showTimeSelect
               defaultValue={new Date()}
               dateFormat="dd/MM/yyyy - h:mm aa"
@@ -232,7 +229,7 @@ const FollowUpForm = ({ patientId, onSuccess, initialDateTime }: { patientId: st
                 />
               </div>
               {ifFollowUp ? (
-                <div className="transition-all w-full flex flex-col items-start justify-center gap-3 ">
+                <div className="transition-all w-full flex flex-col items-center justify-center gap-3 ">
                   <Label>Proximo control</Label>
                   <DatePicker
                     className="date-picker bg-white"
