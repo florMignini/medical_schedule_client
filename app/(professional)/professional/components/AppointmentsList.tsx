@@ -50,8 +50,9 @@ const AppointmentsList = ({ appointments, patients }: any) => {
     }
     return slots;
   }, [selectedDate]);
-
+  const isPast = dayjs(selectedDate || new Date()).isBefore(dayjs(new Date()), "day")
   // get appointment at selected date
+
   const getAppointmentAt = (time: Date) =>
     events.find(
       (appt: AppointmentsIncluded) =>
@@ -88,6 +89,7 @@ const AppointmentsList = ({ appointments, patients }: any) => {
                   const patientIdData = await getAppointmentDetail(
                     appt?.appointment?.id
                   );
+
                   setPatientId(patientIdData?.patientsIncluded[0]?.id);
                 } else {
                   setSelectedTime(time);
@@ -133,12 +135,15 @@ const AppointmentsList = ({ appointments, patients }: any) => {
                 ) : (
                   // Empty time slot
                   <>
-                    <div className="w-full h-full flex items-center justify-center">
+                    <div className={`w-full h-full flex items-center justify-center
+                      ${isPast ? "opacity-50 cursor-not-allowed" : ""}
+                      `}>
                       {
                         turnoOcita === "" && (
                           <DropdownMenu>
-                        <DropdownMenuTrigger asChild>
-                          <button className="text-sm text-black border-b-[1px] border-black/20">
+                        <DropdownMenuTrigger asChild disabled={isPast}>
+                          <button className={`text-sm text-black border-b-[1px] border-black/20 ${isPast ? "cursor-not-allowed opacity-50" : ""}`} 
+                          >
                             agregar evento
                           </button>
                         </DropdownMenuTrigger>
@@ -218,6 +223,7 @@ const AppointmentsList = ({ appointments, patients }: any) => {
 
                         ) : (
                           <FollowUpForm
+                          component="calendar"
                             patientId={patientId}
                             initialDateTime={selectedTime}
                             onSuccess={() => {
