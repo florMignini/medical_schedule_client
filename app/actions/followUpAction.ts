@@ -28,13 +28,25 @@ export default async function createFollowUp(followUpData: ICreateFollowUp) {
 }
 
 export async function createPatientFollowUpRelation(IDs: IpatientIDs) {
+  try {
   const res = await apiServer.post(`/patients/add-follow-up-relation`,IDs);
+} catch (error: any) {
+  console.error(error?.response?.data);
+}  
 }
 
 export async function createProfessionalFollowUpRelation(IDs: IIDs) {
-  const res = await apiServer.post(`/professional/add-follow-up-relation`,IDs);
+ try {
+   const res = await apiServer.post(`/professional/add-follow-up-relation`,IDs);
+ } catch (error: any) {
+  console.error(error?.response?.data);
+} 
 }
 
 export async function createAppointmentFollowUpRelation(IDs: IFollowUp) {
+try {
   const res = await apiServer.post(`/appointment/add-follow-up-relation`,IDs);
+} catch (error: any) {
+  console.error(error?.response?.data);
+} 
 }
