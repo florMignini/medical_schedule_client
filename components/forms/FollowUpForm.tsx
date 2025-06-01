@@ -29,7 +29,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import "react-phone-number-input/style.css";
 import { professionalDataType } from "./NewAppointmentForm";
 
-const FollowUpForm = ({component, patientId, onSuccess, initialDateTime  }: { component:string, patientId: string, onSuccess: () => void, initialDateTime: Date | null }) => {
+const FollowUpForm = ({component, patientId, onSuccess, initialDateTime, type  }: { component?:string, patientId: string, onSuccess: () => void, initialDateTime: Date | null, type?: string }) => {
   const router = useRouter();
   const [professionalId, setProfessionalId] = useState<professionalDataType>();
   const [loading, setLoading] = useState(false);
@@ -225,7 +225,9 @@ const FollowUpForm = ({component, patientId, onSuccess, initialDateTime  }: { co
                 </Label>
                 <Checkbox
                   id="terms"
-                  onClick={() => setIfFollowUp(!ifFollowUp)}
+                  onClick={() => {
+                    setIfFollowUp(!ifFollowUp);
+                  }}
                 />
               </div>
               {ifFollowUp ? (
