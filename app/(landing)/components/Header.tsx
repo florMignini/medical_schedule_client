@@ -19,13 +19,13 @@ const Header = () => {
                 <div className="w-[100%] sm:w-[50%] flex items-center justify-end gap-5">
                     <Link
                         href="/login"
-                        className="transition duration-200 ease-in-out flex items-center justify-center gap-2.5 px-1 py-2  border-[1px] border-gray-600 rounded-lg bg-gradient-to-b from-black to-[#807f7f] text-white text-center hover:bg-gradient-to-b hover:from-white hover:to-[#222222] hover:text-[#1c1c1c]"
+                        className="transition duration-200 ease-in-out flex items-center font-semibold justify-center gap-2.5 px-1 py-2   bg-gradient-to-r from-gray-500 to-gray-400 bg-clip-text text-transparent"
                     >
-                        Soy Usuario
+                        Soy usuario
                     </Link>
                     <Link
                         href="/admin"
-                        className="transition duration-200 ease-in-out flex items-center justify-center gap-2.5 px-1 py-2  border-[1px] border-gray-600 rounded-lg bg-gradient-to-b from-black to-[#807f7f] text-white text-center hover:bg-gradient-to-b hover:from-white hover:to-[#222222] hover:text-[#1c1c1c]"
+                        className="transition duration-200 ease-in-out flex items-center font-semibold justify-center gap-2.5 px-1 py-2   bg-gradient-to-r from-gray-500 to-gray-400 bg-clip-text text-transparent"
                     >
                         Registrarme
                     </Link>
