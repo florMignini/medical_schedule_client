@@ -1,5 +1,5 @@
 import Image from "next/image";
-import productImage from "../../../public/assets/productImage.jpg";
+import productImage from "../../../public/assets/productImage.png";
 import Link from "next/link";
 const ProductShowcase = () => {
   return (
@@ -25,7 +25,7 @@ const ProductShowcase = () => {
 
         </div>
         <Image src={productImage} alt="product-image"
-        className="w-[90%] mx-auto py-5 flex items-center justify-center"
+        className="w-[90%] mx-auto rounded-md py-5 flex items-center justify-center"
         />
       </div>
     </section>
