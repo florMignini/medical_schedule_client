@@ -18,14 +18,21 @@ const Footer = () => {
         <nav className="flex flex-col md:flex-row md:justify-center gap-3 mt-6">
           <Link href="#" >About</Link>
           <Link href="#" >Features</Link>
-          {/* <Link href="#" >Pricing</Link> */}
           <Link href="#" >Testimonials</Link>
         </nav>
         <div className="flex justify-center gap-6 mt-6">
+          <Link href="https://twitter.com/mariflor_la" target="_blank" rel="noopener noreferrer">
           <Image src={XIcon} alt="social-media-icon" />
+          </Link>
+          <Link href="https://www.instagram.com/laflorineta" target="_blank" rel="noopener noreferrer">
           <Image src={InstaIcon} alt="social-media-icon" />
+          </Link>
+          <Link href="https://www.linkedin.com/in/florencia-mignini/" target="_blank" rel="noopener noreferrer">
           <Image src={LinkedInIcon} alt="social-media-icon" />
+          </Link>
+          <Link href="https://github.com/florMignini">
           <Image src={GithubIcon} alt="social-media-icon" />
+          </Link>
         </div>
         <p className="mt-6">
           © {new Date().getFullYear()} Medical_Schedule{" "}
