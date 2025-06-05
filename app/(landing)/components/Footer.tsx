@@ -2,10 +2,10 @@ import Image from "next/image";
 import onlyIcon from "../../../public/assets/onlyIcon.png";
 import Link from "next/link";
 // icons imports
-import XIcon from "../../../public/assets/icons/newTwitter.svg";
-import InstaIcon from "../../../public/assets/icons/instagram.svg";
-import LinkedInIcon from "../../../public/assets/icons/linkedin.svg";
-import GithubIcon from "../../../public/assets/icons/github.svg";
+import LinkedIn from "@/app/(professional)/professional/components/icons/LinkedIn";
+import NewTwitter from "@/app/(professional)/professional/components/icons/NewTwitter";
+import Instagram from "@/app/(professional)/professional/components/icons/Instagram";
+import GithubIcon from "@/app/(professional)/professional/components/icons/Github";
 const Footer = () => {
   return (
     <footer className="bg-black text-[#BCBCBC] text-sm py-5 text-center">
@@ -15,23 +15,18 @@ const Footer = () => {
         className="relative"
         />
         </div>
-        <nav className="flex flex-col md:flex-row md:justify-center gap-3 mt-6">
-          <Link href="#" >About</Link>
-          <Link href="#" >Features</Link>
-          <Link href="#" >Testimonials</Link>
-        </nav>
         <div className="flex justify-center gap-6 mt-6">
           <Link href="https://twitter.com/mariflor_la" target="_blank" rel="noopener noreferrer">
-          <Image src={XIcon} alt="social-media-icon" />
+          <NewTwitter color="#ffffff" width={20} height={20}/>
           </Link>
           <Link href="https://www.instagram.com/laflorineta" target="_blank" rel="noopener noreferrer">
-          <Image src={InstaIcon} alt="social-media-icon" />
+          <Instagram color="#ffffff" width={20} height={20}/>
           </Link>
           <Link href="https://www.linkedin.com/in/florencia-mignini/" target="_blank" rel="noopener noreferrer">
-          <Image src={LinkedInIcon} alt="social-media-icon" />
+          <LinkedIn color="#ffffff" width={20} height={20}/>
           </Link>
-          <Link href="https://github.com/florMignini">
-          <Image src={GithubIcon} alt="social-media-icon" />
+          <Link href="https://github.com/florMignini" target="_blank" rel="noopener noreferrer">
+          <GithubIcon color="#ffffff" width={20} height={20}/>
           </Link>
         </div>
         <p className="mt-6">
