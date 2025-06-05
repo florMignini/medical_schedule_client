@@ -19,8 +19,8 @@ const Testimonials = () => {
         </h2>
 
         <p className="w-[70%] mx-auto text-center text-sm leading-[20px] tracking-tight text-gray-500 py-5">
-          Desde su intuitivo disenio hasta sus poderosas caracteristicas,
-          nuestra aplicacion se ha transformado en una herramienta esencial para
+          Desde su intuitivo diseño hasta sus poderosas caracteristicas,
+          nuestra aplicación se ha transformado en una herramienta esencial para
           nuestros usuarios
         </p>
        <div className="h-[500px] flex justify-center [mask-image:linear-gradient(to_bottom,transparent,black_25%,black_75%,transparent)] overflow-y-hidden gap-6 mt-10">
