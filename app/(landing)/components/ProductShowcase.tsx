@@ -15,7 +15,7 @@ const ProductShowcase = () => {
           <h1 className="w-full flex items-center mx-auto justify-center text-5xl sm:text-6xl  xl:text-7xl font-semibold bg-gradient-to-b from-gray-600 to-[#5a8bbd] text-transparent text-center bg-clip-text">Nuestros Servicios</h1>
         </div>
 
-        <p className="w-[70%] mx-auto text-center text-sm leading-[20px] tracking-tight text-gray-500 py-5">
+        <p className="w-[70%] mx-auto text-center text-sm leading-[20px] tracking-tight text-gray-500 py-5 font-medium">
           Simplifica la gestión de tus pacientes, organiza tus horarios, manten
           historiales y citas médicas y optimiza tu tiempo con una interfaz
           intuitiva y funcional. Descubre cómo nuestra solución puede ayudarte a
