@@ -27,7 +27,6 @@ import { Patient } from "@/interfaces";
 import Image from "next/image";
 import { ScrollArea } from "../ui/scroll-area";
 import { FormField, FormItem } from "../ui/form";
-import { Skeleton } from "@/components/ui/skeleton";
 
 type AppointmentType = "create" | "cancel" | "schedule";
 export type professionalDataType = {

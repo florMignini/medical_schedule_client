@@ -1,16 +1,17 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { usePathname, useRouter } from "next/navigation";
 import { cn } from "@/lib";
 import { toggleSideI } from "@/interfaces";
-import Search from "./Search";
-import Hamburguer from "./icons/Hamburguer";
-import ArrowLeft from "./icons/ArrowLeft";
-import SearchIcon from "./icons/SearchIcon";
+
+
 
 import { closeSessionServer } from "@/app/actions";
 import { ProfessionalSidebarData } from "@/app/(professional)/professional/data";
+import { AnimatePresence, motion } from "framer-motion";
+import Search from "./Search";
+import { logout } from "./SidebarItems";
 
 interface ProfInfo {
   firstname: string;
@@ -19,220 +20,180 @@ interface ProfInfo {
   id: string;
   lastname: string;
 }
+
+const BackIcon = () => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    className="h-6 w-6"
+    fill="none"
+    viewBox="0 0 24 24"
+    stroke="currentColor"
+    strokeWidth={2}
+  >
+    <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
+  </svg>
+);
+
+const SearchIcon = () => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    className="h-6 w-6"
+    fill="none"
+    viewBox="0 0 24 24"
+    stroke="currentColor"
+    strokeWidth={2}
+  >
+    <path
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      d="M21 21l-4.35-4.35M11 19a8 8 0 100-16 8 8 0 000 16z"
+    />
+  </svg>
+);
+
 const Navbar = ({ isOpen, setIsOpen }: toggleSideI) => {
   const router = useRouter();
   const pathname = usePathname();
   let path = pathname && pathname.split("/")[pathname.split("/").length - 1];
   const [profInfo, setProfInfo] = useState<ProfInfo | null>(null);
-  const [openResponsiveNav, setOpenResponsiveNav] = useState(false);
-  const [openDropdownProfile, setOpenDropdownProfile] = useState(false);
+  const [dropdownOpen, setDropdownOpen] = useState(false);
+  const [searchOpen, setSearchOpen] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
+  const dropdownRef = useRef<HTMLUListElement>(null);
 
   useEffect(() => {
     let data = localStorage.getItem("infoProfSession");
     setProfInfo(data ? JSON.parse(data) : null);
   }, []);
 
-  return (
-    <>
-      <nav className="w-full h-16 flex items-center justify-center min-[768px]:h-20 mx-auto py-3 bg-[#F2F3F0] rounded-sm border-b-[1px] border-[#F2F3F0]">
-        {/* hamburg menu only lg or lower */}
-        <div className="w-[100%] lg:hidden grid grid-cols-[10%,90%] mx-auto bg-transparent rounded-lg">
-          {/*left section*/}
-          <div className="flex items-center justify-start">
-            {/* tablet burguer icon */}
-            <button
-              className="hidden lg:hidden min-[768px]:flex items-center justify-start text-black font-bold pl-4 hover:opacity-65"
-              onClick={() => setIsOpen(!isOpen)}
-            >
-              <Hamburguer width={25} height={25} />
-            </button>
-            {/* mobile icon */}
-            <div className="w-[100%] flex items-center justify-start pl-3 min-[768px]:hidden">
-              <Link href="/professional/dashboard">
-                <Image
-                  src="/assets/onlyIcon.png"
-                  alt="logo"
-                  width={100}
-                  height={50}
-                />
-              </Link>
-            </div>
-          </div>
+  // Detecta si está en mobile (menos de 768px)
+  useEffect(() => {
+    const checkMobile = () => setIsMobile(window.innerWidth < 768);
+    checkMobile();
 
-          {/*right section*/}
-          <div className="w-[100%] min-[768px]:pr-3 py-2 flex items-center justify-start gap-2">
-            <div className="w-[60%] lg:w-[50%] hidden md:flex items-center justify-start">
-              {/* route section */}
-              <div
-                className={`${
-                  path === "dashboard"
-                    ? "hidden md:w-[30%] md:flex items-center justify-start gap-2"
-                    : "hidden md:w-[80%] md:flex items-center justify-start gap-2"
-                }`}
-              >
-                <button onClick={() => router.back()}>
-                  <ArrowLeft color={"#000000"} width={18} height={18} />
-                </button>
-                <p className="font-bold text-xs">{path.toUpperCase()}</p>
-              </div>
-              {/* welcome section */}
-              <div
-                className={` ${
-                  path === "dashboard"
-                    ? "hidden min-[880px]:flex min-[880px]:w-[50%] text-[20px] xl:text-2xl text-center mx-auto text-black text-clip font-medium"
-                    : "hidden"
-                } `}
-              >
-                {profInfo?.gender === "M" ? (
-                  <h2 className="capitalize">
-                    Bienvenido, Dr.{" "}
-                    <strong className="truncate">
-                      {profInfo?.lastname}
-                    </strong>
-                  </h2>
-                ) : (
-                  <h2 className="capitalize">
-                    Bienvenida, Dra.{" "}
-                    <strong className="truncate">
-                      {profInfo?.lastname}
-                    </strong>
-                  </h2>
-                )}
-              </div>
-            </div>
-            <div className="hidden mx-auto md:w-[50%] min-[768px]:flex items-center justify-end">
-              <Search path={path} />
-            </div>
-            <div className="w-[90%] h-[50px] min-[768px]:hidden flex gap-2 items-center justify-end">
-              <button onClick={() => setOpenResponsiveNav(!openResponsiveNav)}>
-                <SearchIcon width={25} height={25} color={"#bfbfbf"} />
-              </button>
-              <div
-                className={`transition-all duration-300 ${
-                  openResponsiveNav
-                    ? "opacity-100 w-[75%] top-0 flex items-center justify-center"
-                    : "opacity-0 w-0"
-                } `}
-              >
-                {openResponsiveNav && <Search path={path} />}
-              </div>
-              <button
-                onClick={() => setOpenDropdownProfile(!openDropdownProfile)}
-              >
-                <Image
-                  width={40}
-                  height={40}
-                  className="rounded-full"
-                  src={
-                    profInfo?.userImage ||
-                    "https://avatar.iran.liara.run/public/job/doctor/male"
-                  }
-                  alt="profile-picture"
-                />
-              </button>
-              <div className="absolute top-[9.5%] z-50 right-2 w-[150px]">
-                {openDropdownProfile && (
-                  <div className="backdrop-blur-md glass-effect rounded-md">
-                    <div className="w-[90%] mx-auto">
-                      <Link
-                        href={`/professional/profile`}
-                        className="text-[14px] flex items-center justify-start text-black"
-                        onClick={() => setOpenDropdownProfile(false)}
-                      >
-                        Perfil
-                      </Link>
-                    </div>
-                    <div className="w-[90%] mx-auto">
-                      <button
-                        className="text-[14px] flex items-center justify-start text-black"
-                        onClick={async () => {
-                          setOpenDropdownProfile(false);
-                          const res = await closeSessionServer();
-                          if (res) {
-                            localStorage.removeItem("infoProfSession");
-                          }
-                        }}
-                      >
-                        Cerrar Sesión
-                      </button>
-                    </div>
-                  </div>
-                )}
-              </div>
-            </div>
-          </div>
+    window.addEventListener("resize", checkMobile);
+    return () => window.removeEventListener("resize", checkMobile);
+  }, []);
+
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(event.target as Node)
+      ) {
+        setDropdownOpen(false);
+      }
+    }
+    if (dropdownOpen) {
+      document.addEventListener("mousedown", handleClickOutside);
+    } else {
+      document.removeEventListener("mousedown", handleClickOutside);
+    }
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, [dropdownOpen]);
+  
+  return (
+   <section className="w-full h-20">
+   <nav className="sticky top-0 z-50 flex items-center justify-between px-4 py-3 backdrop-blur-md bg-white/10 border-b border-white/20 shadow-md">
+        {/* router back button */}
+        <button
+          onClick={() => router.back()}
+          aria-label="Volver"
+          className="text-white hover:text-gray-300 focus:outline-none flex items-center gap-1"
+        >
+          <BackIcon />
+          Volver
+        </button>
+
+        {/* Dr. Greeting */}
+        <div className="text-white font-semibold text-lg select-none">
+          Hola, {profInfo?.firstname}!
         </div>
 
-        <div className="w-[100%] px-3 py-2 hidden items-center h-full justify-center lg:grid lg:grid-cols-[60%,40%] gap-2">
-          <div className="w-[100%] flex items-center justify-start">
-            <div className="w-[100%] flex items-center justify-center">
-              <div
-                className={`${
-                  path === "dashboard"
-                    ? " w-[30%] flex items-center justify-start"
-                    : " w-[80%] flex items-center justify-start"
-                }`}
-              >
-                <button onClick={() => router.back()}>
-                  <ArrowLeft width={18} height={18} color={"#000"} />
-                </button>
-                <p className="font-bold text-sm">{path.toLocaleUpperCase()}</p>
-              </div>
-              <div
-                className={`${
-                  path === "dashboard"
-                    ? "text-[24px] text-black text-start text-clip font-medium"
-                    : "hidden"
-                }`}
-              >
-                {profInfo?.gender === "M" ? (
-                  <h2 className="capitalize">
-                    Bienvenido, Dr.{" "}
-                    <strong className="truncate">
-                      {profInfo?.lastname}
-                    </strong>
-                  </h2>
-                ) : (
-                  <h2 className="capitalize">
-                    Bienvenida, Dra.{" "}
-                    <strong className="truncate">
-                      {profInfo?.lastname}
-                    </strong>
-                  </h2>
+        {/* right section: Glass + avatar & dropdown mobile only */}
+        <div className="flex items-center space-x-4 relative">
+          {/* search Glass */}
+          <button
+            aria-label="Buscar"
+            onClick={() => setSearchOpen((open) => !open)}
+            className="text-white hover:text-gray-300 focus:outline-none"
+          >
+            <SearchIcon />
+          </button>
+
+          {/* Avatar - mobile ONLY */}
+          {isMobile && (
+            <div className="relative">
+              <Image
+                width={40}
+                height={40}
+                src={profInfo?.userImage || "/default-avatar.png"}
+                alt="Usuario profile picture"
+                onClick={() => setDropdownOpen((open) => !open)}
+                className="w-10 h-10 rounded-full cursor-pointer border-2 border-white/40 hover:border-white transition"
+                tabIndex={0}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter" || e.key === " ") {
+                    setDropdownOpen((open) => !open);
+                  }
+                }}
+              />
+
+              <AnimatePresence>
+                {dropdownOpen && (
+                  <motion.ul
+                    ref={dropdownRef}
+                    initial={{ opacity: 0, y: -10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -10 }}
+                    transition={{ duration: 0.2 }}
+                    className="absolute right-0 mt-[2px] w-56 bg-black/80 bg-opacity-90 backdrop-blur-xl rounded-md shadow-sm font-mono font-semibold shadow-white py-2 text-white text-xs md:text-sm z-50"
+                    role="menu"
+                    aria-orientation="vertical"
+                  >
+                    <Link
+                      href="/professional/profile"
+                      className="px-4 py-2 hover:text-gray-300 cursor-pointer"
+                      onClick={() => setDropdownOpen(false)}
+                      role="menuitem"
+                      tabIndex={0}
+                    >
+                      Información del usuario
+                    </Link>
+                    <li
+                      className="px-4 py-2 hover:text-gray-300 cursor-pointer"
+                      onClick={() => {
+                        setDropdownOpen(false)
+                        logout(setIsOpen);
+                      }}
+                      role="menuitem"
+                      tabIndex={0}
+                      
+                    >
+                      Cerrar
+                    </li>
+                  </motion.ul>
                 )}
-              </div>
+              </AnimatePresence>
             </div>
-          </div>
-          <div className="flex items-center justify-center">
-            <Search path={path} />
-          </div>
+          )}
         </div>
       </nav>
-      <div className="w-full min-[768px]:hidden h-10 mb-3 border-b-[1px] border-[#d9d9d8]">
-        <div className="w-full h-full flex items-center justify-start">
-          {ProfessionalSidebarData.map((item, index) => (
-            <Link
-              href={item.path}
-              key={index}
-              className={cn(
-                `w-[80%] flex gap-1 justify-start items-center text-color h-10 my-2 px-2 mx-auto ${
-                  isOpen
-                    ? "justify-center  hover:font-extrabold text-[#929292]"
-                    : "pl-1 rounded-xl text-black/40"
-                } ${
-                  pathname === item.path ? "w-[95%] underline text-black" : ""
-                }`
-              )}
-              onClick={() => setIsOpen(false)}
-            >
-              <span className="w-[80%] text-center text-sm font-light">
-                {item.label}
-              </span>
-            </Link>
-          ))}
-        </div>
-      </div>
-    </>
+
+      <AnimatePresence>
+        {searchOpen && (
+          <motion.div
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -10 }}
+            transition={{ duration: 0.3 }}
+            className="w-[50%] absolute top-14 p-4 md:p-3 right-4 bg-transparent bg-opacity-90 backdrop-blur-xl z-50"
+          >
+            <Search path={path} />
+          </motion.div>
+        )}
+      </AnimatePresence>
+   </section>
   );
 };
 

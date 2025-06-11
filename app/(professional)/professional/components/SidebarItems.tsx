@@ -1,14 +1,25 @@
 import Image from 'next/image'
 import Link from 'next/link'
+import { closeSessionServer } from '@/app/actions'
 import { ProfessionalSidebarData } from '@/app/(professional)/professional/data'
 import medicalScheduleLogo from '../../../../public/assets/medical_schedule-logo.svg'
+import { LogOut } from 'lucide-react'
 
+export const logout = (setIsOpen: (value: boolean) => void) => {
+  try {
+    setIsOpen(false);
+    closeSessionServer();
+  } catch (error) {
+    console.error("Error al cerrar sesión:", error);
+  }
+}
 
 const SidebarItems = ({setIsOpen}:{
   setIsOpen: (value: boolean) => void;
 }) => {
   return (
-    <>
+    <main className='flex flex-col items-center justify-between h-full w-full p-4 text-white bg-transparent backdrop-blur-lg'>
+      <div>
       <Link href='/professional/dashboard'
       className='flex items-center justify-center mb-6'
       onClick={() => setIsOpen(false)}
@@ -32,7 +43,18 @@ const SidebarItems = ({setIsOpen}:{
           <span className='font-mono font-medium text-start'>{item.label}</span>
         </Link>
       ))}
-    </>
+      </div>
+      <button className='flex items-center gap-2 p-2 rounded hover:bg-gray-200/20 transition-colors'
+      onClick={() => {
+        console.log(`cerrar sesión`);
+        setIsOpen(false);
+      }}>
+        <LogOut size={25}/>
+        <span className='font-mono font-semibold'
+        onClick={() => logout(setIsOpen)}
+        >Cerrar Sesión</span>
+      </button>
+    </main>
   )
 }
 
