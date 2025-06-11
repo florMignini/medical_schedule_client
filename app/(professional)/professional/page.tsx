@@ -1,52 +1,51 @@
 "use client";
-import { useCallback, useEffect, useState } from "react";
+import { useState, useEffect, useCallback } from "react";
 import ProfessionalSidebar from "@/components/ProfessionalSidebar";
 import Navbar from "./components/Navbar";
 import { SelectedDateProvider } from "../../context/SeletedDateContext";
 
 const ProfessionalDashboard = ({
   children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) => {
-  // mobile side menu state & handler
+}: Readonly<{ children: React.ReactNode }>) => {
   const [isOpen, setIsOpen] = useState(false);
-  const [todayDate, setTodayDate] = useState<string>();
+
   const toggleSidebar = useCallback((value: boolean) => {
     setIsOpen(value);
   }, []);
 
-  // //update to false in width < 768
   useEffect(() => {
     const handleResize = () => {
       if (window.innerWidth < 1024) {
-        toggleSidebar(false);
+        setIsOpen(false);
       }
     };
-
-    //width event listener
     window.addEventListener("resize", handleResize);
-    handleResize();
-    return () => {
-      window.removeEventListener("resize", handleResize);
-    };
-  }, [toggleSidebar]);
+    handleResize(); // Ejecuta al montar
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
   return (
-    <section className="md:grid p-3 bg-[#121133] lg:grid-cols-[20%,80%]">
-      <SelectedDateProvider>
-        {/*leftside*/}
-        <ProfessionalSidebar
-          /* toggleSidebar={toggleSidebar} */ isOpen={isOpen}
+    <SelectedDateProvider>
+      <section className="flex max-h-screen overflow-hidden bg-gradient-to-br from-neutral-900 to-zinc-800 text-white">
+        {/* Sidebar Desktop */}
+        <div className="hidden lg:block w-64">
+          <ProfessionalSidebar 
           setIsOpen={setIsOpen}
-        />
-        {/* rightside */}
-        <div className="gap-5 flex-1 flex-col bg-[#DFE0E0] rounded-lg">
-          <Navbar setIsOpen={setIsOpen} isOpen={isOpen} />
-          <div className="rounded-lg">{children}</div>
+          isOpen={true} variant="desktop" />
         </div>
-      </SelectedDateProvider>
-    </section>
+
+        {/* Sidebar Mobile con Motion */}
+        <div className="lg:hidden">
+          <ProfessionalSidebar isOpen={isOpen} setIsOpen={setIsOpen} variant="mobile" />
+        </div>
+
+        {/* Main Content */}
+        <main className="flex-1 flex-col w-full overflow-y-auto">
+          <Navbar setIsOpen={setIsOpen} isOpen={isOpen} />
+          <div>{children}</div>
+        </main>
+      </section>
+    </SelectedDateProvider>
   );
 };
 
