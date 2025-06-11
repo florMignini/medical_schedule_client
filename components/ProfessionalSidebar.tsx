@@ -19,7 +19,7 @@ export default function Sidebar({isOpen, setIsOpen, variant}: {
   return (
     <>
       {/* mobile only toggle button */}
-      <div className="md:hidden p-4 fixed top-0 left-0 z-50">
+      <div className="md:hidden max-h-screen p-4 fixed top-0 left-0 z-50">
         <button onClick={() => setIsOpen(!isOpen)} className="text-white">
           {isOpen ? <X size={1} /> : <Image
           src={onlyLogo}
@@ -44,9 +44,9 @@ export default function Sidebar({isOpen, setIsOpen, variant}: {
         animate={isOpen ? 'open' : 'closed'}
         variants={sidebarVariants}
         transition={{ duration: 0.3 }}
-        className="fixed top-0 left-0 h-full w-64 bg-white/10 backdrop-blur-md border-r border-white/20 shadow-lg z-50 md:hidden"
+        className="fixed top-0 left-0 h-full w-64 bg-black/20 backdrop-blur-md border-r border-white/20 shadow-lg z-50 md:hidden"
       >
-        <div className="p-6 text-white">
+        <div className="h-full p-6">
           <SidebarItems
           setIsOpen={setIsOpen}
           />

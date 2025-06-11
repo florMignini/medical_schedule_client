@@ -50,7 +50,7 @@ const ProfessionalDashboard = async () => {
 
 
   return (
-    <section className="w-full z-40 min-h-screen flex min-[768px]:grid min-[768px]:grid-cols-[60%,40%] lg:grid-cols-[70%,30%] p-1 overflow-x-scroll">
+    <section className="w-full z-40 h-auto flex-1 min-[768px]:grid min-[768px]:grid-cols-[60%,40%] lg:grid-cols-[70%,30%] p-1 overflow-y-auto">
       <Dialog>
         {/*left section*/}
       <div className="w-full h-auto lg:flex lg:flex-col gap-2 mx-auto items-center justify-start">
@@ -174,7 +174,7 @@ const ProfessionalDashboard = async () => {
         <WelcomeSection professional={data} />
       </div>
       {/* add patient modal */}
-      <DialogContent className="w-[90%] max-w-none lg:w-[70%] lg:max-w-[60%] h-[90%] bg-white flex flex-col items-start justify-start  bg-opacity-90 p-2 rounded-lg shadow-md gap-5">
+      <DialogContent className="w-[90%] lg:w-[70%] lg:max-w-[60%] h-[90%] bg-white flex flex-col items-start justify-start  bg-opacity-90 p-2 rounded-lg shadow-md gap-5">
           <ScrollArea className="h-[98%] w-[99%]">
             <PatientRegistrationForm />
           </ScrollArea>

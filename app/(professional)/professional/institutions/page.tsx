@@ -29,7 +29,7 @@ const InstitutionsPage = async () => {
   const { data } = await apiServer.get(`/institutions/get-all-institutions`);
 
   return (
-    // <section className="w-full h-screen flex flex-col items-center justify-start gap-2 text-color">
+    // <section className="w-full h-auto flex flex-col items-center justify-start gap-2 text-color">
     //   {/* Title */}
     //    <div className="flex w-[90%] h-10 items-start justify-start px-2">
     //     <h1 className="text-18-bold text-start">Instituciones</h1>
@@ -146,7 +146,7 @@ const InstitutionsPage = async () => {
     //     )}
     //   </div>
     // </section>
-    <section className="w-full pt-5 h-screen flex flex-col items-center justify-start px-10 py-10 gap-2 text-color">
+    <section className="w-full pt-5 h-auto flex flex-col items-center justify-start px-10 py-10 gap-2 text-color">
       <h1 className="text-5xl font-light text-gray-400">Seccion en construcción, próximamente disponible</h1>
     </section>
   );

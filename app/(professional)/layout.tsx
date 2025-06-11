@@ -24,7 +24,7 @@ export default function ProfessionalLayout({ children }: { children: React.React
     return (
       <html lang="es">
         <body  className={cn(
-          "h-screen flex flex-col font-sans antialiased m-0 p-0 overflow-x-hidden",
+          "max-h-screen overflow-x-hidden flex flex-col font-sans antialiased m-0 p-0",
           PlusFont.variable
         )}>
           <Head/>
