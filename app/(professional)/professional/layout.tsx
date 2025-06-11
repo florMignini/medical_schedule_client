@@ -27,13 +27,11 @@ export default function ProfessionalLayout({
   }
   return (
     <section className="flex flex-col">
-      {/* content */}
-      <div className="rounded-lg">
+      {/* content */}     
         <ProfessionalDashboard
         // eslint-disable-next-line react/no-children-prop
         children={children}
         />
-      </div>
     </section>
   );
 }
