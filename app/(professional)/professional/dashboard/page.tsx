@@ -50,12 +50,12 @@ const ProfessionalDashboard = async () => {
 
 
   return (
-    <section className="w-full z-40 h-auto flex-1 min-[768px]:grid min-[768px]:grid-cols-[60%,40%] lg:grid-cols-[70%,30%] p-1 overflow-y-auto">
+    <section className="w-full z-40 h-auto flex-1 min-[768px]:grid min-[768px]:grid-cols-[60%,40%] lg:grid-cols-[70%,30%] p-1 overflow-y-auto glass-effect">
       <Dialog>
         {/*left section*/}
       <div className="w-full h-auto lg:flex lg:flex-col gap-2 mx-auto items-center justify-start">
         {/* charts section */}
-        <div className="w-[100%] mx-auto py-4 px-3 glass-effect flex items-center justify-center flex-col xl:grid xl:grid-cols-[60%,40%] text-color gap-1">
+        <div className="w-[100%] mx-auto py-4 px-3 glass-effect-vibrant flex items-center justify-center flex-col xl:grid xl:grid-cols-[60%,40%] text-color gap-1 ">
           <PatientsByAge 
           patients={patientsIncluded}     
           />
@@ -71,25 +71,25 @@ const ProfessionalDashboard = async () => {
         />
 
         {/* institutions section */}
-        <div className="w-full flex flex-col glass-effect text-color mt-2">
-          <div className="mx-auto mb-5 w-[99%] border-b-[1px] border-[#A7B3C8]">
-            <p className="px-3 py-2 text-color font-semibold text-[18px]">
+        <div className="w-full flex flex-col glass-effect-vibrant mt-2">
+          <div className="mx-auto mb-5 w-[99%] border-b-[1px] border-gray-900">
+            <p className="px-3 text-gray-900 py-2 font-semibold text-[18px]">
               Instituciones
             </p>
           </div>
           {/* institutions table */}
           <div className="w-[100%] flex flex-col items-center">
             {data && data.institutionsIncluded?.length! < 1 ? (
-              <div className="w-[90%] flex items-center justify-center gap-10">
+              <div className="w-[90%] py-1 flex items-center justify-center gap-10">
                 <p>Aún no posee instituciones activas</p>
                 <AddButton to="/professional/institution-registration" />
               </div>
             ) : (
               <>
                 {/*header*/}
-                <div className="w-[99%] px-3 flex items-center justify-between border-b-[1px] mb-3 border-b-gray-500 text-gray-700">
+                <div className="w-[99%] px-3 flex items-center justify-between border-b-[1px] mb-3 border-b-gray-700 text-gray-900">
                   <p className="w-[25%] max-[690px]:w-[50%] h-10 text-sm font-medium text-start">
-                    institucion
+                    institución
                   </p>
                   <p className="w-[25%] max-[690px]:w-[50%] h-10 text-sm font-medium text-start">
                     Teléfono

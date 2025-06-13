@@ -27,7 +27,7 @@ const ProfessionalDashboard = ({
 
   return (
     <SelectedDateProvider>
-      <section className="flex min-h-screen bg-gradient-to-br from-neutral-900 to-zinc-800">
+      <section className="flex min-h-screen bg-[#111111]">
         {/* Sidebar Desktop */}
         <div className="hidden lg:block w-64">
           <ProfessionalSidebar
