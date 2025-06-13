@@ -93,8 +93,8 @@ const Navbar = ({ isOpen, setIsOpen }: toggleSideI) => {
   }, [dropdownOpen]);
   
   return (
-   <section className="w-full h-20">
-   <nav className="sticky top-0 h-20 z-50 flex items-center justify-between px-4 py-3 backdrop-blur-md bg-white/10 border-b border-white/20 shadow-md">
+   <section className="w-full h-12">
+   <nav className="sticky top-0 h-12 z-50 flex items-center justify-between px-4 py-3 backdrop-blur-md bg-white/10 border-b border-white/20 shadow-md">
         {/* router back button */}
         <button
           onClick={() => router.back()}
