@@ -54,7 +54,7 @@ export default function Sidebar({isOpen, setIsOpen, variant}: {
       </motion.aside>
 
       {/* Sidebar estático en desktop */}
-      <aside className="hidden md:flex md:flex-col w-64 h-screen bg-transparent backdrop-blur-lg text-white p-6">
+      <aside className="hidden md:flex md:flex-col w-56 lg:w-64 h-screen bg-transparent backdrop-blur-lg text-white p-6">
         <SidebarItems
         setIsOpen={setIsOpen}
         />
