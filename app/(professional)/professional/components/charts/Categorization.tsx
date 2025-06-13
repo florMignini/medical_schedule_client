@@ -42,7 +42,7 @@ const Categorization = ({ appointments, followsUp }: any) => {
   const noData = totalMeets === 0;
 
   return (
-    <Card className="w-full z-40 xl:flex-col mx-auto flex justify-between text-black bg-white lg:mx-0 h-auto border border-[#E4E7EC] rounded-lg shadow-[0px_6px_15px_rgba(0,0,0,0.3)]">
+    <Card className="w-full bg-white/30 z-40 flex-col lg:flex-wrap mx-auto flex  justify-between text-black lg:mx-0 h-auto">
       <CardHeader className="w-[40%] h-auto min-[425px]:w-[60%] min-[768px]:w-full flex items-start justify-center px-5 py-0 pt-2">
         <div>
           <CardTitle className="text-base min-[425px]:text-2xl min-[768px]:text-3xl">
@@ -52,13 +52,13 @@ const Categorization = ({ appointments, followsUp }: any) => {
         </div>
       </CardHeader>
 
-      <CardContent className="w-[60%] h-[150px] lg:h-[210px] p-0 flex items-center justify-center">
+      <CardContent className="w-[95%] h-[150px] lg:h-[210px] p-0 flex items-center justify-center mx-auto">
         {noData ? (
-          <span className="text-base font-semibold text-gray-500  text-start">Aún no posee información disponible</span>
+          <span className="text-base font-semibold text-start">Aún no posee información disponible</span>
         ) : (
           <ChartContainer
             config={chartConfig}
-            className="w-full flex items-start justify-start h-full mx-auto p-0"
+            className="w-full flex items-center justify-center h-full mx-auto text-white font-mono font-semibold p-0"
           >
             <PieChart width={200} height={200}>
               <ChartTooltip cursor={false} content={<ChartTooltipContent hideLabel />} />
@@ -75,7 +75,6 @@ const Categorization = ({ appointments, followsUp }: any) => {
                     y={cy}
                     textAnchor="middle"
                     dominantBaseline="middle"
-                    className="text-sm fill-gray-800"
                   >
                     {`${totalMeets} total`}
                   </text>

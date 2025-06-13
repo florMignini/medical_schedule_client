@@ -62,14 +62,14 @@ const PatientsByAge = ({ patients }: any) => {
   );
 console.log(hasData)
   return (
-    <Card className="w-full z-40 flex-col mx-auto flex justify-between text-black bg-white lg:mx-0 h-auto border border-[#E4E7EC] rounded-lg shadow-[0px_6px_15px_rgba(0,0,0,0.3)]">
+    <Card className="w-full z-40 bg-white/40 flex-col mx-auto flex justify-between text-black lg:mx-0 h-auto">
       <CardHeader>
         <CardTitle>Pacientes por rango etario</CardTitle>
         <CardDescription>
           Cantidad de pacientes por edad y género
         </CardDescription>
       </CardHeader>
-      <CardContent className="font-semibold text-gray-500">
+      <CardContent className="font-semibold text-white">
         <ChartContainer config={chartConfig}>
           <ResponsiveContainer width="100%" height={hasData ? 300 : 100}>
             {hasData ? (
