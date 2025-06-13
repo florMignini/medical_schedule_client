@@ -230,9 +230,15 @@
     @apply bg-[#EBEBEB];
   }
 
-  .glass-effect {
-    @apply relative z-40 bg-white backdrop:blur-3xl px-2 py-3 rounded-lg shadow-sm shadow-[#a4a3a3] border border-white/50;
-  }
+    /*? page */
+    .glass-effect {
+      @apply backdrop-blur-md bg-gradient-to-br from-white/20 via-white/10 to-white/5 border border-white/20 shadow-lg ;
+    }
+    /* !component */
+    .glass-effect-vibrant {
+      @apply backdrop-blur-lg bg-gradient-to-b from-white/40 to-black/80 border border-white/30 shadow-xl rounded-2xl;
+    }
+    
 
   /* =====  SHADCN OVERRIDES */
   .shad-primary-btn {
