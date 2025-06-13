@@ -62,9 +62,9 @@ const WelcomeSection = ({
   const filteredResult = filterTodayAppointments(appointmentsIncluded);
 
   return (
-    <div className="w-[95%] mx-auto flex flex-col  bg-white glass-effect">
+    <div className="w-[95%] mx-auto flex flex-col glass-effect-vibrant">
       {/* profile section */}
-      <div className="w-[99%] h-auto flex items-center justify-start flex-col px-2 py-1 broder-[#f8f9f9] border-b-[1px]">
+      <div className="w-[99%] h-auto flex items-center justify-start flex-col px-2 py-1">
         <div className="w-[100%] flex flex-col items-center justify-center mx-auto">
           <div className="w-[100%] flex flex-col items-center justify-center ">
             <Link
@@ -174,7 +174,7 @@ const WelcomeSection = ({
           <h1 className="w-full text-start text-sm font-semibold text-black">
             Datos personales:
           </h1>
-          <div className="w-full h-auto flex flex-col items-center justify-center border-b-[1px] border-[#f8f9f9] pb-2">
+          <div className="w-full h-auto flex flex-col items-center justify-center pb-2">
             {/* fullname */}
             <div className="w-[100%] flex items-center justify-between py-1">
               <p className="text-xs font-medium text-gray-400">

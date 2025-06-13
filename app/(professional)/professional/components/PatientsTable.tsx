@@ -78,9 +78,9 @@ export default PatientsTable;
 
 export const Table = ({ activePatients }: any) => {
   return (
-    <div className="w-full py-4 px-3 glass-effect flex flex-col text-color mt-2">
-      <div className="mx-auto mb-5 w-[99%] border-b-[1px] border-[#A7B3C8]">
-        <p className="px-3 py-2 font-semibold text-[18px]">Pacientes</p>
+    <div className="w-full py-4 px-3 glass-effect-vibrant flex flex-col  mt-2">
+      <div className="mx-auto mb-5 w-[99%] border-b-[1px] border-[#111111]">
+        <p className="px-3 py-2 font-semibold text-[18px] text-gray-900">Pacientes</p>
       </div>
       {/* patients table */}
       <div className="w-[100%] flex flex-col items-center">
@@ -99,7 +99,7 @@ export const Table = ({ activePatients }: any) => {
         ) : (
           <>
             {/*header*/}
-            <div className="w-[99%] px-3 flex items-center justify-between border-b-[1px] mb-3 border-b-gray-768 text-gray-700">
+            <div className="w-[99%] px-3 flex items-center justify-between border-b-[1px] mb-3 border-b-gray-900 text-gray-100">
               <p className="w-[25%] max-[690px]:w-[50%] h-10 text-sm font-medium text-start">
                 Nombre Completo
               </p>
@@ -121,7 +121,7 @@ export const Table = ({ activePatients }: any) => {
                 >
                   <Link
                     href={`/professional/patients/${patient.id}/info`}
-                    className="w-[85%] md:w-[98%] mx-auto px-2 flex items-center justify-between border-b-[1px] hover:transition-shadow border-[#cccccc] rounded-md border-[1px] mb-1 hover:shadow-lg hover:shadow-[#cccccc] text-gray-700"
+                    className="w-[85%] md:w-[98%] mx-auto px-2 flex items-center justify-between hover:transition-shadow rounded-md  mb-1 hover:shadow-md hover:shadow-gray-400 text-gray-300"
                   >
                     <div
                       key={patient.identityNumber}
