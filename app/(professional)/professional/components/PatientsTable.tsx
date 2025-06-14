@@ -78,12 +78,13 @@ export default PatientsTable;
 
 export const Table = ({ activePatients }: any) => {
   return (
-    <div className="w-full py-4 px-3 glass-effect-vibrant flex flex-col  mt-2">
-      <div className="mx-auto mb-5 w-[99%] border-b-[1px] border-[#111111]">
+    <div className="w-full border-[1px] rounded-lg shadow-md transition-shadow shadow-gray-400 border-gray-400 flex flex-col mt-2">
+
+      <div className="mx-auto mb-1 w-[99%] ">
         <p className="px-3 py-2 font-semibold text-[18px] text-gray-900">Pacientes</p>
       </div>
       {/* patients table */}
-      <div className="w-[100%] flex flex-col items-center">
+      <div className="w-[100%] p-1 flex flex-col items-center">
         {activePatients && activePatients?.length! < 1 ? (
           <div className="w-[90%] flex items-center justify-center gap-10">
             <p>Aún no posee pacientes activos</p>
@@ -99,29 +100,29 @@ export const Table = ({ activePatients }: any) => {
         ) : (
           <>
             {/*header*/}
-            <div className="w-[99%] px-3 flex items-center justify-between border-b-[1px] mb-3 border-b-gray-900 text-gray-100">
-              <p className="w-[25%] max-[690px]:w-[50%] h-10 text-sm font-medium text-start">
+            <div className="w-[99%] px-3 flex items-center justify-between border-b-[1px] mb-1 text-xs lg:text-sm text-start font-semibold border-b-gray-900 text-gray-500 ">
+              <p className="w-[25%] max-[690px]:w-[50%] h-5 truncate">
                 Nombre Completo
               </p>
-              <p className="w-[25%] max-[690px]:w-[50%] h-10 text-sm font-medium text-start">
+              <p className="w-[25%] max-[690px]:w-[50%] h-5 truncate">
                 Teléfono
               </p>
-              <p className="w-[25%] h-10 text-sm font-medium text-start max-[690px]:hidden">
+              <p className="w-[25%] h-5 max-[690px]:hidden truncate">
                 Mail
               </p>
-              <p className="w-[25%] h-10 text-sm font-medium text-start max-[690px]:hidden">
+              <p className="w-[25%] h-5 max-[690px]:hidden truncate">
                 Dirección
               </p>
             </div>
             <div className="w-full px-1 gap-2">
               {activePatients.map(({ patient }: PatientsIncluded) => (
                 <div
-                  className="w-[100%] flex items-center justify-center"
+                  className="w-[100%] flex items-center gap-1 justify-center"
                   key={patient.id}
                 >
                   <Link
                     href={`/professional/patients/${patient.id}/info`}
-                    className="w-[85%] md:w-[98%] mx-auto px-2 flex items-center justify-between hover:transition-shadow rounded-md  mb-1 hover:shadow-md hover:shadow-gray-400 text-gray-300"
+                    className="w-[85%] md:w-[98%] mx-auto px-2 flex items-center justify-between hover:transition-shadow rounded-md mb-1 hover:shadow-md hover:shadow-gray-400 hover:border-[1px] hover:border-gray-300 text-gray-600"
                   >
                     <div
                       key={patient.identityNumber}
@@ -176,6 +177,6 @@ export const Table = ({ activePatients }: any) => {
           </>
         )}
       </div>
-    </div>
+      </div>
   );
 };

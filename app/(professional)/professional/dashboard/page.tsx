@@ -50,12 +50,12 @@ const ProfessionalDashboard = async () => {
 
 
   return (
-    <section className="w-full z-40 h-auto flex-1 min-[768px]:grid min-[768px]:grid-cols-[60%,40%] lg:grid-cols-[70%,30%] p-1 overflow-y-auto glass-effect">
+    <section className="w-full z-40 h-[100%] flex-1 min-[768px]:grid min-[768px]:grid-cols-[60%,40%] lg:grid-cols-[70%,30%] overflow-y-auto glass-effect-vibrant">
       <Dialog>
         {/*left section*/}
-      <div className="w-full h-auto lg:flex lg:flex-col gap-2 mx-auto items-center justify-start">
+      <div className="w-full bg-white rounded-lg h-auto lg:flex lg:flex-col gap-2 mx-auto items-center justify-start px-1">
         {/* charts section */}
-        <div className="w-[100%] mx-auto py-4 px-3 glass-effect-vibrant flex items-center justify-center flex-col xl:grid xl:grid-cols-[60%,40%] text-color gap-1 ">
+        <div className="w-[100%] mx-auto p-2 rounded-lg glass-effect-vibrant flex items-center justify-center flex-col xl:grid xl:grid-cols-[60%,40%] text-color gap-1 ">
           <PatientsByAge 
           patients={patientsIncluded}     
           />
@@ -71,7 +71,7 @@ const ProfessionalDashboard = async () => {
         />
 
         {/* institutions section */}
-        <div className="w-full flex flex-col glass-effect-vibrant mt-2">
+        <div className="w-full flex flex-col glass-effect-vibran bg-white mt-2">
           <div className="mx-auto mb-5 w-[99%] border-b-[1px] border-gray-900">
             <p className="px-3 text-gray-900 py-2 font-semibold text-[18px]">
               Instituciones
