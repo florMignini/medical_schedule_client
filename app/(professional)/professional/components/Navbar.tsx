@@ -93,20 +93,23 @@ const Navbar = ({ isOpen, setIsOpen }: toggleSideI) => {
   }, [dropdownOpen]);
   
   return (
-   <section className="w-full h-12">
-   <nav className="sticky top-0 h-12 z-50 flex items-center justify-between px-4 py-3 backdrop-blur-md bg-white/10 border-b border-white/20 shadow-md">
+   <section className="w-full h-13">
+   <nav className="sticky top-0 h-12 z-40 flex items-center justify-end gap-4 md:gap-0 md:justify-between px-4 py-3 backdrop-blur-md bg-[#111111]">
         {/* router back button */}
-        <button
-          onClick={() => router.back()}
-          aria-label="Volver"
-          className="text-white hover:text-gray-300 focus:outline-none flex items-center gap-1"
-        >
-          <BackIcon />
-          Volver
-        </button>
+        {/* Back button - desktop ONLY */}
+        {!isMobile && (
+            <button
+              onClick={() => router.back()}
+              aria-label="Volver"
+              className="text-white hover:text-gray-300 focus:outline-none flex items-center gap-1"
+            >
+              <BackIcon />
+              Volver
+            </button>
+          )}
 
         {/* Dr. Greeting */}
-        <div className="text-white font-semibold text-lg select-none">
+        <div className="text-white text-center font-semibold text-lg select-none">
           Hola, {profInfo?.firstname}!
         </div>
 
