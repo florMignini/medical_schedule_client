@@ -62,7 +62,7 @@ const PatientsByAge = ({ patients }: any) => {
   );
 console.log(hasData)
   return (
-    <Card className="w-full z-40 bg-white/40 flex-col mx-auto flex justify-between text-black lg:mx-0 h-auto">
+    <Card className="w-full z-40 bg-white flex-col mx-auto flex justify-between text-black lg:mx-0 h-auto">
       <CardHeader>
         <CardTitle>Pacientes por rango etario</CardTitle>
         <CardDescription>
