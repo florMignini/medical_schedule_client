@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useState } from "react";
 import ConfigButton from "./ConfigButton";
 import Mail from "./icons/Mail";
 import Phone from "./icons/Phone";
@@ -77,9 +77,20 @@ const PatientsTable = ({ patients, component }: any) => {
 export default PatientsTable;
 
 export const Table = ({ activePatients }: any) => {
+  const [currentPage, setCurrentPage] = useState(1);
+  const patientsPerPage = 20;
+  const totalPages = Math.ceil(activePatients.length / patientsPerPage);
+  
+  const indexOfLastPatient = currentPage * patientsPerPage;
+  const indexOfFirstPatient = indexOfLastPatient - patientsPerPage;
+  const currentPatients = activePatients.slice(indexOfFirstPatient, indexOfLastPatient);
+
+  const handlePageChange = (pageNumber: number) => {
+    setCurrentPage(pageNumber);
+  };
+
   return (
     <div className="w-full border-[1px] rounded-lg shadow-md transition-shadow shadow-gray-400 border-gray-400 flex flex-col mt-2">
-
       <div className="mx-auto mb-1 w-[99%] ">
         <p className="px-3 py-2 font-semibold text-[18px] text-gray-900">Pacientes</p>
       </div>
@@ -115,7 +126,7 @@ export const Table = ({ activePatients }: any) => {
               </p>
             </div>
             <div className="w-full px-1 gap-2">
-              {activePatients.map(({ patient }: PatientsIncluded) => (
+              {currentPatients.map(({ patient }: PatientsIncluded) => (
                 <div
                   className="w-[100%] flex items-center gap-1 justify-center"
                   key={patient.id}
@@ -174,9 +185,43 @@ export const Table = ({ activePatients }: any) => {
                 </div>
               ))}
             </div>
+            {/* Pagination Controls */}
+            {totalPages > 1 && (
+              <div className="w-full flex items-center justify-center gap-2 py-4">
+                <button
+                  onClick={() => handlePageChange(currentPage - 1)}
+                  disabled={currentPage === 1}
+                  className="px-3 py-1 rounded-md border border-gray-300 disabled:opacity-50 disabled:cursor-not-allowed hover:bg-gray-100"
+                >
+                  Anterior
+                </button>
+                <div className="flex items-center gap-2">
+                  {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
+                    <button
+                      key={page}
+                      onClick={() => handlePageChange(page)}
+                      className={`px-3 py-1 rounded-md border ${
+                        currentPage === page
+                          ? "bg-gray-900 text-white"
+                          : "border-gray-300 hover:bg-gray-100"
+                      }`}
+                    >
+                      {page}
+                    </button>
+                  ))}
+                </div>
+                <button
+                  onClick={() => handlePageChange(currentPage + 1)}
+                  disabled={currentPage === totalPages}
+                  className="px-3 py-1 rounded-md border border-gray-300 disabled:opacity-50 disabled:cursor-not-allowed hover:bg-gray-100"
+                >
+                  Siguiente
+                </button>
+              </div>
+            )}
           </>
         )}
       </div>
-      </div>
+    </div>
   );
 };

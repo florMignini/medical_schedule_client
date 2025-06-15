@@ -17,9 +17,11 @@ const PatientsPage = async () => {
   const { patientsIncluded }: { patientsIncluded: PatientsIncluded[] } = data;
 
   return (
-    <section className="w-[99%] glass-effect-vibrant pt-5 mx-auto h-auto flex flex-col items-center justify-start gap-2 text-color bg-gradient-to-b from-white to-gray-100">
+    <section className="w-[99%] pt-5 mx-auto h-screen flex flex-col items-center justify-start gap-2 text-color bg-white">
       <Dialog>
+        <div className="w-full px-1">
         <PatientsTable patients={patientsIncluded} component={"patients"} />
+        </div>
       </Dialog>
     </section>
   );
