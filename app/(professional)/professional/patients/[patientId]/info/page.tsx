@@ -57,16 +57,19 @@ const PatientInfo = () => {
   }
 
   return (
-    <section className="w-full h-auto min-[700px]:h-screen py-2 flex flex-col items-center justify-start gap-2">
+    <section className="w-full h-auto bg-white min-[700px]:h-screen py-5 flex flex-col items-center justify-start gap-2">
       <Dialog>
         {/* Title */}
-        <div className="flex w-[90%] h-10 items-start justify-start ">
-          <h1 className="text-2xl max-[690px]:text-xl font-bold text-start">
-            Paciente
-          </h1>
-        </div>
+        <div className="flex flex-col w-[100%] h-14 items-start justify-center px-2 border-b-[1px] border-b-gray-500">
+            <h1 className="text-2xl text-black font-semibold text-start">
+              Pacientes
+            </h1>
+            <p className="hidden md:flex text-xs font-light text-gray-600">
+              Aquí encontrara el detalle del paciente seleccionado
+            </p>
+          </div>
         {/* top section */}
-        <div className="w-[95%] h-auto flex flex-col bg-white gap-5 shadow-[inset_0px_-2px_3px_rgba(73,73,73,0.2)] rounded-md">
+        <div className="w-[95%] h-auto flex flex-col pt-5 bg-[#262626] gap-5 shadow-[inset_0px_-2px_3px_rgba(73,73,73,0.2)] rounded-xl">
           {/* top */}
           <div className="w-[100%] h-auto px-2 pt-3 flex flex-col min-[768px]:grid min-[768px]:grid-cols-[40%,60%] mx-auto">
             <Image
@@ -77,7 +80,7 @@ const PatientInfo = () => {
               className="mx-auto rounded-full flex items-center justify-end mb-3"
             />
             {/* patient name and identity */}
-            <div className="w-full h-auto text-black flex  items-center justify-around flex-col min-[768px]:flex-row my-auto">
+            <div className="w-full h-auto text-white flex  items-center justify-around flex-col min-[768px]:flex-row my-auto">
               {/* left side */}
               <div className="w-[95%] text-[14px] md:text-18-bold flex flex-col items-center justify-center mb-2 min-[768px]:mb-0">
                 <h1 className="">{`${patientInfo.firstName} ${patientInfo.lastName}`}</h1>
@@ -91,7 +94,7 @@ const PatientInfo = () => {
               {/* rightside */}
 
               <div className="w-[95%] h-auto flex min-[768px]:flex-col justify-center gap-2">
-                <DialogTrigger className="w-[60%] md:w-[50%] flex items-center justify-center bg-blue-700 p-1 rounded-lg cursor-pointer hover:scale-105 active:outline-none">
+                <DialogTrigger className="w-[60%] md:w-[50%] flex items-center justify-center bg-emerald-600 p-1 rounded-lg cursor-pointer hover:scale-105 active:outline-none">
                   <button
                     className="text-white max-[690px]:text-[11px] text-14-medium"
                     onClick={() => setTurnoOcita("Turno")}
@@ -101,7 +104,7 @@ const PatientInfo = () => {
                 </DialogTrigger>
                 {/* follow up dialog */}
                 <DialogTrigger
-                  className="w-[60%] md:w-[50%] flex items-center justify-center bg-blue-700 px-5 py-1 rounded-lg cursor-pointer hover:scale-105 active:outline-none"
+                  className="w-[60%] md:w-[50%] flex items-center justify-center bg-emerald-600 px-5 py-1 rounded-lg cursor-pointer hover:scale-105 active:outline-none"
                 >
                   <button
                     className="text-white max-[690px]:text-[10px] text-14-medium"
@@ -150,8 +153,8 @@ const PatientInfo = () => {
                 className={clsx(
                   "font-light text-xs md:text-sm",
                   dinamicPage === data.name
-                    ? "text-blue-500 underline   underline-blue-500 font-bold" // Active link styles
-                    : "text-gray-500 hover:text-black" // Inactive link styles
+                    ? "text-emerald-500 text-mono font-bold underline   underline-emerald-500" // Active link styles
+                    : "text-gray-300 hover:text-white" // Inactive link styles
                 )}
               >
                 {data.name}

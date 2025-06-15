@@ -8,19 +8,19 @@ export const PatientInfoSection = (patientInfo: Patient) => {
   return (
     <section className="w-full flex flex-col items-center justify-start gap-3">
       {/* patient personal information */}
-      <div className="w-[95%] flex flex-col items-start justify-start bg-white px-2 py-3 shadow-[inset_0px_-2px_3px_rgba(73,73,73,0.2)] rounded-md">
+      <div className="w-[95%] bg-[#262626] flex flex-col items-start justify-start px-2 py-3 shadow-[inset_0px_-2px_3px_rgba(73,73,73,0.2)] rounded-xl text-white">
         {/* title */}
         <div className="flex items-center justify-start gap-2">
-          <div className="h-5 border-x-2 border-black" />
-          <h1>Informacion Personal</h1>
+          <div className="h-5 border-x-2 border-emerald-500 " />
+          <h1 className="font-mono text-sm lg:text-base">Informacion Personal</h1>
         </div>
         {/* form data section */}
-        <div className="w-[100%] flex items-center justify-start flex-wrap gap-12 pt-5 text-black">
+        <div className="w-[100%] flex items-center justify-start flex-wrap gap-12 pt-5 text-xs lg:text-sm">
           {/* genero */}
           <div className="flex flex-col">
             <Label
               htmlFor="gender"
-              className="font-light text-[13px] text-gray-600"
+              className="font-light text-[13px] text-gray-300 font-mono"
             >
               Género
             </Label>
@@ -30,7 +30,7 @@ export const PatientInfoSection = (patientInfo: Patient) => {
           <div className="flex flex-col">
             <Label
               htmlFor="email"
-              className="font-light text-[13px] text-gray-600"
+              className="font-light text-[13px] text-gray-300 font-mono"
             >
               Email
             </Label>
@@ -40,7 +40,7 @@ export const PatientInfoSection = (patientInfo: Patient) => {
            <div className="flex flex-col">
             <Label
               htmlFor="occupation"
-              className="font-light text-[13px] text-gray-600"
+              className="font-light text-[13px] text-gray-300 font-mono"
             >
               Ocupación
             </Label>
@@ -50,7 +50,7 @@ export const PatientInfoSection = (patientInfo: Patient) => {
           <div className="flex flex-col">
             <Label
               htmlFor="phone"
-              className="font-light text-[13px] text-gray-600"
+              className="font-light text-[13px] text-gray-300 font-mono"
             >
               Telefono
             </Label>
@@ -60,7 +60,7 @@ export const PatientInfoSection = (patientInfo: Patient) => {
           <div className="flex flex-col">
             <Label
               htmlFor="address"
-              className="font-light text-[13px] text-gray-600"
+              className="font-light text-[13px] text-gray-300 font-mono"
             >
               Dirección
             </Label>
@@ -70,7 +70,7 @@ export const PatientInfoSection = (patientInfo: Patient) => {
            <div className="flex flex-col">
             <Label
               htmlFor="insurance provider & policy number"
-              className="font-light text-[13px] text-gray-600"
+              className="font-light text-[13px] text-gray-300 font-mono"
             >
               Proveedor y Número de Política de Seguro
             </Label>
@@ -80,7 +80,7 @@ export const PatientInfoSection = (patientInfo: Patient) => {
           <div className="flex flex-col">
             <Label
               htmlFor="Blood type & factor"
-              className="font-light text-[13px] text-gray-600"
+              className="font-light text-[13px] text-gray-300 font-mono"
             >
               Tipo y Factor de Sangre
             </Label>
@@ -90,7 +90,7 @@ export const PatientInfoSection = (patientInfo: Patient) => {
           <div className="flex flex-col">
             <Label
               htmlFor="emergency contact name"
-              className="font-light text-[13px] text-gray-600"
+              className="font-light text-[13px] text-gray-300 font-mono"
             >
               Contacto de Emergencia
             </Label>
@@ -99,7 +99,7 @@ export const PatientInfoSection = (patientInfo: Patient) => {
           <div className="flex flex-col">
             <Label
               htmlFor="emergency contact number"
-              className="font-light text-[13px] text-gray-600"
+              className="font-light text-[13px] text-gray-300 font-mono"
             >
              Número de Emergencia
             </Label>
@@ -109,11 +109,11 @@ export const PatientInfoSection = (patientInfo: Patient) => {
       </div>
 
       {/* medical information */}
-      <div className="w-[95%] flex flex-col items-start justify-start bg-white px-2 py-3 shadow-[inset_0px_-2px_3px_rgba(73,73,73,0.2)] rounded-md">
+      <div className="w-[95%] flex flex-col text-white items-start justify-start bg-[#262626] px-2 py-3 shadow-[inset_0px_-2px_3px_rgba(73,73,73,0.2)] rounded-xl">
         {/* title general */}
         <div className="flex items-center justify-start gap-2">
-          <div className="h-5 border-x-2 border-black" />
-          <h1>Informacion Médica</h1>
+          <div className="h-5 border-x-2 border-emerald-500" />
+          <h1 className="font-mono text-sm lg:text-base">Informacion Médica</h1>
         </div>
         {/* form data section */}
         <div className="w-[100%] flex items-center justify-start flex-wrap gap-12 pt-5">
@@ -121,7 +121,7 @@ export const PatientInfoSection = (patientInfo: Patient) => {
           <div className="flex flex-col">
             <Label
               htmlFor="smoker"
-              className="font-light text-[13px] text-gray-600"
+              className="font-light text-[13px] text-gray-300"
             >
               Fumador
             </Label>
@@ -131,7 +131,7 @@ export const PatientInfoSection = (patientInfo: Patient) => {
           <div className="flex flex-col">
             <Label
               htmlFor="exSmoker"
-              className="font-light text-[13px] text-gray-600"
+              className="font-light text-[13px] text-gray-300"
             >
               Ex Fumador
             </Label>
@@ -141,7 +141,7 @@ export const PatientInfoSection = (patientInfo: Patient) => {
           <div className="flex flex-col">
             <Label
               htmlFor="allergiesType"
-              className="font-light text-[13px] text-gray-600"
+              className="font-light text-[13px] text-gray-300"
             >
               Alergico/a
             </Label>
@@ -151,7 +151,7 @@ export const PatientInfoSection = (patientInfo: Patient) => {
           <div className="flex flex-col">
             <Label
               htmlFor="allergies"
-              className="font-light text-[13px] text-gray-600"
+              className="font-light text-[13px] text-gray-300"
             >
               Alergias
             </Label>
@@ -161,7 +161,7 @@ export const PatientInfoSection = (patientInfo: Patient) => {
           <div className="flex flex-col">
             <Label
               htmlFor="weight"
-              className="font-light text-[13px] text-gray-600"
+              className="font-light text-[13px] text-gray-300"
             >
               Peso
             </Label>
@@ -171,7 +171,7 @@ export const PatientInfoSection = (patientInfo: Patient) => {
            <div className="flex flex-col">
             <Label
               htmlFor="height"
-              className="font-light text-[13px] text-gray-600"
+              className="font-light text-[13px] text-gray-300"
             >
               Altura
             </Label>
@@ -181,7 +181,7 @@ export const PatientInfoSection = (patientInfo: Patient) => {
            <div className="flex flex-col">
             <Label
               htmlFor="BMI"
-              className="font-light text-[13px] text-gray-600"
+              className="font-light text-[13px] text-gray-300"
             >
               Indice de Masa 
             </Label>
@@ -191,7 +191,7 @@ export const PatientInfoSection = (patientInfo: Patient) => {
           <div className="flex flex-col">
             <Label
               htmlFor="BFP"
-              className="font-light text-[13px] text-gray-600"
+              className="font-light text-[13px] text-gray-300"
             >
               Indice de Grasa (%) 
             </Label>
@@ -200,8 +200,8 @@ export const PatientInfoSection = (patientInfo: Patient) => {
         </div>
          {/* title history */}
          <div className="flex items-center justify-start gap-2 pt-5">
-          <div className="h-5 border-x-2 border-black" />
-          <h1>Antecedentes Médicos</h1>
+          <div className="h-5 border-x-2 border-emerald-500" />
+          <h1 className="font-mono text-sm lg:text-base">Antecedentes Médicos</h1>
         </div>
         {/* history data */}
         <div className="w-[100%] flex items-center justify-start flex-wrap gap-12 pt-5">
@@ -209,7 +209,7 @@ export const PatientInfoSection = (patientInfo: Patient) => {
            <div className="flex flex-col">
             <Label
               htmlFor="family medical history"
-              className="font-light text-[13px] text-gray-600"
+              className="font-light text-[13px] text-gray-300"
             >
               Antecedentes Médicos Familiares
             </Label>
@@ -219,7 +219,7 @@ export const PatientInfoSection = (patientInfo: Patient) => {
            <div className="flex flex-col">
             <Label
               htmlFor="family medical history"
-              className="font-light text-[13px] text-gray-600"
+              className="font-light text-[13px] text-gray-300"
             >
               Antecedentes Médicos
             </Label>

@@ -28,12 +28,12 @@ const PastAppointments = (patientInfo: Patient) => {
   }, []);
 
   return (
-    <section className="w-full flex flex-col items-center justify-start gap-3">
-      <div className="w-[95%] flex flex-col items-start justify-start bg-white px-2 py-3 shadow-[inset_0px_-2px_3px_rgba(73,73,73,0.2)] rounded-md">
+    <section className="w-full h-auto bg-white min-[700px]:h-screen flex flex-col items-center justify-start gap-2">
+      <div className="w-[95%] flex flex-col items-start justify-start bg-[#262626] px-2 py-3 text-white shadow-[inset_0px_-2px_3px_rgba(73,73,73,0.2)] rounded-xl">
         {/* title general */}
         <div className="flex items-center justify-start gap-2">
-          <div className="h-5 border-x-2 border-black" />
-          <h1>Citas Anteriores</h1>
+          <div className="h-5 border-x-2 border-emerald-500" />
+          <h1 className="font-mono text-sm lg:text-base">Citas Anteriores</h1>
         </div>
         {/* past appointments cards section */}
         <div className="w-[100%] flex items-center justify-start flex-wrap gap-12 pt-5">
