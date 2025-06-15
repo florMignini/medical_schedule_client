@@ -61,8 +61,33 @@ const WelcomeSection = ({
     professional;
   const filteredResult = filterTodayAppointments(appointmentsIncluded);
 
+  // Calculate monthly consultations
+  const currentMonth = dayjs().month();
+  const monthlyConsultations = appointmentsIncluded.filter(
+    (appointment) => dayjs(appointment.appointment.schedule).month() === currentMonth
+  ).length;
+
+  // Calculate new patients this month
+  const newPatientsThisMonth = patientsIncluded.filter(
+    (patient) => dayjs(patient.createdAt).month() === currentMonth
+  ).length;
+
+  // Calculate today's appointments
+  const todayAppointments = filteredResult.length;
+
+  // Calculate today's patients (unique patients with appointments today)
+  const todayPatients = new Set(
+    filteredResult.map(appointment => appointment.appointment.id)
+  ).size;
+
+  // Calculate percentages for progress bars
+  const monthlyConsultationsPercentage = Math.min((monthlyConsultations / 120) * 100, 100); // ~6 patients per day, 20 working days
+  const newPatientsPercentage = Math.min((newPatientsThisMonth / 30) * 100, 100); // ~1-2 new patients per day
+  const todayAppointmentsPercentage = Math.min((todayAppointments / 6) * 100, 100); // 6 appointments per day
+  const todayPatientsPercentage = Math.min((todayPatients / 6) * 100, 100); // 6 patients per day
+
   return (
-    <div className="w-[95%] mx-auto flex flex-col glass-effect-vibrant">
+    <div className="w-[95%] font-mono text-xs md:sm mx-auto flex flex-col  gap-2">
       {/* profile section */}
       <div className="w-full max-w-md mx-auto rounded-2xl shadow-lg overflow-hidden bg-white">
         {/* Header con fondo y avatar */}
@@ -87,6 +112,7 @@ const WelcomeSection = ({
 
         {/* Información del profesional */}
         <div className="pt-12 pb-6 px-1 text-center">
+ 
           <h2 className="text-lg font-semibold text-gray-800">
             {professional &&
               `${professional.firstName} ${professional.lastName}`}
@@ -145,20 +171,21 @@ const WelcomeSection = ({
           </div>
           {/* Datos personales */}
           <div className="mt-7 text-left">
+          <div className="p-4">
             <h3 className="text-gray-600 font-semibold font-mono text-sm lg:text-base mb-1">
               Información básica
             </h3>
             <div className="space-y-1 text-xs">
               <div className="flex items-center gap-2 text-gray-700">
                 <span className="truncate">🎂 Fecha de nacimiento:</span>
-                <span>{"26 septiembre 1998"}</span>
+                <span>{"26/09/98"}</span>
               </div>
               <div className="flex items-center gap-2 text-gray-700">
                 <span className="truncate">📞 Telefono:</span>
                 <span>{professional.phoneNumber || "+54 9 11 2345 6789"}</span>
               </div>
               <div className="flex items-center gap-2 text-gray-700">
-                <span className="truncate">✉️</span>
+                <span className="truncate">✉️ Email:</span>
                 <span>{professional.email || "correo@ejemplo.com"}</span>
               </div>
               {/* <div className="flex items-center gap-2 text-gray-700">
@@ -174,7 +201,7 @@ const WelcomeSection = ({
       <span>{professional. || "Dirección del profesional"}</span>
     </div> */}
             </div>
-          </div>
+         
           {/* account details */}
           <div className="mt-4 text-left">
             <h3 className="text-gray-600 font-semibold font-mono text-sm lg:text-base mb-1">
@@ -182,49 +209,69 @@ const WelcomeSection = ({
             </h3>
             <div className="flex items-center text-xs gap-2 text-gray-700">
               <span className="truncate">⏳ Miembro desde: </span>
-              <span className="">
+              <span className="truncate">
                 {dayjs(professional?.createdAt).locale("es").format("LL")}
               </span>
             </div>
           </div>
-
-          {/* Estadísticas */}
-          {/* <div className="mt-6 px-6 pb-6">
-  <h3 className="text-gray-600 font-semibold mb-2">Estadísticas</h3>
-  <div className="space-y-2 text-sm">
-    <div>
-      <p className="text-gray-600">Consultas mensuales</p>
-      <div className="w-full bg-gray-200 rounded-full h-2.5">
-        <div className="bg-yellow-400 h-2.5 rounded-full w-[70%]"></div>
-      </div>
-    </div>
-    <div>
-      <p className="text-gray-600">Pacientes nuevos</p>
-      <div className="w-full bg-gray-200 rounded-full h-2.5">
-        <div className="bg-green-400 h-2.5 rounded-full w-[40%]"></div>
-      </div>
-    </div>
-  </div>
-</div> */}
+          </div>
+        </div>
         </div>
       </div>
 
-      {/* Welcome */}
-      <div className="w-full flex flex-col items-start px-1 py-3 justify-start">
-        {/* account and personal info */}
-        <div className="w-full h-full min-[520px]:w-[95%] min-[520px]:flex flex-col items-center justify-center mx-auto">
-        
-          <div className="w-full h-auto flex flex-col items-center justify-start border-b-[1px] border-[#f8f9f9] pb-2"></div>
-          
-          {/* today & total patients chart */}
-          <div className="min-[520px]:w-full min-[520px]:flex h-auto flex-col gap-2 items-center justify-center mt-6">
-            <TotalPatientVsTodayPatient
-              patients={patientsIncluded}
-              appointments={appointmentsIncluded}
-            />
-            <TotalAppoitmentsVsTodayAppoitments
-              appointments={appointmentsIncluded}
-            />
+      {/* Statistics section */}
+      <div className="w-full max-w-md mx-auto rounded-2xl shadow-lg overflow-hidden bg-white">
+        <div className="p-4">
+          <h3 className="text-gray-600 text-sm md:text-base font-semibold mb-4">Estadísticas</h3>
+          <div className="space-y-4">
+            <div>
+              <div className="flex justify-between items-center mb-1">
+                <p className="text-gray-600">Consultas mensuales</p>
+                <span className="text-sm font-medium text-gray-700">{monthlyConsultations}/120</span>
+              </div>
+              <div className="w-full bg-gray-200 rounded-full h-2.5">
+                <div 
+                  className="bg-yellow-400 h-2.5 rounded-full transition-all duration-300" 
+                  style={{ width: `${monthlyConsultationsPercentage}%` }}
+                ></div>
+              </div>
+            </div>
+            <div>
+              <div className="flex justify-between items-center mb-1">
+                <p className="text-gray-600">Pacientes nuevos</p>
+                <span className="text-sm font-medium text-gray-700">{newPatientsThisMonth}/30</span>
+              </div>
+              <div className="w-full bg-gray-200 rounded-full h-2.5">
+                <div 
+                  className="bg-green-400 h-2.5 rounded-full transition-all duration-300" 
+                  style={{ width: `${newPatientsPercentage}%` }}
+                ></div>
+              </div>
+            </div>
+            <div>
+              <div className="flex justify-between items-center mb-1">
+                <p className="text-gray-600">Turnos del día</p>
+                <span className="text-sm font-medium text-gray-700">{todayAppointments}/6</span>
+              </div>
+              <div className="w-full bg-gray-200 rounded-full h-2.5">
+                <div 
+                  className="bg-blue-400 h-2.5 rounded-full transition-all duration-300" 
+                  style={{ width: `${todayAppointmentsPercentage}%` }}
+                ></div>
+              </div>
+            </div>
+            <div>
+              <div className="flex justify-between items-center mb-1">
+                <p className="text-gray-600">Pacientes del día</p>
+                <span className="text-sm font-medium text-gray-700">{todayPatients}/6</span>
+              </div>
+              <div className="w-full bg-gray-200 rounded-full h-2.5">
+                <div 
+                  className="bg-purple-400 h-2.5 rounded-full transition-all duration-300" 
+                  style={{ width: `${todayPatientsPercentage}%` }}
+                ></div>
+              </div>
+            </div>
           </div>
         </div>
       </div>

@@ -60,7 +60,7 @@ const PatientsByAge = ({ patients }: any) => {
   const hasData = chartData.some(
     (item) => item.femenino > 0 || item.masculino > 0
   );
-console.log(hasData)
+
   return (
     <Card className="w-full z-40 bg-white flex-col mx-auto flex justify-between text-black lg:mx-0 h-auto">
       <CardHeader>
