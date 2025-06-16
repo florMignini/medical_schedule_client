@@ -153,7 +153,7 @@ const AppointmentsList = ({ appointments, patients }: any) => {
                       `}
                     >
                       <button
-                        className={`text-sm text-black border-b-[1px] border-black/20 ${isPast ? "cursor-not-allowed opacity-50" : ""}`}
+                        className={`text-sm text-gray-800 border-b-[1px] border-black/20 ${isPast ? "cursor-not-allowed opacity-50" : ""}`}
                         onClick={() => {
                           setTurnoOcita("turno");
                           setSelectedTime(time);
