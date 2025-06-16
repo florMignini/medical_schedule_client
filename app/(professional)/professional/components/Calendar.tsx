@@ -142,10 +142,10 @@ const Calendar = ({ appointments }: any) => {
 
                   {dayEvents.length > 0 && (
                     <div className="flex items-end justify-end text-white text-xl font-bold p-1 flex-col">
-                      <p className="text-base font-bold text-center">
+                      <p className="text-base font-bold text-center truncate">
                         {dayEvents.length}
                       </p>
-                      <p className="hidden min-[900px]:flex text-base font-bold text-end">
+                      <p className="hidden min-[1024px]:flex text-base font-bold truncate">
                         {dayEvents.length > 1 ? "turnos" : "turno"}
                       </p>
                     </div>
