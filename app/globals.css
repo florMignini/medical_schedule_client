@@ -236,7 +236,7 @@
     }
     /* !component */
     .glass-effect-vibrant {
-      @apply backdrop-blur-lg bg-gradient-to-b from-white/40 to-black/80 border border-white/30 bg-opacity-50 shadow-xl rounded-2xl;
+      @apply backdrop-blur-lg bg-gradient-to-b from-white/40 to-black/60 bg-opacity-50 shadow-xl rounded-2xl;
     }
     
 
