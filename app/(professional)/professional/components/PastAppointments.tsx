@@ -1,7 +1,7 @@
 "use client";
 import { Patient } from "@/interfaces";
 import { useEffect, useState } from "react";
-
+import {Skeleton} from '../../../../components/ui/skeleton';
 import dayjs from "dayjs";
 import {
   Tooltip,
@@ -26,9 +26,17 @@ const PastAppointments = (patientInfo: Patient) => {
       setProfInfo(proffessionalInfo);
     }
   }, []);
-
+  if (!profInfo) {
+    return (
+      <section className="w-full bg-white h-screen flex flex-col items-center justify-start gap-2">
+        <Skeleton className="h-30 bg-gray-500 w-[99%] rounded-xl" />
+              <Skeleton className="h-30 bg-gray-500 w-[99%] rounded-xl" />
+              <Skeleton className="h-30 bg-gray-500 w-[99%] rounded-xl" />
+      </section>
+    );
+  }
   return (
-    <section className="w-full h-auto bg-white min-[700px]:h-screen flex flex-col items-center justify-start gap-2">
+    <section className="w-full bg-white h-screen flex flex-col items-center justify-start gap-2">
       <div className="w-[95%] flex flex-col items-start justify-start bg-[#262626] px-2 py-3 text-white shadow-[inset_0px_-2px_3px_rgba(73,73,73,0.2)] rounded-xl">
         {/* title general */}
         <div className="flex items-center justify-start gap-2">
