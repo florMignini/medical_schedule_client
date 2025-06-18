@@ -8,6 +8,7 @@ import { FormFieldType } from "./ProfessionalLoginForm";
 import SubmitButton from "../SubmitButton";
 import { useForm } from "react-hook-form";
 import { Label } from "../ui";
+import { useToast } from "@/hooks/use-toast";
 
 import { useRouter } from "next/navigation";
 
@@ -36,6 +37,7 @@ const FollowUpForm = ({component, patientId, onSuccess, initialDateTime, type  }
   const [ifFollowUp, setIfFollowUp] = useState(false);
   const [nextAppointmentSchedule, setNextAppointmentSchedule] =
     useState<Date | null>(initialDateTime);
+  const { toast } = useToast();
 
   useEffect(() => {
     const professionalData = localStorage.getItem("infoProfSession");
@@ -62,11 +64,12 @@ const FollowUpForm = ({component, patientId, onSuccess, initialDateTime, type  }
 
     try {
 
-      const response = await createFollowUp(values) as { id: string };
-      if (response) {
+      const response = await createFollowUp(values);
+console.log(response.data)
+      if (response.success) {
         const professionalIDs = {
           professional: professionalId?.id,
-          followUp: response?.id,
+          followUp: ((response.data as { id?: string })?.id ?? "") as string,
         };
 
         const profData = await createProfessionalFollowUpRelation(
@@ -74,7 +77,7 @@ const FollowUpForm = ({component, patientId, onSuccess, initialDateTime, type  }
         );
         const patientsIDs = {
           patient: patientId,
-          followUp: response?.id,
+          followUp: ((response.data as { id?: string })?.id ?? "") as string,
         };
         const patientData = await createPatientFollowUpRelation(patientsIDs);
     
@@ -107,7 +110,7 @@ const FollowUpForm = ({component, patientId, onSuccess, initialDateTime, type  }
           );
 
           const followUpIDs = {
-            followUpId: response?.id,
+            followUpId: ((response.data as { id?: string })?.id ?? "") as string,
             appointment: appointmentResponse?.id,
           };
           const followUpData = await createAppointmentFollowUpRelation(

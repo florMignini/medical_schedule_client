@@ -28,16 +28,15 @@ const Appointments = async () => {
     data ?? {
       appointmentsIncluded: [],
     };
-
   return (
-    <section className="w-[99%] py-8 mx-auto h-screen flex flex-col items-center justify-start gap-2 text-color bg-white">
+    <section className="w-[99%] py-8 mx-auto h-full flex flex-col items-center justify-start gap-2 text-color bg-white">
       {/* Title */}
       <div className="flex flex-col w-[99%] h-14 items-start justify-center px-2 border-b-[1px] border-b-gray-500">
             <h1 className="text-2xl text-black font-semibold text-start">
               Calendario
             </h1>
             <p className="hidden md:flex text-xs font-light text-gray-600">
-              Aquí encontrará los turnos programados para el corriente mes
+              Aquí encontrará los turnos programados para el mes seleccionado
             </p>
           </div>
       {/* top section */}
