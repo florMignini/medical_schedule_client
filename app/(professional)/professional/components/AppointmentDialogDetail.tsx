@@ -11,7 +11,6 @@ interface AppointmentDialogDetailProps {
   }
 
 const AppointmentDialogDetail = ({appt, component, patientId, onSuccess, initialDateTime, type  }:AppointmentDialogDetailProps) => {
-  console.log(appt);
   return (
     <div>
       <FollowUpForm
