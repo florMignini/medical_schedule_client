@@ -3,7 +3,7 @@ import { useState, useMemo, useEffect } from "react";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import dayjs from "dayjs";
 import { addMinutes, format, setHours, setMinutes } from "date-fns";
-import { Appointment, AppointmentsIncluded, Patient } from "@/interfaces";
+import { AppointmentsIncluded } from "@/interfaces";
 import { getTodayAppointments } from "@/utils/getTodayAppointments";
 import { getAppointmentDetail } from "@/utils/getAppointmentDetail";
 import { useSelectedDate } from "@/utils/useSelectedDate";
@@ -15,22 +15,16 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
+
+// import ReminderButton from "./ReminderButton";
 import NewAppointmentForm from "@/components/forms/NewAppointmentForm";
 import AppointmentDialogDetail from "./AppointmentDialogDetail";
 
 const AppointmentsList = ({ appointments, patients }: any) => {
   // patient info
+  const [patientId, setPatientId] = useState<any | null>(null);
   const [patientData, setPatientData] = useState<any | null>(null);
-  const [patientId, setPatientId] = useState<string>("");
-console.log(patientData?.patient)
+  console.log(patientData)
   // dialog state
   const [isOpen, setIsOpen] = useState(false);
 
@@ -40,7 +34,9 @@ console.log(patientData?.patient)
   const [currentAppointment, setCurrentAppointment] = useState<any | null>(
     null
   );
+
   const events = getTodayAppointments(appointments, selectedDate || new Date());
+
   const [turnoOcita, setTurnoOcita] = useState<string>("");
   // get time slots
   const timeSlots = useMemo(() => {
@@ -80,6 +76,7 @@ console.log(patientData?.patient)
           const hue = getRandomHue();
           const slotColor = getSlotColor(hue);
           const borderColor = getBorderColor(hue);
+
           return (
             <div
               key={i}
@@ -90,12 +87,11 @@ console.log(patientData?.patient)
               }}
               onClick={async () => {
                 if (appt) {
-                  console.log(appt)
                   setCurrentAppointment(appt);
                   const patientIdData = await getAppointmentDetail(
                     appt?.appointment?.id
                   );
-                  setPatientId(patientIdData?.patientsIncluded[0]?.id ?? "");
+                  setPatientId(patientIdData?.patientsIncluded[0]?.id);
                   setPatientData(patientIdData?.patientsIncluded[0]);
                 } else {
                   setSelectedTime(time);
@@ -152,9 +148,7 @@ console.log(patientData?.patient)
                       `}
                     >
                       <button
-                        className={`text-sm text-black border-b-[1px] border-black/20 ${
-                          isPast ? "cursor-not-allowed opacity-50" : ""
-                        }`}
+                        className={`text-sm text-black border-b-[1px] border-black/20 ${isPast ? "cursor-not-allowed opacity-50" : ""}`}
                         onClick={() => {
                           setTurnoOcita("turno");
                           setSelectedTime(time);
@@ -175,32 +169,23 @@ console.log(patientData?.patient)
                       <DialogContent className="w-[80vw] sm:max-w-[600px] max-h-[100vh] p-4 overflow-y-auto rounded-2xl shadow-lg [&>button]:text-white [&>button]:hover:text-white/80">
                         <DialogHeader>
                           <DialogTitle className="w-full flex font-bold text-3xl items-center justify-between text-gray-500">
-                            Detalles del turno
+                            {turnoOcita === "turno"
+                              ? "Crear Turno"
+                              : "Detalles del turno"}
+                            {/* <div className="pr-5">
+                              {patientId && (
+                                <ReminderButton appointment={patientId} />
+                              )}
+                            </div> */}
                           </DialogTitle>
-                          <DialogDescription className="text-white text-start font-light text-base">
-                            {/* patient information */}
-                            <span className="font-bold text-gray-500 text-sm">Información del paciente</span>
-                            <div className="w-full flex items-center justify-between pt-3">
-                              {/* left */}
-                              <div className="flex flex-col items-center justify-start">
-                              <p className="font-semibold text-start font-mono text-sm">Paciente:</p>
-                              <p className="font-semibold font-mono text-sm">{`${patientData?.patient?.firstName} ${patientData?.patient?.lastName}`}</p>
-                              </div>
-                              {/* middle */}
-                              <div className="flex flex-col items-center justify-start">
-                              <p className="font-semibold font-mono text-sm">Cobertura:</p>
-                              <p className="font-semibold font-mono text-sm">{patientData?.patient?.insuranceProvider}</p>
-                              </div>
-                              {/* right */}
-                              <div className="flex flex-col items-center justify-start">
-                              <p className="font-semibold font-mono text-sm">Numero:</p>
-                              <p className="font-semibold font-mono text-sm">{patientData?.patient?.insurancePolicyNumber}</p>
-                              </div>
-                            </div>
+                          <DialogDescription className="text-gray-500 text-start font-light text-base">
+                            {turnoOcita === "turno"
+                              ? "Crear un nuevo turno para el paciente"
+                              : "Detalles del turno"}
                           </DialogDescription>
                         </DialogHeader>
-                        
-                        {/* {turnoOcita === "turno" ? (
+
+                        {turnoOcita === "turno" ? (
                           <NewAppointmentForm
                             patients={patients}
                             component="calendar"
@@ -215,6 +200,7 @@ console.log(patientData?.patient)
                         ) : (
                           currentAppointment && (
                             <AppointmentDialogDetail
+                            patientData={patientData}
                               patientId={patientId}
                               initialDateTime={selectedTime}
                               type="update"
@@ -225,7 +211,7 @@ console.log(patientData?.patient)
                               }}
                             />
                           )
-                        )} */}
+                        )}
                       </DialogContent>
                     </Dialog>
                   </>
