@@ -46,7 +46,7 @@ const AppointmentDialogDetail = ({
         </div>
       </div>
       {/* appointment details */}
-      <div className="w-full flex items-center justify-between mb-4 text-white">
+      <div className="w-full flex items-center justify-between mb-4 gap-2 text-white">
         {/* left section */}
         <div className="flex flex-col">
           <p className="font-mono text-sm md:text-base">Motivo:</p>
