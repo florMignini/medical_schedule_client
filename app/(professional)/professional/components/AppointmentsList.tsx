@@ -24,7 +24,6 @@ const AppointmentsList = ({ appointments, patients }: any) => {
   // patient info
   const [patientId, setPatientId] = useState<any | null>(null);
   const [patientData, setPatientData] = useState<any | null>(null);
-  console.log(patientData)
   // dialog state
   const [isOpen, setIsOpen] = useState(false);
 
@@ -148,7 +147,9 @@ const AppointmentsList = ({ appointments, patients }: any) => {
                       `}
                     >
                       <button
-                        className={`text-sm text-black border-b-[1px] border-black/20 ${isPast ? "cursor-not-allowed opacity-50" : ""}`}
+                        className={`text-sm text-black border-b-[1px] border-black/20 ${
+                          isPast ? "cursor-not-allowed opacity-50" : ""
+                        }`}
                         onClick={() => {
                           setTurnoOcita("turno");
                           setSelectedTime(time);
@@ -158,62 +159,6 @@ const AppointmentsList = ({ appointments, patients }: any) => {
                         agregar evento
                       </button>
                     </div>
-
-                    <Dialog
-                      open={isOpen}
-                      onOpenChange={(open) => {
-                        setIsOpen(open);
-                        if (!open) setTurnoOcita("");
-                      }}
-                    >
-                      <DialogContent className="w-[80vw] sm:max-w-[600px] max-h-[100vh] p-4 overflow-y-auto rounded-2xl shadow-lg [&>button]:text-white [&>button]:hover:text-white/80">
-                        <DialogHeader>
-                          <DialogTitle className="w-full flex font-bold text-3xl items-center justify-between text-gray-500">
-                            {turnoOcita === "turno"
-                              ? "Crear Turno"
-                              : "Detalles del turno"}
-                            {/* <div className="pr-5">
-                              {patientId && (
-                                <ReminderButton appointment={patientId} />
-                              )}
-                            </div> */}
-                          </DialogTitle>
-                          <DialogDescription className="text-gray-500 text-start font-light text-base">
-                            {turnoOcita === "turno"
-                              ? "Crear un nuevo turno para el paciente"
-                              : "Detalles del turno"}
-                          </DialogDescription>
-                        </DialogHeader>
-
-                        {turnoOcita === "turno" ? (
-                          <NewAppointmentForm
-                            patients={patients}
-                            component="calendar"
-                            patientId={patientId}
-                            initialDateTime={selectedTime}
-                            type="create"
-                            onSuccess={() => {
-                              setIsOpen(false);
-                              setTurnoOcita("");
-                            }}
-                          />
-                        ) : (
-                          currentAppointment && (
-                            <AppointmentDialogDetail
-                            patientData={patientData}
-                              patientId={patientId}
-                              initialDateTime={selectedTime}
-                              type="update"
-                              appt={currentAppointment}
-                              onSuccess={() => {
-                                setIsOpen(false);
-                                setTurnoOcita("");
-                              }}
-                            />
-                          )
-                        )}
-                      </DialogContent>
-                    </Dialog>
                   </>
                 )}
               </div>
@@ -221,6 +166,62 @@ const AppointmentsList = ({ appointments, patients }: any) => {
           );
         })}
       </ScrollArea>
+      <Dialog
+        open={isOpen}
+        onOpenChange={(open) => {
+          setIsOpen(open);
+          if (!open) setTurnoOcita("");
+        }}
+      >
+        <DialogContent className="w-[80vw] bg-black/20 backdrop-blur-md sm:max-w-[600px] max-h-[100vh] p-4 overflow-y-auto rounded-2xl shadow-lg [&>button]:text-white [&>button]:hover:text-white/80">
+          <DialogHeader>
+            <DialogTitle className="w-full flex font-bold text-3xl items-center justify-between text-gray-500">
+              {turnoOcita === "turno" ? "Crear Turno" : "Detalles del turno"}
+            </DialogTitle>
+            <DialogDescription className="text-gray-500 text-start font-light text-base">
+              {turnoOcita === "turno"
+                ? "Crear un nuevo turno para el paciente"
+                : "Detalles del turno"}
+            </DialogDescription>
+          </DialogHeader>
+
+          <div className="relative">
+            {/* Formulario de creación de turno */}
+            <div className={turnoOcita === "turno" ? "block" : "hidden"}>
+              <NewAppointmentForm
+                key="create"
+                patients={patients}
+                component="calendar"
+                patientId={patientId}
+                initialDateTime={selectedTime}
+                type="create"
+                onSuccess={() => {
+                  setIsOpen(false);
+                  setTurnoOcita("");
+                }}
+              />
+            </div>
+
+            {/* Formulario de detalle/update de turno */}
+            <div className={turnoOcita === "turno" ? "hidden" : "block"}>
+              {currentAppointment && (
+                <AppointmentDialogDetail
+                  key="update"
+                  patientData={patientData}
+                  patientId={patientId}
+                  initialDateTime={selectedTime}
+                  type="update"
+                  appt={currentAppointment}
+                  onSuccess={() => {
+                    setIsOpen(false);
+                    setTurnoOcita("");
+                  }}
+                />
+              )}
+            </div>
+          </div>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 };
