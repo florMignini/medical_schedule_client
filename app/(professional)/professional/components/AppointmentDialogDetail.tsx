@@ -1,4 +1,5 @@
-import FollowUpForm from "@/components/forms/FollowUpForm";
+import React, { useState } from "react";
+import NewAppointmentForm from "@/components/forms/NewAppointmentForm";
 import PastAppointmentForm from "@/components/forms/PastAppointmentForm";
 import { AppointmentsIncluded } from "@/interfaces";
 
@@ -21,10 +22,11 @@ const AppointmentDialogDetail = ({
   type,
   patientData,
 }: AppointmentDialogDetailProps) => {
+  const [requiereSeguimiento, setRequiereSeguimiento] = useState(false);
+
   const patient = patientData ? patientData.patient : undefined;
   const appointment = appt ? appt.appointment : undefined;
 
-  console.log("appointment", appointment);
   return (
     <div>
       {/* patient details */}
@@ -53,13 +55,6 @@ const AppointmentDialogDetail = ({
           <p className="text-xs md:text-sm truncate">
             {appointment?.reason || "No especificado"}
           </p>
-          {/* 
-  me sirve para la fecha del dashboard del cumple y de la cuenta <span className="font-bold">Fecha:</span> {new Date(appt.startDateTime).toLocaleDateString("es-AR", {
-      year: "numeric",
-      month: "2-digit",
-      day: "2-digit",
-    })}
-  */}
         </div>
         {/* right section */}
         <div className="flex flex-col">
@@ -67,17 +62,44 @@ const AppointmentDialogDetail = ({
           <p className="text-xs md:text-sm truncate">{appointment?.notes}</p>
         </div>
       </div>
-      <PastAppointmentForm
-      patient={patient}
-        appointment={appointment}
-      />
-      {/* <FollowUpForm
-        component={component}
-        patientId={patientId}
-        onSuccess={onSuccess}
-        initialDateTime={initialDateTime}
-        type={type}
-      /> */}
+
+      {/* Formulario para detalles pasados */}
+      <PastAppointmentForm patient={patient} appointment={appointment} />
+
+      {/* Checkbox para seguimiento */}
+      <div className="mt-6 flex items-center gap-2">
+        <input
+          type="checkbox"
+          id="seguimiento"
+          checked={requiereSeguimiento}
+          onChange={(e) => setRequiereSeguimiento(e.target.checked)}
+          className="cursor-pointer"
+        />
+        <label htmlFor="seguimiento" className="text-sm text-white">
+          Requiere seguimiento
+        </label>
+      </div>
+
+      {/* Formulario para crear seguimiento */}
+      {requiereSeguimiento && (
+        <div className="mt-4 border-t pt-4">
+          <h2 className="mb-2 text-md font-semibold text-white">
+            Programar seguimiento
+          </h2>
+          <NewAppointmentForm
+            key={`seguimiento-${patientId}`}
+            type="create"
+            patientId={patientId}
+            initialDateTime={null}
+            component="seguimiento"
+            patients={patient} // No mostramos selector paciente acá
+            onSuccess={() => {
+              setRequiereSeguimiento(false);
+              onSuccess();
+            }}
+          />
+        </div>
+      )}
     </div>
   );
 };
