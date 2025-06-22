@@ -22,11 +22,10 @@ import {
   SelectTrigger,
   SelectValue,
 } from "../ui/select";
-import { getAllPatients } from "@/utils/getAllPatients";
-import { Patient } from "@/interfaces";
 import Image from "next/image";
 import { ScrollArea } from "../ui/scroll-area";
 import { FormField, FormItem } from "../ui/form";
+import { Patient } from "@/interfaces";
 
 type AppointmentType = "create" | "cancel" | "schedule";
 export type professionalDataType = {
@@ -42,33 +41,34 @@ type AppointmentResponse = {
 const NewAppointmentForm = ({
   type,
   patientId,
-  patients,
+  patientsList,
+  patient,
   initialDateTime,
   onSuccess,
   component,
 }: {
   type: AppointmentType;
   patientId: string;
-  patients?: Patient[];
+  patientsList?: { patient: Patient }[]; // array con relación paciente
+  patient?: Patient; // paciente fijo (ya conocido)
   initialDateTime?: Date | null;
   onSuccess?: () => void;
   component?: string;
 }) => {
   const [loading, setLoading] = useState(false);
   const [professionalId, setProfessionalId] = useState<professionalDataType>();
-  const [patientsList, setPatientsList] = useState<any[]>([]);
   const appointmentValidation = getAppointmentSchema(type);
+  const { toast } = useToast();
+  const router = useRouter();
+
   useEffect(() => {
     const professionalData = localStorage.getItem("infoProfSession");
-    console.log(professionalData);
     if (professionalData) {
       const parsedData: professionalDataType = JSON.parse(professionalData);
       setProfessionalId(parsedData);
     }
   }, []);
 
-  const { toast } = useToast();
-  const router = useRouter();
   const form = useForm<z.infer<typeof appointmentValidation>>({
     resolver: zodResolver(appointmentValidation),
     defaultValues: {
@@ -76,7 +76,7 @@ const NewAppointmentForm = ({
       reason: "",
       notes: "",
       cancellationReason: "",
-      patientId: "",
+      patientId: patient?.id || "", // solo para validación
     },
   });
 
@@ -89,6 +89,7 @@ const NewAppointmentForm = ({
         reason: values.reason,
         notes: values.notes,
       };
+
       const response = (await createAppointment(
         appointmentData
       )) as AppointmentResponse;
@@ -96,16 +97,15 @@ const NewAppointmentForm = ({
       if (response) {
         const professionalIDs = {
           professional: professionalId?.id,
-          appointment: response?.id,
+          appointment: response.id,
         };
-        const profData =
-          await createProfessionalAppointmentRelation(professionalIDs);
-        const patientsIDs = {
-          patient: values.patientId,
-          appointment: response?.id,
-        };
+        await createProfessionalAppointmentRelation(professionalIDs);
 
-        const patientData = await createPatientAppointmentRelation(patientsIDs);
+        const patientsIDs = {
+          patient: values.patientId || patient?.id || patientId,
+          appointment: response.id,
+        };
+        await createPatientAppointmentRelation(patientsIDs);
 
         setLoading(false);
         toast({
@@ -118,87 +118,92 @@ const NewAppointmentForm = ({
         form.reset();
         router.refresh();
       }
-    } catch (error: any) {
+    } catch (error) {
       console.error(error);
       setLoading(false);
     }
   }
 
-  let buttonLabel;
-  switch (type) {
-    case "cancel":
-      buttonLabel = "Cancelar Turno";
-      break;
-    case "create":
-      buttonLabel = "Crear Turno";
-      break;
-    case "schedule":
-      buttonLabel = "Programar Turno";
-      break;
-    default:
-      break;
-  }
+  let buttonLabel = "Enviar";
+  if (type === "cancel") buttonLabel = "Cancelar Turno";
+  else if (type === "create") buttonLabel = "Crear Turno";
+  else if (type === "schedule") buttonLabel = "Programar Turno";
+
+  const showPatientSelector =
+    patientsList && patientsList.length > 0 && component === "calendar";
 
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6 flex-1">
         {type !== "cancel" && (
           <>
-            {component === "calendar" && (
+            {showPatientSelector ? (
               <div className="w-full flex flex-col text-gray-500 gap-2 items-center justify-center bg-inherit">
                 <h3 className="w-full font-thin text-lg">
                   Pacientes pertenecientes a su cartera:
                 </h3>
-                {patients && patients?.length > 0 ? (
-                  <FormField
-                    control={form.control}
-                    name="patientId"
-                    render={({ field }) => (
-                      <FormItem className="w-[75%] mx-auto">
-                        <Select
-                          onValueChange={field.onChange}
-                          defaultValue={field.value}
-                        >
-                          <SelectTrigger className="h-16">
-                            <SelectValue placeholder="Seleccione paciente" />
-                          </SelectTrigger>
-                          <ScrollArea className="w-full max-h-[300px]">
-                            <SelectContent className="flex flex-col gap-2 items-center justify-center bg-black/10 backdrop-blur-lg">
-                              {patients.map(({ patient }: any) => (
-                                <SelectItem
-                                  key={patient.id}
-                                  value={patient.id}
-                                  className="text-white h-16"
-                                >
-                                  <div className="flex gap-2 items-center justify-center">
-                                    <Image
-                                      src={patient.patientPhotoUrl}
-                                      alt={patient.firstName}
-                                      width={50}
-                                      height={50}
-                                      className="rounded-full"
-                                    />
-                                    <h2 className="text-white font-bold text-base">
-                                      {patient.firstName} {patient.lastName}
-                                    </h2>
-                                  </div>
-                                </SelectItem>
-                              ))}
-                            </SelectContent>
-                          </ScrollArea>
-                        </Select>
-                      </FormItem>
-                    )}
-                  />
-                ) : (
-                  <div className="w-full flex items-center justify-center space-y-2">
-                    <div className="w-auto h-15 px-2 py-1 rounded-md shadow-inner shadow-white/20">
-                      <h1>Aún no tiene listado de pacientes</h1>
+                <FormField
+                  control={form.control}
+                  name="patientId"
+                  render={({ field }) => (
+                    <FormItem className="w-[75%] mx-auto">
+                      <Select
+                        onValueChange={field.onChange}
+                        defaultValue={field.value}
+                      >
+                        <SelectTrigger className="h-16">
+                          <SelectValue placeholder="Seleccione paciente" />
+                        </SelectTrigger>
+                        <ScrollArea className="w-full max-h-[300px]">
+                          <SelectContent className="flex flex-col gap-2 items-center justify-center bg-black/10 backdrop-blur-lg">
+                            {patientsList.map(({ patient }) => (
+                              <SelectItem
+                                key={patient.id}
+                                value={patient.id}
+                                className="text-white h-16"
+                              >
+                                <div className="flex gap-2 items-center justify-center">
+                                  <Image
+                                    src={patient.patientPhotoUrl}
+                                    alt={patient.firstName}
+                                    width={50}
+                                    height={50}
+                                    className="rounded-full"
+                                  />
+                                  <h2 className="text-white font-bold text-base">
+                                    {patient.firstName} {patient.lastName}
+                                  </h2>
+                                </div>
+                              </SelectItem>
+                            ))}
+                          </SelectContent>
+                        </ScrollArea>
+                      </Select>
+                    </FormItem>
+                  )}
+                />
+              </div>
+            ) : (
+              patient && (
+                <div className="w-auto flex items-center justify-center space-y-2">
+                  <div className="w-full h-15 px-2 py-1 rounded-md shadow-inner shadow-white/20 text-white font-semibold">
+                    <div className="w-auto flex gap-2 items-center justify-center">
+                      <Image
+                        src={patient.patientPhotoUrl}
+                        alt={patient.firstName}
+                        width={50}
+                        height={50}
+                        className="rounded-full"
+                      />
+                      <h2 className="text-white font-bold text-base">
+                        {patient.firstName} {patient.lastName}
+                      </h2>
                     </div>
                   </div>
-                )}
-              </div>
+                </div>
+              )
             )}
+
             {/* pick date */}
             <div className="flex flex-col gap-1">
               <label className="text-gray-500">Fecha del turno</label>
@@ -206,7 +211,7 @@ const NewAppointmentForm = ({
                 fieldType={FormFieldType.DATE_PICKER}
                 control={form.control}
                 name="schedule"
-                disable={component === "calendar" ? true : false}
+                disable={component === "calendar"}
                 showTimeSelect
                 defaultValue={initialDateTime || new Date()}
                 dateFormat="dd/MM/yyyy - h:mm aa"
@@ -219,7 +224,6 @@ const NewAppointmentForm = ({
                   fieldType={FormFieldType.TEXTAREA}
                   control={form.control}
                   name="reason"
-                  disable={(patients ?? []).length === 0}
                   placeholder="Ingrese el motivo de la consulta"
                 />
               </div>
@@ -229,7 +233,6 @@ const NewAppointmentForm = ({
                   fieldType={FormFieldType.TEXTAREA}
                   control={form.control}
                   name="notes"
-                  disable={(patients ?? []).length === 0}
                   placeholder="Ingrese información adicional"
                 />
               </div>
@@ -246,12 +249,13 @@ const NewAppointmentForm = ({
             placeholder="Ingrese la razón de cancelación"
           />
         )}
+
         <SubmitButton
           loading={loading}
           className={`${
             type === "cancel" ? "shad-danger-btn" : "shad-primary-btn"
           } w-full rounded-md p-1`}
-          disabled={(patients ?? []).length === 0}
+          disabled={!patient && !showPatientSelector}
         >
           {buttonLabel}
         </SubmitButton>
