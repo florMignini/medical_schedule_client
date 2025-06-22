@@ -92,7 +92,8 @@ const AppointmentDialogDetail = ({
             patientId={patientId}
             initialDateTime={null}
             component="seguimiento"
-            patients={patient} // No mostramos selector paciente acá
+            patientsList={[]}
+            patient={patient}
             onSuccess={() => {
               setRequiereSeguimiento(false);
               onSuccess();

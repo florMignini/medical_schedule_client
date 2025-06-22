@@ -140,23 +140,6 @@ const PastAppointmentForm = ({ patient, appointment }: any) => {
             fieldType={FormFieldType.TEXTAREA}
           />
         </div>
-        {/* followUpRequired & reminder  */}
-        <div className="w-[50%] py-1 flex flex-col items-start justify-end gap-4">
-          {/* followUpRequired */}
-          <div className="w-full flex items-center justify-center ">
-          <Label
-            htmlFor="details"
-            className="w-[70%] p-0 text-start font-light text-[13px] text-gray-300"
-          >
-            Requiere Seguimiento?
-          </Label>
-          <DinamicForm
-            name="followUpRequired"
-            control={form.control}
-            fieldType={FormFieldType.CHECKBOX}
-          />
-          </div>
-        </div>
         </div>
         <div className="w-[100%] flex items-start justify-center">
           {form?.getValues()?.patientAttachedFilesUrl?.length! >= 0 ? (
