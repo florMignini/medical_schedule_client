@@ -64,6 +64,9 @@ const AppointmentsList = ({ appointments, patients }: any) => {
   const getSlotColor = (hue: number) => `hsla(${hue}, 40%, 90%, 0.8)`; // Reduced saturation to 40%, increased lightness to 90%
   const getBorderColor = (hue: number) => `hsl(${hue}, 40%, 90%)`;
 
+  const hasPastAppointment = events.some((appt: AppointmentsIncluded) =>
+    dayjs(appt.appointment.schedule).isBefore(dayjs())
+  );
   return (
     <div className="w-full h-auto flex flex-col gap-2">
       <h1 className="w-full p-4 text-lg font-semibold text-start">{`Turnos del dia ${dayjs(
@@ -147,14 +150,15 @@ const AppointmentsList = ({ appointments, patients }: any) => {
                       `}
                     >
                       <button
-                        className={`text-sm text-black border-b-[1px] border-black/20 ${
-                          isPast ? "cursor-not-allowed opacity-50" : ""
-                        }`}
-                        onClick={() => {
-                          setTurnoOcita("turno");
-                          setSelectedTime(time);
-                          setIsOpen(true);
-                        }}
+                        className={`text-sm text-black border-b-[1px] border-black/20 ${isPast || hasPastAppointment ? "opacity-50 cursor-not-allowed" : ""}
+`}
+onClick={() => {
+  if (isPast || hasPastAppointment) return;
+  setTurnoOcita("turno");
+  setSelectedTime(time);
+  setIsOpen(true);
+}}
+
                       >
                         agregar evento
                       </button>
@@ -187,10 +191,10 @@ const AppointmentsList = ({ appointments, patients }: any) => {
 
           <div className="relative">
             {/* Formulario de creación de turno */}
-            <div className={turnoOcita === "turno" ? "block" : "hidden"}>
+            {/* <div className={turnoOcita === "turno" ? "block" : "hidden"}>
               <NewAppointmentForm
                 key="create"
-                patients={patients}
+                patientsList={patients}
                 component="calendar"
                 patientId={patientId}
                 initialDateTime={selectedTime}
@@ -200,9 +204,9 @@ const AppointmentsList = ({ appointments, patients }: any) => {
                   setTurnoOcita("");
                 }}
               />
-            </div>
+            </div> */}
 
-            {/* Formulario de detalle/update de turno */}
+            {/* details appointment form */}
             <div className={turnoOcita === "turno" ? "hidden" : "block"}>
               {currentAppointment && (
                 <AppointmentDialogDetail
