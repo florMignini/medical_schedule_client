@@ -23,10 +23,8 @@ export const NewPastAppointmentSchema = z.object({
   diagnosis: z.string(),
   prescription: z.string().optional(),
   notes: z.string().optional(),
-  followUpRequired: z.boolean().optional(),
   scheduled: z.coerce.date(),
   patientAttachedFilesUrl: z.custom<File[]>().optional(),
-  patientId: z.string().min(1, "Patient must be selected"),
 });
 
 export const CancelAppointmentSchema = z.object({
