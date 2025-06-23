@@ -17,7 +17,6 @@ import FileUploaderPlus from "../FileUploaderPlus";
 
 const PastAppointmentForm = ({ patient, appointment }: any) => {
   const router = useRouter();
-
   const [loading, setLoading] = useState(false);
   const [isThereAnImage, setIsThereAnImage] = useState<boolean>(false);
   const form = useForm<z.infer<typeof NewPastAppointmentSchema>>({
@@ -26,17 +25,14 @@ const PastAppointmentForm = ({ patient, appointment }: any) => {
       diagnosis: "",
       prescription: "",
       notes: "",
-      followUpRequired: false,
-      scheduled: new Date(),
+      scheduled: new Date(appointment.schedule),
       patientAttachedFilesUrl: [],
     },
   });
-  // -------------------------------------
-  // onSubmit form
 
+  // onSubmit form
   async function onSubmit(values: z.infer<typeof NewPastAppointmentSchema>) {
-    console.log(values)
-    setLoading(true);
+      setLoading(true);
     let formData: FormData | undefined;
 
     const dataArr:any[] = [];
@@ -61,8 +57,8 @@ const PastAppointmentForm = ({ patient, appointment }: any) => {
         scheduled: appointment.schedule,
         patientAttachedFilesUrl: dataArr,
       };
+    
       const response: any = await createPastAppointment(pastAppointmentData) as {id:string};
-
       if (response !== undefined) {
         const IDs = {
           patient: patient.id!,
@@ -84,7 +80,6 @@ const PastAppointmentForm = ({ patient, appointment }: any) => {
   }
 
   // -------------------------------------
-
   return (
     <Form {...form}>
       <form
@@ -96,7 +91,7 @@ const PastAppointmentForm = ({ patient, appointment }: any) => {
          {/* diagnosis */}
          <div className="w-[50%] flex items-start justify-center flex-col">
           <Label
-            htmlFor="details"
+            htmlFor="diagnosis"
             className="w-full p-0 text-start font-light text-[13px] text-gray-300"
           >
             Diagnostico:
@@ -111,7 +106,7 @@ const PastAppointmentForm = ({ patient, appointment }: any) => {
         {/* prescription */}
         <div className="w-[50%] flex items-start justify-center flex-col">
           <Label
-            htmlFor="details"
+            htmlFor="prescription"
             className="w-full p-0 text-start font-light text-[13px] text-gray-300"
           >
             Prescribir medicamento:
@@ -128,7 +123,7 @@ const PastAppointmentForm = ({ patient, appointment }: any) => {
         {/* notes */}
         <div className="w-[50%] flex items-start justify-center flex-col">
           <Label
-            htmlFor="details"
+            htmlFor="notes"
             className="w-full p-0 text-start font-light text-[13px] text-gray-300"
           >
             Notas adicionales:
