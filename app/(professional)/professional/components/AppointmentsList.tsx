@@ -3,7 +3,7 @@ import { useState, useMemo, useEffect } from "react";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import dayjs from "dayjs";
 import { addMinutes, format, setHours, setMinutes } from "date-fns";
-import { AppointmentsIncluded } from "@/interfaces";
+import { AppointmentsIncluded, PatientsIncluded } from "@/interfaces";
 import { getTodayAppointments } from "@/utils/getTodayAppointments";
 import { getAppointmentDetail } from "@/utils/getAppointmentDetail";
 import { useSelectedDate } from "@/utils/useSelectedDate";
@@ -17,10 +17,14 @@ import {
 } from "@/components/ui/dialog";
 
 // import ReminderButton from "./ReminderButton";
-import NewAppointmentForm from "@/components/forms/NewAppointmentForm";
 import AppointmentDialogDetail from "./AppointmentDialogDetail";
-
-const AppointmentsList = ({ appointments, patients }: any) => {
+type appointmentListProps = {
+  appointments: Array<AppointmentsIncluded>,
+  patients: Array<PatientsIncluded>,
+  pastAppointmentPatientData: any,
+}
+const AppointmentsList = ({ appointments, patients, pastAppointmentPatientData }: appointmentListProps) => {
+  console.log("pastAppointmentPatientData", pastAppointmentPatientData[0].pastAppointments);
   // patient info
   const [patientId, setPatientId] = useState<any | null>(null);
   const [patientData, setPatientData] = useState<any | null>(null);
@@ -33,7 +37,7 @@ const AppointmentsList = ({ appointments, patients }: any) => {
   const [currentAppointment, setCurrentAppointment] = useState<any | null>(
     null
   );
-
+ 
   const events = getTodayAppointments(appointments, selectedDate || new Date());
 
   const [turnoOcita, setTurnoOcita] = useState<string>("");
@@ -75,6 +79,7 @@ const AppointmentsList = ({ appointments, patients }: any) => {
       <ScrollArea className="w-full h-[500px] flex flex-col items-center justify-center ">
         {timeSlots.map(({ time }, i) => {
           const appt: AppointmentsIncluded | undefined = getAppointmentAt(time);
+
           const hue = getRandomHue();
           const slotColor = getSlotColor(hue);
           const borderColor = getBorderColor(hue);
@@ -109,7 +114,7 @@ const AppointmentsList = ({ appointments, patients }: any) => {
                 />
                 {appt ? (
                   <div
-                    className="w-full flex-col border-none h-[80px] flex items-start justify-center"
+                    className={`${appt.appointment.id === pastAppointmentPatientData[0].pastAppointments.id ? "cursor-not-allowed" : ""} w-full flex-col border-none h-[80px] flex items-start justify-center`}
                     style={{
                       backgroundColor: slotColor,
                       borderColor: borderColor,
@@ -190,22 +195,7 @@ onClick={() => {
           </DialogHeader>
 
           <div className="relative">
-            {/* Formulario de creación de turno */}
-            {/* <div className={turnoOcita === "turno" ? "block" : "hidden"}>
-              <NewAppointmentForm
-                key="create"
-                patientsList={patients}
-                component="calendar"
-                patientId={patientId}
-                initialDateTime={selectedTime}
-                type="create"
-                onSuccess={() => {
-                  setIsOpen(false);
-                  setTurnoOcita("");
-                }}
-              />
-            </div> */}
-
+    
             {/* details appointment form */}
             <div className={turnoOcita === "turno" ? "hidden" : "block"}>
               {currentAppointment && (
