@@ -10,7 +10,7 @@ import {
 import Calendar from "../components/Calendar";
 import CalendarIcon from "../components/icons/CalendarIcon";
 import AppointmentsList from "../components/AppointmentsList";
-import { usePatientInfo } from "@/utils/usePatientInfo";
+
 
 const Appointments = async () => {
   const cookieStore = cookies();
