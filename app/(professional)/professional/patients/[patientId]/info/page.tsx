@@ -8,7 +8,6 @@ import clsx from "clsx";
 import { PatientInfoSection } from "@/app/(professional)/professional/components";
 
 import { Skeleton } from "@/components/ui/skeleton";
-import { Patient } from "@/interfaces";
 import PastAppointments from "@/app/(professional)/professional/components/PastAppointments";
 import FollowUp from "@/app/(professional)/professional/components/FollowUp";
 import {
@@ -23,21 +22,13 @@ import FollowUpForm from "@/components/forms/FollowUpForm";
 import NewAppointmentForm from "@/components/forms/NewAppointmentForm";
 import ReminderButton from "@/app/(professional)/professional/components/ReminderButton";
 import { apiServer } from "../../../../../../api/api-server";
+import { usePatientInfo } from "@/utils/usePatientInfo";
 
 const PatientInfo = () => {
   const { patientId } = useParams<{ patientId: string }>();
-  const [patientInfo, setPatientInfo] = useState<Patient>();
 
-  useEffect(() => {
-    async function fetchPatientInfo() {
-      let {data} = await apiServer.get<Patient>(
-        `https://medical-schedule-server.onrender.com/api/patients/get-patient/${patientId}`
-      );
-
-      setPatientInfo(data as Patient);
-    }
-    fetchPatientInfo();
-  }, [patientId]);
+ const { patientInfo, loading, error, refetch } = usePatientInfo(patientId);
+ 
   const [dinamicPage, setDinamicPage] = useState<string>(
     "Informacion del Paciente"
   );
@@ -55,7 +46,6 @@ const PatientInfo = () => {
       </div>
     );
   }
-
   return (
     <section className="w-full h-auto bg-white min-[700px]:h-screen py-5 flex flex-col items-center justify-start gap-2">
       <Dialog>
