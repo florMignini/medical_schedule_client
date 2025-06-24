@@ -2,6 +2,7 @@ import { cookies } from "next/headers";
 import { apiServer } from "@/api/api-server";
 import {
   AppointmentsIncluded,
+  Patient,
   PatientsIncluded,
   ProfessionalInformation,
 } from "@/interfaces";
@@ -9,11 +10,11 @@ import {
 import Calendar from "../components/Calendar";
 import CalendarIcon from "../components/icons/CalendarIcon";
 import AppointmentsList from "../components/AppointmentsList";
+import { usePatientInfo } from "@/utils/usePatientInfo";
 
 const Appointments = async () => {
   const cookieStore = cookies();
   const professionalId = cookieStore.get("professional-id")?.value;
-
   let { data }: { data: ProfessionalInformation } = await apiServer.get(
     `/professional/get-professional/${professionalId}`
   );
@@ -25,9 +26,14 @@ const Appointments = async () => {
   };
   // @ts-ignore
   const { patientsIncluded }: { patientsIncluded: PatientsIncluded[] } =
-    data ?? {
-      appointmentsIncluded: [],
-    };
+  data ?? {
+    appointmentsIncluded: [],
+  };
+
+  const pastAppointmentPatientData = await apiServer.get<Patient>(
+          `https://medical-schedule-server.onrender.com/api/patients/get-patient/${patientsIncluded[0]?.patient.id}`
+        );
+        console.log("pastAppointmentPatientData", pastAppointmentPatientData.data.pastAppointmentsIncluded);
   return (
     <section className="w-[99%] py-8 mx-auto h-full flex flex-col items-center justify-start gap-2 text-color bg-white">
       {/* Title */}
@@ -58,7 +64,9 @@ const Appointments = async () => {
         <div className="w-[100%] mx-auto">
           <AppointmentsList 
           patients={patientsIncluded}
-          appointments={appointmentsIncluded} />
+          appointments={appointmentsIncluded}
+          pastAppointmentPatientData={pastAppointmentPatientData?.data?.pastAppointmentsIncluded}
+          />
         </div>
       </div>
     </section>
