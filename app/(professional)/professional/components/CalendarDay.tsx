@@ -30,7 +30,10 @@ const CalendarDay = ({
     (appointment: any) =>
       dayjs(appointment.appointment.schedule).format("DD-MM-YYYY") === formattedDate
   );
-
+  const hasPastAppointment = dayEvents.some((appt: any) =>
+    dayjs(appt.appointment.schedule).isBefore(today)
+  );
+  
   const isSelected = dayjs(selectedDate).isSame(date, "day");
   const isPast = date.isBefore(today, "day") && dayEvents.length === 0;
 
@@ -42,11 +45,12 @@ const CalendarDay = ({
   const isHoliday = Boolean(matchingHoliday);
 
   const handleClick = () => {
-    if (isPast || isHoliday) return;
+    if (isPast || isHoliday || hasPastAppointment) return;
     if (!isSelected) {
       setSelectedDate(date.toDate());
     }
   };
+  
 
   const bgColor = isHoliday
     ? "bg-black/90 text-white cursor-not-allowed"
@@ -58,11 +62,11 @@ const CalendarDay = ({
     <button
       key={day}
       onClick={handleClick}
-      disabled={isHoliday || isPast}
+      disabled={isHoliday || isPast || hasPastAppointment}
       className={`cursor-pointer border-[1px] shadow-lg flex items-start w-full h-20 rounded-md mx-auto
         ${bgColor}
         ${isSelected && !isHoliday ? "ring-2 ring-black" : ""}
-        ${isPast && !isSelected ? "opacity-50 cursor-not-allowed" : "hover:bg-black/20"}
+        ${(isPast || hasPastAppointment) && !isSelected ? "opacity-50 cursor-not-allowed" : "hover:bg-black/20"}
       `}
     >
       <div className="flex flex-col rounded-lg p-1 items-end justify-start w-full h-full">
