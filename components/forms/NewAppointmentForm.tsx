@@ -27,6 +27,13 @@ import { ScrollArea } from "../ui/scroll-area";
 import { FormField, FormItem } from "../ui/form";
 import { Patient } from "@/interfaces";
 
+// SpinnerOverlay: visual feedback al enviar
+const SpinnerOverlay = () => (
+  <div className="absolute inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm rounded-md">
+    <div className="animate-spin rounded-full h-16 w-16 border-t-4 border-b-4 border-emerald-400"></div>
+  </div>
+);
+
 type AppointmentType = "create" | "cancel" | "schedule";
 export type professionalDataType = {
   id: string;
@@ -49,14 +56,15 @@ const NewAppointmentForm = ({
 }: {
   type: AppointmentType;
   patientId: string;
-  patientsList?: { patient: Patient }[]; // array con relación paciente
-  patient?: Patient; // paciente fijo (ya conocido)
+  patientsList?: { patient: Patient }[];
+  patient?: Patient;
   initialDateTime?: Date | null;
   onSuccess?: () => void;
   component?: string;
 }) => {
   const [loading, setLoading] = useState(false);
-  const [professionalId, setProfessionalId] = useState<professionalDataType>();
+  const [professionalId, setProfessionalId] =
+    useState<professionalDataType>();
   const appointmentValidation = getAppointmentSchema(type);
   const { toast } = useToast();
   const router = useRouter();
@@ -76,13 +84,12 @@ const NewAppointmentForm = ({
       reason: "",
       notes: "",
       cancellationReason: "",
-      patientId: patient?.id || "", // solo para validación
+      patientId: patient?.id || patientId || "",
     },
   });
 
   async function onSubmit(values: z.infer<typeof appointmentValidation>) {
     setLoading(true);
-
     try {
       const appointmentData = {
         schedule: new Date(values.schedule),
@@ -130,11 +137,17 @@ const NewAppointmentForm = ({
   else if (type === "schedule") buttonLabel = "Programar Turno";
 
   const showPatientSelector =
-    patientsList && patientsList.length > 0 && component === "calendar";
+    patientsList &&
+    patientsList.length > 0 &&
+    component !== "seguimiento" &&
+    component === "calendar";
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6 flex-1">
+      <form
+        onSubmit={form.handleSubmit(onSubmit)}
+        className="space-y-6 flex-1 relative"
+      >
         {type !== "cancel" && (
           <>
             {showPatientSelector ? (
@@ -204,7 +217,6 @@ const NewAppointmentForm = ({
               )
             )}
 
-            {/* pick date */}
             <div className="flex flex-col gap-1">
               <label className="text-gray-500">Fecha del turno</label>
               <DinamicForm
@@ -255,10 +267,12 @@ const NewAppointmentForm = ({
           className={`${
             type === "cancel" ? "shad-danger-btn" : "shad-primary-btn"
           } w-full rounded-md p-1`}
-          disabled={!patient && !showPatientSelector}
+          disabled={!patient && !showPatientSelector && !patientId}
         >
           {buttonLabel}
         </SubmitButton>
+
+        {loading && <SpinnerOverlay />}
       </form>
     </Form>
   );
