@@ -4,12 +4,12 @@ import PastAppointmentForm from "@/components/forms/PastAppointmentForm";
 import { AppointmentsIncluded } from "@/interfaces";
 
 interface AppointmentDialogDetailProps {
-  appt: AppointmentsIncluded;
+  appt?: AppointmentsIncluded;
   component?: string;
-  patientId: string;
+  patientId?: string;
   onSuccess: () => void;
   initialDateTime: Date | null;
-  type?: string;
+  type?: "create" | "update";
   patientData?: any;
 }
 
@@ -19,54 +19,63 @@ const AppointmentDialogDetail = ({
   patientId,
   onSuccess,
   initialDateTime,
-  type,
+  type = "update",
   patientData,
 }: AppointmentDialogDetailProps) => {
   const [requiereSeguimiento, setRequiereSeguimiento] = useState(false);
 
-  const patient = patientData ? patientData.patient : undefined;
-  const appointment = appt ? appt.appointment : undefined;
+  const patient = patientData?.patient;
+  const appointment = appt?.appointment;
+
+  if (type === "create") {
+    return (
+      <NewAppointmentForm
+        key={`create-${patientId}`}
+        type="create"
+        patientId={patientId || ""}
+        initialDateTime={initialDateTime}
+        component={component}
+        patientsList={[]}
+        onSuccess={onSuccess}
+      />
+    );
+  }
 
   return (
     <div>
-      {/* patient details */}
+      {/* Detalles del paciente */}
       <div className="w-full flex items-center justify-between mb-4">
-        {/* left section */}
         <div className="flex items-center text-white flex-col">
           <p className="text-sm md:text-base font-mono font-bold">Paciente:</p>
           <p className="text-xs md:text-sm">{`${patient?.firstName} ${patient?.lastName}`}</p>
         </div>
-        {/* middle section */}
         <div className="flex items-center text-white flex-col">
           <p className="text-sm md:text-base font-mono font-bold">Cobertura:</p>
           <p className="text-xs md:text-sm">{patient?.insuranceProvider}</p>
         </div>
-        {/* right section */}
         <div className="flex items-center text-white flex-col">
           <p className="text-sm md:text-base font-mono font-bold">Numero:</p>
           <p className="text-xs md:text-sm">{patient?.insurancePolicyNumber}</p>
         </div>
       </div>
-      {/* appointment details */}
+
+      {/* Detalles del turno */}
       <div className="w-full flex items-center justify-between mb-4 gap-2 text-white">
-        {/* left section */}
         <div className="flex flex-col">
           <p className="font-mono text-sm md:text-base">Motivo:</p>
           <p className="text-xs md:text-sm truncate">
             {appointment?.reason || "No especificado"}
           </p>
         </div>
-        {/* right section */}
         <div className="flex flex-col">
           <p className="font-mono text-sm md:text-base">Notas:</p>
           <p className="text-xs md:text-sm truncate">{appointment?.notes}</p>
         </div>
       </div>
 
-      {/* Formulario para detalles pasados */}
       <PastAppointmentForm patient={patient} appointment={appointment} />
 
-      {/* Checkbox para seguimiento */}
+      {/* Checkbox y formulario de seguimiento */}
       <div className="mt-6 flex items-center gap-2">
         <input
           type="checkbox"
@@ -80,7 +89,6 @@ const AppointmentDialogDetail = ({
         </label>
       </div>
 
-      {/* Formulario para crear seguimiento */}
       {requiereSeguimiento && (
         <div className="mt-4 border-t pt-4">
           <h2 className="mb-2 text-md font-semibold text-white">
@@ -89,7 +97,7 @@ const AppointmentDialogDetail = ({
           <NewAppointmentForm
             key={`seguimiento-${patientId}`}
             type="create"
-            patientId={patientId}
+            patientId={patientId || ""}
             initialDateTime={null}
             component="seguimiento"
             patientsList={[]}
