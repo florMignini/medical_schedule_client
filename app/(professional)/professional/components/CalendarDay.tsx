@@ -1,4 +1,6 @@
 import dayjs from "dayjs";
+import { motion } from "framer-motion";
+
 import { CalendarX, PartyPopper } from "lucide-react";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 
@@ -70,7 +72,13 @@ const CalendarDay = ({
       `}
     >
       <div className="flex flex-col rounded-lg p-1 items-end justify-start w-full h-full">
-        <h1 className={`font-bold text-end ${isHoliday ? "text-white" : "text-black"}`}>{day}</h1>
+      <motion.h1
+  className={`font-bold text-end ${isHoliday ? "text-white" : "text-black"}`}
+  animate={isSelected ? { scale: 1.2 } : { scale: 1 }}
+  transition={{ type: "spring", stiffness: 500, damping: 12 }}
+>
+  {day}
+</motion.h1>
 
         {dayEvents.length > 0 && (
           <div className="flex items-end justify-end text-white text-xl font-bold p-1 flex-col">
