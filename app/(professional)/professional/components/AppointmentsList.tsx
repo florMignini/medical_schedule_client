@@ -1,12 +1,13 @@
 "use client";
-import { useState, useMemo, useEffect } from "react";
+
+import { useState, useMemo } from "react";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import dayjs from "dayjs";
-import { addMinutes, format, setHours, setMinutes } from "date-fns";
 import { AppointmentsIncluded, PatientsIncluded } from "@/interfaces";
 import { getTodayAppointments } from "@/utils/getTodayAppointments";
 import { getAppointmentDetail } from "@/utils/getAppointmentDetail";
 import { useSelectedDate } from "@/utils/useSelectedDate";
+import { addMinutes, format, setHours, setMinutes } from "date-fns";
+import dayjs from "dayjs";
 import ConfigAppointmentButton from "./ConfigAppointmentButton";
 import {
   Dialog,
@@ -15,41 +16,34 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-
-// import ReminderButton from "./ReminderButton";
-import AppointmentDialogDetail from "./AppointmentDialogDetail";
 import NewAppointmentForm from "../../../../components/forms/NewAppointmentForm";
+import AppointmentDialogDetail from "./AppointmentDialogDetail";
+
+import { CalendarClock, Plus } from "lucide-react";
+
 type appointmentListProps = {
   appointments: Array<AppointmentsIncluded>;
   patients: Array<PatientsIncluded>;
   pastAppointmentPatientData: any;
 };
+
 const AppointmentsList = ({
   appointments,
   patients,
   pastAppointmentPatientData,
 }: appointmentListProps) => {
-  console.log(
-    "pastAppointmentPatientData",
-    pastAppointmentPatientData[0].pastAppointments
-  );
-  // patient info
   const [patientId, setPatientId] = useState<any | null>(null);
   const [patientData, setPatientData] = useState<any | null>(null);
-  // dialog state
   const [isOpen, setIsOpen] = useState(false);
+  const [selectedTime, setSelectedTime] = useState<Date | null>(null);
+  const [currentAppointment, setCurrentAppointment] = useState<any | null>(null);
+  const [turnoOcita, setTurnoOcita] = useState<string>("");
 
   const { selectedDate } = useSelectedDate();
-  // time at specific slot
-  const [selectedTime, setSelectedTime] = useState<Date | null>(null);
-  const [currentAppointment, setCurrentAppointment] = useState<any | null>(
-    null
-  );
 
   const events = getTodayAppointments(appointments, selectedDate || new Date());
+  const isPast = dayjs(selectedDate || new Date()).isBefore(dayjs(), "day");
 
-  const [turnoOcita, setTurnoOcita] = useState<string>("");
-  // get time slots
   const timeSlots = useMemo(() => {
     const slots = [];
     const date = selectedDate || new Date();
@@ -59,138 +53,76 @@ const AppointmentsList = ({
     }
     return slots;
   }, [selectedDate]);
-  const isPast = dayjs(selectedDate || new Date()).isBefore(
-    dayjs(new Date()),
-    "day"
-  );
-  // get appointment at selected date
 
   const getAppointmentAt = (time: Date) =>
     events.find(
       (appt: AppointmentsIncluded) =>
-        dayjs(appt.appointment.schedule).format("HH:mm") ===
-        dayjs(time).format("HH:mm")
+        dayjs(appt.appointment.schedule).format("HH:mm") === dayjs(time).format("HH:mm")
     );
 
-  const getRandomHue = () => Math.floor(Math.random() * 180) + 180; // Range from 180 to 240 for muted blues/teals
-  const getSlotColor = (hue: number) => `hsla(${hue}, 40%, 90%, 0.8)`; // Reduced saturation to 40%, increased lightness to 90%
-  const getBorderColor = (hue: number) => `hsl(${hue}, 40%, 90%)`;
-
-  const hasPastAppointment = events.some((appt: AppointmentsIncluded) =>
-    dayjs(appt.appointment.schedule).isBefore(dayjs())
-  );
   return (
-    <div className="w-full h-auto flex flex-col gap-2">
-      <h1 className="w-full p-4 text-lg font-semibold text-start">{`Turnos del dia ${dayjs(
-        selectedDate || new Date()
-      ).format("DD/MM/YYYY")}`}</h1>
-      <ScrollArea className="w-full h-[500px] flex flex-col items-center justify-center ">
-        {timeSlots.map(({ time }, i) => {
-          const appt: AppointmentsIncluded | undefined = getAppointmentAt(time);
+    <div className="w-full flex flex-col gap-4">
+      <h1 className="text-xl font-semibold text-gray-800">
+        Turnos del día {dayjs(selectedDate || new Date()).format("DD/MM/YYYY")}
+      </h1>
 
-          const hue = getRandomHue();
-          const slotColor = getSlotColor(hue);
-          const borderColor = getBorderColor(hue);
+      <ScrollArea className="h-[500px] space-y-4">
+        {timeSlots.map(({ time }, i) => {
+          const appt = getAppointmentAt(time);
+          const hour = format(time, "HH:mm");
+          const isDisabled = isPast ||
+            (appt && appt.appointment.id === pastAppointmentPatientData[0]?.pastAppointments?.id);
 
           return (
             <div
               key={i}
-              className="w-full h-[80px] border-b-[1px] border-t-[1px] flex items-center text-black text-sm cursor-pointer mb-1"
-              style={{
-                backgroundColor: appt ? slotColor : "transparent",
-                borderColor: appt ? borderColor : "inherit",
-              }}
+              className={`w-full rounded-xl p-4 transition border text-sm
+                ${appt ? "bg-emerald-100 border-emerald-300" : "bg-white border-gray-200 hover:bg-gray-50"}
+                ${isDisabled ? "opacity-50 cursor-not-allowed" : "cursor-pointer"}`}
               onClick={async () => {
+                if (isDisabled) return;
                 if (appt) {
                   setCurrentAppointment(appt);
-                  const patientIdData = await getAppointmentDetail(
-                    appt?.appointment?.id
-                  );
-                  setPatientId(patientIdData?.patientsIncluded[0]?.id);
-                  setPatientData(patientIdData?.patientsIncluded[0]);
+                  const data = await getAppointmentDetail(appt?.appointment?.id);
+                  setPatientId(data?.patientsIncluded[0]?.id);
+                  setPatientData(data?.patientsIncluded[0]);
+                  setTurnoOcita("seguimiento");
                 } else {
-                  setSelectedTime(time);
+                  setTurnoOcita("turno");
                 }
+                setSelectedTime(time);
+                setIsOpen(true);
               }}
             >
-              {/* appointment info card */}
-              <div className="flex w-full px-2 gap-2 items-center justify-center">
-                <span className="text-sm ">{format(time, "HH:mm")}</span>
-                <div
-                  className={`h-16 border-x-[2px]`}
-                  style={{ borderColor: appt ? borderColor : "inherit" }}
-                />
-                {appt ? (
-                  <div
-                    className={`${
-                      appt.appointment.id ===
-                      pastAppointmentPatientData[0].pastAppointments.id
-                        ? "cursor-not-allowed"
-                        : ""
-                    } w-full flex-col border-none h-[80px] flex items-start justify-center`}
-                    style={{
-                      backgroundColor: slotColor,
-                      borderColor: borderColor,
-                    }}
-                    onClick={() => {
-                      setTurnoOcita("seguimiento");
-                      setSelectedTime(time);
-                      setIsOpen(true);
-                    }}
-                  >
-                    <div className="w-full flex flex-col items-start justify-start">
-                      <div className="w-full h-3 pt-1 flex items-center justify-end">
-                        <ConfigAppointmentButton appointment={appt} />
-                      </div>
-                      <p className="font-bold truncate">
-                        {appt.appointment.notes}
-                      </p>
-                      <p className="text-xs min-[1024px]:text-sm text-muted-foreground truncate">
-                        {appt.appointment.reason}
-                      </p>
-                    </div>
-                    <div className="text-xs min-[1024px]:text-sm text-muted-foreground text-start">
-                      {`${format(
-                        new Date(appt.appointment.schedule),
-                        "HH:mm"
-                      )} - ${format(
-                        addMinutes(new Date(appt.appointment.schedule), 30),
-                        "HH:mm"
-                      )}`}
-                    </div>
-                  </div>
-                ) : (
-                  // Empty time slot
-                  <>
-                    <div
-                      className={`w-full h-full flex items-center justify-center
-                      ${isPast ? "opacity-50 cursor-not-allowed" : ""}
-                      `}
-                    >
-                      <button
-                        className={`text-sm text-black border-b-[1px] border-black/20 ${
-                          isPast || hasPastAppointment
-                            ? "opacity-50 cursor-not-allowed"
-                            : ""
-                        }
-`}
-                        onClick={() => {
-                          if (isPast || hasPastAppointment) return;
-                          setTurnoOcita("turno");
-                          setSelectedTime(time);
-                          setIsOpen(true);
-                        }}
-                      >
-                        agregar evento
-                      </button>
-                    </div>
-                  </>
-                )}
+              <div className="flex justify-between items-center mb-2">
+                <div className="flex items-center gap-2 text-gray-700">
+                  <CalendarClock className="w-4 h-4" />
+                  <span className="font-medium">{hour}</span>
+                </div>
+                {appt && <ConfigAppointmentButton appointment={appt} />}
               </div>
+              {appt ? (
+                <>
+                  <p className="font-semibold text-gray-800 truncate">
+                    {appt.appointment.notes}
+                  </p>
+                  <p className="text-gray-500 text-sm truncate">
+                    {appt.appointment.reason}
+                  </p>
+                  <p className="text-xs text-muted-foreground">
+                    {`${format(new Date(appt.appointment.schedule), "HH:mm")} - ${format(addMinutes(new Date(appt.appointment.schedule), 30), "HH:mm")}`}
+                  </p>
+                </>
+              ) : (
+                <div className="text-gray-500 text-sm italic flex items-center gap-2">
+                  <Plus className="w-4 h-4" /> agregar evento
+                </div>
+              )}
             </div>
           );
         })}
       </ScrollArea>
+
       <Dialog
         open={isOpen}
         onOpenChange={(open) => {
@@ -198,53 +130,50 @@ const AppointmentsList = ({
           if (!open) setTurnoOcita("");
         }}
       >
-      <DialogContent className="w-[80vw] bg-black/20 backdrop-blur-md sm:max-w-[600px] max-h-[100vh] p-4 overflow-y-auto rounded-2xl shadow-lg [&>button]:text-white [&>button]:hover:text-white/80">
-  <DialogHeader>
-    <DialogTitle className="w-full flex font-bold text-3xl items-center justify-between text-gray-500">
-      {turnoOcita === "turno" ? "Crear Turno" : "Detalles del turno"}
-    </DialogTitle>
-    <DialogDescription className="text-gray-500 text-start font-light text-base">
-      {turnoOcita === "turno"
-        ? "Crear un nuevo turno para el paciente"
-        : "Detalles del turno"}
-    </DialogDescription>
-  </DialogHeader>
+        <DialogContent className="w-[80vw] bg-white/70 backdrop-blur-lg sm:max-w-[600px] max-h-[100vh] p-4 overflow-y-auto rounded-2xl shadow-xl">
+          <DialogHeader>
+            <DialogTitle className="text-xl font-bold text-gray-700">
+              {turnoOcita === "turno" ? "Crear Turno" : "Detalles del turno"}
+            </DialogTitle>
+            <DialogDescription className="text-sm text-gray-500">
+              {turnoOcita === "turno"
+                ? "Crear un nuevo turno para el paciente"
+                : "Detalles del turno"}
+            </DialogDescription>
+          </DialogHeader>
 
-  <div className="relative">
-    {/* Formulario para crear un nuevo turno */}
-    {turnoOcita === "turno" && selectedTime && (
-      <NewAppointmentForm
-        key="create"
-        type="create"
-        patientId={patientId}
-        initialDateTime={selectedTime}
-        component="calendar"
-        patientsList={patients}
-        onSuccess={() => {
-          setIsOpen(false);
-          setTurnoOcita("");
-        }}
-      />
-    )}
+          <div className="relative">
+            {turnoOcita === "turno" && selectedTime && (
+              <NewAppointmentForm
+                key="create"
+                type="create"
+                patientId={patientId}
+                initialDateTime={selectedTime}
+                component="calendar"
+                patientsList={patients}
+                onSuccess={() => {
+                  setIsOpen(false);
+                  setTurnoOcita("");
+                }}
+              />
+            )}
 
-    {/* Detalles del turno existente */}
-    {turnoOcita !== "turno" && currentAppointment && (
-      <AppointmentDialogDetail
-        key="update"
-        patientData={patientData}
-        patientId={patientId}
-        initialDateTime={selectedTime}
-        type="update"
-        appt={currentAppointment}
-        onSuccess={() => {
-          setIsOpen(false);
-          setTurnoOcita("");
-        }}
-      />
-    )}
-  </div>
-</DialogContent>
-
+            {turnoOcita !== "turno" && currentAppointment && (
+              <AppointmentDialogDetail
+                key="update"
+                patientData={patientData}
+                patientId={patientId}
+                initialDateTime={selectedTime}
+                type="update"
+                appt={currentAppointment}
+                onSuccess={() => {
+                  setIsOpen(false);
+                  setTurnoOcita("");
+                }}
+              />
+            )}
+          </div>
+        </DialogContent>
       </Dialog>
     </div>
   );
