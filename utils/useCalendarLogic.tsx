@@ -11,12 +11,14 @@ export const useCalendarLogic = () => {
   const [currentMonth, setCurrentMonth] = useState(dayjs().month());
   const [currentYear, setCurrentYear] = useState(dayjs().year());
   const holidays = useHolidays();
+  const [direction, setDirection] = useState(0);
 
   const daysInMonth = dayjs(`${currentYear}-${currentMonth + 1}`).daysInMonth();
   const startDay = dayjs(`${currentYear}-${currentMonth + 1}-01`).day();
   const today = dayjs(new Date());
 
   const handlePrevMonth = () => {
+    setDirection(-1);
     setCurrentMonth((prev) => (prev === 0 ? 11 : prev - 1));
     if (currentMonth === 0) setCurrentYear((prev) => prev - 1);
   };
@@ -37,5 +39,6 @@ export const useCalendarLogic = () => {
     startDay,
     today,
     holidays,
+    direction,
   };
 };
