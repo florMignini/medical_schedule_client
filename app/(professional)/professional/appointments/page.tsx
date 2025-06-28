@@ -33,7 +33,6 @@ const Appointments = async () => {
   const pastAppointmentPatientData = await apiServer.get<Patient>(
           `https://medical-schedule-server.onrender.com/api/patients/get-patient/${patientsIncluded[0]?.patient.id}`
         );
-        console.log("pastAppointmentPatientData", pastAppointmentPatientData.data.pastAppointmentsIncluded);
   return (
     <section className="w-[99%] py-8 mx-auto h-full flex flex-col items-center justify-start gap-2 text-color bg-white">
       {/* Title */}
