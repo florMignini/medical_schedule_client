@@ -1,4 +1,5 @@
 "use client";
+
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { useCalendarLogic } from "@/utils/useCalendarLogic";
 import CalendarDay from "./CalendarDay";
@@ -17,11 +18,15 @@ const Calendar = ({ appointments }: any) => {
     setSelectedDate,
     today,
     holidays,
-    direction,
   } = useCalendarLogic();
 
   return (
-    <div className="w-full p-4 h-auto overflow-hidden">
+    <motion.div
+      initial={{ opacity: 0, y: 10 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.3 }}
+      className="w-full p-6 bg-white/70 backdrop-blur-md rounded-3xl shadow-xl border border-gray-200"
+    >
       <CalendarHeader
         currentMonth={currentMonth}
         currentYear={currentYear}
@@ -29,37 +34,33 @@ const Calendar = ({ appointments }: any) => {
         handleNextMonth={handleNextMonth}
       />
 
-      <div className="grid grid-cols-7 gap-1 mt-4">
+      <div className="grid grid-cols-7 gap-3 mt-6 text-center text-sm font-medium text-gray-500">
         {["Dom", "Lun", "Mar", "Mié", "Jue", "Vie", "Sáb"].map((day) => (
-          <div key={day} className="text-center font-light">
+          <div key={day} className="py-1 rounded-lg">
             {day}
           </div>
         ))}
 
-        <TooltipProvider>
-          <AnimatePresence mode="wait" initial={false}>
-            <motion.div
-              key={`${currentMonth}-${currentYear}`}
-              initial={{ x: 100 * direction, opacity: 0 }}
-              animate={{ x: 0, opacity: 1 }}
-              exit={{ x: -100 * direction, opacity: 0 }}
-              transition={{ duration: 0.3 }}
-              className="col-span-7 grid grid-cols-7 gap-1"
-            >
-              {/* Espacios vacíos antes del primer día del mes */}
-              {Array.from({ length: startDay }).map((_, idx) => (
-                <div key={`empty-${idx}`}></div>
-              ))}
+        {Array.from({ length: startDay }).map((_, idx) => (
+          <div key={`empty-${idx}`} className="py-4"></div>
+        ))}
 
-              {/* Días del mes */}
-              {Array.from({ length: daysInMonth }).map((_, idx) => (
+        <TooltipProvider>
+          <AnimatePresence mode="wait">
+            {Array.from({ length: daysInMonth }).map((_, idx) => (
+              <motion.div
+                key={idx}
+                initial={{ opacity: 0, scale: 0.95 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0, scale: 0.95 }}
+                transition={{ duration: 0.2 }}
+              >
                 <CalendarDay
-                  key={idx}
                   day={idx + 1}
                   appointments={appointments}
                   selectedDate={
                     (selectedDate ?? today) instanceof Date
-                      ? selectedDate ?? today
+                      ? (selectedDate ?? today)
                       : ((selectedDate ?? today) as any).toDate()
                   }
                   setSelectedDate={setSelectedDate}
@@ -68,12 +69,12 @@ const Calendar = ({ appointments }: any) => {
                   today={today}
                   holidays={holidays}
                 />
-              ))}
-            </motion.div>
+              </motion.div>
+            ))}
           </AnimatePresence>
         </TooltipProvider>
       </div>
-    </div>
+    </motion.div>
   );
 };
 
