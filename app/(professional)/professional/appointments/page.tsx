@@ -1,73 +1,76 @@
-import { cookies } from "next/headers";
-import { apiServer } from "@/api/api-server";
-import {
-  AppointmentsIncluded,
-  Patient,
-  PatientsIncluded,
-  ProfessionalInformation,
-} from "@/interfaces";
+"use client";
 
+import { useState, useEffect } from "react";
 import Calendar from "../components/Calendar";
-import CalendarIcon from "../components/icons/CalendarIcon";
 import AppointmentsList from "../components/AppointmentsList";
+import { fetchProfessionalAppointments } from "@/utils/fetchProfessionalAppointments";
+import CalendarIcon from "../components/icons/CalendarIcon";
 
+const Appointments = () => {
+  const [appointmentsIncluded, setAppointmentsIncluded] = useState<any[]>([]);
+  const [patientsIncluded, setPatientsIncluded] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
 
-const Appointments = async () => {
-  const cookieStore = cookies();
-  const professionalId = cookieStore.get("professional-id")?.value;
-  let { data }: { data: ProfessionalInformation } = await apiServer.get(
-    `/professional/get-professional/${professionalId}`
-  );
-  // @ts-ignore
-  const {
-    appointmentsIncluded,
-  }: { appointmentsIncluded: AppointmentsIncluded[] } = data ?? {
-    appointmentsIncluded: [],
-  };
-  // @ts-ignore
-  const { patientsIncluded }: { patientsIncluded: PatientsIncluded[] } =
-  data ?? {
-    appointmentsIncluded: [],
-  };
+  useEffect(() => {
+    async function loadData() {
+      // Acá deberías obtener professionalId, por ejemplo de cookies o contexto
+      const professionalId = "id_obtenido_de_alguna_forma";
 
-  const pastAppointmentPatientData = await apiServer.get<Patient>(
-          `https://medical-schedule-server.onrender.com/api/patients/get-patient/${patientsIncluded[0]?.patient.id}`
-        );
-  return (
-    <section className="w-[99%] py-8 mx-auto h-full flex flex-col items-center justify-start gap-2 text-color bg-white">
-      {/* Title */}
-      <div className="flex flex-col w-[99%] h-14 items-start justify-center px-2 border-b-[1px] border-b-gray-500">
-            <h1 className="text-2xl text-black font-semibold text-start">
-              Calendario
-            </h1>
-            <p className="hidden md:flex text-xs font-light text-gray-600">
-              Aquí encontrará los turnos programados para el mes seleccionado
-            </p>
-          </div>
-      {/* top section */}
-      <div className="w-[95%] mx-auto flex items-center justify-start gap-2 ">
-        <CalendarIcon width={20} height={20} className="text-color" />
-        <div className="flex items-center justify-center gap-1">
-          <h1 className="text-18-bold ">{appointmentsIncluded?.length}</h1>
-          <p className="text-18-bold">
-            {appointmentsIncluded?.length > 1 ? `Citas totales` : `Cita total`}
-          </p>
+      try {
+        const { appointmentsIncluded, patientsIncluded } = await fetchProfessionalAppointments(professionalId);
+        setAppointmentsIncluded(appointmentsIncluded);
+        setPatientsIncluded(patientsIncluded);
+      } catch (error) {
+        console.error("Error cargando datos", error);
+      } finally {
+        setLoading(false);
+      }
+    }
+    loadData();
+  }, []);
+
+ if (loading)
+    return (
+      <div className="flex items-center justify-center w-full h-[60vh]">
+        <div className="flex flex-col items-center justify-center gap-3">
+          <div className="animate-spin rounded-full border-4 border-gray-300 border-t-black w-12 h-12" />
+          <p className="text-sm text-gray-200 animate-pulse">Cargando turnos...</p>
         </div>
       </div>
-      {/* Calendar section */}
-      <div className="w-[98%] h-auto grid grid-cols-[50,50] py-4 min-[768px]:flex min-[768px]:flex-row min-[768px]:mt-10 xl:gap-8 glass-effect-vibrant rounded-lg">
-        <div className="w-[100%]">
+    ); 
+  
+
+  return (
+    <section className="max-w-7xl mx-auto py-8 px-4 flex flex-col items-center gap-6 bg-white rounded-lg shadow-md">
+      {/* Header */}
+      <header className="w-full border-b border-gray-300 pb-3 mb-4">
+        <h1 className="text-3xl font-semibold text-gray-900">Calendario</h1>
+        <p className="hidden md:block mt-1 text-sm text-gray-500">
+          Aquí encontrará los turnos programados para el mes seleccionado
+        </p>
+      </header>
+
+      {/* Info Top */}
+      <div className="w-full flex items-center gap-3 text-gray-700">
+        <CalendarIcon width={24} height={24} className="text-gray-600" />
+        <h2 className="text-lg font-semibold">
+          {appointmentsIncluded.length} {appointmentsIncluded.length > 1 ? "Citas totales" : "Cita total"}
+        </h2>
+      </div>
+
+      {/* Main Content */}
+      <main className="w-full grid grid-cols-1 md:grid-cols-2 gap-8">
+        <div className="glass-effect-vibrant rounded-lg p-4 shadow-inner">
           <Calendar appointments={appointmentsIncluded} />
         </div>
-        {/* Lista de eventos */}
-        <div className="w-[100%] mx-auto">
-          <AppointmentsList 
-          patients={patientsIncluded}
-          appointments={appointmentsIncluded}
-          pastAppointmentPatientData={pastAppointmentPatientData?.data?.pastAppointmentsIncluded}
+        <div className="glass-effect-vibrant rounded-lg p-4 shadow-inner">
+          <AppointmentsList
+            patients={patientsIncluded}
+            appointments={appointmentsIncluded}
+            pastAppointmentPatientData={[]} // Ajustar si lo necesitás
           />
         </div>
-      </div>
+      </main>
     </section>
   );
 };
