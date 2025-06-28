@@ -8,24 +8,40 @@ import { useHolidays } from "@/hooks/useHolidays";
 
 export const useCalendarLogic = () => {
   const { selectedDate, setSelectedDate } = useSelectedDate();
-  const [currentMonth, setCurrentMonth] = useState(dayjs().month());
-  const [currentYear, setCurrentYear] = useState(dayjs().year());
   const holidays = useHolidays();
-  const [direction, setDirection] = useState(0);
+  const today = dayjs();
+
+  // Manejo conjunto de mes y año para evitar loops
+  const [{ currentMonth, currentYear }, setDateState] = useState(() => ({
+    currentMonth: today.month(),
+    currentYear: today.year(),
+  }));
+
+  const [direction, setDirection] = useState(1);
 
   const daysInMonth = dayjs(`${currentYear}-${currentMonth + 1}`).daysInMonth();
   const startDay = dayjs(`${currentYear}-${currentMonth + 1}-01`).day();
-  const today = dayjs(new Date());
 
   const handlePrevMonth = () => {
     setDirection(-1);
-    setCurrentMonth((prev) => (prev === 0 ? 11 : prev - 1));
-    if (currentMonth === 0) setCurrentYear((prev) => prev - 1);
+    setDateState((prev) => {
+      const isJanuary = prev.currentMonth === 0;
+      return {
+        currentMonth: isJanuary ? 11 : prev.currentMonth - 1,
+        currentYear: isJanuary ? prev.currentYear - 1 : prev.currentYear,
+      };
+    });
   };
 
   const handleNextMonth = () => {
-    setCurrentMonth((prev) => (prev === 11 ? 0 : prev + 1));
-    if (currentMonth === 11) setCurrentYear((prev) => prev + 1);
+    setDirection(1);
+    setDateState((prev) => {
+      const isDecember = prev.currentMonth === 11;
+      return {
+        currentMonth: isDecember ? 0 : prev.currentMonth + 1,
+        currentYear: isDecember ? prev.currentYear + 1 : prev.currentYear,
+      };
+    });
   };
 
   return {
