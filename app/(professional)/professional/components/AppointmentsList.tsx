@@ -62,7 +62,7 @@ const AppointmentsList = ({
 
   return (
     <div className="w-full flex flex-col gap-4">
-      <h1 className="text-xl font-semibold text-gray-800">
+      <h1 className="px-auto text-xl font-semibold text-gray-800">
         Turnos del día {dayjs(selectedDate || new Date()).format("DD/MM/YYYY")}
       </h1>
 
