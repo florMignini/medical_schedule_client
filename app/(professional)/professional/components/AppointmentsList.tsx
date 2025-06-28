@@ -66,7 +66,7 @@ const AppointmentsList = ({
         Turnos del día {dayjs(selectedDate || new Date()).format("DD/MM/YYYY")}
       </h1>
 
-      <ScrollArea className="h-[500px] space-y-4">
+      <ScrollArea className="h-[700px] space-y-4">
         {timeSlots.map(({ time }, i) => {
           const appt = getAppointmentAt(time);
           const hour = format(time, "HH:mm");
