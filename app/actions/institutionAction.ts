@@ -39,6 +39,16 @@ interface IIDs {
     const res = await apiServer.post(`/professional/add-institution-relation`,IDs);
   }
 
+  export async function getInstitutionById(institutionId: string): Promise<ICreateInstitution | null> {
+    "use server";
+    try {
+      const { data } = await apiServer.get(`/institutions/get-institution/${institutionId}`);
+      return data as ICreateInstitution;
+    } catch (error: any) {
+      console.error("Error fetching institution:", error.response?.data || error.message);
+      return null;
+    }
+  }
 
   export async function updateInstitutionAction({institutionImage, ...institutionUpdate}: any) {
     "use server";
