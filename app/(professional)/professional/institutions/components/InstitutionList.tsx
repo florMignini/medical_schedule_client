@@ -11,14 +11,16 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useDebounce } from "../hooks/useDebounce";
 import { useProfessionalInstitutions } from "@/hooks/useProfessionalInstitutions";
+import InstitutionRegisterForm from "@/components/forms/InstitutionRegisterForm";
+import { Dialog, DialogContent } from "@/components/ui/dialog";
 
 
 export function InstitutionList() {
   const [search, setSearch] = useState("");
   // const debouncedSearch = useDebounce(search);
   // const { data, mutate } = useInstitutions(debouncedSearch);
-  const { institutions, isLoading, error, mutate } = useProfessionalInstitutions();
-  console.log("Institutions data:", institutions);
+  const { data,institutions, isLoading, error } = useProfessionalInstitutions();
+  console.log("Institutions data:", data);
   const [formOpen, setFormOpen] = useState(false);
   const [selectedInstitution, setSelectedInstitution] = useState<Partial<ICreateInstitution> | null>(null);
   const router = useRouter();
@@ -90,16 +92,17 @@ export function InstitutionList() {
         </Button>
       </div>
 
-      <InstitutionForm
-        open={formOpen}
-        setOpen={setFormOpen}
-        initialData={selectedInstitution ?? undefined}
-        onSuccess={() => {
-          mutate();
-          setFormOpen(false);
-          setSelectedInstitution(null);
-        }}
-      />
+      {/* Mostrar modal/dialog con el formulario solo si formOpen === true */}
+      {formOpen && (
+        <Dialog open={formOpen} onOpenChange={setFormOpen}>
+          <DialogContent className="bg-white/50 glass-effect-vibrant backdrop:blur-lg max-w-lg max-h-[90vh] overflow-auto p-6">
+            <InstitutionRegisterForm
+              selectedInstitution={selectedInstitution}
+              onClose={() => setFormOpen(false)}
+            />
+          </DialogContent>
+        </Dialog>
+      )}
     </div>
   );
 }
