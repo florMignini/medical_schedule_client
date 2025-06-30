@@ -21,6 +21,8 @@ import DropdownIcon from "../../public/assets/icons/arrowDown.svg";
 import mailIcon from "../../public/assets/icons/email.svg";
 import { createNewInstitution, createProfessionalInstitutionRelation } from "@/app/actions";
 import CloseIcon from "@/app/(professional)/professional/components/icons/CloseIcon";
+import { useCurrentProfessional } from "@/hooks/useCurrentProfessional";
+import { ICreateInstitution } from "@/interfaces";
 
 type professionalType = {
     id: string;
@@ -28,22 +30,21 @@ type professionalType = {
     lastName: string;
     gender: string;
 }
-
 type InstitutionResponse = {
   id: string;
 };
-
-const InstitutionRegisterForm = () => {
-const [professional, setProfessional] = useState<professionalType>()
+type InstitutionRegisterFormProps = {
+  selectedInstitution?: Partial<ICreateInstitution> | null;
+  onClose: () => void;
+};
+const InstitutionRegisterForm: React.FC<InstitutionRegisterFormProps> = ({
+  selectedInstitution,
+  onClose,
+}) => {
+  const professional = useCurrentProfessional();
 const [loading, setLoading] = useState(false);
 const [isThereAnImage, setIsTthereAnImage] = useState<boolean>(false);
     const router = useRouter()
-
-    useMemo(() => {
-     const data: professionalType = JSON.parse(localStorage.getItem("infoProfSession")!)
-     setProfessional(data)
-    }, [])
-
 
       const form = useForm<z.infer<typeof NewInstitutionSchema>>({
         resolver: zodResolver(NewInstitutionSchema),
@@ -93,6 +94,7 @@ const [isThereAnImage, setIsTthereAnImage] = useState<boolean>(false);
           
             form.reset();
             setLoading(false);
+            onClose();
             router.push(`/professional/institutions`);
           }
         }catch (error) {
