@@ -1,39 +1,49 @@
 "use client";
 import { useState, useEffect } from "react";
-import useSWR from "swr";
 import Cookies from "js-cookie";
 import { ProfessionalInformation } from "@/interfaces";
+import { apiServer } from "@/api/api-server";
 
 export function useProfessionalInstitutions() {
-  const [professionalId, setProfessionalId] = useState<string | null>(null);
+  const [data, setData] = useState<ProfessionalInformation | null>(null);
+  const [error, setError] = useState<Error | null>(null);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
+
+  const fetchData = async () => {
+    const professionalId = Cookies.get("professional-id");
+    console.log("🔍 Cookie professional-id:", professionalId);
+
+    if (!professionalId) {
+      setError(new Error("ID de profesional no encontrado en la cookie"));
+      setIsLoading(false);
+      return;
+    }
+
+    try {
+      const endpoint = `/professional/get-professional/${professionalId}`;
+      console.log("📡 Llamando a:", endpoint);
+
+      const response = await apiServer.get<ProfessionalInformation>(endpoint);
+
+      console.log("✅ Respuesta del backend:", response.data);
+      setData(response.data);
+    } catch (err: any) {
+      console.error("❌ Error en la petición:", err);
+      setError(err);
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   useEffect(() => {
-    const id = Cookies.get("professional-id") || null;
-    setProfessionalId(id);
+    fetchData();
   }, []);
-
-  const { data, error, isLoading, mutate } = useSWR<ProfessionalInformation>(
-    professionalId ? `/professional/get-professional/${professionalId}` : null,
-    (url) =>
-      fetch(url)
-        .then((res) => {
-          if (!res.ok) throw new Error("Error fetching professional");
-          return res.json();
-        })
-        .catch((e) => {
-          console.error(e);
-          return null;
-        }),
-    {
-      revalidateOnFocus: false,
-    }
-  );
 
   return {
     data,
     institutions: data?.institutionsIncluded ?? [],
     error,
     isLoading,
-    mutate,
+    refetch: fetchData,
   };
 }
