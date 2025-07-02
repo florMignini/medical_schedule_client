@@ -2,7 +2,7 @@
 import { useState } from "react";
 import { useInstitutions } from "../hooks/useInstitutions";
 import { InstitutionForm } from "./InstitutionForm";
-import { ICreateInstitution } from "@/interfaces";
+import { ICreateInstitution, InstitutionsIncluded } from "@/interfaces";
 import { Button } from "@/components/ui/button";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -20,7 +20,7 @@ export function InstitutionList() {
   // const debouncedSearch = useDebounce(search);
   // const { data, mutate } = useInstitutions(debouncedSearch);
   const { data,institutions, isLoading, error } = useProfessionalInstitutions();
-  console.log("Institutions data:", data);
+
   const [formOpen, setFormOpen] = useState(false);
   const [selectedInstitution, setSelectedInstitution] = useState<Partial<ICreateInstitution> | null>(null);
   const router = useRouter();
@@ -42,33 +42,33 @@ export function InstitutionList() {
         <p className="p-4">Cargando instituciones...</p>
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-          {institutions?.map((inst:ICreateInstitution) => (
+          {institutions?.map(({institution}:InstitutionsIncluded) => (
             <Card
-              key={inst.id}
+              key={institution.id}
               className="relative group overflow-hidden hover:shadow-md transition-shadow cursor-pointer"
-              onClick={() => router.push(`/institutions/${inst.id}`)}
+              onClick={() => router.push(`/institutions/${institution.id}`)}
             >
               <CardHeader className="bg-muted/50 p-0">
                 <Image
-                  src={inst.institutionImage || "/fallback.jpg"}
-                  alt={inst.name || "Institution"}
+                  src={institution.institutionImage || "/fallback.jpg"}
+                  alt={institution.name || "Institution"}
                   width={400}
                   height={200}
                   className="w-full h-40 object-cover"
                 />
               </CardHeader>
               <CardContent className="p-4 space-y-2">
-                <CardTitle>{inst.name}</CardTitle>
-                <p className="text-sm text-muted-foreground">{inst.address}</p>
-                <p className="text-sm">{inst.email}</p>
-                <p className="text-sm">{inst.phone}</p>
+                <CardTitle>{institution.name}</CardTitle>
+                <p className="text-sm text-muted-foreground">{institution.address}</p>
+                <p className="text-sm">{institution.email}</p>
+                <p className="text-sm">{institution.phone}</p>
               </CardContent>
 
               <button
                 className="absolute top-2 right-2 bg-background hover:bg-muted p-2 rounded-full shadow transition-all z-10"
                 onClick={(e) => {
                   e.stopPropagation();
-                  setSelectedInstitution(inst);
+                  setSelectedInstitution(institution);
                   setFormOpen(true);
                 }}
               >
