@@ -21,9 +21,9 @@ export function useProfessionalInstitutions() {
 
     try {
       const endpoint = `/professional/get-professional/${professionalId}`;
-      console.log("📡 Llamando a:", endpoint);
-
-      const response = await apiServer.get<ProfessionalInformation>(endpoint);
+      const response = await apiServer.get<ProfessionalInformation>(
+        `https://medical-schedule-server.onrender.com/api${endpoint}`
+      );
 
       console.log("✅ Respuesta del backend:", response.data);
       setData(response.data);
@@ -38,7 +38,6 @@ export function useProfessionalInstitutions() {
   useEffect(() => {
     fetchData();
   }, []);
-
   return {
     data,
     institutions: data?.institutionsIncluded ?? [],
