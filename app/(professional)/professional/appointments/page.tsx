@@ -5,16 +5,16 @@ import Calendar from "../components/Calendar";
 import AppointmentsList from "../components/AppointmentsList";
 import { fetchProfessionalAppointments } from "@/utils/fetchProfessionalAppointments";
 import CalendarIcon from "../components/icons/CalendarIcon";
+import { useCurrentProfessional } from "@/hooks/useCurrentProfessional";
 
 const Appointments = () => {
   const [appointmentsIncluded, setAppointmentsIncluded] = useState<any[]>([]);
   const [patientsIncluded, setPatientsIncluded] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
-
+  const professional = useCurrentProfessional();
   useEffect(() => {
     async function loadData() {
-      // Acá deberías obtener professionalId, por ejemplo de cookies o contexto
-      const professionalId = "id_obtenido_de_alguna_forma";
+        const professionalId = professional?.id!;
 
       try {
         const { appointmentsIncluded, patientsIncluded } = await fetchProfessionalAppointments(professionalId);
