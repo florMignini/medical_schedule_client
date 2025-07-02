@@ -1,5 +1,6 @@
 import { Appointment } from "./appointment.interface";
 import { Patient } from "./patientsResponse";
+import { ICreateInstitution } from "./createInstitution.interface";
 
 export interface ProfessionalInformation {
   id: string;
@@ -33,4 +34,10 @@ export interface AppointmentsIncluded {
   createdAt: Date;
   updatedAt: Date;
   appointment: Appointment;
+}
+export interface InstitutionsIncluded {
+  id: string;
+  createdAt: Date;
+  updatedAt: Date;
+  institution: ICreateInstitution;
 }
