@@ -29,11 +29,13 @@ import { ICreateInstitution } from "@/interfaces";
 type Props = {
   selectedInstitution?: Partial<ICreateInstitution> | null;
   onClose: () => void;
+  onSuccess: () => void;
 };
 
 const InstitutionRegisterForm: React.FC<Props> = ({
   selectedInstitution,
   onClose,
+  onSuccess,
 }) => {
   const router = useRouter();
   const professional = useCurrentProfessional();
@@ -87,8 +89,8 @@ const InstitutionRegisterForm: React.FC<Props> = ({
 
       form.reset();
       setHasImage(false);
-      onClose();
-      router.push(`/professional/institutions`);
+      // onClose();
+      onSuccess();
     } catch (error) {
       console.error("Error guardando institución:", error);
     } finally {
