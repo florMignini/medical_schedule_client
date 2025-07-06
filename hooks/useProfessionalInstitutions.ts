@@ -25,7 +25,6 @@ export function useProfessionalInstitutions() {
         `https://medical-schedule-server.onrender.com/api${endpoint}`
       );
 
-      console.log("✅ Respuesta del backend:", response.data);
       setData(response.data);
     } catch (err: any) {
       console.error("❌ Error en la petición:", err);
