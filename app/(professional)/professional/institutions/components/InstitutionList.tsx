@@ -18,8 +18,7 @@ import { InstitutionSkeletonCard } from "./InstitutionSkeletonCard";
 
 export function InstitutionList() {
   const [search, setSearch] = useState("");
-  // const debouncedSearch = useDebounce(search);
-  // const { data, mutate } = useInstitutions(debouncedSearch);
+
   const { data,institutions, isLoading, refetch } = useProfessionalInstitutions();
   console.log(institutions)
   const { toast } = useToast();
@@ -29,16 +28,6 @@ export function InstitutionList() {
 
   return (
     <div className="relative space-y-4">
-      {/* 🔍 Search input */}
-      <div className="flex gap-2 items-center max-w-md">
-        <Search className="text-muted-foreground" />
-        <Input
-          placeholder="Buscar institución..."
-          value={search}
-          onChange={(e) => setSearch(e.target.value)}
-        />
-      </div>
-
       {/* 🔄 Loading */}
       {isLoading ? (
        <InstitutionSkeletonCard/>
