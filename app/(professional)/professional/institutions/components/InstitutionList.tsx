@@ -1,10 +1,7 @@
 "use client";
 import { useState } from "react";
-import { useInstitutions } from "../hooks/useInstitutions";
-import { InstitutionForm } from "./InstitutionForm";
 import { ICreateInstitution, InstitutionsIncluded } from "@/interfaces";
 import { Button } from "@/components/ui/button";
-import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Pencil, Search } from "lucide-react";
 import Image from "next/image";
@@ -13,14 +10,19 @@ import { useDebounce } from "../hooks/useDebounce";
 import { useProfessionalInstitutions } from "@/hooks/useProfessionalInstitutions";
 import InstitutionRegisterForm from "@/components/forms/InstitutionRegisterForm";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
-
+import { useToast } from "@/hooks/use-toast";
+import { motion, AnimatePresence } from "framer-motion";
+import { InstitutionCard } from "./InstitutionCard";
+import { useCurrentProfessional } from "@/hooks/useCurrentProfessional";
+import { InstitutionSkeletonCard } from "./InstitutionSkeletonCard";
 
 export function InstitutionList() {
   const [search, setSearch] = useState("");
   // const debouncedSearch = useDebounce(search);
   // const { data, mutate } = useInstitutions(debouncedSearch);
-  const { data,institutions, isLoading, error } = useProfessionalInstitutions();
-
+  const { data,institutions, isLoading, refetch } = useProfessionalInstitutions();
+  console.log(institutions)
+  const { toast } = useToast();
   const [formOpen, setFormOpen] = useState(false);
   const [selectedInstitution, setSelectedInstitution] = useState<Partial<ICreateInstitution> | null>(null);
   const router = useRouter();
@@ -39,44 +41,37 @@ export function InstitutionList() {
 
       {/* 🔄 Loading */}
       {isLoading ? (
-        <p className="p-4">Cargando instituciones...</p>
+       <InstitutionSkeletonCard/>
       ) : (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-          {institutions?.map(({institution}:InstitutionsIncluded) => (
-            <Card
-              key={institution.id}
-              className="relative group overflow-hidden hover:shadow-md transition-shadow cursor-pointer"
-              onClick={() => router.push(`/institutions/${institution.id}`)}
-            >
-              <CardHeader className="bg-muted/50 p-0">
-                <Image
-                  src={institution.institutionImage || "/fallback.jpg"}
-                  alt={institution.name || "Institution"}
-                  width={400}
-                  height={200}
-                  className="w-full h-40 object-cover"
-                />
-              </CardHeader>
-              <CardContent className="p-4 space-y-2">
-                <CardTitle>{institution.name}</CardTitle>
-                <p className="text-sm text-muted-foreground">{institution.address}</p>
-                <p className="text-sm">{institution.email}</p>
-                <p className="text-sm">{institution.phone}</p>
-              </CardContent>
-
-              <button
-                className="absolute top-2 right-2 bg-background hover:bg-muted p-2 rounded-full shadow transition-all z-10"
-                onClick={(e) => {
-                  e.stopPropagation();
-                  setSelectedInstitution(institution);
-                  setFormOpen(true);
-                }}
-              >
-                <Pencil className="w-4 h-4" />
-              </button>
-            </Card>
-          ))}
+        <AnimatePresence>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+            {institutions?.length > 0 ? (
+              institutions?.map(({institution}:InstitutionsIncluded) => (
+                <motion.div
+                  key={institution.id}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -20 }}
+                  transition={{ duration: 0.3 }}
+                >
+                  <InstitutionCard
+                    institution={institution}
+                    onEdit={() => {
+                      setSelectedInstitution(institution);
+                      setFormOpen(true);
+                    }}
+                    onDelete={refetch}
+                    professionalId={data?.id || ""}
+                  />
+                </motion.div>
+              ))
+            ) : (
+              <p className="col-span-full text-center font-bold font-mono text-muted-foreground">
+                Aún no posee instituciones registradas.
+              </p>
+            )}
         </div>
+        </AnimatePresence>
       )}
 
       {/* ➕ Botón flotante */}
@@ -99,6 +94,15 @@ export function InstitutionList() {
             <InstitutionRegisterForm
               selectedInstitution={selectedInstitution}
               onClose={() => setFormOpen(false)}
+              onSuccess={() => {
+                refetch().then(()=>{
+                  toast({
+                    title: "Creando institución...",
+                    description: "Institución creada exitosamente 🎉",
+                  });
+                });           // 🔁 Actualiza el listado
+                setFormOpen(false); // ✅ Cierra el modal
+              }}
             />
           </DialogContent>
         </Dialog>
