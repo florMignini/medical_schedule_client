@@ -43,12 +43,14 @@ const Appointments = () => {
   return (
     <section className="max-w-7xl mx-auto py-8 px-4 flex flex-col items-center gap-6 bg-white rounded-lg shadow-md">
       {/* Header */}
-      <header className="w-full border-b border-gray-300 pb-3 mb-4">
-        <h1 className="text-3xl font-semibold text-gray-900">Calendario</h1>
-        <p className="hidden md:block mt-1 text-sm text-gray-500">
-          Aquí encontrará los turnos programados para el mes seleccionado
-        </p>
-      </header>
+      <header className="flex flex-col w-[100%] h-14 items-start justify-center px-2 border-b-[1px] border-b-gray-500">
+            <h1 className="text-2xl text-black font-semibold text-start">
+              Calendario
+            </h1>
+            <p className="hidden md:flex text-xs font-light text-gray-600">
+            Aquí encontrará los turnos programados para el mes seleccionado
+            </p>
+          </header>
 
       {/* Info Top */}
       <div className="w-full flex items-center gap-3 text-gray-700">
