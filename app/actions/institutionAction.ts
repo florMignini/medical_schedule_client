@@ -50,13 +50,13 @@ interface IIDs {
     }
   }
 
-  export async function updateInstitutionAction({institutionImage, ...institutionUpdate}: any) {
+  export async function updateInstitutionAction({payload,
+    institutionId}: any) {
     "use server";
-
     try {
-      const {institutionId, ...rest} = institutionUpdate
-        let file;
-        if(institutionImage === "object" ){
+      const {institutionImage, ...rest} = payload
+      let file;
+        if (institutionImage && typeof institutionImage === "object") {
             const inputFile = InputFile.fromBuffer(
                 institutionImage?.get("blobFile") as Blob,
                 institutionImage?.get("fileName") as string
@@ -74,6 +74,6 @@ interface IIDs {
             );
             return data;
         } catch (error:any) {
-            console.log(error.response);
+            console.error("Error updating institution:", error);
         }
         }

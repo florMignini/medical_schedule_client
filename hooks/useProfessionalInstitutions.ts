@@ -11,8 +11,6 @@ export function useProfessionalInstitutions() {
 
   const fetchData = async () => {
     const professionalId = Cookies.get("professional-id");
-    console.log("🔍 Cookie professional-id:", professionalId);
-
     if (!professionalId) {
       setError(new Error("ID de profesional no encontrado en la cookie"));
       setIsLoading(false);
