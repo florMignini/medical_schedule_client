@@ -9,7 +9,7 @@ import { useRouter } from "next/navigation";
 import { useDebounce } from "../hooks/useDebounce";
 import { useProfessionalInstitutions } from "@/hooks/useProfessionalInstitutions";
 import InstitutionRegisterForm from "@/components/forms/InstitutionRegisterForm";
-import { Dialog, DialogContent } from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
 import { useToast } from "@/hooks/use-toast";
 import { motion, AnimatePresence } from "framer-motion";
 import { InstitutionCard } from "./InstitutionCard";
@@ -20,7 +20,6 @@ export function InstitutionList() {
   const [search, setSearch] = useState("");
 
   const { data,institutions, isLoading, refetch } = useProfessionalInstitutions();
-  console.log(institutions)
   const { toast } = useToast();
   const [formOpen, setFormOpen] = useState(false);
   const [selectedInstitution, setSelectedInstitution] = useState<Partial<ICreateInstitution> | null>(null);
@@ -79,18 +78,27 @@ export function InstitutionList() {
       {/* Mostrar modal/dialog con el formulario solo si formOpen === true */}
       {formOpen && (
         <Dialog open={formOpen} onOpenChange={setFormOpen}>
+          <DialogTitle className="text-lg font-semibold text-center">
+            {selectedInstitution?.id ? "Editar Institución" : "Registrar Nueva Institución"}
+          </DialogTitle>
           <DialogContent className="bg-white/50 glass-effect-vibrant backdrop:blur-lg max-w-lg max-h-[90vh] overflow-auto p-6">
             <InstitutionRegisterForm
               selectedInstitution={selectedInstitution}
               onClose={() => setFormOpen(false)}
               onSuccess={() => {
-                refetch().then(()=>{
+                refetch().then(() => {
                   toast({
-                    title: "Creando institución...",
-                    description: "Institución creada exitosamente 🎉",
+                    title: selectedInstitution?.id
+                    ? "Actualizando institución..."
+                    : "Creando institución...",
+                    description: selectedInstitution?.id
+                      ? "Institución actualizada 🎉"
+                      : "Institución creada 🎉",
+                    duration: 3000,
+                    className: "bg-green-500 text-white",
                   });
-                });           // 🔁 Actualiza el listado
-                setFormOpen(false); // ✅ Cierra el modal
+                });
+                setFormOpen(false);
               }}
             />
           </DialogContent>
