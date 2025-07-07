@@ -19,22 +19,24 @@ import { InstitutionSkeletonCard } from "./InstitutionSkeletonCard";
 export function InstitutionList() {
   const [search, setSearch] = useState("");
 
-  const { data,institutions, isLoading, refetch } = useProfessionalInstitutions();
+  const { data, institutions, isLoading, refetch } =
+    useProfessionalInstitutions();
   const { toast } = useToast();
   const [formOpen, setFormOpen] = useState(false);
-  const [selectedInstitution, setSelectedInstitution] = useState<Partial<ICreateInstitution> | null>(null);
+  const [selectedInstitution, setSelectedInstitution] =
+    useState<Partial<ICreateInstitution> | null>(null);
   const router = useRouter();
 
   return (
     <div className="relative space-y-4">
       {/* 🔄 Loading */}
       {isLoading ? (
-       <InstitutionSkeletonCard/>
+        <InstitutionSkeletonCard />
       ) : (
         <AnimatePresence>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
             {institutions?.length > 0 ? (
-              institutions?.map(({institution}:InstitutionsIncluded) => (
+              institutions?.map(({ institution }: InstitutionsIncluded) => (
                 <motion.div
                   key={institution.id}
                   initial={{ opacity: 0, y: 20 }}
@@ -58,7 +60,7 @@ export function InstitutionList() {
                 Aún no posee instituciones registradas.
               </p>
             )}
-        </div>
+          </div>
         </AnimatePresence>
       )}
 
@@ -79,9 +81,11 @@ export function InstitutionList() {
       {formOpen && (
         <Dialog open={formOpen} onOpenChange={setFormOpen}>
           <DialogTitle className="text-lg font-semibold text-center">
-            {selectedInstitution?.id ? "Editar Institución" : "Registrar Nueva Institución"}
+            {selectedInstitution?.id
+              ? "Editar Institución"
+              : "Registrar Nueva Institución"}
           </DialogTitle>
-          <DialogContent className="bg-white/50 glass-effect-vibrant backdrop:blur-lg max-w-lg max-h-[90vh] overflow-auto p-6">
+          <DialogContent className="bg-white/50 glass-effect-vibrant backdrop:blur-lg w-full max-w-[90vw] lg:max-w-2xl xl:max-w-3xl max-h-[90vh] overflow-auto p-6 rounded-2xl">
             <InstitutionRegisterForm
               selectedInstitution={selectedInstitution}
               onClose={() => setFormOpen(false)}
@@ -89,8 +93,8 @@ export function InstitutionList() {
                 refetch().then(() => {
                   toast({
                     title: selectedInstitution?.id
-                    ? "Actualizando institución..."
-                    : "Creando institución...",
+                      ? "Actualizando institución..."
+                      : "Creando institución...",
                     description: selectedInstitution?.id
                       ? "Institución actualizada 🎉"
                       : "Institución creada 🎉",
