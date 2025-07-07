@@ -19,6 +19,7 @@ import phoneIcon from "../../public/assets/icons/phone.svg";
 import {
   createNewInstitution,
   createProfessionalInstitutionRelation,
+  updateInstitutionAction,
 } from "@/app/actions";
 
 import { NewInstitutionSchema } from "@/lib";
@@ -73,10 +74,13 @@ const InstitutionRegisterForm: React.FC<Props> = ({
         ...values,
         institutionImage: formData,
       };
-
       if (isEditMode) {
-        // 🛠 Agregar lógica de edición si tenés una función tipo updateInstitution()
-        console.log("Actualizar institución:", selectedInstitution?.id, payload);
+        const updateInstitutionData = {
+          payload,
+          institutionId: selectedInstitution?.id || "",
+        };
+        const response = await updateInstitutionAction(updateInstitutionData)
+        console.log("Response from update:", response);
       } else {
         const response = await createNewInstitution(payload) as { id: string };
         if (response?.id) {
