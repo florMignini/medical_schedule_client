@@ -27,8 +27,7 @@ import { useState } from "react";
 import RescheduleAppointmentForm from "@/components/forms/RescheduleAppointmentForm";
 import { useToast } from "@/hooks/use-toast";
 
-const ConfigAppointmentButton = ({ id, component, appointment }: any) => {
-
+const ConfigAppointmentButton = ({ id, component, appointment, refetch }: any) => {
   const pathname = usePathname();
   const router = useRouter();
   const [status, setStatus] = useState<string | null>(null);
@@ -39,7 +38,7 @@ const ConfigAppointmentButton = ({ id, component, appointment }: any) => {
   const deleteAppointment = async (idOrAppointment: string | any) => {
     try {
       const appointmentId = typeof idOrAppointment === 'string' ? idOrAppointment : idOrAppointment._id;
-      
+
       const { data } = await apiServer.delete(
         `https://medical-schedule-server.onrender.com/api/appointment/delete-appointment/${appointmentId}`
       );
@@ -50,8 +49,7 @@ const ConfigAppointmentButton = ({ id, component, appointment }: any) => {
           className: "bg-red-500 text-black",
           duration: 5000,
         });
-        router.push(`/professional/appointments`);
-        router.refresh();
+        refetch();
       }
     } catch (error) {
       console.error("Error deleting appointment", error);
@@ -62,6 +60,9 @@ const ConfigAppointmentButton = ({ id, component, appointment }: any) => {
   setTimeout(() => {
     setDeleteError(null);
   }, 5000);
+
+  // Función para cerrar el diálogo
+  const closeDialog = () => setStatus(null);
 
   return (
     <Dialog>
@@ -108,8 +109,19 @@ const ConfigAppointmentButton = ({ id, component, appointment }: any) => {
                 <AlertDialogDescription className="text-[18px] font-light ">
                   {status === "reschedule" ? (
                     <RescheduleAppointmentForm 
-                    appointment={appointment}
-                    id={appointment.appointment.id || id} />
+                      appointment={appointment}
+                      id={appointment.appointment.id || id}
+                      onSuccess={() => {
+                        toast({
+                          title: "Reprogramando turno...",
+                          description: "El turno ha sido reprogramado correctamente",
+                          className: "bg-green-500 text-black",
+                          duration: 3000,
+                        });
+                        closeDialog();
+                        refetch();
+                      }}
+                    />
                   ) : (
                     <h2 className="text-red-500 font-bold">Ésta acción no se puede deshacer y eliminaría toda la
                       información relacionada al turno</h2>
