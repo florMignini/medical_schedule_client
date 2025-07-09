@@ -29,22 +29,11 @@ const Appointments = () => {
     loadData();
   }, []);
 
- if (loading)
-    return (
-      <div className="flex items-center justify-center w-full h-[60vh]">
-        <div className="flex flex-col items-center justify-center gap-3">
-          <div className="animate-spin rounded-full border-4 border-gray-300 border-t-black w-12 h-12" />
-          <p className="text-sm text-gray-200 animate-pulse">Cargando turnos...</p>
-        </div>
-      </div>
-    ); 
-  
-
   return (
-    <section className="max-w-7xl mx-auto py-8 px-4 flex flex-col items-center gap-6 bg-white rounded-lg shadow-md">
+    <section className="w-[99%] mx-auto p-6 space-y-4 bg-white rounded-lg shadow-md h-screen">
       {/* Header */}
       <header className="flex flex-col w-[100%] h-14 items-start justify-center px-2 border-b-[1px] border-b-gray-500">
-            <h1 className="text-2xl text-black font-semibold text-start">
+      <h1 className="text-2xl text-black font-semibold text-start">
               Calendario
             </h1>
             <p className="hidden md:flex text-xs font-light text-gray-600">
