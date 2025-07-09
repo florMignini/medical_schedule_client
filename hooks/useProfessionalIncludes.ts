@@ -4,7 +4,7 @@ import Cookies from "js-cookie";
 import { ProfessionalInformation } from "@/interfaces";
 import { apiServer } from "@/api/api-server";
 
-export function useProfessionalInstitutions() {
+export function useProfessionalIncludes() {
   const [data, setData] = useState<ProfessionalInformation | null>(null);
   const [error, setError] = useState<Error | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(true);
@@ -37,6 +37,8 @@ export function useProfessionalInstitutions() {
   }, []);
   return {
     data,
+    appointments: data?.appointmentsIncluded ?? [],
+    patients: data?.patientsIncluded ?? [],
     institutions: data?.institutionsIncluded ?? [],
     error,
     isLoading,
