@@ -16,9 +16,9 @@ import { useToast } from "@/hooks/use-toast";
 type Props = {
   id: string;
   appointment: any;
-  refetch: () => void;
+  onSuccess: () => void;
 };
-const RescheduleAppointmentForm = ({ id, appointment, refetch }: Props) => {
+const RescheduleAppointmentForm = ({ id, appointment, onSuccess }: Props) => {
   const [loading, setLoading] = useState(false);
   const { toast } = useToast();
   const router = useRouter();
@@ -61,14 +61,8 @@ const RescheduleAppointmentForm = ({ id, appointment, refetch }: Props) => {
       const response = await rescheduleAppointment(rescheduleData);
       if (response) {
         setLoading(false);
-        toast({
-          className: "bg-emerald-500 text-black",
-          title: "Turno reprogramado correctamente",
-          description: "El turno ha sido reprogramado correctamente",
-          duration: 2000,
-        });
         form.reset();
-        refetch();
+        onSuccess();
       }
     } catch (error) {
       console.error(error);
