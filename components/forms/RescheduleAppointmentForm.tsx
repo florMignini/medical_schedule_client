@@ -16,8 +16,9 @@ import { useToast } from "@/hooks/use-toast";
 type Props = {
   id: string;
   appointment: any;
+  refetch: () => void;
 };
-const RescheduleAppointmentForm = ({ id, appointment }: Props) => {
+const RescheduleAppointmentForm = ({ id, appointment, refetch }: Props) => {
   const [loading, setLoading] = useState(false);
   const { toast } = useToast();
   const router = useRouter();
@@ -67,8 +68,7 @@ const RescheduleAppointmentForm = ({ id, appointment }: Props) => {
           duration: 2000,
         });
         form.reset();
-        router.push("/professional/appointments");
-        router.refresh();
+        refetch();
       }
     } catch (error) {
       console.error(error);

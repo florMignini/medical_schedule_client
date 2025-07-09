@@ -33,7 +33,7 @@ const CalendarDay = ({
   const dayEvents = appointments.filter(
     (appt) => dayjs(appt.appointment.schedule).format("YYYY-MM-DD") === formattedDate
   );
-
+console.log(dayEvents, "dayEvents");
   const isSelected = dayjs(selectedDate).isSame(date, "day");
   const isToday = date.isSame(today, "day");
   const isPast = date.isBefore(today, "day") && !isToday && dayEvents.length === 0;

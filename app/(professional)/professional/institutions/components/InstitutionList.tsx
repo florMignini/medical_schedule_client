@@ -7,7 +7,6 @@ import { Pencil, Search } from "lucide-react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useDebounce } from "../hooks/useDebounce";
-import { useProfessionalInstitutions } from "@/hooks/useProfessionalInstitutions";
 import InstitutionRegisterForm from "@/components/forms/InstitutionRegisterForm";
 import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
 import { useToast } from "@/hooks/use-toast";
@@ -16,12 +15,12 @@ import { InstitutionCard } from "./InstitutionCard";
 import { useCurrentProfessional } from "@/hooks/useCurrentProfessional";
 import { InstitutionSkeletonCard } from "./InstitutionSkeletonCard";
 import { AnimatedDialog } from "./AnimatedDialog";
-
+import { useProfessionalIncludes } from "@/hooks/useProfessionalIncludes";
 export function InstitutionList() {
   const [search, setSearch] = useState("");
 
   const { data, institutions, isLoading, refetch } =
-    useProfessionalInstitutions();
+    useProfessionalIncludes();
   const { toast } = useToast();
   const [formOpen, setFormOpen] = useState(false);
   const [selectedInstitution, setSelectedInstitution] =
