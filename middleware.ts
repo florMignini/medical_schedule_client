@@ -1,25 +1,46 @@
 import { NextRequest, NextResponse } from "next/server";
 
-const publicRoutes = ["/","/introducing-medical-schedule"];
-const privateRoutes = ["/professional/dashboard", "/professional/patients", "/professional/institutions"];
+const publicRoutes = ["/", "/introducing-medical-schedule"];
+const privateRoutes = [
+  "/professional/dashboard",
+  "/professional/patients",
+  "/professional/institutions",
+];
 
 export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
-  
+
   const token = request.cookies.get("session-token")?.value;
 
-if (publicRoutes.includes(pathname) && token) {
-  return NextResponse.redirect(new URL("/professional/dashboard", request.url));
-}
+  console.log("🌐 Middleware :: Path:", pathname);
+  console.log("🔑 Middleware :: Token presente?", Boolean(token));
+  if (token) console.log("🧪 Token:", token);
 
-if (privateRoutes.includes(pathname) && !token) {
-  return NextResponse.redirect(new URL("/introducing-medical-schedule", request.url));
-}
+  // Evitar redireccionar si ya estamos en /dashboard
+  if (
+    publicRoutes.includes(pathname) &&
+    token &&
+    pathname !== "/professional/dashboard"
+  ) {
+    return NextResponse.redirect(
+      new URL("/professional/dashboard", request.url)
+    );
+  }
 
-  
+  // Evitar redireccionar si ya estamos en /introducing...
+  if (
+    privateRoutes.includes(pathname) &&
+    !token &&
+    pathname !== "/introducing-medical-schedule"
+  ) {
+    return NextResponse.redirect(
+      new URL("/introducing-medical-schedule", request.url)
+    );
+  }
+
   return NextResponse.next();
 }
 
 export const config = {
-  matcher: ["/professional/dashboard", "/professional/patients", "/professional/institutions"],
+  matcher: ["/", "/introducing-medical-schedule", "/professional/:path*"],
 };
