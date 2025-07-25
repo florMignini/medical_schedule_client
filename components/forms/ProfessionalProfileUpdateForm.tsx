@@ -24,7 +24,7 @@ import {
 import { genderOptions } from "@/app/(professional)/professional/data";
 import { RadioGroup, RadioGroupItem } from "../ui/radio-group";
 
-const ProfessionalProfileUpdateForm = (professionalInfo: any) => {
+const ProfessionalProfileUpdateForm = ({ professionalInfo, readOnly }: { professionalInfo: any, readOnly: boolean }) => {
   const [loading, setLoading] = useState(false);
   const [isThereAnImage, setIsTthereAnImage] = useState<boolean>(false);
   const router = useRouter();
@@ -143,6 +143,7 @@ console.log(form.getValues());
                   renderSkeleton={(field) => (
                     <FormControl className="w-full">
                       <FileUploader
+                      readOnly={readOnly}
                         files={
                           isThereAnImage ? field.value : (field.value = [])
                         }
@@ -227,6 +228,7 @@ console.log(form.getValues());
                 iconAlt="user-email"
                 placeholder={professionalInfo.email}
                 defaultValue={professionalInfo.email}
+                disable={readOnly}
               />
               <DinamicForm
                 fieldType={FormFieldType.PHONE_INPUT}
@@ -237,6 +239,7 @@ console.log(form.getValues());
                 iconAlt="phone-icon"
                 placeholder={professionalInfo.phoneNumber}
                 defaultValue={professionalInfo.phoneNumber}
+                disable={readOnly}
               />
             </div>
             {/* gender & specialty */}
@@ -273,6 +276,7 @@ console.log(form.getValues());
                 label="Especialidad médica"
                 placeholder={professionalInfo.specialty}
                 defaultValue={professionalInfo.specialty}
+                disable={readOnly}
               />
             </div>
           </div>
@@ -282,6 +286,7 @@ console.log(form.getValues());
           <SubmitButton
             className="w-[95%] mx-auto border-[1px] border-white/20 hover:bg-black bg-white text-black text-center hover:text-white shadow-[0px_6px_15px_rgba(0,0,0,0.3)] p-2 rounded-lg ease-in-out"
             loading={loading}
+            disabled={readOnly}
           >
             Actualizar Perfil
           </SubmitButton>
