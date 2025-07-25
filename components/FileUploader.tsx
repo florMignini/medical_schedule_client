@@ -4,40 +4,53 @@ import Image from "next/image";
 import React, { useCallback } from "react";
 import { useDropzone } from "react-dropzone";
 import PencilIcon from "../public/assets/icons/upload.svg";
+import { read } from "node:fs";
 
 type FileUploaderProps = {
   files: File[] | undefined;
   onChange: (files: File[]) => void;
+  readOnly?: boolean;
 };
-const FileUploader = ({ files, onChange }: FileUploaderProps) => {
-  const onDrop = useCallback((acceptedFiles: File[]) => {
-    onChange(acceptedFiles);
-  }, []);
-  const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop });
+const FileUploader = ({ files, onChange, readOnly }: FileUploaderProps) => {
+  const onDrop = useCallback(
+    (acceptedFiles: File[]) => {
+      if (!readOnly) {
+        onChange(acceptedFiles);
+      }
+    },
+    [onChange, readOnly]
+  );
+  const { getRootProps, getInputProps, isDragActive } = useDropzone({
+    onDrop,
+    disabled: readOnly,
+  });
 
   return (
-    <div {...getRootProps()} className="file-upload overflow-auto w-[100%]">
-      <input {...getInputProps()} />
+    <div
+      {...getRootProps()}
+      className={`file-upload overflow-auto w-[100%] ${readOnly ? "opacity-50 cursor-not-allowed" : ""}`}
+    >
+      <input {...getInputProps()} disabled={readOnly} />
       {files && files?.length > 0 ? (
         files[0].type !== "application/pdf" ? (
           files.map((file, index) => (
             <Image
-            key={index}
-            src={convertFileToUrl(file)}
-            alt="user-image"
-            width={1000}
-            height={1000}
-            className="h-auto w-[100%] top-0 overflow-hidden mx-auto object-cover"
-          />
+              key={index}
+              src={convertFileToUrl(file)}
+              alt="user-image"
+              width={1000}
+              height={1000}
+              className="h-auto w-[100%] top-0 overflow-hidden mx-auto object-cover"
+            />
           ))
         ) : (
           files.map((file, index) => (
             <object
-            key={index}
-            data={convertFileToUrl(file)}
-            type="application/pdf"
-            className="w-[100%]"
-          ></object>
+              key={index}
+              data={convertFileToUrl(file)}
+              type="application/pdf"
+              className="w-[100%]"
+            ></object>
           ))
         )
       ) : (
