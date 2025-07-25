@@ -2,7 +2,7 @@
 import { useState, useEffect } from "react";
 import Cookies from "js-cookie";
 import { ProfessionalInformation } from "@/interfaces";
-import { apiServer } from "@/api/api-server";
+import axios from "axios";
 
 export function useProfessionalIncludes() {
   const [data, setData] = useState<ProfessionalInformation | null>(null);
@@ -11,16 +11,28 @@ export function useProfessionalIncludes() {
 
   const fetchData = async () => {
     const professionalId = Cookies.get("professional-id");
-    if (!professionalId) {
-      setError(new Error("ID de profesional no encontrado en la cookie"));
+    const isDemo = Cookies.get("isDemo") === "true";
+    const token = Cookies.get("session-token");
+
+    if (!professionalId || !token) {
+      setError(new Error("Faltan cookies necesarias para la sesión"));
       setIsLoading(false);
       return;
     }
 
+    const endpoint = `/professional/get-professional/${professionalId}`;
+    const baseURL = isDemo
+      ? "https://medical-schedule-server-demo.onrender.com/api"
+      : "https://medical-schedule-server.onrender.com/api";
+
     try {
-      const endpoint = `/professional/get-professional/${professionalId}`;
-      const response = await apiServer.get<ProfessionalInformation>(
-        `https://medical-schedule-server.onrender.com/api${endpoint}`
+      const response = await axios.get<ProfessionalInformation>(
+        `${baseURL}${endpoint}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
       );
 
       setData(response.data);
@@ -35,6 +47,7 @@ export function useProfessionalIncludes() {
   useEffect(() => {
     fetchData();
   }, []);
+
   return {
     data,
     appointments: data?.appointmentsIncluded ?? [],
