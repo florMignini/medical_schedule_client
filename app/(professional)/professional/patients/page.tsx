@@ -5,14 +5,10 @@ import { PatientsIncluded, ProfessionalInformation } from "@/interfaces";
 import { Dialog } from "@/components/ui/dialog";
 
 import PatientsTable from "../components/PatientsTable";
+import { getProfessionalIncludesFromCookies } from "@/utils/getProfessionalIncludesFromCookies";
 
 const PatientsPage = async () => {
-  const cookieStore = cookies();
-  const professionalId = cookieStore.get("professional-id")?.value;
-
-  let { data }: { data: ProfessionalInformation } = await apiServer.get(
-    `/professional/get-professional/${professionalId}`
-  );
+  const {data} = await getProfessionalIncludesFromCookies();
   // @ts-ignore
   const { patientsIncluded }: { patientsIncluded: PatientsIncluded[] } = data;
 

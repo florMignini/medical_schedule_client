@@ -1,4 +1,3 @@
-
 import { apiServer } from "@/api/api-server";
 import ProfessionalPasswordUpdateForm from "@/components/forms/ProfessionalPasswordUpdateForm";
 import ProfessionalProfileUpdateForm from "@/components/forms/ProfessionalProfileUpdateForm";
@@ -8,30 +7,36 @@ import { cookies } from "next/headers";
 
 const ProfessionalProfileUpdate = async () => {
   const cookieStore = cookies();
-    const professionalId = cookieStore.get("professional-id")?.value;
-  
-    let {data} :any = await apiServer.get(
-      `/professional/get-for-update/${professionalId}`
-    );
+  const professionalId = cookieStore.get("professional-id")?.value;
+    const isDemo = cookieStore.get("isDemo")?.value ? true : false;
 
+  const baseUrl = isDemo
+    ? "https://medical-schedule-server-demo.onrender.com/api"
+    : "https://medical-schedule-server.onrender.com/api";
+
+  let data : any = await fetch(
+    `${baseUrl}/professional/get-for-update/${professionalId}`,
+    {
+      headers: {
+        "Content-Type": "application/json",
+      },
+      cache: "no-store",
+    }
+  ).then((res) => res.json());
   return (
-    <section className="w-full h-screen flex flex-col items-center justify-start pl-2 gap-2">
+    <section className="w-[99%] p-6 mx-auto h-screen flex flex-col items-center justify-start gap-2 text-color bg-white/90 rounded-lg shadow-md">
       <Tabs defaultValue="profile" className="w-full">
-      <TabsList className="grid w-full grid-cols-2">
-        <TabsTrigger
-        value="profile">Perfil</TabsTrigger>
-        <TabsTrigger value="password">Contraseña</TabsTrigger>
-      </TabsList>
-      <TabsContent value="profile">
-      <ProfessionalProfileUpdateForm 
-      {...data}
-      />
-      </TabsContent>
-      <TabsContent value="password">
-        <ProfessionalPasswordUpdateForm/>
-      </TabsContent>
+        <TabsList className="grid w-full grid-cols-2">
+          <TabsTrigger value="profile">Perfil</TabsTrigger>
+          <TabsTrigger value="password">Contraseña</TabsTrigger>
+        </TabsList>
+        <TabsContent value="profile">
+          <ProfessionalProfileUpdateForm professionalInfo={data} readOnly={isDemo} />
+        </TabsContent>
+        <TabsContent value="password">
+          <ProfessionalPasswordUpdateForm readOnly={isDemo} />
+        </TabsContent>
       </Tabs>
-      
     </section>
   );
 };

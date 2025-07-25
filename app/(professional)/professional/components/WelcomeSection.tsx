@@ -73,17 +73,17 @@ const WelcomeSection = ({
   ).length;
 
   // Calculate today's appointments
-  const todayAppointments = filteredResult.length;
+  const todayAppointments = filteredResult?.length;
 
   // Calculate today's patients (unique patients with appointments today)
   const todayPatients = new Set(
-    filteredResult.map(appointment => appointment.appointment.id)
+    filteredResult?.map(appointment => appointment.appointment.id)
   ).size;
 
   // Calculate percentages for progress bars
   const monthlyConsultationsPercentage = Math.min((monthlyConsultations / 120) * 100, 100); // ~6 patients per day, 20 working days
   const newPatientsPercentage = Math.min((newPatientsThisMonth / 30) * 100, 100); // ~1-2 new patients per day
-  const todayAppointmentsPercentage = Math.min((todayAppointments / 6) * 100, 100); // 6 appointments per day
+  const todayAppointmentsPercentage = Math.min((todayAppointments ?? 0 / 6) * 100, 100); // 6 appointments per day
   const todayPatientsPercentage = Math.min((todayPatients / 6) * 100, 100); // 6 patients per day
 
   return (
@@ -188,18 +188,6 @@ const WelcomeSection = ({
                 <span className="truncate">✉️ Email:</span>
                 <span>{professional.email || "correo@ejemplo.com"}</span>
               </div>
-              {/* <div className="flex items-center gap-2 text-gray-700">
-      <span className="truncate">🌍</span>
-      <span>{professional. || "Argentina"}</span>
-    </div>
-    <div className="flex items-center gap-2 text-gray-700">
-      <span className="truncate">🏙️ Ciudad:</span>
-      <span>{professional.city || "Buenos Aires"}</span>
-    </div>
-    <div className="flex items-center gap-2 text-gray-700">
-      <span className="truncate">📍</span>
-      <span>{professional. || "Dirección del profesional"}</span>
-    </div> */}
             </div>
          
           {/* account details */}
