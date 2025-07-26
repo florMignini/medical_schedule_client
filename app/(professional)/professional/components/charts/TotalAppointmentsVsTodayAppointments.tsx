@@ -18,6 +18,7 @@ import {
 import { getFullYear, getMonth } from "@/utils";
 import { AppointmentsIncluded } from "@/interfaces";
 import { filterTodayAppointments } from "@/utils/getChartsHelpers";
+import { getProfessionalIncludesFromCookies } from "@/utils/getProfessionalIncludesFromCookies";
 
 const chartConfig = {
   hoy: {
@@ -35,6 +36,7 @@ const TotalAppointmentsVsTodayAppointments = ({
 }: {
   appointments: AppointmentsIncluded[];
 }) => {
+console.log(appointments, "🔍 TotalAppointmentsVsTodayAppointments appointments");
   const filteredResult = filterTodayAppointments(appointments);
   const month = getMonth();
   const year = getFullYear();
@@ -42,7 +44,7 @@ const TotalAppointmentsVsTodayAppointments = ({
   const chartData = [
     {
       name: "Turnos",
-      hoy: filteredResult.length,
+      hoy: filteredResult?.length,
       totales: appointments.length,
     },
   ];
@@ -91,7 +93,7 @@ const TotalAppointmentsVsTodayAppointments = ({
                           y={(viewBox.cy || 0) - 10}
                           className="text-gray-400 fill-foreground text-xl font-bold"
                         >
-                          {filteredResult.length}
+                          {filteredResult?.length}
                         </tspan>
                         <tspan
                           x={viewBox.cx}
