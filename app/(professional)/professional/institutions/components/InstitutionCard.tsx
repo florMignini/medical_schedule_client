@@ -16,7 +16,7 @@ import Image from "next/image";
 import { ICreateInstitution } from "@/interfaces";
 
 interface InstitutionCardProps {
-  institution: ICreateInstitution; // reemplazá por tu tipo
+  institution: ICreateInstitution;
   onEdit: () => void;
   onDelete: () => void;
   professionalId?: string;
