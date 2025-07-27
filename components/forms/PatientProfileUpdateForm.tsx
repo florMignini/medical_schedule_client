@@ -8,6 +8,7 @@ import { patientsUpdateValidationSchema } from "@/lib";
 import { z } from "zod";
 import SubmitButton from "../SubmitButton";
 import { useForm } from "react-hook-form";
+import { useToast } from "@/hooks/use-toast";
 import { Label } from "../ui";
 import Icon from "../ui/icon";
 
@@ -54,21 +55,19 @@ import {
 
 type Props = {
   selectedPatient: Partial<Patient> | null;
-  onClose?: () => void;
-  onSuccess?: () => void;
-};
-type professionalType = {
-  id: string;
-  firstName: string;
-  lastName: string;
-  gender: string;
+  onClose: () => void;
+  onSuccess: () => void;
 };
 
-const PatientProfileUpdateForm = ({ selectedPatient }: Props) => {
+const PatientProfileUpdateForm : React.FC<Props> = ({
+  selectedPatient,
+  onClose,
+  onSuccess,
+})=> {
   const [loading, setLoading] = useState(false);
   const [isThereAnImage, setIsTthereAnImage] = useState<boolean>(false);
   const [medicalHistoryType, setMedicalHistoryType] = useState("");
-
+  const { toast } = useToast();
   const router = useRouter();
   const form = useForm<z.infer<typeof patientsUpdateValidationSchema>>({
     resolver: zodResolver(patientsUpdateValidationSchema),
@@ -132,7 +131,7 @@ const PatientProfileUpdateForm = ({ selectedPatient }: Props) => {
       });
     }
   }, [selectedPatient, form.reset, form]);
-
+  
   // onSubmit form
   async function onSubmit(
     values: z.infer<typeof patientsUpdateValidationSchema>
@@ -265,17 +264,25 @@ const PatientProfileUpdateForm = ({ selectedPatient }: Props) => {
           formData !== undefined ? formData : selectedPatient?.patientPhotoUrl,
       };
 
-      const response = await updatePatientProfileAction(updatePatientData);
-      if (response) {
+      const response : any = await updatePatientProfileAction(updatePatientData);
+      if (response.isDemo) {
         setLoading(false);
+        
+          toast({
+            title: "Edición simulada",
+            description: "Este cambio fue simulado (modo demo)",
+            className: "bg-emerald-500 text-black",
+          });
+          onClose(); 
+      }else{
         router.refresh();
         router.push(`/professional/patients/${selectedPatient?.id}/info`);
       }
-    } catch (error) {
-      console.error(error);
-    }
+    
+  }catch (error) {
+    console.error(error);
   }
-
+  }
   return (
     <Form {...form}>
       <form
@@ -829,6 +836,6 @@ const PatientProfileUpdateForm = ({ selectedPatient }: Props) => {
       </form>
     </Form>
   );
-};
+}
 
 export default PatientProfileUpdateForm;
