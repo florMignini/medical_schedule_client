@@ -14,6 +14,7 @@ import {
   AlertDialogAction,
 } from "@/components/ui/alert-dialog";
 import { toast } from "@/hooks/use-toast";
+import { deletePatient } from "../../../../actions/patientAction";
 interface PatientCardProps {
   patient: Patient;
   onEdit: () => void;
@@ -81,7 +82,14 @@ const PatientCard = ({
       </Link>
       {/* Acciones */}
       <div className="absolute p-1 top-[15%] right-1 items-center justify-center flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
-        <Button variant="ghost" size="icon" onClick={onEdit}>
+        <Button
+          variant="ghost"
+          size="icon"
+          onClick={(e) => {
+            e.preventDefault();
+            onEdit();
+          }}
+        >
           <Pencil size={18} className="text-zinc-500 hover:text-zinc-800" />
         </Button>
 
@@ -92,7 +100,9 @@ const PatientCard = ({
             </Button>
           </AlertDialogTrigger>
           <AlertDialogContent className="bg-glass-effect-vibrant backdrop-blur-lg border text-white border-zinc-200 shadow-lg p-6">
-            <AlertDialogHeader className="font-mono text-xl font-bold ">¿Eliminar paciente?</AlertDialogHeader>
+            <AlertDialogHeader className="font-mono text-xl font-bold ">
+              ¿Eliminar paciente?
+            </AlertDialogHeader>
             <p className="">Esta acción no se puede deshacer.</p>
             <AlertDialogFooter>
               <AlertDialogCancel>Cancelar</AlertDialogCancel>
@@ -100,22 +110,21 @@ const PatientCard = ({
                 className="bg-red-500 hover:bg-red-600 text-white"
                 onClick={async () => {
                   try {
-                    const ids = {
-                      institutionId: patient.id,
+                    const result = await deletePatient({
+                      patientId: patient.id,
                       professionalId,
-                    };
-                    // await deleteInstitution(ids);
+                    });
                     toast({
-                      title: "Eliminando institución...",
-                      description: "institución eliminada exitosamente 🎉",
+                      title: "Eliminando paciente...",
+                      description: `${result.message} 🎉`,
                       className: "bg-emerald-500 text-black",
                       duration: 3000,
                     });
-                    onDelete();
+                    onDelete(); //refresh!
                   } catch (err) {
                     toast({
-                      title: "Eliminando institución...",
-                      description: "Error al eliminar institución",
+                      title: "Eliminando paciente...",
+                      description: `❌ ${(err as Error).message}`,
                       className: "bg-red-500 text-black",
                       duration: 3000,
                     });
