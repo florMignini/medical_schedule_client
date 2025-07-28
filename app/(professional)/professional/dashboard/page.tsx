@@ -21,9 +21,12 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import PatientRegistrationForm from "@/components/forms/PatientRegisterForm";
 import PatientsTable from "../components/PatientsTable";
 import { getProfessionalIncludesFromCookies } from "@/utils/getProfessionalIncludesFromCookies";
+import PatientCardWithActions from "../patients/components/PatientCardWithAction";
 
 const ProfessionalDashboard = async () => {
-  const {data} = await getProfessionalIncludesFromCookies();
+  const cookieStore = cookies();
+  const isDemo = cookieStore.get("isDemo")?.value === "true";
+  const { data } = await getProfessionalIncludesFromCookies();
   // @ts-ignore
   const { patientsIncluded }: { patientsIncluded: PatientsIncluded[] } = data;
 
@@ -40,30 +43,52 @@ const ProfessionalDashboard = async () => {
   }: { institutionsIncluded: AppointmentsIncluded[] } = data;
 
   return (
-    <section className="w-full z-40 h-[100%] flex-1 min-[768px]:grid min-[768px]:grid-cols-[60%,40%] lg:grid-cols-[70%,30%] overflow-y-auto glass-effect-vibrant">
+    // Reemplazá esto en tu componente donde está el layout principal
+
+    <section className="w-full z-40 h-full flex-1 min-[768px]:grid min-[768px]:grid-cols-[60%,40%] lg:grid-cols-[70%,30%] overflow-y-auto overflow-x-hidden glass-effect-vibrant">
       <Dialog>
-        {/*left section*/}
-        <div className="w-full bg-white rounded-lg h-auto lg:flex lg:flex-col gap-2 mx-auto items-center justify-start px-1">
-          {/* charts section */}
-          <div className="w-[100%] mx-auto p-2 rounded-lg glass-effect-vibrant flex items-center justify-center flex-col xl:grid xl:grid-cols-[60%,40%] text-color gap-1 ">
+        <div className="w-full bg-white rounded-lg h-auto flex flex-col gap-2 mx-auto items-center justify-start px-2 overflow-x-hidden max-w-full">
+          {/* CHARTS */}
+          <div className="w-full max-w-full mx-auto p-2 rounded-lg glass-effect-vibrant flex flex-col xl:grid xl:grid-cols-[60%,40%] text-color gap-1">
             <PatientsByAge patients={patientsIncluded} />
             <Categorization
               appointments={appointmentsIncluded.length}
               followsUp={followsUpIncluded.length}
             />
           </div>
-          {/* patient section */}
-          <PatientsTable component={"dashboard"} patients={patientsIncluded} />
 
-          {/* institutions section */}
-          <div className="w-full flex flex-col glass-effect-vibran bg-white mt-2">
-            <div className="mx-auto mb-5 w-[99%] border-b-[1px] border-gray-900">
+          {/* PACIENTES */}
+          <div className="w-full flex flex-col bg-white mt-2 overflow-x-hidden max-w-full">
+            <div className="mx-auto mb-5 w-[99%] border-b border-gray-900">
+              <p className="px-3 text-gray-900 py-2 font-semibold text-[18px]">
+                Pacientes
+              </p>
+            </div>
+
+            <div className="w-full flex flex-col items-center overflow-x-hidden max-w-full">
+              {data && data.institutionsIncluded?.length! < 1 ? (
+                <div className="w-[90%] py-1 flex items-center justify-center gap-10">
+                  <p>Aún no posee instituciones activas</p>
+                  <AddButton to="/professional/institution-registration" />
+                </div>
+              ) : (
+                <PatientCardWithActions
+                  patientsIncluded={patientsIncluded}
+                  isDemo={isDemo}
+                />
+              )}
+            </div>
+          </div>
+
+          {/* INSTITUCIONES */}
+          <div className="w-full flex flex-col bg-white mt-2 overflow-x-hidden max-w-full">
+            <div className="mx-auto mb-5 w-[99%] border-b border-gray-900">
               <p className="px-3 text-gray-900 py-2 font-semibold text-[18px]">
                 Instituciones
               </p>
             </div>
-            {/* institutions table */}
-            <div className="w-[100%] flex flex-col items-center">
+
+            <div className="w-full flex flex-col items-center">
               {data && data.institutionsIncluded?.length! < 1 ? (
                 <div className="w-[90%] py-1 flex items-center justify-center gap-10">
                   <p>Aún no posee instituciones activas</p>
@@ -142,6 +167,7 @@ const ProfessionalDashboard = async () => {
                         </Link>
                         <div className="w-[15%] md:w-[10%] flex items-center justify-center">
                           <ConfigButton
+                            isDemo={isDemo}
                             id={institution.id}
                             component={"institutions"}
                           />
@@ -154,16 +180,11 @@ const ProfessionalDashboard = async () => {
             </div>
           </div>
         </div>
-        {/* professional profile section */}
+
+        {/* Right section */}
         <div className="hidden min-[768px]:flex">
           <WelcomeSection professional={data} />
         </div>
-        {/* add patient modal */}
-        {/* <DialogContent className="w-[90%] lg:w-[70%] lg:max-w-[60%] h-[90%] bg-white flex flex-col items-start justify-start  bg-opacity-90 p-2 rounded-lg shadow-md gap-5">
-          <ScrollArea className="h-[98%] w-[99%]">
-            <PatientRegistrationForm />
-          </ScrollArea>
-        </DialogContent> */}
       </Dialog>
     </section>
   );
