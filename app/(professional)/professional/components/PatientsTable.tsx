@@ -1,28 +1,28 @@
 "use client";
 import { useState } from "react";
-import Image from "next/image";
-import Link from "next/link";
 import { AnimatePresence, motion } from "framer-motion";
 import { useToast } from "@/hooks/use-toast";
 import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { AnimatedDialog } from "../institutions/components/AnimatedDialog"; // Usa este wrapper como en InstitutionList
+import { AnimatedDialog } from "../institutions/components/AnimatedDialog";
+
+import { Patient, PatientsIncluded } from "@/interfaces";
+
+import PatientCard from "../patients/components/PatientCard";
+import { useProfessionalIncludes } from "@/hooks/useProfessionalIncludes";
+import PatientProfileUpdateForm from "@/components/forms/PatientProfileUpdateForm";
 import PatientRegistrationForm from "@/components/forms/PatientRegisterForm";
-import { PatientsIncluded } from "@/interfaces";
-import ConfigButton from "./ConfigButton";
-import Phone from "./icons/Phone";
-import Mail from "./icons/Mail";
-import User from "./icons/User";
 
 interface Props {
   patients: PatientsIncluded[];
-  component?: string; // Para manejar diferentes contextos si es necesario
+  component?: string;
 }
 
 export default function PatientsTable({ patients, component }: Props) {
   const [formOpen, setFormOpen] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
-  const [selectedPatient, setSelectedPatient] = useState(null); // Por si querés editar después
+  const [selectedPatient, setSelectedPatient] =
+    useState<Partial<Patient> | null>(null);
 
   const { toast } = useToast();
   let indexOfFirstPatient = 0;
@@ -35,15 +35,11 @@ export default function PatientsTable({ patients, component }: Props) {
   );
 
   const handlePageChange = (page: number) => setCurrentPage(page);
-
+  const { data, isLoading, refetch } = useProfessionalIncludes();
   return (
     <div className="relative space-y-4">
       {/* Tabla de pacientes */}
       <div className="w-full border rounded-lg shadow-md border-gray-300 p-2">
-        <div className="mx-auto mb-2 px-2">
-          <h2 className="text-xl font-semibold text-gray-800">Pacientes</h2>
-        </div>
-
         {patients.length === 0 ? (
           <p className="text-center text-muted-foreground py-4">
             Aún no posee pacientes registrados.
@@ -53,39 +49,16 @@ export default function PatientsTable({ patients, component }: Props) {
             <AnimatePresence>
               <div className="space-y-2">
                 {currentPatients.map(({ patient }) => (
-                  <motion.div
+                  <PatientCard
                     key={patient.id}
-                    initial={{ opacity: 0, y: 10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: -10 }}
-                    transition={{ duration: 0.2 }}
-                    className="flex items-center justify-between rounded-md border p-2 hover:shadow-md transition-shadow"
-                  >
-                    <Link
-                      href={`/professional/patients/${patient.id}/info`}
-                      className="flex items-center gap-3 w-full"
-                    >
-                      <Image
-                        src={patient.patientPhotoUrl}
-                        alt="Foto de paciente"
-                        width={40}
-                        height={40}
-                        className="rounded-full object-cover"
-                      />
-                      <div className="flex-1">
-                        <p className="text-sm font-medium truncate">{`${patient.firstName} ${patient.lastName}`}</p>
-                        <div className="text-xs text-muted-foreground flex gap-3">
-                          <span className="flex items-center gap-1">
-                            <Phone width={14} height={14} /> {patient.phone}
-                          </span>
-                          <span className="items-center gap-1 hidden sm:flex">
-                            <Mail width={14} height={14} /> {patient.email}
-                          </span>
-                        </div>
-                      </div>
-                    </Link>
-                    <ConfigButton id={patient.id} component="patients" />
-                  </motion.div>
+                    patient={patient}
+                    onEdit={() => {
+                      setSelectedPatient(patient);
+                      setFormOpen(true);
+                    }}
+                    onDelete={refetch}
+                    professionalId={data?.id || ""}
+                  />
                 ))}
               </div>
             </AnimatePresence>
@@ -138,21 +111,39 @@ export default function PatientsTable({ patients, component }: Props) {
       {/* Modal con formulario de paciente */}
       {formOpen && (
         <AnimatedDialog open={formOpen} onOpenChange={setFormOpen}>
-          <PatientRegistrationForm
-            selectedPatient={selectedPatient}
-            onClose={() => setFormOpen(false)}
-            onSuccess={() => {
-              toast({
-                title: selectedPatient
-                  ? "Paciente actualizado"
-                  : "Paciente agregado",
-                description: "¡Éxito!",
-                className: "bg-green-500 text-white",
-                duration: 3000,
-              });
-              setFormOpen(false);
-            }}
-          />
+          <ScrollArea className="h-[90vh] w-full px-2">
+            {selectedPatient ? (
+              <PatientProfileUpdateForm
+                selectedPatient={selectedPatient}
+                onClose={() => {
+                  setFormOpen(false);
+                  setSelectedPatient(null);
+                }}
+                onSuccess={() => {
+                  toast({
+                    title: "Paciente actualizado",
+                    description: "Cambios guardados correctamente ✅",
+                    className: "bg-green-500 text-white",
+                    duration: 3000,
+                  });
+                  setFormOpen(false);
+                }}
+              />
+            ) : (
+              <PatientRegistrationForm
+                onClose={() => setFormOpen(false)}
+                onSuccess={() => {
+                  toast({
+                    title: "Paciente agregado",
+                    description: "¡Éxito!",
+                    className: "bg-green-500 text-white",
+                    duration: 3000,
+                  });
+                  setFormOpen(false);
+                }}
+              />
+            )}
+          </ScrollArea>
         </AnimatedDialog>
       )}
     </div>
