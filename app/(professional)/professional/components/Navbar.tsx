@@ -3,7 +3,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { usePathname, useRouter } from "next/navigation";
 import { cn } from "@/lib";
-import { toggleSideI } from "@/interfaces";
+import { ProfessionalInformation, toggleSideI } from "@/interfaces";
 
 
 
@@ -12,14 +12,6 @@ import { ProfessionalSidebarData } from "@/app/(professional)/professional/data"
 import { AnimatePresence, motion } from "framer-motion";
 import Search from "./Search";
 import { logout } from "./SidebarItems";
-
-interface ProfInfo {
-  firstname: string;
-  gender: string;
-  userImage:string;
-  id: string;
-  lastname: string;
-}
 
 const BackIcon = () => (
   <svg
@@ -55,12 +47,12 @@ const Navbar = ({ isOpen, setIsOpen }: toggleSideI) => {
   const router = useRouter();
   const pathname = usePathname();
   let path = pathname && pathname.split("/")[pathname.split("/").length - 1];
-  const [profInfo, setProfInfo] = useState<ProfInfo | null>(null);
+  const [profInfo, setProfInfo] = useState<ProfessionalInformation | null>(null);
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
   const dropdownRef = useRef<HTMLUListElement>(null);
-
+console.log(profInfo)
   useEffect(() => {
     let data = localStorage.getItem("infoProfSession");
     setProfInfo(data ? JSON.parse(data) : null);
@@ -110,7 +102,7 @@ const Navbar = ({ isOpen, setIsOpen }: toggleSideI) => {
 
         {/* Dr. Greeting */}
         <div className="text-white text-center font-semibold text-lg select-none">
-          Hola, {profInfo?.firstname}!
+          {`Hola, ${profInfo?.username}!`}
         </div>
 
         {/* right section: Glass + avatar & dropdown mobile only */}
