@@ -49,7 +49,15 @@ const ProfessionalDashboard = ({
         {/* Main Content */}
         <main className="flex-1 flex flex-col overflow-y-auto max-h-screen">
           <Navbar setIsOpen={setIsOpen} isOpen={isOpen} />
-          <div>{children}</div>
+          <div>
+            {process.env.NEXT_PUBLIC_IS_DEMO === "true" && (
+              <div className="bg-yellow-100 text-yellow-800 p-2 rounded shadow mb-4">
+                Estás navegando en modo demo. Los cambios no son persistentes.
+              </div>
+            )}
+
+            {children}
+          </div>
         </main>
       </section>
     </SelectedDateProvider>

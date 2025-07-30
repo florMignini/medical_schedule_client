@@ -11,7 +11,7 @@ export async function getProfessionalIncludesFromCookies() {
     : "https://medical-schedule-server.onrender.com/api";
 
   const res = await fetch(`${apiBase}/professional/get-professional/${professionalId}`);
-  console.log("🔍 Fetching professional info from:",res);
+
   if (!res.ok) throw new Error("Error fetching professional info");
 
   const data: ProfessionalInformation = await res.json();

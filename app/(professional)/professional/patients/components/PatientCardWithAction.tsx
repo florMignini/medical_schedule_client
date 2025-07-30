@@ -42,7 +42,7 @@ export default function PatientCardWithActions({
           >
             {/* Link card */}
             <Link
-              href={`/professional/patients/${patient.id}/info`}
+              href={`/professional/patients/${patient.id}`}
               className="flex flex-1 items-center justify-between gap-2"
             >
               {/* Nombre + foto */}

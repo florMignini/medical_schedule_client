@@ -66,7 +66,7 @@ const ProfessionalDashboard = async () => {
             </div>
 
             <div className="w-full flex flex-col items-center overflow-x-hidden max-w-full">
-              {data && data.institutionsIncluded?.length! < 1 ? (
+              {data && data.patientsIncluded?.length! < 1 ? (
                 <div className="w-[90%] py-1 flex items-center justify-center gap-10">
                   <p>Aún no posee instituciones activas</p>
                   <AddButton to="/professional/institution-registration" />
