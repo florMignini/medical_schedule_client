@@ -5,7 +5,6 @@ export const useActivefilter = (
   itemsIncluded: PatientsIncluded[] = [],
   options = { memoize: true }
 ) => {
-  console.log(itemsIncluded)
   return useMemo(() => {
     if (!Array.isArray(itemsIncluded) || itemsIncluded.length === 0) {
       return [];
