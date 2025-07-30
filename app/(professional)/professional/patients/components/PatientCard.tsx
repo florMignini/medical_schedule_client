@@ -38,7 +38,7 @@ const PatientCard = ({
       className="group flex items-center justify-between rounded-md border p-2 hover:shadow-md transition-shadow"
     >
       <Link
-        href={`/professional/patients/${patient.id}/info`}
+        href={`/professional/patients/${patient.id}`}
         className="flex items-center justify-center gap-2 w-full"
       >
         <Image
