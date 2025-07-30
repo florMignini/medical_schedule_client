@@ -36,7 +36,7 @@ const TotalAppointmentsVsTodayAppointments = ({
 }: {
   appointments: AppointmentsIncluded[];
 }) => {
-console.log(appointments, "🔍 TotalAppointmentsVsTodayAppointments appointments");
+
   const filteredResult = filterTodayAppointments(appointments);
   const month = getMonth();
   const year = getFullYear();
