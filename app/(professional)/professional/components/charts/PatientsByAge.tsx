@@ -17,6 +17,7 @@ import {
 import { filtrarByAgeRange } from "@/utils/getChartsHelpers";
 import { useActivefilter } from "@/utils/useActiveFilter";
 import { ResponsiveContainer } from "recharts";
+import { PatientsIncluded } from "@/interfaces";
 
 const chartConfig = {
   femenino: {
@@ -28,8 +29,11 @@ const chartConfig = {
     color: "hsl(var(--chart-2))",
   },
 } satisfies ChartConfig;
+interface PatientsByAgeProps {
+  patients: PatientsIncluded[];
+}
+const PatientsByAge = ({ patients }: PatientsByAgeProps) => {
 
-const PatientsByAge = ({ patients }: any) => {
   const activePatients = useActivefilter(patients);
 
   const patient20F = filtrarByAgeRange(activePatients, 20, 29, "F");
