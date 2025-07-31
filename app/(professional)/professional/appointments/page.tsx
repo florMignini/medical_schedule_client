@@ -4,15 +4,15 @@ import { useState, useEffect } from "react";
 import Calendar from "../components/Calendar";
 import AppointmentsList from "../components/AppointmentsList";
 import CalendarIcon from "../components/icons/CalendarIcon";
-import { useCurrentProfessional } from "@/hooks/useCurrentProfessional";
 import { useProfessionalIncludes } from "@/hooks/useProfessionalIncludes";
 import { AppointmentSkeletonLoader } from "./components/AppointmentSkeletonLoader";
 
 const Appointments = () => {
   const [loading, setLoading] = useState(true);
-  const professional = useCurrentProfessional();
-  const { appointments, patients, isLoading, refetch } =
+
+  const { data, appointments, patients, isLoading, refetch } =
     useProfessionalIncludes();
+
   return (
     <section className="w-[99%] mx-auto p-6 space-y-4 bg-white rounded-lg shadow-md h-[100%]">
       {/* Header */}
