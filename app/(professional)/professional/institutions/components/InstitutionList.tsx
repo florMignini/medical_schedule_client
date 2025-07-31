@@ -12,7 +12,7 @@ import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
 import { useToast } from "@/hooks/use-toast";
 import { motion, AnimatePresence } from "framer-motion";
 import { InstitutionCard } from "./InstitutionCard";
-import { useCurrentProfessional } from "@/hooks/useCurrentProfessional";
+// import { useCurrentProfessional } from "@/hooks/useProfessionalSession";
 import { InstitutionSkeletonCard } from "./InstitutionSkeletonCard";
 import { AnimatedDialog } from "./AnimatedDialog";
 import { useProfessionalIncludes } from "@/hooks/useProfessionalIncludes";

@@ -20,9 +20,9 @@ const FollowUp = ({ patientInfo, isDemo = false }: FollowUpProps) => {
   return (
     <section className="w-full flex flex-col items-center justify-start gap-3 py-4 px-2">
       {/* Título */}
-      <div className="w-full max-w-4xl flex items-center gap-2 text-gray-800">
-        <div className="h-5 border-l-2 border-black" />
-        <h2 className="text-lg font-semibold">Seguimientos Anteriores</h2>
+      <div className="w-full max-w-4xl flex items-center gap-2 text-white bg-[#262626] px-4 py-3 rounded-xl shadow-inner">
+        <div className="h-5 border-l-2 border-emerald-500" />
+        <h2 className="text-sm lg:text-base font-mono">Seguimientos Anteriores</h2>
       </div>
 
       {/* Cards */}
