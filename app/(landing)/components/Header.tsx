@@ -1,91 +1,92 @@
 "use client";
+
 import axios from "axios";
 import Cookies from "js-cookie";
 import Image from "next/image";
-import Logo from "@/public/assets/medical_schedule-transparent.png";
 import Link from "next/link";
-import { useRouter } from 'next/navigation';
-import { useToast } from '@/hooks/use-toast';
+import { useRouter } from "next/navigation";
+import { useToast } from "@/hooks/use-toast";
+import Logo from "@/public/assets/medical_schedule-transparent.png";
 
 const Header = () => {
-const router = useRouter();
-const {toast} = useToast()
+  const router = useRouter();
+  const { toast } = useToast();
 
-const handleDemoLogin = async () => {
-  console.log("🔐 Activando modo demo...");
+  const handleDemoLogin = async () => {
+    try {
+      const response = await axios.post<{
+        access_token: string;
+        user: any;
+      }>("https://medical-schedule-server-demo.onrender.com/api/auth/demo-login");
 
-  try {
-    const response = await axios.post<{
-      access_token: string;
-      user: any;
-    }>("https://medical-schedule-server-demo.onrender.com/api/auth/demo-login");
+      const { access_token, user } = response.data;
 
-    const { access_token, user } = response.data;
-    // 👉 Guardar en localStorage
-    localStorage.setItem("session-token", access_token);
-    localStorage.setItem("user", JSON.stringify(user));
+      localStorage.setItem("session-token", access_token);
+      localStorage.setItem("infoProfSession", JSON.stringify(user));
 
-    // 👉 Guardar en cookie (visible en middleware)
-    Cookies.set("session-token", access_token, {
-      path: "/",
-      sameSite: "Lax",
-      // opcional: secure: true, si solo sirve para HTTPS
-    });
-    Cookies.set("professional-id", user.id, {
-      path: "/",
-      sameSite: "Lax",
-    });
-    Cookies.set("isDemo", "true", {
-      path: "/",
-      sameSite: "Lax",
-    });
-    toast({
-      title: "Sesión iniciada en modo demo",
-      description: "Has accedido correctamente al modo demo.",
-      className: "bg-emerald-500 text-black",
-    });
+      Cookies.set("session-token", access_token, {
+        path: "/",
+        sameSite: "Lax",
+      });
+      Cookies.set("professional-id", user.id, {
+        path: "/",
+        sameSite: "Lax",
+      });
+      Cookies.set("isDemo", "true", {
+        path: "/",
+        sameSite: "Lax",
+      });
 
-    router.push("/professional/dashboard");
-  } catch (error) {
-    toast({
-      title: "Error",
-      description: "No se pudo iniciar el modo demo",
-      className: "bg-red-500 text-white",
-    });
-    console.error(error);
-  }
+      toast({
+        title: "Sesión iniciada en modo demo",
+        description: "Has accedido correctamente al modo demo.",
+        className: "bg-emerald-500 text-black",
+      });
+
+      router.push("/professional/dashboard");
+    } catch (error) {
+      toast({
+        title: "Error",
+        description: "No se pudo iniciar el modo demo",
+        className: "bg-red-500 text-white",
+      });
+      console.error(error);
+    }
+  };
+
+  return (
+    <header className="w-full sticky top-0 z-50 bg-black/30 backdrop-blur-md border-b border-white/10 shadow-md">
+      <div className="max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8 h-[60px] flex items-center justify-between">
+        {/* Logo */}
+        <Link href="/" className="flex items-center gap-2">
+          <Image
+            src={Logo}
+            alt="Medical Schedule Logo"
+            width={120}
+            height={40}
+            priority
+            className="h-auto w-auto max-h-[40px]"
+          />
+        </Link>
+
+        {/* Buttons */}
+        <div className="flex items-center gap-3 sm:gap-5">
+          <Link
+            href="/login"
+            className="text-sm font-semibold px-3 py-1 rounded-xl hover:scale-105 transition-transform bg-white/10 text-white hover:bg-white/20 backdrop-blur-md"
+          >
+            Soy usuario
+          </Link>
+          <button
+            onClick={handleDemoLogin}
+            className="text-sm font-semibold px-3 py-1 rounded-xl hover:scale-105 transition-transform bg-emerald-500/20 text-emerald-300 hover:bg-emerald-500/30 backdrop-blur-md"
+          >
+            Demo access
+          </button>
+        </div>
+      </div>
+    </header>
+  );
 };
-
-    return (
-        <header className="w-full h-[60px] border-b border-white/15 sticky z-40 top-0 backdrop-blur-lg">
-            {/* header */}
-            <div className="w-[90%] mx-auto py-2 px-1 sm:px-5 flex items-center justify-between">
-                <div className="w-[50%] flex">
-                    <Image
-                        src={Logo}
-                        alt="medical-schedule-logo"
-                        width={150}
-                        height={150}
-                    />
-                    
-                </div>
-                <div className="w-[100%] sm:w-[50%] flex items-center justify-end gap-5">
-                    <Link
-                        href="/login"
-                        className="transition duration-200 ease-in-out flex items-center font-semibold justify-center gap-2.5 px-1 py-2   bg-gradient-to-r from-gray-500 to-gray-400 bg-clip-text text-transparent"
-                    >
-                        Soy usuario
-                    </Link>
-                    <button
-                    onClick={handleDemoLogin}
-                        className="transition duration-200 ease-in-out flex items-center font-semibold justify-center gap-2.5 px-1 py-2   bg-gradient-to-r from-gray-500 to-gray-400 bg-clip-text text-transparent"
-                    >
-                        Demo access
-                    </button>
-                </div>
-            </div>
-        </header>
-    )
-}
 
 export default Header;
