@@ -55,16 +55,27 @@ const [loginError, setLoginError] = useState<string>()
         id: res?.id,
       }))
  
-      if(typeof res === "string"){
+      if (typeof res === "string") {
         setLoginError(`No existe el usuario ${value.username} ó la contraseña es incorrecta`)
         setErrorTimed();
+        setLoading(false);
+        return;
       }
-      if(res === undefined){
-        setLoginError("Usuario ó Contraseña incorrectos")
+      
+      if (res === undefined) {
+        setLoginError("Usuario ó Contraseña incorrectos");
         setErrorTimed();
+        setLoading(false);
+        return;
       }
-      res ? router.push("/professional/dashboard") : router.push("/");
+      
       setLoading(false);
+      
+      // ✨ Esperar antes de redireccionar
+      setTimeout(() => {
+        res ? router.push("/professional/dashboard") : router.push("/introducing-medical-schedule");
+      }, 100);
+
     } catch (error:any) {
       console.error(error);
       setLoading(false);
