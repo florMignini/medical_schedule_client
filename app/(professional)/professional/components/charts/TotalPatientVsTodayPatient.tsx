@@ -40,13 +40,13 @@ const TotalPatientVsTodayPatient = ({
 }) => {
   if (!appointments?.length || !patients?.length) return null;
 
-  const filteredResult = filterTodayAppointments(appointments);
+  const filteredResult = filterTodayAppointments(appointments) || [];
 
   const month = getMonth();
   const year = getFullYear();
   const chartData = [{
     month,
-    hoy: filteredResult.length,
+    hoy: filteredResult?.length,
     totales: patients.length
   }];
   const totalVisitors = chartData[0].hoy;

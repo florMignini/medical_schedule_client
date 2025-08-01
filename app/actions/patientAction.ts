@@ -9,7 +9,6 @@ import {
   BooleanOption,
 } from "@/app/(professional)/professional/data";
 import { cookies } from "next/headers";
-import { booleanOption } from "@/app/(professional)/professional/data";
 import { InputFile } from "node-appwrite/file";
 import { PATIENT_PROFILE_BUCKET_ID, ENDPOINT, PROJECT_ID, storage } from "@/lib";
 import { ID } from "node-appwrite";
@@ -92,6 +91,16 @@ export async function patientRegistration({ patientPhoto, ...patient }: any) {
     "use server";
 
   try {
+    const cookieStore = cookies();
+    const isDemo = cookieStore.get("isDemo")?.value === "true";
+    if (isDemo) {
+      return {
+        isDemo: true,
+        success: true,
+        message: "Edición simulada correctamente (modo demo)",
+      };
+    }
+    
       const {patientId, ...rest} = patientUpdate
         let file;
         if(patientPhoto){
@@ -115,6 +124,33 @@ export async function patientRegistration({ patientPhoto, ...patient }: any) {
             console.log(error.response);
         }
         }
+
+export async function deletePatient({
+  patientId,
+  professionalId,
+}: {
+  patientId: string;
+  professionalId?: string;
+}) {
+  const cookieStore = cookies();
+  const isDemo = cookieStore.get("isDemo")?.value === "true";
+
+  if (isDemo) {
+    // demo simulation
+    return {
+      success: true,
+      message: "Borrado simulado correctamente (modo demo)",
+    };
+  }
+  const res = await apiServer.delete(`https://medical-schedule-server.onrender.com/api/patients/delete/${patientId}`);
+  if (res.status !== 200) {
+    throw new Error("Error al eliminar el paciente");
+  }
+  return {
+    success: true,
+    message: "Paciente eliminado exitosamente",
+  };
+}
 
 export async function createProfessionalPatientRelation (IDs: IIDs) {
   const relationData = await apiServer.post(

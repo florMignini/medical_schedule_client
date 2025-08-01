@@ -53,6 +53,7 @@ const NewAppointmentForm = ({
   initialDateTime,
   onSuccess,
   component,
+  isDemo = false,
 }: {
   type: AppointmentType;
   patientId: string;
@@ -61,10 +62,10 @@ const NewAppointmentForm = ({
   initialDateTime?: Date | null;
   onSuccess?: () => void;
   component?: string;
+  isDemo?: boolean;
 }) => {
   const [loading, setLoading] = useState(false);
-  const [professionalId, setProfessionalId] =
-    useState<professionalDataType>();
+  const [professionalId, setProfessionalId] = useState<professionalDataType>();
   const appointmentValidation = getAppointmentSchema(type);
   const { toast } = useToast();
   const router = useRouter();
@@ -97,6 +98,22 @@ const NewAppointmentForm = ({
         notes: values.notes,
       };
 
+      if (isDemo) {
+        // 💡 Simulation without persistance
+        await new Promise((res) => setTimeout(res, 1000));
+        toast({
+          title: "Turno simulado",
+          description: "Este turno fue creado en modo demo.",
+          className: "bg-yellow-400 text-black",
+          duration: 4000,
+        });
+        form.reset();
+        setLoading(false);
+        onSuccess?.();
+        return;
+      }
+
+      // 🟢 Real persistance
       const response = (await createAppointment(
         appointmentData
       )) as AppointmentResponse;
@@ -121,15 +138,22 @@ const NewAppointmentForm = ({
           className: "bg-emerald-500 text-black",
           duration: 5000,
         });
-        onSuccess?.();
         form.reset();
+        onSuccess?.();
         router.refresh();
       }
     } catch (error) {
       console.error(error);
       setLoading(false);
+      toast({
+        title: "Error",
+        description: "Ocurrió un problema al crear el turno.",
+        className: "bg-red-500 text-white",
+        duration: 4000,
+      });
     }
   }
+
 
   let buttonLabel = "Enviar";
   if (type === "cancel") buttonLabel = "Cancelar Turno";

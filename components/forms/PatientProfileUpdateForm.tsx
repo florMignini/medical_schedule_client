@@ -8,6 +8,7 @@ import { patientsUpdateValidationSchema } from "@/lib";
 import { z } from "zod";
 import SubmitButton from "../SubmitButton";
 import { useForm } from "react-hook-form";
+import { useToast } from "@/hooks/use-toast";
 import { Label } from "../ui";
 import Icon from "../ui/icon";
 
@@ -53,84 +54,84 @@ import {
 } from "../ui/dropdown-menu";
 
 type Props = {
-  patientInfo: Patient;
-};
-type professionalType = {
-  id: string;
-  firstName: string;
-  lastName: string;
-  gender: string;
+  selectedPatient: Partial<Patient> | null;
+  onClose: () => void;
+  onSuccess: () => void;
 };
 
-const PatientProfileUpdateForm = ({ patientInfo }: Props) => {
+const PatientProfileUpdateForm : React.FC<Props> = ({
+  selectedPatient,
+  onClose,
+  onSuccess,
+})=> {
   const [loading, setLoading] = useState(false);
   const [isThereAnImage, setIsTthereAnImage] = useState<boolean>(false);
   const [medicalHistoryType, setMedicalHistoryType] = useState("");
-
+  const { toast } = useToast();
   const router = useRouter();
   const form = useForm<z.infer<typeof patientsUpdateValidationSchema>>({
     resolver: zodResolver(patientsUpdateValidationSchema),
     defaultValues: {
-      firstName: patientInfo?.firstName,
-      lastName: patientInfo?.lastName,
+      firstName: selectedPatient?.firstName,
+      lastName: selectedPatient?.lastName,
       identificationType:
-        patientInfo?.identificationType as IdentificationTypeEnum,
-        identityNumber: patientInfo?.identityNumber,
+        selectedPatient?.identificationType as IdentificationTypeEnum,
+        identityNumber: selectedPatient?.identityNumber,
       // @ts-ignore
-      bloodType: patientInfo?.bloodType as BloodType,
-      bloodFactor: patientInfo?.bloodFactor as BloodFactor,
-      gender: patientInfo?.gender as Gender,
+      bloodType: selectedPatient?.bloodType as BloodType,
+      bloodFactor: selectedPatient?.bloodFactor as BloodFactor,
+      gender: selectedPatient?.gender as Gender,
       // @ts-ignore
-      birthDate: patientInfo?.birthdate as Date,
-      address: patientInfo?.address,
-      occupation: patientInfo?.occupation,
-      email: patientInfo?.email,
-      phone: patientInfo?.phone,
+      birthDate: selectedPatient?.birthdate as Date,
+      address: selectedPatient?.address,
+      occupation: selectedPatient?.occupation,
+      email: selectedPatient?.email,
+      phone: selectedPatient?.phone,
       patientPhoto: [],
-      emergencyContactName: patientInfo?.emergencyContactName,
-      emergencyContactNumber: patientInfo?.emergencyContactNumber,
-      contactRelationship: patientInfo?.contactRelationship,
-      insuranceProvider: patientInfo?.insuranceProvider,
-      insurancePolicyNumber: patientInfo?.insurancePolicyNumber,
-      allergic: patientInfo?.allergic as BooleanOption,
-      allergies: patientInfo?.allergies,
-      smoker: patientInfo?.smoker as BooleanOption,
-      exSmoker: patientInfo?.exSmoker as BooleanOption,
-      familyMedicalHistory: patientInfo?.familyMedicalHistory,
-      pastMedicalHistory: patientInfo?.pastMedicalHistory,
-      currentMedication: patientInfo?.currentMedication,
-      medicalHistory: patientInfo?.medicalHistory,
+      emergencyContactName: selectedPatient?.emergencyContactName,
+      emergencyContactNumber: selectedPatient?.emergencyContactNumber,
+      contactRelationship: selectedPatient?.contactRelationship,
+      insuranceProvider: selectedPatient?.insuranceProvider,
+      insurancePolicyNumber: selectedPatient?.insurancePolicyNumber,
+      allergic: selectedPatient?.allergic as BooleanOption,
+      allergies: selectedPatient?.allergies,
+      smoker: selectedPatient?.smoker as BooleanOption,
+      exSmoker: selectedPatient?.exSmoker as BooleanOption,
+      familyMedicalHistory: selectedPatient?.familyMedicalHistory,
+      pastMedicalHistory: selectedPatient?.pastMedicalHistory,
+      currentMedication: selectedPatient?.currentMedication,
+      medicalHistory: selectedPatient?.medicalHistory,
       // @ts-ignore
-      medicalHistoryType: patientInfo?.medicalHistoryType as MedicalHistory,
-      patientHeight: patientInfo?.patientHeight,
-      patientWeight: patientInfo?.patientWeight,
-      patientWaist: patientInfo?.patientWaist,
-      patientHip: patientInfo?.patientHip,
-      patientArm: patientInfo?.patientArm,
-      patientTricepsFold: patientInfo?.patientTricepsFold,
-      patientBMI: patientInfo?.patientBMI,
-      patientBFP: patientInfo?.patientBFP,
-      ObservationsComments: patientInfo?.ObservationsComments,
-      isActive: patientInfo?.isActive,
+      medicalHistoryType: selectedPatient?.medicalHistoryType as MedicalHistory,
+      patientHeight: selectedPatient?.patientHeight,
+      patientWeight: selectedPatient?.patientWeight,
+      patientWaist: selectedPatient?.patientWaist,
+      patientHip: selectedPatient?.patientHip,
+      patientArm: selectedPatient?.patientArm,
+      patientTricepsFold: selectedPatient?.patientTricepsFold,
+      patientBMI: selectedPatient?.patientBMI,
+      patientBFP: selectedPatient?.patientBFP,
+      ObservationsComments: selectedPatient?.ObservationsComments,
+      isActive: selectedPatient?.isActive,
     },
   });
   // -------------------------------------
   useEffect(() => {
-    if (patientInfo) {
+    if (selectedPatient) {
       form.reset({
-        ...patientInfo,
-        identificationType: patientInfo.identificationType as IdentificationTypeEnum,
-        medicalHistoryType: patientInfo.medicalHistoryType as any,
-        bloodType: patientInfo.bloodType as BloodType,
-        bloodFactor: patientInfo.bloodFactor as BloodFactor,
-        gender: patientInfo.gender as Gender,
-        allergic: patientInfo.allergic as BooleanOption,
-        smoker: patientInfo.smoker as BooleanOption,
-        exSmoker: patientInfo.exSmoker as BooleanOption,
+        ...selectedPatient,
+        identificationType: selectedPatient.identificationType as IdentificationTypeEnum,
+        medicalHistoryType: selectedPatient.medicalHistoryType as any,
+        bloodType: selectedPatient.bloodType as BloodType,
+        bloodFactor: selectedPatient.bloodFactor as BloodFactor,
+        gender: selectedPatient.gender as Gender,
+        allergic: selectedPatient.allergic as BooleanOption,
+        smoker: selectedPatient.smoker as BooleanOption,
+        exSmoker: selectedPatient.exSmoker as BooleanOption,
       });
     }
-  }, [patientInfo, form.reset, form]);
-
+  }, [selectedPatient, form.reset, form]);
+  
   // onSubmit form
   async function onSubmit(
     values: z.infer<typeof patientsUpdateValidationSchema>
@@ -147,133 +148,141 @@ const PatientProfileUpdateForm = ({ patientInfo }: Props) => {
     }
 
     const valuesUpdated = {
-      firstName: patientInfo.firstName,
-      lastName: patientInfo.lastName,
-      birthDate: patientInfo.birthDate,
+      firstName: selectedPatient?.firstName,
+      lastName: selectedPatient?.lastName,
+      birthDate: selectedPatient?.birthDate,
       occupation: values.occupation,
-      bloodType: patientInfo.bloodType as BloodType,
-      bloodFactor: patientInfo.bloodFactor as BloodFactor,
-      gender: patientInfo.gender as Gender,
+      bloodType: selectedPatient?.bloodType as BloodType,
+      bloodFactor: selectedPatient?.bloodFactor as BloodFactor,
+      gender: selectedPatient?.gender as Gender,
       identificationType:
-        patientInfo.identificationType as IdentificationTypeEnum,
-      identityNumber: patientInfo.identityNumber,
+        selectedPatient?.identificationType as IdentificationTypeEnum,
+      identityNumber: selectedPatient?.identityNumber,
       address:
-        values.address === undefined ? patientInfo.address : values.address,
-      email: values.email === undefined ? patientInfo.email : values.email,
-      phone: values.phone === undefined ? patientInfo.phone : values.phone,
+        values.address === undefined ? selectedPatient?.address : values.address,
+      email: values.email === undefined ? selectedPatient?.email : values.email,
+      phone: values.phone === undefined ? selectedPatient?.phone : values.phone,
       emergencyContactName:
         values.emergencyContactName === undefined
-          ? patientInfo.emergencyContactName
+          ? selectedPatient?.emergencyContactName
           : values.emergencyContactName,
       emergencyContactNumber:
         values.emergencyContactNumber === undefined
-          ? patientInfo.emergencyContactNumber
+          ? selectedPatient?.emergencyContactNumber
           : values.emergencyContactNumber,
       contactRelationship:
         values.contactRelationship === undefined
-          ? patientInfo.contactRelationship
+          ? selectedPatient?.contactRelationship
           : values.contactRelationship,
       insuranceProvider:
         values.insuranceProvider === undefined
-          ? patientInfo.insuranceProvider
+          ? selectedPatient?.insuranceProvider
           : values.insuranceProvider,
       insurancePolicyNumber:
         values.insurancePolicyNumber === undefined
-          ? patientInfo.insurancePolicyNumber
+          ? selectedPatient?.insurancePolicyNumber
           : values.insurancePolicyNumber,
       allergic:
-        values.allergic === undefined ? patientInfo.allergic : values.allergic,
+        values.allergic === undefined ? selectedPatient?.allergic : values.allergic,
       allergies:
         values.allergies === undefined
-          ? patientInfo.allergies
+          ? selectedPatient?.allergies
           : values.allergies,
       smoker:
         values.smoker === undefined
-          ? (patientInfo.smoker as BooleanOption)
+          ? (selectedPatient?.smoker as BooleanOption)
           : (values.smoker as BooleanOption),
       exSmoker:
         values.exSmoker === undefined
-          ? (patientInfo.exSmoker as BooleanOption)
+          ? (selectedPatient?.exSmoker as BooleanOption)
           : (values.exSmoker as BooleanOption),
       familyMedicalHistory:
         values.familyMedicalHistory === undefined
-          ? patientInfo.familyMedicalHistory
+          ? selectedPatient?.familyMedicalHistory
           : values.familyMedicalHistory,
       pastMedicalHistory:
         values.pastMedicalHistory === undefined
-          ? patientInfo.pastMedicalHistory
+          ? selectedPatient?.pastMedicalHistory
           : values.pastMedicalHistory,
       currentMedication:
         values.currentMedication === undefined
-          ? patientInfo.currentMedication
+          ? selectedPatient?.currentMedication
           : values.currentMedication,
       medicalHistory:
         values.medicalHistory === undefined
-          ? patientInfo.medicalHistory
+          ? selectedPatient?.medicalHistory
           : values.medicalHistory,
       medicalHistoryType:
         values.medicalHistoryType === undefined
-          ? patientInfo.medicalHistoryType
+          ? selectedPatient?.medicalHistoryType
           : values.medicalHistoryType,
       patientHeight:
         values.patientHeight === undefined
-          ? patientInfo.patientHeight
+          ? selectedPatient?.patientHeight
           : values.patientHeight,
       patientWeight:
         values.patientWeight === undefined
-          ? patientInfo.patientWeight
+          ? selectedPatient?.patientWeight
           : values.patientWeight,
       patientWaist:
         values.patientWaist === undefined
-          ? patientInfo.patientWaist
+          ? selectedPatient?.patientWaist
           : values.patientWaist,
       patientHip:
         values.patientHip === undefined
-          ? patientInfo.patientHip
+          ? selectedPatient?.patientHip
           : values.patientHip,
       patientArm:
         values.patientArm === undefined
-          ? patientInfo.patientArm
+          ? selectedPatient?.patientArm
           : values.patientArm,
       patientTricepsFold:
         values.patientTricepsFold === undefined
-          ? patientInfo.patientTricepsFold
+          ? selectedPatient?.patientTricepsFold
           : values.patientTricepsFold,
       patientBMI:
         values.patientBMI === undefined
-          ? patientInfo.patientBMI
+          ? selectedPatient?.patientBMI
           : values.patientBMI,
       patientBFP:
         values.patientBFP === undefined
-          ? patientInfo.patientBFP
+          ? selectedPatient?.patientBFP
           : values.patientBFP,
       ObservationsComments:
         values.ObservationsComments === undefined
-          ? patientInfo.ObservationsComments
+          ? selectedPatient?.ObservationsComments
           : values.ObservationsComments,
       isActive:
-        values.isActive === undefined ? patientInfo.isActive : values.isActive,
+        values.isActive === undefined ? selectedPatient?.isActive : values.isActive,
     };
 
     try {
       const updatePatientData = {
         ...valuesUpdated,
-        patientId: patientInfo.id,
+        patientId: selectedPatient?.id,
         patientPhoto:
-          formData !== undefined ? formData : patientInfo.patientPhotoUrl,
+          formData !== undefined ? formData : selectedPatient?.patientPhotoUrl,
       };
 
-      const response = await updatePatientProfileAction(updatePatientData);
-      if (response) {
+      const response : any = await updatePatientProfileAction(updatePatientData);
+      if (response.isDemo) {
         setLoading(false);
+        
+          toast({
+            title: "Edición simulada",
+            description: "Este cambio fue simulado (modo demo)",
+            className: "bg-emerald-500 text-black",
+          });
+          onClose(); 
+      }else{
         router.refresh();
-        router.push(`/professional/patients/${patientInfo.id}/info`);
+        router.push(`/professional/patients/${selectedPatient?.id}/info`);
       }
-    } catch (error) {
-      console.error(error);
-    }
+    
+  }catch (error) {
+    console.error(error);
   }
-
+  }
   return (
     <Form {...form}>
       <form
@@ -363,7 +372,7 @@ const PatientProfileUpdateForm = ({ patientInfo }: Props) => {
                 control={form.control}
                 name="firstName"
                 label="Nombre/s"
-                defaultValue={patientInfo?.firstName}
+                defaultValue={selectedPatient?.firstName}
                 disable
               />
               <DinamicForm
@@ -372,7 +381,7 @@ const PatientProfileUpdateForm = ({ patientInfo }: Props) => {
                 name="lastName"
                 label="Apellido/s"
                 disable
-                defaultValue={patientInfo?.lastName}
+                defaultValue={selectedPatient?.lastName}
               />
             </div>
             {/* address & occupation */}
@@ -382,14 +391,14 @@ const PatientProfileUpdateForm = ({ patientInfo }: Props) => {
                 control={form.control}
                 name="address"
                 label="Dirección"
-                defaultValue={patientInfo?.address}
+                defaultValue={selectedPatient?.address}
               />
               <DinamicForm
                 fieldType={FormFieldType.INPUT}
                 control={form.control}
                 name="occupation"
                 label="Ocupación"
-                defaultValue={patientInfo?.occupation}
+                defaultValue={selectedPatient?.occupation}
               />
             </div>
             {/* email & phone number */}
@@ -401,7 +410,7 @@ const PatientProfileUpdateForm = ({ patientInfo }: Props) => {
                 label="Email"
                 iconSrc={mailIcon}
                 iconAlt="user-email"
-                defaultValue={patientInfo?.email}
+                defaultValue={selectedPatient?.email}
               />
               <DinamicForm
                 fieldType={FormFieldType.PHONE_INPUT}
@@ -410,7 +419,7 @@ const PatientProfileUpdateForm = ({ patientInfo }: Props) => {
                 label="Número de teléfono"
                 iconSrc={phoneIcon}
                 iconAlt="phone-icon"
-                defaultValue={patientInfo?.phone}
+                defaultValue={selectedPatient?.phone}
               />
             </div>
             {/* identification type & identification number */}
@@ -431,7 +440,7 @@ const PatientProfileUpdateForm = ({ patientInfo }: Props) => {
                   </DropdownMenuTrigger>
                   <DropdownMenuContent className="ml-5 w-full flex items-center justify-start">
                     <DropdownMenuRadioGroup
-                      defaultValue={patientInfo?.identificationType}
+                      defaultValue={selectedPatient?.identificationType}
                       className="flex w-full flex-col items-center gap-1 rounded-md  border-dark-500 bg-dark-400
                       text-white text-ellipsis"
                     >
@@ -446,7 +455,7 @@ const PatientProfileUpdateForm = ({ patientInfo }: Props) => {
                       ))}
                     </DropdownMenuRadioGroup>
                   </DropdownMenuContent>
-                  <p>{patientInfo?.identificationType}</p>
+                  <p>{selectedPatient?.identificationType}</p>
                 </DropdownMenu>
               </div>
 
@@ -456,7 +465,7 @@ const PatientProfileUpdateForm = ({ patientInfo }: Props) => {
                 name="identityNumber"
                 label="Número de Documento"
                 disable
-                defaultValue={patientInfo?.identityNumber}
+                defaultValue={selectedPatient?.identityNumber}
               />
             </div>
             {/* birthdate & gender */}
@@ -480,7 +489,7 @@ const PatientProfileUpdateForm = ({ patientInfo }: Props) => {
                       disabled
                       className="flex h-12 xl:justify-between"
                       onValueChange={field.onChange}
-                      defaultValue={patientInfo?.gender}
+                      defaultValue={selectedPatient?.gender}
                     >
                       {genderOptions.map((gender: string) => (
                         <div key={gender} className="radio-group gap-1">
@@ -502,14 +511,14 @@ const PatientProfileUpdateForm = ({ patientInfo }: Props) => {
                 control={form.control}
                 name="emergencyContactName"
                 label="Nombre de Contacto en caso de Emergencia"
-                defaultValue={patientInfo?.emergencyContactName}
+                defaultValue={selectedPatient?.emergencyContactName}
               />
               <DinamicForm
                 fieldType={FormFieldType.PHONE_INPUT}
                 control={form.control}
                 name="emergencyContactNumber"
                 label="Número de Contacto en caso de Emergencia"
-                defaultValue={patientInfo?.emergencyContactNumber}
+                defaultValue={selectedPatient?.emergencyContactNumber}
                 iconSrc={phoneIcon}
                 iconAlt="phone-icon"
               />
@@ -520,7 +529,7 @@ const PatientProfileUpdateForm = ({ patientInfo }: Props) => {
                 control={form.control}
                 name="contactRelationship"
                 label="Parentesco con el paciente"
-                defaultValue={patientInfo?.contactRelationship}
+                defaultValue={selectedPatient?.contactRelationship}
               />
             </div>
           </div>
@@ -542,14 +551,14 @@ const PatientProfileUpdateForm = ({ patientInfo }: Props) => {
                 control={form.control}
                 name="insuranceProvider"
                 label="Cobertura Médica"
-                defaultValue={patientInfo?.insuranceProvider}
+                defaultValue={selectedPatient?.insuranceProvider}
               />
               <DinamicForm
                 fieldType={FormFieldType.INPUT}
                 control={form.control}
                 name="insurancePolicyNumber"
                 label="Número de Afiliado"
-                defaultValue={patientInfo?.insurancePolicyNumber}
+                defaultValue={selectedPatient?.insurancePolicyNumber}
               />
             </div>
             {/* smoker & ex-smoker */}
@@ -567,7 +576,7 @@ const PatientProfileUpdateForm = ({ patientInfo }: Props) => {
                       disabled
                       className="flex h-12 xl:justify-between"
                       onValueChange={field.onChange}
-                      defaultValue={patientInfo?.smoker}
+                      defaultValue={selectedPatient?.smoker}
                     >
                       {booleanOption.map((bool: string) => (
                         <div key={bool} className="radio-group gap-1">
@@ -594,7 +603,7 @@ const PatientProfileUpdateForm = ({ patientInfo }: Props) => {
                       disabled
                       className="flex h-12 xl:justify-between"
                       onValueChange={field.onChange}
-                      defaultValue={patientInfo?.exSmoker}
+                      defaultValue={selectedPatient?.exSmoker}
                     >
                       {booleanOption.map((bool: string) => (
                         <div key={bool} className="radio-group gap-1">
@@ -622,7 +631,7 @@ const PatientProfileUpdateForm = ({ patientInfo }: Props) => {
                     <RadioGroup
                       className="flex h-12 xl:justify-between"
                       onValueChange={field.onChange}
-                      defaultValue={patientInfo?.bloodType}
+                      defaultValue={selectedPatient?.bloodType}
                       disabled
                     >
                       {bloodType.map((type: string) => (
@@ -643,7 +652,7 @@ const PatientProfileUpdateForm = ({ patientInfo }: Props) => {
                 control={form.control}
                 name="bloodFactor"
                 label="Factor"
-                defaultValue={patientInfo?.bloodFactor}
+                defaultValue={selectedPatient?.bloodFactor}
                 disable
                 renderSkeleton={(field) => (
                   <FormControl>
@@ -672,7 +681,7 @@ const PatientProfileUpdateForm = ({ patientInfo }: Props) => {
               <DinamicForm
                 fieldType={FormFieldType.SKELETON}
                 control={form.control}
-                defaultValue={patientInfo?.allergic}
+                defaultValue={selectedPatient?.allergic}
                 name="allergic"
                 label="Alergico/a"
                 renderSkeleton={(field) => (
@@ -680,7 +689,7 @@ const PatientProfileUpdateForm = ({ patientInfo }: Props) => {
                     <RadioGroup
                       className="flex h-12 xl:justify-between"
                       onValueChange={field.onChange}
-                      defaultValue={patientInfo?.allergic}
+                      defaultValue={selectedPatient?.allergic}
                     >
                       {booleanOption.map((bool: string) => (
                         <div key={bool} className="radio-group gap-1">
@@ -699,7 +708,7 @@ const PatientProfileUpdateForm = ({ patientInfo }: Props) => {
                 control={form.control}
                 name="allergies"
                 label="Enumere Alergias"
-                defaultValue={patientInfo?.allergies}
+                defaultValue={selectedPatient?.allergies}
                 fieldType={FormFieldType.TEXTAREA}
               />
             </div>
@@ -709,14 +718,14 @@ const PatientProfileUpdateForm = ({ patientInfo }: Props) => {
                 control={form.control}
                 name="currentMedication"
                 label="Medicamentos Actuales"
-                defaultValue={patientInfo?.currentMedication}
+                defaultValue={selectedPatient?.currentMedication}
                 fieldType={FormFieldType.TEXTAREA}
               />
               <DinamicForm
                 control={form.control}
                 name="familyMedicalHistory"
                 label="Antecedentes Familiares"
-                defaultValue={patientInfo?.familyMedicalHistory}
+                defaultValue={selectedPatient?.familyMedicalHistory}
                 fieldType={FormFieldType.TEXTAREA}
               />
             </div>
@@ -751,7 +760,7 @@ const PatientProfileUpdateForm = ({ patientInfo }: Props) => {
                       ))}
                     </DropdownMenuRadioGroup>
                   </DropdownMenuContent>
-                  <p>{patientInfo?.medicalHistoryType}</p>
+                  <p>{selectedPatient?.medicalHistoryType}</p>
                 </DropdownMenu>
               </div>
               {/* add relevant information */}
@@ -760,7 +769,7 @@ const PatientProfileUpdateForm = ({ patientInfo }: Props) => {
                 control={form.control}
                 name="pastMedicalHistory"
                 label="Observaciones/Comentarios"
-                defaultValue={patientInfo?.pastMedicalHistory}
+                defaultValue={selectedPatient?.pastMedicalHistory}
               />
             </div>
           </div>
@@ -779,28 +788,28 @@ const PatientProfileUpdateForm = ({ patientInfo }: Props) => {
             <DinamicForm
               name="patientHeight"
               control={form.control}
-              defaultValue={patientInfo?.patientHeight}
+              defaultValue={selectedPatient?.patientHeight}
               label="Altura"
               fieldType={FormFieldType.INPUT}
             />
             <DinamicForm
               name="patientWeight"
               control={form.control}
-              defaultValue={patientInfo?.patientWeight}
+              defaultValue={selectedPatient?.patientWeight}
               label="Peso"
               fieldType={FormFieldType.INPUT}
             />
             <DinamicForm
               name="patientBMI"
               control={form.control}
-              defaultValue={patientInfo?.patientBMI}
+              defaultValue={selectedPatient?.patientBMI}
               label="IMC"
               fieldType={FormFieldType.INPUT}
             />
             <DinamicForm
               name="patientBFP"
               control={form.control}
-              defaultValue={patientInfo?.patientBFP}
+              defaultValue={selectedPatient?.patientBFP}
               label="Porcentaje de grasa corporal"
               fieldType={FormFieldType.INPUT}
             />
@@ -809,7 +818,7 @@ const PatientProfileUpdateForm = ({ patientInfo }: Props) => {
             <DinamicForm
               name="ObservationsComments"
               control={form.control}
-              defaultValue={patientInfo?.ObservationsComments}
+              defaultValue={selectedPatient?.ObservationsComments}
               label="Observaciones/Comentarios"
               fieldType={FormFieldType.TEXTAREA}
             />
@@ -827,6 +836,6 @@ const PatientProfileUpdateForm = ({ patientInfo }: Props) => {
       </form>
     </Form>
   );
-};
+}
 
 export default PatientProfileUpdateForm;

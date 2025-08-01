@@ -1,4 +1,5 @@
 "use client";
+import React from "react";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { z } from "zod";
@@ -39,8 +40,18 @@ import {
   patientRegistration,
 } from "@/app/actions";
 import SubmitButton from "../SubmitButton";
+import { Patient } from "@/interfaces";
 
-const PatientRegistrationForm = () => {
+type Props = {
+  selectedPatient?: Partial<Patient> | null;
+  onClose: () => void;
+  onSuccess: () => void;
+};
+const PatientRegistrationForm : React.FC<Props> = ({
+  selectedPatient,
+  onClose,
+  onSuccess,
+}) => {
   const [loading, setLoading] = useState(false);
   const router = useRouter();
   const [isThereAnImage, setIsTthereAnImage] = useState<boolean>(false);

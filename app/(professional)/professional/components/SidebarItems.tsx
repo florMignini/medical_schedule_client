@@ -8,7 +8,9 @@ import { LogOut } from 'lucide-react'
 export const logout = (setIsOpen: (value: boolean) => void) => {
   try {
     setIsOpen(false);
+    localStorage.clear()
     closeSessionServer();
+
   } catch (error) {
     console.error("Error al cerrar sesión:", error);
   }

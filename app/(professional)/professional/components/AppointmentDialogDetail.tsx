@@ -11,6 +11,7 @@ interface AppointmentDialogDetailProps {
   initialDateTime: Date | null;
   type?: "create" | "update";
   patientData?: any;
+  isDemo?: boolean;
 }
 
 const AppointmentDialogDetail = ({
@@ -21,6 +22,7 @@ const AppointmentDialogDetail = ({
   initialDateTime,
   type = "update",
   patientData,
+  isDemo = false, // 👈 default false por si no se pasa
 }: AppointmentDialogDetailProps) => {
   const [requiereSeguimiento, setRequiereSeguimiento] = useState(false);
 
@@ -37,6 +39,7 @@ const AppointmentDialogDetail = ({
         component={component}
         patientsList={[]}
         onSuccess={onSuccess}
+        isDemo={isDemo} // 🟡 modo demo propagado
       />
     );
   }
@@ -54,7 +57,7 @@ const AppointmentDialogDetail = ({
           <p className="text-xs md:text-sm">{patient?.insuranceProvider}</p>
         </div>
         <div className="flex items-center text-white flex-col">
-          <p className="text-sm md:text-base font-mono font-bold">Numero:</p>
+          <p className="text-sm md:text-base font-mono font-bold">Número:</p>
           <p className="text-xs md:text-sm">{patient?.insurancePolicyNumber}</p>
         </div>
       </div>
@@ -106,6 +109,7 @@ const AppointmentDialogDetail = ({
               setRequiereSeguimiento(false);
               onSuccess();
             }}
+            isDemo={isDemo}
           />
         </div>
       )}

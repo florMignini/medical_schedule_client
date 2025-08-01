@@ -1,7 +1,8 @@
+import { Patient, PatientsIncluded } from "@/interfaces";
 import { useMemo } from "react";
 
 export const useActivefilter = (
-  itemsIncluded: any,
+  itemsIncluded: PatientsIncluded[] = [],
   options = { memoize: true }
 ) => {
   return useMemo(() => {

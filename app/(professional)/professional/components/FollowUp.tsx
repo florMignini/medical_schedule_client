@@ -6,167 +6,86 @@ import {
 } from "@/components/ui/tooltip";
 import { Patient } from "@/interfaces";
 import CalendarIcon from "./icons/CalendarIcon";
-import dayjs from "dayjs";
 import NoteIcon from "./icons/NoteIcon";
+import dayjs from "dayjs";
 
-const FollowUp = (patientInfo: Patient) => {
-  const { followUpIncluded } = patientInfo!;
+type FollowUpProps = {
+  patientInfo: Patient;
+  isDemo?: boolean;
+};
+
+const FollowUp = ({ patientInfo, isDemo = false }: FollowUpProps) => {
+  const { followUpIncluded } = patientInfo;
 
   return (
-    <section className="w-full flex flex-col items-center justify-start gap-3">
-      <div className="w-[95%] flex flex-col items-start justify-start bg-white px-2 py-3 shadow-[inset_0px_-2px_3px_rgba(73,73,73,0.2)] rounded-md">
-        {/* title general */}
-        <div className="flex items-center justify-start gap-2">
-          <div className="h-5 border-x-2 border-black" />
-          <h1>Seguimientos Anteriores</h1>
-        </div>
-        {/* past appointments cards section */}
-        <div className="w-[100%] flex items-center justify-start flex-wrap gap-12 pt-5">
-          {followUpIncluded !== undefined && followUpIncluded?.length > 0 ? (
-            <TooltipProvider>
-              <Tooltip>
-                {followUpIncluded.map((followUp) => {
-                  return (
-                    <TooltipTrigger key={followUp.followUp.id} asChild>
-                      <button className="w-[250px] h-auto glass-effect rounded-md px-4 py-2 flex flex-col items-center justify-center gap-2 text-dark-600 hover:shadow-md hover:shadow-dark-600  hover:transition-shadow">
-                        {/* date and hr */}
-                        <div className="w-[100%] flex flex-row items-center justify-start font-light text-xs gap-2">
-                          <CalendarIcon width={20} height={20} />
-                          <p>
-                            {dayjs(followUp?.createdAt).format("DD MMMM  YYYY")}{" "}
-                            <strong className="text-black pl-2">|</strong>{" "}
-                          </p>
-                          <p>
-                            {dayjs(followUp?.followUp?.createdAt).format(
-                              "HH:mm A"
-                            )}
-                          </p>
-                        </div>
-                        {/* symptoms */}
-                        <div className="w-[100%] flex flex-row items-center justify-start font-light text-xs gap-2">
-                          <NoteIcon width={20} height={20} />
-                          <div className="flex flex-col">
-                            <p className="text-start font-semibold">
-                              Síntomas:
-                            </p>
-                            <p className="text-start truncate">
-                              {followUp?.followUp?.currentSymptoms}
-                            </p>
-                          </div>
-                        </div>
-                        {/* treatment notes */}
-                        <div className="w-[100%] flex flex-row items-center justify-start font-light text-xs gap-2">
-                          <NoteIcon width={20} height={20} />
-                          <div className="flex flex-col">
-                            <p className="text-start font-semibold">Notas: </p>
-                            <p className="text-start truncate">
-                              {followUp?.followUp?.notes}
-                            </p>
-                          </div>
-                        </div>
-                        {/* file attachment */}
-                        {/* <div className="w-[100%] flex flex-row items-center justify-start font-light text-xs gap-2">
-                          <FileAttachmentIcon
-                            width={20}
-                            height={20}
-                          />
-                          <p>{`Analisis Adjuntos ${
-                            pastAppointment?.pastAppointments
-                              ?.patientAttachedFilesUrl === null
-                              ? `(0)`
-                              : `(${pastAppointment?.pastAppointments?.patientAttachedFilesUrl?.length})`
-                          }: `}</p>
-                        </div> */}
-                      </button>
-                    </TooltipTrigger>
-                  );
-                })}
-                <TooltipContent className="flex items-center justify-start ml-5 flex-col w-[500px] h-auto p-2 backdrop-blur-lg">
-                  {/* appointment info */}
-                  <div className="w-auto flex items-center justify-center pt-5">
-                    {followUpIncluded.map((followUp) => (
-                      <div
-                        key={followUp.id}
-                        className="w-[100%] flex flex-col items-center justify-center"
-                      >
-                        <header className="flex w-[100%] gap-2">
-                          <CalendarIcon width={20} height={20} />
-                          <div className="w-[100%] flex gap-4">
-                            <p className="opacity-50">FECHA Y HORA: </p>
-                            <div className="flex gap-2">
-                              <p className="">
-                                {dayjs(followUp?.followUp?.scheduled).format(
-                                  "DD MMMM YYYY h:mm A"
-                                )}
-                              </p>
-                            </div>
-                          </div>
-                        </header>
+    <section className="w-full flex flex-col items-center justify-start gap-3 py-4 px-2">
+      {/* Título */}
+      <div className="w-full max-w-4xl flex items-center gap-2 text-white bg-[#262626] px-4 py-3 rounded-xl shadow-inner">
+        <div className="h-5 border-l-2 border-emerald-500" />
+        <h2 className="text-sm lg:text-base font-mono">Seguimientos Anteriores</h2>
+      </div>
 
-                        <div className="w-[100%] pt-5 h-auto flex flex-col items-center mx-auto justify-start font-light text-xs gap-5">
-                          {/* treatment notes */}
+      {/* Cards */}
+      <TooltipProvider>
+        <div className="w-full max-w-4xl flex flex-wrap justify-center gap-4">
+          {followUpIncluded && followUpIncluded.length > 0 ? (
+            followUpIncluded.map((followUp) => (
+              <Tooltip key={followUp.followUp.id}>
+                <TooltipTrigger asChild>
+                  <button
+                    className="w-[90vw] max-w-[300px] glass-effect rounded-md px-4 py-3 flex flex-col gap-2 text-left text-dark-600 hover:shadow-md transition-shadow disabled:opacity-60"
+                    disabled={isDemo}
+                  >
+                    {/* Fecha y hora */}
+                    <div className="flex items-center gap-2 text-xs">
+                      <CalendarIcon width={16} height={16} />
+                      <span>
+                        {dayjs(followUp.createdAt).format("DD MMM YYYY")} |{" "}
+                        {dayjs(followUp.followUp.createdAt).format("HH:mm A")}
+                      </span>
+                    </div>
 
-                          <div className="flex items-start justify-start gap-2">
-                            <p className="text-start font-semibold">
-                              RAZÓN DE LA CONSULTA
-                            </p>
-                            <p className="truncate">
-                              {followUp?.followUp?.currentSymptoms}
-                            </p>
-                          </div>
-                          <div className="flex items-start justify-start gap-2">
-                            <NoteIcon width={20} height={20} />
-                            <div className="flex flex-col ">
-                              <p className="text-start font-semibold">DIAGNOSTICO</p>
-                              <p className="truncate">
-                                {followUp?.followUp?.treatment
-                                }
-                              </p>
-                            </div>
-                          </div>
-                        </div>
-                        {/* attached files preview */}
-                        {/* <div className="w-[100%] pt-5 flex items-center justify-start font-light text-xs gap-2">
-                      <FileAttachmentIcon
-                        width={20}
-                        height={20}
-                      />
-                        <p className="opacity-50">ANALISIS ADJUNTOS: </p>
-                      <div className="flex flex-col">
-                        <div className="w-[100%] flex items-center justify-center gap-2">
-                          {pastAppointments?.pastAppointments?.patientAttachedFilesUrl?.map(
-                            (file:any) => (
-                              <Link
-                              href={file}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                                key={file}
-                                className="w-[50px] h-[50px] flex flex-col items-center justify-center bg-gray-200 rounded-md"
-                              >
-                                <p>Abrir</p>
-                                <FileAttachmentIcon
-                                width={20}
-                                height={20}
-                                />
-                              </Link>
-                            )
-                          )}
-                        </div>
-                      </div>
-                     </div> */}
-                      </div>
-                    ))}
-                  </div>
+                    {/* Síntomas */}
+                    <div className="text-xs text-gray-700">
+                      <p className="font-semibold">Síntomas:</p>
+                      <p className="truncate">
+                        {followUp.followUp.currentSymptoms}
+                      </p>
+                    </div>
+
+                    {/* Notas */}
+                    <div className="text-xs text-gray-700">
+                      <p className="font-semibold">Notas:</p>
+                      <p className="truncate">{followUp.followUp.notes}</p>
+                    </div>
+                  </button>
+                </TooltipTrigger>
+
+                <TooltipContent className="max-w-[90vw] w-[300px] p-3 bg-white rounded shadow-md text-xs text-gray-800">
+                  <p className="font-semibold mb-1">Detalle del seguimiento</p>
+                  <p>
+                    <strong>Fecha:</strong>{" "}
+                    {dayjs(followUp.followUp.scheduled).format(
+                      "DD MMM YYYY - HH:mm A"
+                    )}
+                  </p>
+                  <p>
+                    <strong>Síntomas:</strong>{" "}
+                    {followUp.followUp.currentSymptoms}
+                  </p>
+                  <p>
+                    <strong>Diagnóstico:</strong> {followUp.followUp.treatment}
+                  </p>
                 </TooltipContent>
               </Tooltip>
-            </TooltipProvider>
+            ))
           ) : (
-            <p className="font-semibold text-center">
-              No hay citas anteriores para este paciente.
+            <p className="text-sm text-muted-foreground">
+              No hay seguimientos registrados aún.
             </p>
           )}
         </div>
-      </div>
+      </TooltipProvider>
     </section>
   );
 };

@@ -12,7 +12,7 @@ import { FormFieldType } from "./ProfessionalLoginForm";
 import SubmitButton from "../SubmitButton";
 import { updateProfessionalPasswordAction } from "@/app/actions";
 
-const ProfessionalPasswordUpdateForm = () => {
+const ProfessionalPasswordUpdateForm = ({readOnly}: { readOnly: boolean }) => {
   const [loading, setLoading] = useState<boolean>(false);
   const [verifyPassword, setVerifyPassword] =
     useState<boolean>(false);
@@ -77,6 +77,7 @@ const ProfessionalPasswordUpdateForm = () => {
                 control={form.control}
                 name="password"
                 label="Contraseña actual"
+                disable={readOnly}
               />
               <div>
                 {verifyPassword ? (
@@ -95,6 +96,7 @@ const ProfessionalPasswordUpdateForm = () => {
               control={form.control}
               name="newPassword"
               label="Nueva Contraseña"
+              disable={readOnly}
             />
 
             {/* confirm password */}
@@ -103,6 +105,7 @@ const ProfessionalPasswordUpdateForm = () => {
               control={form.control}
               name="confirmPassword"
               label="Confirmar Contraseña"
+              disable={readOnly}
             />
           </div>
           {form.watch("newPassword") ===
@@ -117,7 +120,7 @@ const ProfessionalPasswordUpdateForm = () => {
           <SubmitButton
             className="w-[95%] mx-auto border-[1px] border-gray-600 hover:bg-gradient-to-b from-black to-[#807f7f] text-black text-center hover:text-white p-2 rounded-lg ease-in-out"
             disabled={
-              form.watch("newPassword") !== form.watch("confirmPassword")
+              form.watch("newPassword") !== form.watch("confirmPassword") || readOnly
             }
           >
             Actualizar Contraseña

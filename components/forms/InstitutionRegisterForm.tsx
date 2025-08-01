@@ -24,8 +24,8 @@ import {
 
 import { NewInstitutionSchema } from "@/lib";
 import { FormFieldType } from "./ProfessionalLoginForm";
-import { useCurrentProfessional } from "@/hooks/useCurrentProfessional";
 import { ICreateInstitution } from "@/interfaces";
+import { useProfessionalSession } from "@/hooks/useProfessionalSession";
 
 type Props = {
   selectedInstitution?: Partial<ICreateInstitution> | null;
@@ -39,7 +39,7 @@ const InstitutionRegisterForm: React.FC<Props> = ({
   onSuccess,
 }) => {
   const router = useRouter();
-  const professional = useCurrentProfessional();
+  const {professional} = useProfessionalSession();
   const isEditMode = Boolean(selectedInstitution?.id);
   const [loading, setLoading] = useState(false);
   const [hasImage, setHasImage] = useState(false);
