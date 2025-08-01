@@ -40,7 +40,7 @@ const nextConfig = {
       },
       {
         protocol: "https",
-        hostname: "https://cloud.appwrite.io",
+        hostname: "cloud.appwrite.io",
         port: "",
         pathname: "/**",
       },

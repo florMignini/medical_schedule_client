@@ -6,6 +6,7 @@ export async function closeSessionServer() {
     try {
      cookies().delete("professional-id")
      cookies().delete("session-token")
+     cookies().delete("isDemo");
      return `Session Cerrada correctamente`
     } catch (error) {
       console.log(error);

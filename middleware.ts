@@ -11,11 +11,19 @@ export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
   const token = request.cookies.get("session-token")?.value;
+  const isDemo = request.cookies.get("isDemo")?.value;
 
   console.log("🌐 Middleware :: Path:", pathname);
   console.log("🔑 Middleware :: Token presente?", Boolean(token));
   if (token) console.log("🧪 Token:", token);
 
+  // demo mode
+  if (isDemo){
+    if (pathname === "/introducing-medical-schedule") {
+      return NextResponse.redirect(new URL("/professional/dashboard", request.url));
+    }
+    return NextResponse.next();
+  }
   // Evitar redireccionar si ya estamos en /dashboard
   if (
     publicRoutes.includes(pathname) &&
