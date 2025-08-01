@@ -2,7 +2,6 @@
 
 import { useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
-import Image from "next/image";
 import clsx from "clsx";
 
 import { Patient } from "@/interfaces";
@@ -13,7 +12,7 @@ import PatientActionBar from "../../components/PatientActionBar";
 import PatientSectionNav from "../../components/PatientSectionNav";
 import NewAppointmentForm from "../../../../../../components/forms/NewAppointmentForm";
 import AppointmentDialogDetail from "../../../components/AppointmentDialogDetail";
-import { Dialog, DialogContent } from "../../../../../../components/ui/dialog";
+
 import { useToast } from "@/hooks/use-toast";
 import { DinamicPage } from "../../../data";
 import { PatientInfoSection } from "../../../components";

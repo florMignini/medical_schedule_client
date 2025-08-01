@@ -1,11 +1,10 @@
-import { apiServer } from "@/api/api-server";
+
 import { cookies } from "next/headers";
 import Image from "next/image";
 import Link from "next/link";
 import {
-  AppointmentsIncluded,
+  AppointmentsIncluded, 
   PatientsIncluded,
-  ProfessionalInformation,
 } from "@/interfaces";
 import WelcomeSection from "../components/WelcomeSection";
 
@@ -16,10 +15,7 @@ import AddButton from "../components/AddButton";
 
 import PatientsByAge from "../components/charts/PatientsByAge";
 import Categorization from "../components/charts/Categorization";
-import { Dialog, DialogContent } from "@/components/ui/dialog";
-import { ScrollArea } from "@/components/ui/scroll-area";
-import PatientRegistrationForm from "@/components/forms/PatientRegisterForm";
-import PatientsTable from "../components/PatientsTable";
+
 import { getProfessionalIncludesFromCookies } from "@/utils/getProfessionalIncludesFromCookies";
 import PatientCardWithActions from "../patients/components/PatientCardWithAction";
 
@@ -43,10 +39,8 @@ const ProfessionalDashboard = async () => {
   }: { institutionsIncluded: AppointmentsIncluded[] } = data;
 
   return (
-    // Reemplazá esto en tu componente donde está el layout principal
-
     <section className="w-full z-40 h-full flex-1 min-[768px]:grid min-[768px]:grid-cols-[60%,40%] lg:grid-cols-[70%,30%] overflow-y-auto overflow-x-hidden glass-effect-vibrant">
-      <Dialog>
+
         <div className="w-full bg-white rounded-lg h-auto flex flex-col gap-2 mx-auto items-center justify-start px-2 overflow-x-hidden max-w-full">
           {/* CHARTS */}
           <div className="w-full max-w-full mx-auto p-2 rounded-lg glass-effect-vibrant flex flex-col xl:grid xl:grid-cols-[60%,40%] text-color gap-1">
@@ -185,7 +179,7 @@ const ProfessionalDashboard = async () => {
         <div className="hidden min-[768px]:flex">
           <WelcomeSection professional={data} />
         </div>
-      </Dialog>
+
     </section>
   );
 };
