@@ -1,47 +1,45 @@
 "use client";
 import { useEffect, useState } from "react";
-import { usePathname, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 import Image from "next/image";
 import {
   AlertDialog,
   AlertDialogAction,
-  AlertDialogCancel,
   AlertDialogContent,
   AlertDialogDescription,
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
-  AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import {
   InputOTP,
   InputOTPGroup,
-  InputOTPSeparator,
   InputOTPSlot,
 } from "@/components/ui/input-otp";
 
 import closeImage from "../../../../public/assets/icons/close.svg";
-import { decryptKey, encryptKey } from "@/lib";
-import { dataTagSymbol } from "@tanstack/react-query";
-import { after } from "node:test";
+import { encryptKey } from "@/lib";
+
 const PasskeyModal = () => {
   const router = useRouter();
-  const [open, setOpen] = useState<boolean>(true);
+  const [open, setOpen] = useState(true);
   const [passkey, setPasskey] = useState("");
-  const [error, setError] = useState<string>("");
-  
-      const afterValidate = () => {
-       const data = localStorage.getItem("admin-accessKey")
-       if(data){
-         setOpen(false)
-         router.push("/admin/admin-panel/professional-list")
-       }
-      }
-      
+  const [error, setError] = useState("");
+
+  useEffect(() => {
+    if (!open) {
+      const timer = setTimeout(() => {
+        router.replace("/admin/admin-panel/professional-list");
+      }, 150);
+      return () => clearTimeout(timer);
+    }
+  }, [open, router]);
+
   const closeModal = () => {
     setOpen(false);
-    router.push("/");
+    router.replace("/");
   };
+
   const validatePasskey = (
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) => {
@@ -49,14 +47,15 @@ const PasskeyModal = () => {
     if (passkey === process.env.NEXT_PUBLIC_ADMIN_PASSKEY) {
       const encryptedKey = encryptKey(passkey);
       localStorage.setItem("admin-accessKey", encryptedKey);
-      afterValidate()
+      setError("");
+      setOpen(false);
     } else {
       setError("Invalid Passkey, try again Please");
     }
   };
+
   return (
-    <AlertDialog
-    open={open} onOpenChange={setOpen}>
+    <AlertDialog open={open} onOpenChange={setOpen}>
       <AlertDialogContent className="w-full max-w-[60%] bg-[rgb(41,41,41)] rounded-lg">
         <AlertDialogHeader className="text-white/50">
           <AlertDialogTitle className="flex items-start justify-between">
@@ -66,7 +65,7 @@ const PasskeyModal = () => {
               alt="close-icon"
               width={20}
               height={20}
-              onClick={() => closeModal()}
+              onClick={closeModal}
               className="cursor-pointer"
             />
           </AlertDialogTitle>
@@ -74,6 +73,7 @@ const PasskeyModal = () => {
             OTP - Verification is a must for admin access
           </AlertDialogDescription>
         </AlertDialogHeader>
+
         <div>
           <InputOTP
             maxLength={6}
@@ -81,12 +81,9 @@ const PasskeyModal = () => {
             onChange={(value) => setPasskey(value)}
           >
             <InputOTPGroup className="shad-otp">
-              <InputOTPSlot className="shad-otp-slot" index={0} />
-              <InputOTPSlot className="shad-otp-slot" index={1} />
-              <InputOTPSlot className="shad-otp-slot" index={2} />
-              <InputOTPSlot className="shad-otp-slot" index={3} />
-              <InputOTPSlot className="shad-otp-slot" index={4} />
-              <InputOTPSlot className="shad-otp-slot" index={5} />
+              {[0, 1, 2, 3, 4, 5].map((i) => (
+                <InputOTPSlot className="shad-otp-slot" key={i} index={i} />
+              ))}
             </InputOTPGroup>
           </InputOTP>
           {error && (
@@ -95,10 +92,9 @@ const PasskeyModal = () => {
             </p>
           )}
         </div>
+
         <AlertDialogFooter>
-          <AlertDialogAction
-          className="text-white/50"
-          onClick={(e) => validatePasskey(e)}>
+          <AlertDialogAction className="text-white/50" onClick={validatePasskey}>
             Enter Passkey
           </AlertDialogAction>
         </AlertDialogFooter>
