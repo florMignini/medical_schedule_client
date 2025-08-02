@@ -1,24 +1,9 @@
-import Header from "@/app/(landing)/components/Header";
-import Hero from "@/app/(landing)/components/Hero";
-import LogoTicker from "@/app/(landing)/components/LogoTicker";
-import ProductShowcase from "../components/ProductShowcase";
-import Testimonials from "../components/Testimonials";
-import Footer from "../components/Footer";
+import dynamic from "next/dynamic";
 
+const LandingClient = dynamic(() => import("../components/LandingClient"), {
+  ssr: false,
+});
 
-
-const LandingPage = async() => {
-
-  return (
-    <>
-      <Header />
-      <Hero />
-      <LogoTicker />
-      <ProductShowcase />
-      <Testimonials/>
-      <Footer/>
-    </>
-  );
-};
-
-export default LandingPage;
+export default function LandingPage() {
+  return <LandingClient />;
+}

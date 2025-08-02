@@ -1,14 +1,10 @@
+"use client"
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { usePathname, useRouter } from "next/navigation";
 import { cn } from "@/lib";
 import { ProfessionalInformation, toggleSideI } from "@/interfaces";
-
-
-
-import { closeSessionServer } from "@/app/actions";
-import { ProfessionalSidebarData } from "@/app/(professional)/professional/data";
 import { AnimatePresence, motion } from "framer-motion";
 import Search from "./Search";
 import { logout } from "./SidebarItems";
@@ -52,7 +48,7 @@ const Navbar = ({ isOpen, setIsOpen }: toggleSideI) => {
   const [searchOpen, setSearchOpen] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
   const dropdownRef = useRef<HTMLUListElement>(null);
-console.log(profInfo)
+
   useEffect(() => {
     let data = localStorage.getItem("infoProfSession");
     setProfInfo(data ? JSON.parse(data) : null);

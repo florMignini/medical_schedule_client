@@ -18,11 +18,24 @@ import Categorization from "../components/charts/Categorization";
 
 import { getProfessionalIncludesFromCookies } from "@/utils/getProfessionalIncludesFromCookies";
 import PatientCardWithActions from "../patients/components/PatientCardWithAction";
+import Loading from "../components/Loading";
 
 const ProfessionalDashboard = async () => {
   const cookieStore = cookies();
   const isDemo = cookieStore.get("isDemo")?.value === "true";
-  const { data } = await getProfessionalIncludesFromCookies();
+  let data;
+  try {
+    const res = await getProfessionalIncludesFromCookies();
+    data = res.data;
+  } catch (error) {
+    return <Loading  />;
+  }
+
+  // Validación simple por si data no viene correctamente
+  if (!data || !data.patientsIncluded || !data.institutionsIncluded) {
+    return <Loading  />;
+  }
+
   // @ts-ignore
   const { patientsIncluded }: { patientsIncluded: PatientsIncluded[] } = data;
 
