@@ -2,8 +2,7 @@
 
 import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
-import Image from "next/image";
-import logo from "../../../../public/assets/onlyIcon.png";
+import { LoaderCircle } from "lucide-react";
 
 const loadingMessages = [
   "Conectando con pacientes",
@@ -42,14 +41,7 @@ export default function Loading() {
         animate={{ rotate: 360 }}
         transition={{ repeat: Infinity, duration: 6, ease: "linear" }}
       >
-        <Image
-          src={logo}
-          alt="Medical Schedule logo"
-          width={100}
-          height={100}
-          priority
-          className="drop-shadow-[0_0_20px_rgba(0,255,100,0.5)]"
-        />
+        <LoaderCircle className="w-10 h-10 animate-spin text-green-400" />
       </motion.div>
 
       {/* Loading Message */}
