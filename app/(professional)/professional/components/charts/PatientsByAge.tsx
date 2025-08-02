@@ -33,7 +33,6 @@ interface PatientsByAgeProps {
   patients: PatientsIncluded[];
 }
 const PatientsByAge = ({ patients }: PatientsByAgeProps) => {
-
   const activePatients = useActivefilter(patients);
 
   const patient20F = filtrarByAgeRange(activePatients, 20, 29, "F");
@@ -75,63 +74,61 @@ const PatientsByAge = ({ patients }: PatientsByAgeProps) => {
       </CardHeader>
       <CardContent className="font-semibold text-white">
         <ChartContainer config={chartConfig}>
-          <ResponsiveContainer width="100%" height={hasData ? 300 : 100}>
-            {hasData ? (
-              <AreaChart
-                data={chartData}
-                margin={{ top: 20, right: 30, left: 0, bottom: 0 }}
-              >
-                <defs>
-                  <linearGradient id="femenino" x1="0" y1="0" x2="0" y2="1">
-                    <stop
-                      offset="5%"
-                      stopColor="hsl(var(--chart-1))"
-                      stopOpacity={0.8}
-                    />
-                    <stop
-                      offset="95%"
-                      stopColor="hsl(var(--chart-1))"
-                      stopOpacity={0}
-                    />
-                  </linearGradient>
-                  <linearGradient id="masculino" x1="0" y1="0" x2="0" y2="1">
-                    <stop
-                      offset="5%"
-                      stopColor="hsl(var(--chart-2))"
-                      stopOpacity={0.8}
-                    />
-                    <stop
-                      offset="95%"
-                      stopColor="hsl(var(--chart-2))"
-                      stopOpacity={0}
-                    />
-                  </linearGradient>
-                </defs>
-                <XAxis dataKey="age" />
-                <YAxis />
-                <CartesianGrid strokeDasharray="3 3" />
-                <ChartTooltip content={<ChartTooltipContent />} />
-                <Area
-                  type="monotone"
-                  dataKey="femenino"
-                  stroke="hsl(var(--chart-1))"
-                  fillOpacity={1}
-                  fill="url(#femenino)"
-                />
-                <Area
-                  type="monotone"
-                  dataKey="masculino"
-                  stroke="hsl(var(--chart-2))"
-                  fillOpacity={1}
-                  fill="url(#masculino)"
-                />
-              </AreaChart>
-            ) : (
-              <div className="text-base py-10 text-center">
-                Aún no posee información disponible
-              </div>
-            )}
-          </ResponsiveContainer>
+          {hasData ? (
+            <AreaChart
+              data={chartData}
+              margin={{ top: 20, right: 30, left: 0, bottom: 0 }}
+            >
+              <defs>
+                <linearGradient id="femenino" x1="0" y1="0" x2="0" y2="1">
+                  <stop
+                    offset="5%"
+                    stopColor="hsl(var(--chart-1))"
+                    stopOpacity={0.8}
+                  />
+                  <stop
+                    offset="95%"
+                    stopColor="hsl(var(--chart-1))"
+                    stopOpacity={0}
+                  />
+                </linearGradient>
+                <linearGradient id="masculino" x1="0" y1="0" x2="0" y2="1">
+                  <stop
+                    offset="5%"
+                    stopColor="hsl(var(--chart-2))"
+                    stopOpacity={0.8}
+                  />
+                  <stop
+                    offset="95%"
+                    stopColor="hsl(var(--chart-2))"
+                    stopOpacity={0}
+                  />
+                </linearGradient>
+              </defs>
+              <XAxis dataKey="age" />
+              <YAxis />
+              <CartesianGrid strokeDasharray="3 3" />
+              <ChartTooltip content={<ChartTooltipContent />} />
+              <Area
+                type="monotone"
+                dataKey="femenino"
+                stroke="hsl(var(--chart-1))"
+                fillOpacity={1}
+                fill="url(#femenino)"
+              />
+              <Area
+                type="monotone"
+                dataKey="masculino"
+                stroke="hsl(var(--chart-2))"
+                fillOpacity={1}
+                fill="url(#masculino)"
+              />
+            </AreaChart>
+          ) : (
+            <div className="text-base py-10 text-center">
+              Aún no posee información disponible
+            </div>
+          )}
         </ChartContainer>
       </CardContent>
     </Card>
