@@ -18,7 +18,7 @@ export function middleware(request: NextRequest) {
   if (token) console.log("🧪 Token:", token);
 
   // demo mode
-  if (isDemo){
+  if (isDemo || token ) {
     if (pathname === "/introducing-medical-schedule") {
       return NextResponse.redirect(new URL("/professional/dashboard", request.url));
     }
