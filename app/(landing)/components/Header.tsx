@@ -14,6 +14,16 @@ const Header = () => {
 
   const handleDemoLogin = async () => {
     try {
+      const isDemo = document.cookie.includes("isDemo=true");
+      if (isDemo) {
+        toast({
+          title: "Ya estás en modo demo",
+          description: "No es necesario iniciar sesión de nuevo.",
+          className: "bg-yellow-500 text-black",
+        });
+        router.push("/professional/dashboard");
+        return;
+      }
       const response = await axios.post<{
         access_token: string;
         user: any;
