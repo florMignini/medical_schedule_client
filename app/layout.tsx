@@ -4,7 +4,8 @@ import "./globals.css";
 import { cn } from "@/lib/utils";
 import { Toaster } from "@/components/ui/toaster";
 import Head from "./head";
-
+import Loading from "./(professional)/professional/components/Loading";
+import { Suspense } from "react";
 
 const PlusFont = Roboto({
   subsets: ["latin"],
@@ -18,24 +19,22 @@ export const metadata: Metadata = {
   description: "Patients and activities organizer for medical professionals",
 };
 
-
 export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en"
-    >
-      <Head/>
+    <html lang="en">
+      <Head />
       <body
         className={cn(
           "h-screen flex flex-col font-sans antialiased m-0 p-0 overflow-x-hidden",
           PlusFont.variable
         )}
       >
-        {children}
-        <Toaster/>
+        <Suspense fallback={<Loading />}>{children}</Suspense>
+        <Toaster />
       </body>
     </html>
   );

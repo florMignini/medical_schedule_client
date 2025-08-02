@@ -26,10 +26,12 @@ export default async function ProfessionalLayout({
   const cookieStore = cookies();
   const professionalId = cookieStore.get("professional-id")?.value;
   const isDemo = cookieStore.get("isDemo")?.value === "true";
-  if(!professionalId){
+  
+  const { data, appointments, institutions, patients } = await getProfessionalIncludesFromCookies();
+  if(!professionalId || !data){
     redirect("/introducing-medical-schedule")
   }
-  const { data, appointments, institutions, patients } = await getProfessionalIncludesFromCookies();
+
   return (
     <section className="flex flex-col">
       {/* content */}     
