@@ -5,9 +5,15 @@ import { cookies } from "next/headers";
 import { ProfessionalInformation } from "@/interfaces";
 import { apiServer } from "@/api/api-server";
 import { getProfessionalIncludesFromCookies } from "@/utils/getProfessionalIncludesFromCookies";
+import Loading from "../components/Loading";
 
 const Profile = async () => {
   const { data } = await getProfessionalIncludesFromCookies();
+  if(!data) {
+    return (
+      <Loading/>
+    );
+  }
   return (
     <section className="w-full h-auto flex pt-5 flex-col items-center justify-start gap-2 py-1">
       <WelcomeSection professional={data} />
