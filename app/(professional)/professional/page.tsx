@@ -45,7 +45,7 @@ export default function ProfessionalDashboard({
   return (
     <SelectedDateProvider>
       <section className="flex min-h-screen bg-[#111111]">
-        <div className="hidden lg:block w-64">
+        <div className="hidden lg:block w-52">
           <ProfessionalSidebar setIsOpen={setIsOpen} isOpen={true} variant="desktop" />
         </div>
 
