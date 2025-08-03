@@ -38,7 +38,7 @@ export default function PatientCardWithActions({
         {patientsIncluded?.map(({ patient }) => (
           <div
             key={patient.id}
-            className="relative w-full px-2 py-2 flex items-center justify-between border border-gray-300 rounded-md hover:bg-gray-50 hover:shadow transition group overflow-x-hidden"
+            className="relative w-full p-2 flex items-center justify-between border border-gray-300 rounded-md hover:bg-gray-200 transition group overflow-x-hidden"
           >
             {/* Link card */}
             <Link
