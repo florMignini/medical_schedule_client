@@ -20,7 +20,7 @@ export interface ProfessionalInformation {
   isActive: boolean;
   patientsIncluded?: PatientsIncluded[];
   appointmentsIncluded?: AppointmentsIncluded[];
-  institutionsIncluded?: any;
+  institutionsIncluded?: InstitutionsIncluded[];
 }
 
 export interface PatientsIncluded {
@@ -29,15 +29,15 @@ export interface PatientsIncluded {
   updatedAt: Date;
   patient: Patient;
 }
-export interface AppointmentsIncluded {
-  id: string;
-  createdAt: Date;
-  updatedAt: Date;
-  appointment: Appointment;
-}
 export interface InstitutionsIncluded {
   id: string;
   createdAt: Date;
   updatedAt: Date;
   institution: ICreateInstitution;
+}
+export interface AppointmentsIncluded {
+  id: string;
+  createdAt: Date;
+  updatedAt: Date;
+  appointment: Appointment;
 }

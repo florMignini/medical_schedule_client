@@ -1,9 +1,9 @@
 export interface ICreateInstitution {
   id: string;
-  name?: string | undefined;
-  address?: string | undefined;
-  email?: string | undefined;
-  phone?: string | undefined;
-  website?: string | undefined;
-  institutionImage?: string | undefined;
+  name: string;
+  address: string;
+  email: string;
+  phone: string;
+  website: string;
+  institutionImage: string;
 }
