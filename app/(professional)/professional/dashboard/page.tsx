@@ -9,7 +9,7 @@ import WelcomeSection from "../components/WelcomeSection";
 import AddButton from "../components/AddButton";
 
 import PatientsByAge from "../components/charts/PatientsByAge";
-import Categorization from "../components/charts/AppointmentsPerWeekChart";
+
 
 import { getProfessionalIncludesFromCookies } from "@/utils/getProfessionalIncludesFromCookies";
 import PatientCardWithActions from "../patients/components/PatientCardWithAction";
@@ -29,7 +29,6 @@ const ProfessionalDashboard = async () => {
     return <Loading />;
   }
 
-  // Validación simple por si data no viene correctamente
   if (!data || !data.patientsIncluded || !data.institutionsIncluded) {
     return <Loading />;
   }

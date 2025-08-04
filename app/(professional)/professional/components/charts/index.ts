@@ -1,3 +1,3 @@
-export * from './Categorization';
+export * from './AppointmentsPerWeekChart';
 export * from './PatientsByAge';
 export * from './TotalPatientVsTodayPatient';
