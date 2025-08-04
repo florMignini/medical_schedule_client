@@ -15,6 +15,7 @@ interface Props {
   setSelectedDate: (date: Date) => void;
   today: dayjs.Dayjs;
   holidays: any[];
+  isDemo?: boolean;
 }
 
 const CalendarDay = ({
@@ -26,6 +27,7 @@ const CalendarDay = ({
   setSelectedDate,
   today,
   holidays,
+  isDemo = false,
 }: Props) => {
   const date = dayjs(`${currentYear}-${currentMonth + 1}-${day}`);
   const formattedDate = date.format("YYYY-MM-DD");

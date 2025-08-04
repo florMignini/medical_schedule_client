@@ -10,7 +10,6 @@ import AddButton from "../components/AddButton";
 
 import PatientsByAge from "../components/charts/PatientsByAge";
 
-
 import { getProfessionalIncludesFromCookies } from "@/utils/getProfessionalIncludesFromCookies";
 import PatientCardWithActions from "../patients/components/PatientCardWithAction";
 import Loading from "../components/Loading";
@@ -104,12 +103,7 @@ const ProfessionalDashboard = async () => {
           </h2>
 
           {institutionsIncluded.length < 1 ? (
-            <div className="w-full flex items-center justify-center gap-4">
-              <p className="text-gray-600">
-                Aún no posee instituciones activas
-              </p>
-              <AddButton to="/professional/institution-registration" />
-            </div>
+            <p className="text-gray-600">Aún no posee instituciones activas</p>
           ) : (
             <InstitutionCardWithActions
               institutionsIncluded={institutionsIncluded}

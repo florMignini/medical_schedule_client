@@ -30,7 +30,7 @@ export default function InstitutionCardWithActions({
         {institutionsIncluded?.map(({ institution }) => (
           <div
             key={institution.id}
-            className="relative w-full p-2 flex items-center justify-between border border-gray-300 rounded-md hover:bg-gray-200 hover:shadow transition group overflow-x-hidden"
+            className="relative w-full h-15 p-2 flex items-center justify-between border border-gray-300 rounded-md hover:bg-gray-200 hover:shadow transition group overflow-x-hidden"
           >
             <Link
               href={
