@@ -25,7 +25,7 @@ const PastAppointmentForm = ({ patient, appointment }: any) => {
       diagnosis: "",
       prescription: "",
       notes: "",
-      scheduled: new Date(appointment.schedule),
+      scheduled: new Date(appointment?.schedule),
       patientAttachedFilesUrl: [],
     },
   });
