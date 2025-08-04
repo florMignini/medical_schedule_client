@@ -10,7 +10,7 @@ import { AppointmentSkeletonLoader } from "./components/AppointmentSkeletonLoade
 const Appointments = () => {
   const [loading, setLoading] = useState(true);
 
-  const { data, appointments, patients, isLoading, refetch } =
+  const { data, appointments, patients, isDemo, isLoading, refetch } =
     useProfessionalIncludes();
 
   return (
@@ -40,13 +40,14 @@ const Appointments = () => {
           {/* Main Content */}
           <main className="w-full grid grid-cols-1 md:grid-cols-2 gap-8">
             <div className="glass-effect-vibrant rounded-lg p-4 shadow-inner">
-              <Calendar appointments={appointments} />
+              <Calendar isDemo={isDemo} appointments={appointments} />
             </div>
             <div className="glass-effect-vibrant rounded-lg p-4 shadow-inner">
               <AppointmentsList
+                isDemo={isDemo}
                 patients={patients}
                 appointments={appointments}
-                pastAppointmentPatientData={[]} 
+                pastAppointmentPatientData={[]}
                 refetch={refetch}
               />
             </div>

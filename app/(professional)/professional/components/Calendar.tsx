@@ -6,8 +6,15 @@ import CalendarDay from "./CalendarDay";
 import CalendarHeader from "./CalendarHeader";
 import { motion, AnimatePresence } from "framer-motion";
 import { variants } from "@/lib/variants";
+import { AppointmentsIncluded } from "@/interfaces";
+import clsx from "clsx";
 
-const Calendar = ({ appointments }: any) => {
+type calendarListProps = {
+  appointments: Array<AppointmentsIncluded>;
+  isDemo?: boolean;
+};
+
+const Calendar = ({ appointments, isDemo = false }: calendarListProps) => {
   const {
     daysInMonth,
     startDay,
@@ -27,8 +34,20 @@ const Calendar = ({ appointments }: any) => {
       initial={{ opacity: 0, y: 10 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.3 }}
-      className="w-full p-6 bg-white/70 backdrop-blur-md rounded-3xl shadow-xl border border-gray-200"
+      className={clsx(
+        "relative w-full p-6 rounded-3xl shadow-xl border",
+        isDemo
+          ? "bg-yellow-50 border-yellow-300"
+          : "bg-white/70 backdrop-blur-md border-gray-200"
+      )}
     >
+      {/* Badge superior derecha */}
+      {isDemo && (
+        <div className="absolute top-3 right-4 text-yellow-800 text-xs font-semibold bg-yellow-200 px-2 py-0.5 rounded-full shadow-sm">
+          🧪 Modo Demo
+        </div>
+      )}
+
       <CalendarHeader
         currentMonth={currentMonth}
         currentYear={currentYear}
@@ -80,6 +99,7 @@ const Calendar = ({ appointments }: any) => {
                   currentYear={currentYear}
                   today={today}
                   holidays={holidays}
+                  isDemo={isDemo} // <<< extra: si querés usarlo dentro de CalendarDay
                 />
               ))}
             </motion.div>

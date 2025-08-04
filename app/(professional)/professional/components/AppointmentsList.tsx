@@ -25,6 +25,7 @@ type appointmentListProps = {
   appointments: Array<AppointmentsIncluded>;
   patients: Array<PatientsIncluded>;
   pastAppointmentPatientData: any;
+  isDemo?: boolean;
   refetch?: () => void;
 };
 
@@ -32,6 +33,7 @@ const AppointmentsList = ({
   appointments,
   patients,
   pastAppointmentPatientData,
+  isDemo=false,
   refetch,
 }: appointmentListProps) => {
   const [patientId, setPatientId] = useState<any | null>(null);
@@ -188,6 +190,7 @@ const AppointmentsList = ({
               <NewAppointmentForm
                 key="create"
                 type="create"
+                isDemo={isDemo}
                 patientId={patientId}
                 initialDateTime={selectedTime}
                 component="calendar"
@@ -203,6 +206,7 @@ const AppointmentsList = ({
             {turnoOcita !== "turno" && currentAppointment && (
               <AppointmentDialogDetail
                 key="update"
+                isDemo={isDemo}
                 patientData={patientData}
                 patientId={patientId}
                 initialDateTime={selectedTime}
