@@ -16,6 +16,12 @@ import AppointmentDialogDetail from "../../../components/AppointmentDialogDetail
 import { useToast } from "@/hooks/use-toast";
 import { DinamicPage } from "../../../data";
 import { PatientInfoSection } from "../../../components";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
 
 interface Props {
   patient: Patient;
@@ -52,6 +58,7 @@ const PatientInfo = ({ patient, isDemo }: Props) => {
       </button>
     ))}
   </div>;
+
   return (
     <section className="w-full min-h-screen bg-white p-4 sm:p-6 md:p-8 space-y-6">
       {/* Header with photo and basic info */}
@@ -62,7 +69,7 @@ const PatientInfo = ({ patient, isDemo }: Props) => {
         onAddFollowUp={() => setTurnoOcita("Seguimiento")}
       />
 
-      {/* Tabs dinámicos para navegar entre secciones */}
+      {/* dinamic tabs for sections navigation */}
       <PatientSectionNav current={dinamicPage} onChange={setDinamicPage} />
 
       <div className="w-full pt-4 px-2 sm:px-4">
@@ -102,55 +109,63 @@ const PatientInfo = ({ patient, isDemo }: Props) => {
           )}
         </AnimatePresence>
       </div>
-
-      {turnoOcita === "Turno" && (
-  <NewAppointmentForm
-    key="create"
-    type="create"
-    component="patient-info"
-    initialDateTime={new Date()}
-    patientId={patient.id}
-    patientsList={[{ patient }]}
-    isDemo={isDemo}
-    onSuccess={() => {
-      setTurnoOcita(null);
-      toast({
-        title: isDemo ? "Simulación de Turno" : "Turno agendado",
-        description: isDemo
-          ? "Este turno fue simulado en modo demo."
-          : "El turno se ha agendado correctamente.",
-        duration: 3000,
-        className: isDemo
-          ? "bg-yellow-500/10 text-yellow-800"
-          : "bg-emerald-500/10 text-emerald-500",
-      });
-    }}
-  />
-)}
-{turnoOcita === "Seguimiento" && (
-  <AppointmentDialogDetail
-    key="followup"
-    type="create"
-    initialDateTime={new Date()}
-    patientId={patient.id}
-    patientData={patient}
-    isDemo={isDemo} // <-- también aquí
-    onSuccess={() => {
-      setTurnoOcita(null);
-      toast({
-        title: isDemo ? "Simulación de Seguimiento" : "Seguimiento creado",
-        description: isDemo
-          ? "Este seguimiento fue simulado en modo demo."
-          : "El seguimiento se ha creado correctamente.",
-        duration: 3000,
-        className: isDemo
-          ? "bg-yellow-500/10 text-yellow-800"
-          : "bg-emerald-500/10 text-emerald-500",
-      });
-    }}
-  />
-)}
-
+      <Dialog open={!!turnoOcita} onOpenChange={() => setTurnoOcita(null)}>
+        <DialogContent className="max-w-xl w-full backdrop-blur-md bg-white/10 border border-gray-200 rounded-xl p-6">
+          <DialogHeader>
+            <DialogTitle className="text-lg font-semibold text-white">
+              {turnoOcita === "Turno" ? "Nuevo Turno" : "Nuevo Seguimiento"}
+            </DialogTitle>
+          </DialogHeader>
+          {turnoOcita === "Turno" ? (
+            <NewAppointmentForm
+              key="create"
+              type="create"
+              component="patient-info"
+              initialDateTime={new Date()}
+              patientId={patient.id}
+              patientsList={[{ patient }]}
+              isDemo={isDemo}
+              onSuccess={() => {
+                setTurnoOcita(null);
+                toast({
+                  title: isDemo ? "Simulación de Turno" : "Turno agendado",
+                  description: isDemo
+                    ? "Este turno fue simulado en modo demo."
+                    : "El turno se ha agendado correctamente.",
+                  duration: 3000,
+                  className: isDemo
+                    ? "bg-yellow-500/10 text-black backdrop-blur-md"
+                    : "bg-emerald-500/10 text-emerald-500 backdrop-blur-md",
+                });
+              }}
+            />
+          ) : (
+            <AppointmentDialogDetail
+              key="followup"
+              type="update"
+              initialDateTime={new Date()}
+              patientId={patient.id}
+              patientData={patient}
+              isDemo={isDemo}
+              onSuccess={() => {
+                setTurnoOcita(null);
+                toast({
+                  title: isDemo
+                    ? "Simulación de Seguimiento"
+                    : "Seguimiento creado",
+                  description: isDemo
+                    ? "Este seguimiento fue simulado en modo demo."
+                    : "El seguimiento se ha creado correctamente.",
+                  duration: 3000,
+                  className: isDemo
+                    ? "bg-yellow-500/10 text-black backdrop-blur-md"
+                    : "bg-emerald-500/10 text-emerald-500 backdrop-blur-md",
+                });
+              }}
+            />
+          )}
+        </DialogContent>
+      </Dialog>
     </section>
   );
 };
