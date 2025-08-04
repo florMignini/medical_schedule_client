@@ -22,14 +22,14 @@ export default function PatientActionBar({
         Crear turno
       </Button>
 
-      <Button
+      {/* <Button
         onClick={onAddFollowUp}
         variant="outline"
         className="w-full sm:w-auto border-emerald-600 text-emerald-700 hover:bg-emerald-50"
       >
         <Stethoscope className="mr-2 h-4 w-4" />
         Agregar seguimiento
-      </Button>
+      </Button> */}
     </div>
   );
 }

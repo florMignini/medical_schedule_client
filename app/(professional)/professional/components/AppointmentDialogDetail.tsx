@@ -22,7 +22,7 @@ const AppointmentDialogDetail = ({
   initialDateTime,
   type = "update",
   patientData,
-  isDemo = false, // 👈 default false por si no se pasa
+  isDemo = false
 }: AppointmentDialogDetailProps) => {
   const [requiereSeguimiento, setRequiereSeguimiento] = useState(false);
 
