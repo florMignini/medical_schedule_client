@@ -50,7 +50,8 @@ export const PatientInfoSection = (patientInfo: Patient) => {
   const sectionRef = useRef<HTMLDivElement>(null);
 
   const exportPDF = async() => {
-    const html2pdf = (await import("html2pdf.js")) as any;
+    const { default: html2pdf } = await import("html2pdf.js");
+
     if (sectionRef.current) {
       html2pdf()
         .set({
@@ -81,88 +82,68 @@ export const PatientInfoSection = (patientInfo: Patient) => {
           Exportar PDF
         </Button>
       </div>
-      {/* 🩺 Sección Personal */}
-      <div className="w-full max-w-6xl bg-[#262626] rounded-xl px-4 py-5 shadow-inner space-y-6">
-        <div className="flex items-center gap-2">
-          <div className="h-5 border-l-2 border-emerald-500" />
-          <h2 className="text-sm lg:text-base font-mono text-white">
-            Información Personal
-          </h2>
+  
+      {/* ⬇️ Este bloque tiene el ref asignado ⬇️ */}
+      <div ref={sectionRef} className="flex flex-col gap-6">
+        {/* 🩺 Sección Personal */}
+        <div className="w-full max-w-6xl bg-[#262626] rounded-xl px-4 py-5 shadow-inner space-y-6">
+          <div className="flex items-center gap-2">
+            <div className="h-5 border-l-2 border-emerald-500" />
+            <h2 className="text-sm lg:text-base font-mono text-white">
+              Información Personal
+            </h2>
+          </div>
+  
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+            <InfoItem label="Género" value={gender === "F" ? "Femenino" : "Masculino"} />
+            <InfoItem label="Email" value={email} />
+            <InfoItem label="Ocupación" value={occupation} />
+            <InfoItem label="Teléfono" value={phone} />
+            <InfoItem label="Dirección" value={address} />
+            <InfoItem label="Seguro Médico" value={`${insuranceProvider || "—"} - N° ${insurancePolicyNumber || "—"}`} />
+            <InfoItem label="Tipo y Factor de Sangre" value={`${bloodType ?? "—"} ${bloodFactor === "Negativo" ? "-" : "+"}`} />
+            <InfoItem label="Contacto de Emergencia" value={emergencyContactName} />
+            <InfoItem label="Número de Emergencia" value={emergencyContactNumber} />
+          </div>
         </div>
-
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-          <InfoItem
-            label="Género"
-            value={gender === "F" ? "Femenino" : "Masculino"}
-          />
-          <InfoItem label="Email" value={email} />
-          <InfoItem label="Ocupación" value={occupation} />
-          <InfoItem label="Teléfono" value={phone} />
-          <InfoItem label="Dirección" value={address} />
-          <InfoItem
-            label="Seguro Médico"
-            value={`${insuranceProvider || "—"} - N° ${
-              insurancePolicyNumber || "—"
-            }`}
-          />
-          <InfoItem
-            label="Tipo y Factor de Sangre"
-            value={`${bloodType ?? "—"} ${
-              bloodFactor === "Negativo" ? "-" : "+"
-            }`}
-          />
-          <InfoItem
-            label="Contacto de Emergencia"
-            value={emergencyContactName}
-          />
-          <InfoItem
-            label="Número de Emergencia"
-            value={emergencyContactNumber}
-          />
+  
+        {/* 🧬 Sección Médica */}
+        <div className="w-full max-w-6xl bg-[#262626] rounded-xl px-4 py-5 shadow-inner space-y-6">
+          <div className="flex items-center gap-2">
+            <div className="h-5 border-l-2 border-emerald-500" />
+            <h2 className="text-sm lg:text-base font-mono text-white">
+              Información Médica
+            </h2>
+          </div>
+  
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+            <InfoItem label="Fumador" value={smoker} />
+            <InfoItem label="Ex Fumador" value={exSmoker} />
+            <InfoItem label="Alergico/a" value={allergic} />
+            <InfoItem label="Alergias" value={allergies} />
+            <InfoItem label="Peso (kg)" value={patientWeight} />
+            <InfoItem label="Altura (cm)" value={patientHeight} />
+            <InfoItem label="IMC" value={patientBMI} />
+            <InfoItem label="Porcentaje de Grasa Corporal" value={patientBFP} />
+          </div>
         </div>
-      </div>
-
-      {/* 🧬 Sección Médica */}
-      <div className="w-full max-w-6xl bg-[#262626] rounded-xl px-4 py-5 shadow-inner space-y-6">
-        <div className="flex items-center gap-2">
-          <div className="h-5 border-l-2 border-emerald-500" />
-          <h2 className="text-sm lg:text-base font-mono text-white">
-            Información Médica
-          </h2>
-        </div>
-
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-          <InfoItem label="Fumador" value={smoker} />
-          <InfoItem label="Ex Fumador" value={exSmoker} />
-          <InfoItem label="Alergico/a" value={allergic} />
-          <InfoItem label="Alergias" value={allergies} />
-          <InfoItem label="Peso (kg)" value={patientWeight} />
-          <InfoItem label="Altura (cm)" value={patientHeight} />
-          <InfoItem label="IMC" value={patientBMI} />
-          <InfoItem label="Porcentaje de Grasa Corporal" value={patientBFP} />
-        </div>
-      </div>
-
-      {/* 📚 Antecedentes */}
-      <div className="w-full max-w-6xl bg-[#262626] rounded-xl px-4 py-5 shadow-inner space-y-6">
-        <div className="flex items-center gap-2">
-          <div className="h-5 border-l-2 border-emerald-500" />
-          <h2 className="text-sm lg:text-base font-mono text-white">
-            Antecedentes Médicos
-          </h2>
-        </div>
-
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-          <InfoItem
-            label="Antecedentes Familiares"
-            value={familyMedicalHistory}
-          />
-          <InfoItem
-            label="Antecedentes Personales"
-            value={medicalHistoryType}
-          />
+  
+        {/* 📚 Antecedentes */}
+        <div className="w-full max-w-6xl bg-[#262626] rounded-xl px-4 py-5 shadow-inner space-y-6">
+          <div className="flex items-center gap-2">
+            <div className="h-5 border-l-2 border-emerald-500" />
+            <h2 className="text-sm lg:text-base font-mono text-white">
+              Antecedentes Médicos
+            </h2>
+          </div>
+  
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+            <InfoItem label="Antecedentes Familiares" value={familyMedicalHistory} />
+            <InfoItem label="Antecedentes Personales" value={medicalHistoryType} />
+          </div>
         </div>
       </div>
     </section>
   );
+  
 };
