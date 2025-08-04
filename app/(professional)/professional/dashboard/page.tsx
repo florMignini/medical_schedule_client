@@ -4,18 +4,19 @@ import {
   InstitutionsIncluded,
   PatientsIncluded,
 } from "@/interfaces";
+import Link from "next/link";
 import WelcomeSection from "../components/WelcomeSection";
-
 import AddButton from "../components/AddButton";
 
 import PatientsByAge from "../components/charts/PatientsByAge";
-import Categorization from "../components/charts/Categorization";
+import Categorization from "../components/charts/AppointmentsPerWeekChart";
 
 import { getProfessionalIncludesFromCookies } from "@/utils/getProfessionalIncludesFromCookies";
 import PatientCardWithActions from "../patients/components/PatientCardWithAction";
 import Loading from "../components/Loading";
 import InstitutionCardWithActions from "../institutions/components/InstitutionCardWithActions";
-import Link from "next/link";
+import StatsCardsWrapper from "../components/StatsCardsWrapper";
+import AppointmentsPerWeekChart from "../components/charts/AppointmentsPerWeekChart";
 
 const ProfessionalDashboard = async () => {
   const cookieStore = cookies();
@@ -48,27 +49,38 @@ const ProfessionalDashboard = async () => {
   }: { institutionsIncluded: InstitutionsIncluded[] } = data;
 
   return (
-    <section className="w-full h-full flex flex-col lg:grid lg:grid-cols-[70%,30%] overflow-y-auto px-4 py-4 gap-4 bg-[#f9fafa]">
+    <section className="w-full h-full flex flex-col lg:grid lg:grid-cols-[70%,30%] overflow-y-auto px-4 py-4 gap-4 bg-gradient-to-br from-[#f0f4f8] via-[#f9fafa] to-[#e8f0ff]">
       <div className="w-full bg-white rounded-lg h-auto flex flex-col gap-2 mx-auto items-center justify-start px-2 overflow-x-hidden max-w-full">
+        <StatsCardsWrapper
+          data={[
+            { label: "Pacientes", value: patientsIncluded.length },
+            { label: "Turnos", value: appointmentsIncluded.length },
+            { label: "Seguimientos", value: followsUpIncluded.length },
+          ]}
+        />
+
         {/* CHARTS */}
         <div className="w-full grid grid-cols-1 md:grid-cols-2 gap-4">
           <div className="bg-white shadow-md rounded-xl p-4">
             <PatientsByAge patients={patientsIncluded} />
           </div>
-          <div className="bg-white shadow-md rounded-xl p-4">
-            <Categorization
-              appointments={appointmentsIncluded.length}
-              followsUp={followsUpIncluded.length}
-            />
+          <div className="bg-white/40 backdrop-blur-md shadow-md rounded-xl p-4 border border-white/20">
+            <h2 className="text-lg font-semibold mb-2 text-gray-700">
+              Turnos por día (últimos 7 días)
+            </h2>
+            <AppointmentsPerWeekChart appointments={appointmentsIncluded} />
           </div>
         </div>
 
         {/* PACIENTES */}
-        <Link 
-        href={"/professional/patients"}
-        className="bg-white shadow-lg rounded-xl mt-6 p-6 w-full">
+        <Link
+          href={"/professional/patients"}
+          className="bg-white shadow-lg rounded-xl mt-6 p-6 w-full"
+        >
           <div className="flex justify-between items-center mb-4">
-            <h2 className="text-xl font-semibold text-gray-800 hover:text-gray-400">Pacientes</h2>
+            <h2 className="text-xl font-semibold text-gray-800 hover:text-gray-400">
+              Pacientes
+            </h2>
           </div>
 
           {patientsIncluded.length < 1 ? (
