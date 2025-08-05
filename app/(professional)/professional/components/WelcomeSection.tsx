@@ -12,7 +12,7 @@ const WelcomeSection = ({ professional }: { professional: ProfessionalInformatio
   const newPatientsThisMonth = 18;
   const todayAppointments = 4;
   const todayPatients = 5;
-
+console.log(professional);
   return (
     <section className="w-full max-w-5xl mx-auto flex flex-col  gap-3 p-4">
       {/* Card Izquierda */}
@@ -21,7 +21,7 @@ const WelcomeSection = ({ professional }: { professional: ProfessionalInformatio
           <div className="absolute left-1/2 top-full -translate-x-1/2 -translate-y-1/2">
             <Image
               src={
-                professional.userImage ||
+                professional?.userImage ||
                 (professional.gender === "M"
                   ? `https://avatar.iran.liara.run/public/job/doctor/male`
                   : `https://avatar.iran.liara.run/public/job/doctor/female`)

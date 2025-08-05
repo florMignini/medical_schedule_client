@@ -46,7 +46,7 @@ const [loginError, setLoginError] = useState<string>()
     setLoading(true);
     try {
       const res = await loginUser(value);
-      console.log(res)
+
       localStorage.setItem('infoProfSession', JSON.stringify({
         firstname: res?.firstName,
         lastname: res?.lastName,

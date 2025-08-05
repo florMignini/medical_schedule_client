@@ -8,6 +8,13 @@ import { ProfessionalInformation, toggleSideI } from "@/interfaces";
 import { AnimatePresence, motion } from "framer-motion";
 import Search from "./Search";
 import { logout } from "./SidebarItems";
+type ProfessionalStorageInformation = {
+  firstname:string;
+  gender:string;
+  id:string;
+  lastname:string;
+  userImage?: string;
+};
 
 const BackIcon = () => (
   <svg
@@ -43,7 +50,7 @@ const Navbar = ({ isOpen, setIsOpen }: toggleSideI) => {
   const router = useRouter();
   const pathname = usePathname();
   let path = pathname && pathname.split("/")[pathname.split("/").length - 1];
-  const [profInfo, setProfInfo] = useState<ProfessionalInformation | null>(null);
+  const [profInfo, setProfInfo] = useState<ProfessionalStorageInformation | null>(null);
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
@@ -98,7 +105,7 @@ const Navbar = ({ isOpen, setIsOpen }: toggleSideI) => {
 
         {/* Dr. Greeting */}
         <div className="text-white text-center font-semibold text-lg select-none">
-          {`Hola, ${profInfo?.username}!`}
+          <p className="truncate">{`Hola, ${profInfo?.firstname} ${profInfo?.lastname}!`}</p>
         </div>
 
         {/* right section: Glass + avatar & dropdown mobile only */}

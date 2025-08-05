@@ -19,7 +19,7 @@ interface Props {
 export default function AppointmentsPerWeekChart({ appointments }: Props) {
   const today = dayjs();
   const last7Days = [...Array(7)].map((_, i) => today.subtract(i, "day").startOf("day"));
-console.log(appointments)
+
   const data = last7Days
     .map((day) => {
       const count = appointments.filter(({appointment}) =>
