@@ -72,14 +72,17 @@ const ProfessionalDashboard = async () => {
         </div>
 
         {/* PACIENTES */}
-        <Link
-          href={"/professional/patients"}
-          className="bg-white shadow-lg rounded-xl mt-6 p-6 w-full"
-        >
+        <div className="bg-white shadow-lg rounded-xl mt-6 p-6 w-full">
           <div className="flex justify-between items-center mb-4">
             <h2 className="text-xl font-semibold text-gray-800 hover:text-gray-400">
               Pacientes
             </h2>
+            <Link
+              href="/professional/patients"
+              className="text-blue-600 hover:font-bold text-sm"
+            >
+              Ver todos
+            </Link>
           </div>
 
           {patientsIncluded.length < 1 ? (
@@ -90,18 +93,22 @@ const ProfessionalDashboard = async () => {
               isDemo={isDemo}
             />
           )}
-        </Link>
+        </div>
 
         {/* INSTITUCIONES */}
 
-        <Link
-          href="/professional/institutions"
-          className="bg-white shadow-lg rounded-xl mt-6 p-6 w-full"
-        >
-          <h2 className="hover:text-gray-400 text-xl font-semibold text-gray-800 mb-4">
-            Instituciones
-          </h2>
-
+        <div className="bg-white shadow-lg rounded-xl mt-6 p-6 w-full">
+          <div className="flex justify-between items-center mb-4">
+            <h2 className="text-xl font-semibold text-gray-800 hover:text-gray-400">
+              Instituciones
+            </h2>
+            <Link
+              href="/professional/institutions"
+              className="text-blue-600 hover:font-bold text-sm"
+            >
+              Ver todos
+            </Link>
+          </div>
           {institutionsIncluded.length < 1 ? (
             <p className="text-gray-600">Aún no posee instituciones activas</p>
           ) : (
@@ -110,7 +117,7 @@ const ProfessionalDashboard = async () => {
               isDemo={isDemo}
             />
           )}
-        </Link>
+        </div>
       </div>
 
       {/* Right section */}

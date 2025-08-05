@@ -2,6 +2,7 @@ import { apiServer } from "@/api/api-server";
 import ProfessionalPasswordUpdateForm from "@/components/forms/ProfessionalPasswordUpdateForm";
 import ProfessionalProfileUpdateForm from "@/components/forms/ProfessionalProfileUpdateForm";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { API_BASE_URL } from "@/lib/constants.api";
 
 import { cookies } from "next/headers";
 
@@ -11,8 +12,8 @@ const ProfessionalProfileUpdate = async () => {
     const isDemo = cookieStore.get("isDemo")?.value ? true : false;
 
   const baseUrl = isDemo
-    ? "https://medical-schedule-server-demo.onrender.com/api"
-    : "https://medical-schedule-server.onrender.com/api";
+    ? API_BASE_URL.demo
+    : API_BASE_URL.prod;
 
   let data : any = await fetch(
     `${baseUrl}/professional/get-for-update/${professionalId}`,

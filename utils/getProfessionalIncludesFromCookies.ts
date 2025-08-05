@@ -1,4 +1,5 @@
 import { ProfessionalInformation } from "@/interfaces";
+import { API_BASE_URL } from "@/lib/constants.api";
 import { cookies } from "next/headers";
 
 export async function getProfessionalIncludesFromCookies() {
@@ -17,8 +18,8 @@ export async function getProfessionalIncludesFromCookies() {
   }
 
   const apiBase = isDemo
-    ? "https://medical-schedule-server-demo.onrender.com/api"
-    : "https://medical-schedule-server.onrender.com/api";
+    ? API_BASE_URL.demo
+    : API_BASE_URL.prod;
 
   const res = await fetch(`${apiBase}/professional/get-professional/${professionalId}`, {
     cache: "no-store",
