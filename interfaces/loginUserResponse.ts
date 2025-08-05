@@ -1,5 +1,5 @@
 export interface LoginUserResponse {
-  accessToken: string;
+  access_token: string;
   professional: IProfessional;
 }
 

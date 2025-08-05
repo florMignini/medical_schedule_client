@@ -17,7 +17,7 @@ export async function loginUser(loginData: IloginData) {
   "use server";
   try {
     const  {data}  = await apiServer.post<LoginUserResponse>(`https://medical-schedule-server.onrender.com/api/auth/login`, loginData);
-    cookies().set("session-token", data?.accessToken, { secure: true });
+    cookies().set("session-token", data?.access_token, { secure: true });
     cookies().set("professional-id", data?.professional.id, { secure: true });
     return data.professional;
   } catch (error:any) {
