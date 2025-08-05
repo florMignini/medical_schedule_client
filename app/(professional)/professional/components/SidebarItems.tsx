@@ -36,7 +36,7 @@ const SidebarItems = ({setIsOpen}:{
       </Link>
       {ProfessionalSidebarData.map((item)=>(
         <Link
-          key={item.label}
+          key={`${item.label}-${item.path}`}
           href={item.path}
           className="flex items-center gap-2 p-2 rounded hover:bg-gray-200/20 transition-colors"
         onClick={() => setIsOpen(false)}
@@ -48,7 +48,6 @@ const SidebarItems = ({setIsOpen}:{
       </div>
       <button className='flex items-center gap-2 p-2 rounded hover:bg-gray-200/20 transition-colors'
       onClick={() => {
-        console.log(`cerrar sesión`);
         setIsOpen(false);
       }}>
         <LogOut size={25}/>
