@@ -3,6 +3,9 @@
 @tailwind utilities;
 
 /* ========================================== TAILWIND STYLES */
+html {
+  scroll-behavior: smooth;
+}
 
 @layer components {
   .logo-ticker-image {
