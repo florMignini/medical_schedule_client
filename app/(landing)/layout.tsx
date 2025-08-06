@@ -1,30 +1,20 @@
-import type { Metadata } from "next";
-import { Roboto } from "next/font/google";
-import { cn } from "@/lib/utils";
+"use client"; // Porque usamos dynamic import y hooks en Header/Footer
 
-const PlusFont = Roboto({
-  subsets: ["latin"],
-  weight: ["100", "300", "400", "500", "700"],
-  variable: "--font-plus",
-  display: "swap", // Ensure font is loaded asynchronously to avoid FOIT (Flash of Invisible Text)
-});
+import dynamic from "next/dynamic";
 
-export const metadata: Metadata = {
-  title: "Medical Schedule App",
-  description: "Patients and activities organizer for medical professionals",
-};
+const Header = dynamic(() => import("./components/Header"), { ssr: false });
+// const Footer = dynamic(() => import("@/components/Footer"), { ssr: false });
 
+interface LandingLayoutProps {
+  children: React.ReactNode;
+}
 
-export default function LandingLayout({ children }: { children: React.ReactNode }) {
-    return (
-        <div
-          className={cn(
-            "h-screen flex flex-col bg-[#F2F3F0] font-sans antialiased m-0 p-0 overflow-x-hidden",
-            PlusFont.variable
-          )}
-        >
-          {children}
-        </div>
-    );
-  }
-  
+export default function LandingLayout({ children }: LandingLayoutProps) {
+  return (
+    <div className="flex flex-col min-h-screen">
+      <Header />
+      <main className="flex-grow">{children}</main>
+      {/* <Footer /> */}
+    </div>
+  );
+}
