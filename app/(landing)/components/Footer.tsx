@@ -1,41 +1,60 @@
-import Image from "next/image";
-import onlyIcon from "../../../public/assets/onlyIcon.png";
+"use client";
+
+import { Github, Linkedin } from "lucide-react";
 import Link from "next/link";
-// icons imports
-import LinkedIn from "@/app/(professional)/professional/components/icons/LinkedIn";
-import NewTwitter from "@/app/(professional)/professional/components/icons/NewTwitter";
-import Instagram from "@/app/(professional)/professional/components/icons/Instagram";
-import GithubIcon from "@/app/(professional)/professional/components/icons/Github";
-const Footer = () => {
+
+export default function Footer() {
   return (
-    <footer className="bg-black text-[#BCBCBC] text-sm py-5 text-center">
-      <div className="container">
-        <div className="relative inline-flex before:w-full before:top-2 before:bottom-0 before:blur before:content-[''] before:bg-gradient-to-r before:from-gray-700 before:via-gray-500 before:to-gray-900 before:absolute" >
-        <Image src={onlyIcon} alt="img-icon" height={25} 
-        className="relative"
-        />
+    <footer className="bg-[#3e5f93] text-white py-12 px-6 sm:px-12">
+      <div className="max-w-screen-xl mx-auto grid gap-6 sm:grid-cols-2 md:grid-cols-3 items-start">
+        {/* Branding */}
+        <div>
+          <h3 className="text-2xl font-bold mb-2">Medical Schedule</h3>
+          <p className="text-sm text-white/70">
+            Organización médica simple, segura y eficiente.
+          </p>
         </div>
-        <div className="flex justify-center gap-6 mt-6">
-          <Link href="https://twitter.com/mariflor_la" target="_blank" rel="noopener noreferrer">
-          <NewTwitter color="#ffffff" width={20} height={20}/>
-          </Link>
-          <Link href="https://www.instagram.com/laflorineta" target="_blank" rel="noopener noreferrer">
-          <Instagram color="#ffffff" width={20} height={20}/>
-          </Link>
-          <Link href="https://www.linkedin.com/in/florencia-mignini/" target="_blank" rel="noopener noreferrer">
-          <LinkedIn color="#ffffff" width={20} height={20}/>
-          </Link>
-          <Link href="https://github.com/florMignini" target="_blank" rel="noopener noreferrer">
-          <GithubIcon color="#ffffff" width={20} height={20}/>
-          </Link>
+        {/* Enlaces útiles */}
+        <div className="space-y-2">
+          <h4 className="text-lg font-semibold">Enlaces</h4>
+          <ul className="space-y-1 text-white/80 text-sm">
+            <li><Link href="#hero">Inicio</Link></li>
+            <li><Link href="#features">Características</Link></li>
+            <li><Link href="#preview">Vista previa</Link></li>
+            <li><Link href="#contacto">Contacto</Link></li>
+          </ul>
         </div>
-        <p className="mt-6">
-          © {new Date().getFullYear()} Medical_Schedule{" "}
-          <small>a product of </small> CRM Solution. All rights reserved.
-        </p>
+
+        {/* Redes o contacto */}
+        <div className="space-y-2">
+          <h4 className="text-lg font-semibold">Conectá con nosotros</h4>
+          <div className="flex gap-4 mt-2">
+            <a
+              href="https://github.com/florMignini"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="GitHub"
+              className="hover:text-white/90 transition"
+            >
+              <Github />
+            </a>
+            <a
+              href="https://www.linkedin.com/in/florencia-mignini/"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="LinkedIn"
+              className="hover:text-white/90 transition"
+            >
+              <Linkedin />
+            </a>
+          </div>
+        </div>
+      </div>
+
+      {/* Línea final */}
+      <div className="mt-12 border-t border-white/20 pt-6 text-center text-xs text-white/60">
+        © {new Date().getFullYear()} Medical Schedule · Hecho con 💙 por Florencia Mignini
       </div>
     </footer>
   );
-};
-
-export default Footer;
+}
