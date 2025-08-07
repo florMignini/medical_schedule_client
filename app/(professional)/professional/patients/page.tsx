@@ -1,14 +1,11 @@
-import { apiServer } from "@/api/api-server";
-import { cookies } from "next/headers";
+
 import { PatientsIncluded, ProfessionalInformation } from "@/interfaces";
 
-import { Dialog } from "@/components/ui/dialog";
-
-import PatientsTable from "../components/PatientsTable";
 import { getProfessionalIncludesFromCookies } from "@/utils/getProfessionalIncludesFromCookies";
+import PatientCardWithActions from "./components/PatientCardWithAction";
 
 const PatientsPage = async () => {
-  const { data } = await getProfessionalIncludesFromCookies();
+  const { data, isDemo } = await getProfessionalIncludesFromCookies();
   // @ts-ignore
   const { patientsIncluded }: { patientsIncluded: PatientsIncluded[] } = data;
 
@@ -22,7 +19,8 @@ const PatientsPage = async () => {
           Aquí encontrara la lista de pacientes que se hallan en su cartera
         </p>
       </header>
-      <PatientsTable patients={patientsIncluded} component={"patients"} />
+      <PatientCardWithActions patientsIncluded={patientsIncluded}
+              isDemo={isDemo!} />
     </section>
   );
 };

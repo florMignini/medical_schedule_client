@@ -30,6 +30,7 @@ export async function getProfessionalIncludesFromCookies() {
   const data: ProfessionalInformation = await res.json();
 
   return {
+    isDemo,
     data,
     appointments: data.appointmentsIncluded ?? [],
     patients: data.patientsIncluded ?? [],

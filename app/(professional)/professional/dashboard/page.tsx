@@ -6,16 +6,16 @@ import {
 } from "@/interfaces";
 import Link from "next/link";
 import WelcomeSection from "../components/WelcomeSection";
-import AddButton from "../components/AddButton";
 
 import PatientsByAge from "../components/charts/PatientsByAge";
 
 import { getProfessionalIncludesFromCookies } from "@/utils/getProfessionalIncludesFromCookies";
-import PatientCardWithActions from "../patients/components/PatientCardWithAction";
 import Loading from "../components/Loading";
 import InstitutionCardWithActions from "../institutions/components/InstitutionCardWithActions";
 import StatsCardsWrapper from "../components/StatsCardsWrapper";
 import AppointmentsPerWeekChart from "../components/charts/AppointmentsPerWeekChart";
+import PatientsTable from "../components/PatientsTable";
+import PatientCardWithActions from "../patients/components/PatientCardWithAction";
 
 const ProfessionalDashboard = async () => {
   const cookieStore = cookies();
@@ -45,6 +45,9 @@ const ProfessionalDashboard = async () => {
   const {
     institutionsIncluded,
   }: { institutionsIncluded: InstitutionsIncluded[] } = data;
+  // preview data for rendering
+  const previewPatients = patientsIncluded.slice(0, 6);
+  const previewInstitutions = institutionsIncluded.slice(0, 3);
 
   return (
     <section className="w-full h-full flex flex-col lg:grid lg:grid-cols-[70%,30%] overflow-y-auto px-4 py-4 gap-1 bg-gradient-to-br from-[#f0f4f8] via-[#f9fafa] to-[#e8f0ff]">
@@ -89,10 +92,14 @@ const ProfessionalDashboard = async () => {
             <p className="text-gray-600">Aún no posee pacientes registrados</p>
           ) : (
             <PatientCardWithActions
-              patientsIncluded={patientsIncluded}
+              patientsIncluded={previewPatients}
               isDemo={isDemo}
             />
           )}
+          <p className="text-xs text-gray-400 mt-2">
+            Mostrando {previewPatients.length} de {patientsIncluded.length}{" "}
+            pacientes
+          </p>
         </div>
 
         {/* INSTITUCIONES */}
@@ -106,17 +113,22 @@ const ProfessionalDashboard = async () => {
               href="/professional/institutions"
               className="text-blue-600 hover:font-bold text-sm"
             >
-              Ver todos
+              Ver todas
             </Link>
           </div>
+
           {institutionsIncluded.length < 1 ? (
             <p className="text-gray-600">Aún no posee instituciones activas</p>
           ) : (
             <InstitutionCardWithActions
-              institutionsIncluded={institutionsIncluded}
+              institutionsIncluded={previewInstitutions}
               isDemo={isDemo}
             />
           )}
+          <p className="text-xs text-gray-400 mt-2">
+            Mostrando {previewInstitutions.length} de{" "}
+            {institutionsIncluded.length} instituciones
+          </p>
         </div>
       </div>
 
