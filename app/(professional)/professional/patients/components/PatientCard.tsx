@@ -1,8 +1,9 @@
+"use client";
+
 import { motion } from "framer-motion";
 import Image from "next/image";
 import { Patient } from "@/interfaces";
-import Link from "next/link";
-import { Mail, Pencil, Phone, Trash2 } from "lucide-react";
+import { HouseIcon, Mail, Pencil, Phone, Trash2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   AlertDialog,
@@ -15,11 +16,13 @@ import {
 } from "@/components/ui/alert-dialog";
 import { toast } from "@/hooks/use-toast";
 import { deletePatient } from "../../../../actions/patientAction";
+
 interface PatientCardProps {
   patient: Patient;
   onEdit: () => void;
   onDelete: () => void;
   professionalId?: string;
+  isDemo?: boolean;
 }
 
 const PatientCard = ({
@@ -27,6 +30,7 @@ const PatientCard = ({
   onEdit,
   onDelete,
   professionalId,
+  isDemo = false,
 }: PatientCardProps) => {
   return (
     <motion.div
@@ -35,53 +39,12 @@ const PatientCard = ({
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: -10 }}
       transition={{ duration: 0.2 }}
-      className="group flex items-center justify-between rounded-md border p-2 hover:shadow-md transition-shadow"
+      whileHover={{ scale: 0.98 }}
+      whileTap={{ scale: 0.98 }}
+      className="group relative rounded-2xl border-l-4 border-blue-500 p-4 shadow-md hover:shadow-xl transition-all bg-gradient-to-r from-white/80 to-zinc-100/80 dark:from-zinc-800/80 dark:to-zinc-900/80 backdrop-blur-md flex flex-col md:flex-row md:items-center md:justify-between gap-1"
     >
-      <Link
-        href={`/professional/patients/${patient.id}`}
-        className="flex items-center justify-center gap-2 w-full"
-      >
-        <Image
-          src={patient.patientPhotoUrl}
-          alt={patient.email || "Foto de paciente"}
-          objectFit="cover"
-          width={40}
-          height={40}
-          className="rounded-full object-cover"
-        />
-        {/* patient content */}
-        <div className="flex-1 flex items-center gap-2 justify-center sm:justify-start">
-          <p className="text-sm font-medium truncate">{`${patient.firstName} ${patient.lastName}`}</p>
-          <div className="text-xs text-muted-foreground flex gap-3">
-            <div
-              className="md:w-[33%] max-[690px]:w-[50%] px-1 py-2"
-              key={patient.phone}
-            >
-              <div className="text-[14px] font-normal flex gap-1 items-center justify-end">
-                <Phone width={20} height={20} />
-                <p className="truncate">{patient.phone}</p>
-              </div>
-            </div>
-            <div
-              className="max-[690px]:hidden md:w-[33%] px-1 py-2"
-              key={patient.email}
-            >
-              <div className="text-[14px] font-normal flex gap-1 items-center justify-end">
-                <Mail width={20} height={20} />
-                <p className="truncate">{patient.email}</p>
-              </div>
-            </div>
-            <div
-              className="max-[690px]:hidden md:w-[33%] px-1 py-2"
-              key={patient.address}
-            >
-              <div className="text-[14px] font-normal">{patient.address}</div>
-            </div>
-          </div>
-        </div>
-      </Link>
-      {/* Acciones */}
-      <div className="absolute p-1 top-[15%] right-1 items-center justify-center flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+      {/* Acciones arriba a la derecha */}
+      <div className="absolute top-0 right-4 flex gap-1 z-10">
         <Button
           variant="ghost"
           size="icon"
@@ -99,12 +62,12 @@ const PatientCard = ({
               <Trash2 size={18} className="text-red-500 hover:text-red-700" />
             </Button>
           </AlertDialogTrigger>
-          <AlertDialogContent className="bg-glass-effect-vibrant backdrop-blur-lg border text-white border-zinc-200 shadow-lg p-6">
-            <AlertDialogHeader className="font-mono text-xl font-bold ">
+          <AlertDialogContent className="bg-white dark:bg-zinc-900 border text-zinc-900 dark:text-white shadow-lg rounded-xl p-6">
+            <AlertDialogHeader className="font-semibold text-xl">
               ¿Eliminar paciente?
             </AlertDialogHeader>
-            <p className="">Esta acción no se puede deshacer.</p>
-            <AlertDialogFooter>
+            <p>Esta acción no se puede deshacer.</p>
+            <AlertDialogFooter className="pt-4">
               <AlertDialogCancel>Cancelar</AlertDialogCancel>
               <AlertDialogAction
                 className="bg-red-500 hover:bg-red-600 text-white"
@@ -120,15 +83,14 @@ const PatientCard = ({
                       className: "bg-emerald-500 text-black",
                       duration: 3000,
                     });
-                    onDelete(); //refresh!
+                    onDelete();
                   } catch (err) {
                     toast({
-                      title: "Eliminando paciente...",
+                      title: "Error",
                       description: `❌ ${(err as Error).message}`,
                       className: "bg-red-500 text-black",
                       duration: 3000,
                     });
-                    console.error(err);
                   }
                 }}
               >
@@ -137,6 +99,45 @@ const PatientCard = ({
             </AlertDialogFooter>
           </AlertDialogContent>
         </AlertDialog>
+      </div>
+
+      {/* Info principal */}
+      <div className="flex items-center gap-4 md:w-[30%]">
+        <Image
+          src={patient.patientPhotoUrl}
+          alt={patient.email || "Foto de paciente"}
+          width={48}
+          height={48}
+          className="rounded-full object-cover border border-zinc-300 shadow-sm"
+        />
+        <div>
+          <p className="text-base font-semibold leading-tight">
+            {patient.firstName} {patient.lastName}
+            {isDemo && (
+              <span className="ml-2 text-xs px-2 py-0.5 rounded-full bg-yellow-100 text-yellow-600">
+                Demo
+              </span>
+            )}
+          </p>
+          {patient.address && (
+            <div className="flex items-center gap-1 text-sm text-muted-foreground mt-1">
+              <HouseIcon size={16} />
+              <p className="truncate">{patient.address}</p>
+            </div>
+          )}
+        </div>
+      </div>
+
+      {/* Teléfono y email */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 gap-2 text-sm text-muted-foreground w-full md:w-[40%] md:justify-self-center md:px-4">
+        <div className="flex items-center gap-2">
+          <Phone size={16} />
+          <span className="truncate">{patient.phone}</span>
+        </div>
+        <div className="flex items-center gap-2">
+          <Mail size={16} />
+          <span className="truncate">{patient.email}</span>
+        </div>
       </div>
     </motion.div>
   );
