@@ -1,11 +1,13 @@
 "use client";
 
-import Image from "next/image";
-import Link from "next/link";
-import { Mail, Phone } from "lucide-react";
-
-import { InstitutionsIncluded } from "@/interfaces";
+import { toast } from "@/hooks/use-toast";
+import { ICreateInstitution, InstitutionsIncluded } from "@/interfaces";
 import ConfigButton from "../../components/ConfigButton";
+import { InstitutionCard } from "./InstitutionCard";
+import { useProfessionalIncludes } from "@/hooks/useProfessionalIncludes";
+import { useState } from "react";
+import { AnimatedDialog } from "./AnimatedDialog";
+import InstitutionUpdateForm from "@/components/forms/InstitutionUpdateForm";
 
 type Props = {
   institutionsIncluded: InstitutionsIncluded[];
@@ -15,74 +17,50 @@ export default function InstitutionCardWithActions({
   institutionsIncluded,
   isDemo,
 }: Props) {
+  const [formOpen, setFormOpen] = useState(false);
+    const [institution, setInstitution] = useState<ICreateInstitution | null>(null);
+    const [selectedInstitution, setSelectedInstitution] =
+      useState<Partial<ICreateInstitution> | null>(null);
+  const { data, isLoading, refetch } = useProfessionalIncludes();
   return (
     <>
-      {/* Header */}
-      <div className="w-full px-2 flex items-center justify-between border-b border-gray-300 text-gray-900 font-medium text-sm mb-3 max-w-full overflow-x-hidden">
-        <p className="w-[25%] max-[690px]:w-[30%]">Institución</p>
-        <p className="w-[25%] max-[690px]:w-[50%]">Teléfono</p>
-        <p className="w-[25%] max-[690px]:hidden">Mail</p>
-        <p className="w-[25%] max-[690px]:hidden">Dirección</p>
-      </div>
-
+      
       {/* Lista de instituciones */}
       <div className="w-full space-y-2 max-w-full overflow-x-hidden">
         {institutionsIncluded?.map(({ institution }) => (
-          <div
+          <InstitutionCard
             key={institution.id}
-            className="relative w-full h-15 p-2 flex items-center justify-between border border-gray-300 rounded-md hover:bg-gray-200 hover:shadow transition group overflow-x-hidden"
-          >
-            <Link
-              href={
-                isDemo
-                  ? `/professional/institutions/${institution.id}/detail?demo=true`
-                  : `/professional/institutions/${institution.id}/detail`
-              }
-              className="flex flex-1 items-center justify-between gap-2"
-            >
-              {/* Nombre + Imagen */}
-              <div className="w-[25%] max-[690px]:w-[30%] flex gap-2 items-center overflow-hidden">
-                <Image
-                  src={institution.institutionImage}
-                  alt={`Logo de ${institution.name}`}
-                  width={40}
-                  height={40}
-                  className="rounded-full object-cover bg-gradient-to-b from-black to-[#001E80]"
-                />
-                <p className="text-[14px] font-semibold truncate">
-                  {institution.name}
-                </p>
-              </div>
-
-              {/* Teléfono */}
-              <div className="w-[25%] max-[690px]:w-[50%] flex gap-1 items-center text-[14px] font-normal px-1 overflow-hidden">
-                <Phone width={18} height={18} />
-                <p className="truncate">{institution.phone}</p>
-              </div>
-
-              {/* Email */}
-              <div className="w-[25%] hidden max-[690px]:hidden md:flex gap-1 items-center text-[14px] font-normal px-1 overflow-hidden">
-                <Mail width={18} height={18} />
-                <p className="truncate">{institution.email}</p>
-              </div>
-
-              {/* Dirección */}
-              <div className="w-[25%] hidden max-[690px]:hidden md:block text-[14px] font-normal px-1 truncate">
-                {institution.address}
-              </div>
-            </Link>
-
-            {/* Botón de configuración */}
-            <div className="absolute top-2 right-2 z-10 opacity-0 group-hover:opacity-100 transition-opacity">
-              <ConfigButton
-                id={institution.id}
-                isDemo={isDemo}
-                component="institutions"
-              />
-            </div>
-          </div>
+            institution={institution}
+            onEdit={() => {
+              setSelectedInstitution(institution);
+              setFormOpen(true);
+            }}
+            onDelete={refetch}
+            professionalId={data?.id || ""}
+          />
         ))}
       </div>
+      {/* Modal de edición */}
+            {formOpen && institution && (
+              <AnimatedDialog open={formOpen} onOpenChange={setFormOpen}>
+                <InstitutionUpdateForm
+                 institutionInfo ={institution}
+                  onClose={() => setFormOpen(false)}
+                  onSuccess={() => {
+                    toast({
+                      title: isDemo ? "Edición simulada" : "Paciente actualizado",
+                      description: isDemo
+                        ? "Este es un entorno de prueba"
+                        : "¡Paciente editado correctamente!",
+                      className: isDemo
+                        ? "bg-blue-500 text-white"
+                        : "bg-green-500 text-white",
+                    });
+                    setFormOpen(false);
+                  }}
+                />
+              </AnimatedDialog>
+            )}
     </>
   );
 }

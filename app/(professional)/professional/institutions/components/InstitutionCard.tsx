@@ -1,3 +1,5 @@
+"use client";
+
 import { Pencil, Trash2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
@@ -9,6 +11,12 @@ import {
   AlertDialogCancel,
   AlertDialogAction,
 } from "@/components/ui/alert-dialog";
+import {
+  Tooltip,
+  TooltipTrigger,
+  TooltipContent,
+  TooltipProvider,
+} from "@/components/ui/tooltip";
 import { toast } from "@/hooks/use-toast";
 import { deleteInstitution } from "../services/institutions";
 import { motion } from "framer-motion";
@@ -34,80 +42,114 @@ export const InstitutionCard = ({
       animate={{ opacity: 1, scale: 1, y: 0 }}
       exit={{ opacity: 0, scale: 0.9, y: -10 }}
       transition={{ duration: 0.3 }}
-      className="relative rounded-2xl bg-white/70 backdrop-blur-sm shadow-md p-6 transition-all hover:shadow-xl hover:scale-[1.02] group border border-zinc-200 space-y-3"
+      className="relative rounded-2xl bg-white/70 dark:bg-zinc-800/80 backdrop-blur-sm shadow-md p-3 transition-all hover:shadow-xl hover:scale-[1.02] group border border-zinc-200 dark:border-zinc-700"
     >
-      {/* Imagen de la institución o placeholder */}
-      <div className="w-full h-40 relative rounded-xl overflow-hidden bg-zinc-100">
+      {/* Acciones arriba a la derecha */}
+     <AlertDialog>
+       <TooltipProvider>
+        <div className="absolute top-2 right-2 flex gap-1 z-10 opacity-0 group-hover:opacity-100 transition-opacity">
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <Button variant="ghost" size="icon" onClick={onEdit}>
+                <Pencil
+                  size={18}
+                  className="text-zinc-500 hover:text-zinc-800 dark:text-zinc-300 dark:hover:text-white"
+                />
+              </Button>
+            </TooltipTrigger>
+            <TooltipContent className="bg-black text-white rounded px-2 py-1 text-xs">
+              Editar institución
+            </TooltipContent>
+          </Tooltip>
+
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <AlertDialogTrigger asChild>
+                <Button variant="ghost" size="icon">
+                  <Trash2
+                    size={18}
+                    className="text-red-500 hover:text-red-700"
+                  />
+                </Button>
+              </AlertDialogTrigger>
+            </TooltipTrigger>
+            <TooltipContent className="bg-black text-white rounded px-2 py-1 text-xs">
+              Eliminar institución
+            </TooltipContent>
+          </Tooltip>
+        </div>
+      </TooltipProvider>
+     </AlertDialog>
+
+      {/* Imagen */}
+      <div className="w-full h-16 relative rounded-xl overflow-hidden bg-zinc-100 dark:bg-zinc-700">
         <Image
-          src={institution.institutionImage || "/images/default-institution.jpg"}
+          src={
+            institution.institutionImage || "/images/default-institution.jpg"
+          }
           alt={institution.name || "Institución"}
           layout="fill"
           objectFit="cover"
-          className="transition-transform opacity-45 duration-300 group-hover:scale-105"
+          className="transition-transform opacity-40 duration-300 group-hover:scale-105"
         />
       </div>
 
-      {/* Contenido de la institución */}
-      <div className="space-y-1">
-        <h3 className="text-xl font-semibold text-zinc-800">
+      {/* Contenido */}
+      <div className="mt-1 space-y-1">
+        <h3 className="text-lg font-semibold text-zinc-800 dark:text-white truncate">
           {institution.name}
         </h3>
-        <p className="text-sm text-zinc-500">{institution.address}</p>
+        <p className="text-sm text-zinc-500 dark:text-zinc-400 truncate">
+          {institution.address}
+        </p>
         {institution.phone && (
-          <p className="text-sm text-zinc-500">📞 {institution.phone}</p>
+          <p className="text-sm text-zinc-500 dark:text-zinc-400 truncate">
+            📞 {institution.phone}
+          </p>
         )}
       </div>
 
-      {/* Acciones */}
-      <div className="absolute top-2 right-2 flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
-        <Button variant="ghost" size="icon" onClick={onEdit}>
-          <Pencil size={18} className="text-zinc-500 hover:text-zinc-800" />
-        </Button>
-
-        <AlertDialog>
-          <AlertDialogTrigger asChild>
-            <Button variant="ghost" size="icon">
-              <Trash2 size={18} className="text-red-500 hover:text-red-700" />
-            </Button>
-          </AlertDialogTrigger>
-          <AlertDialogContent className="bg-glass-effect-vibrant backdrop-blur-lg border text-white border-zinc-200 shadow-lg p-6">
-            <AlertDialogHeader className="font-mono text-xl font-bold ">¿Eliminar institución?</AlertDialogHeader>
-            <p className="">Esta acción no se puede deshacer.</p>
-            <AlertDialogFooter>
-              <AlertDialogCancel>Cancelar</AlertDialogCancel>
-              <AlertDialogAction
-                className="bg-red-500 hover:bg-red-600 text-white"
-                onClick={async () => {
-                  try {
-                    const ids = {
-                      institutionId: institution.id,
-                      professionalId,
-                    };
-                    await deleteInstitution(ids);
-                    toast({
-                      title: "Eliminando institución...",
-                      description: "institución eliminada exitosamente 🎉",
-                      className: "bg-emerald-500 text-black",
-                      duration: 3000,
-                    });
-                    onDelete();
-                  } catch (err) {
-                    toast({
-                      title: "Eliminando institución...",
-                      description: "Error al eliminar institución",
-                      className: "bg-red-500 text-black",
-                      duration: 3000,
-                    });
-                    console.error(err);
-                  }
-                }}
-              >
-                Eliminar
-              </AlertDialogAction>
-            </AlertDialogFooter>
-          </AlertDialogContent>
-        </AlertDialog>
-      </div>
+      {/* Confirmación de borrado */}
+      <AlertDialog>
+        <AlertDialogContent className="bg-white dark:bg-zinc-900 border text-zinc-900 dark:text-white shadow-lg rounded-xl p-6">
+          <AlertDialogHeader className="font-mono text-xl font-bold">
+            ¿Eliminar institución?
+          </AlertDialogHeader>
+          <p>Esta acción no se puede deshacer.</p>
+          <AlertDialogFooter className="pt-4">
+            <AlertDialogCancel>Cancelar</AlertDialogCancel>
+            <AlertDialogAction
+              className="bg-red-500 hover:bg-red-600 text-white"
+              onClick={async () => {
+                try {
+                  const ids = {
+                    institutionId: institution.id,
+                    professionalId,
+                  };
+                  await deleteInstitution(ids);
+                  toast({
+                    title: "Eliminando institución...",
+                    description: "Institución eliminada exitosamente 🎉",
+                    className: "bg-emerald-500 text-black",
+                    duration: 3000,
+                  });
+                  onDelete();
+                } catch (err) {
+                  toast({
+                    title: "Eliminando institución...",
+                    description: "Error al eliminar institución",
+                    className: "bg-red-500 text-black",
+                    duration: 3000,
+                  });
+                  console.error(err);
+                }
+              }}
+            >
+              Eliminar
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </motion.div>
   );
 };

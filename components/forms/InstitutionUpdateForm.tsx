@@ -27,8 +27,16 @@ type professionalType = {
   lastName: string;
   gender: string;
 };
-
-const InstitutionUpdateForm = (institutionInfo: ICreateInstitution) => {
+type Props = {
+  institutionInfo: Partial<ICreateInstitution>;
+  onClose: () => void;
+  onSuccess: () => void;
+};
+const InstitutionUpdateForm : React.FC<Props> = ({
+  institutionInfo,
+  onClose,
+  onSuccess,
+} : Props) => {
   const [loading, setLoading] = useState(false);
   const [isThereAnImage, setIsTthereAnImage] = useState<boolean>(false);
   const router = useRouter();
@@ -94,7 +102,7 @@ const InstitutionUpdateForm = (institutionInfo: ICreateInstitution) => {
         onSubmit={form.handleSubmit(onSubmit)}
         className="w-[100%] space-y-6 flex-1"
       >
-        {/* appointment detail */}
+        {/* institution detail */}
         <div className="flex px-2 gap-2 mb-5">
           <div className="h-5 border-x-2 border-white" />
           <h1 className="text-16-semibold">
