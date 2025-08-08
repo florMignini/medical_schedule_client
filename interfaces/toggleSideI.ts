@@ -3,4 +3,5 @@ export interface toggleSideI {
     toggleSidebar?: () => void;
     setIsOpen?: any,
     variant?: "desktop" | "mobile";
+    isDemo?: boolean;
   }

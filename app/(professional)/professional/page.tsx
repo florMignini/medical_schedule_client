@@ -54,7 +54,7 @@ export default function ProfessionalDashboard({
         </div>
 
         <main className="flex-1 flex flex-col overflow-y-auto max-h-screen">
-          <Navbar setIsOpen={setIsOpen} isOpen={isOpen} />
+          <Navbar setIsOpen={setIsOpen} isDemo={isDemo} isOpen={isOpen} />
           <div className="p-4">
             {isDemo && (
               <div className="bg-yellow-100 text-yellow-800 p-2 rounded shadow mb-4">
