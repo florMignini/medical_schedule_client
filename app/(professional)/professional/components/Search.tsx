@@ -1,136 +1,200 @@
 "use client";
 import { useEffect, useState, useRef } from "react";
-import { useDebounce } from "@/utils";
 import { Input } from "@/components/ui/input";
-
-import searchIcon from "../../../../public/assets/icons/search.svg";
-import { apiServer } from "@/api/api-server";
-
-import Link from "next/link";
-import Image from "next/image";
-import { Patient } from "@/interfaces";
+import { Skeleton } from "@/components/ui/skeleton";
+import { useDebounce } from "@/utils";
 import { capitalizeWords } from "@/utils/normalizeInput";
-import { Skeleton } from "../../../../components/ui/skeleton";
 
-const Search = ({ path }: any) => {
-  const [query, setQuery] = useState<string>("");
-  const [loading, setLoading] = useState<boolean>(false);
-  const value: string = useDebounce(query);
-  const [result, setResult] = useState<any>([]);
-  const [isFocused, setIsFocused] = useState<boolean>(false);
+import Image from "next/image";
+import Link from "next/link";
 
+import { Patient, ICreateInstitution } from "@/interfaces";
+
+type SearchProps = {
+  path: string;
+  isDemo: boolean;
+};
+
+const Search = ({ path, isDemo }: SearchProps) => {
+  const [query, setQuery] = useState("");
+  const [filter, setFilter] = useState<"all" | "patients" | "institutions">("all");
+  const [loading, setLoading] = useState(false);
+  const [results, setResults] = useState<(Patient | ICreateInstitution)[]>([]);
+  const [isFocused, setIsFocused] = useState(false);
+
+  const debouncedValue: string = useDebounce(query, 300);
   const inputRef = useRef<HTMLInputElement>(null);
+  const wrapperRef = useRef<HTMLDivElement>(null);
 
-  // search
+  const API_BASE = isDemo
+    ? "https://medical-schedule-server-demo.onrender.com/api"
+    : "https://medical-schedule-server.onrender.com/api";
+
   useEffect(() => {
-    if (!value) return;
+    if (!debouncedValue) {
+      setResults([]);
+      return;
+    }
 
-    setLoading(true);
-
-    const fetchSearchData = async () => {
+    const fetchResults = async () => {
+      setLoading(true);
       try {
-        const normalizedValue = capitalizeWords(value);
-        console.log(normalizedValue)
-        if (path !== "dashboard" && path !== "appointments") {
-          const { data } = await apiServer.get(`https://medical-schedule-server.onrender.com/api/${path}/search?value=${normalizedValue}`);
-          setResult(data);
+        const value = capitalizeWords(debouncedValue);
+        let data: any[] = [];
+
+        if (filter === "patients") {
+          const res = await fetch(`${API_BASE}/patients/search?value=${value}`);
+          data = await res.json();
+        } else if (filter === "institutions") {
+          const res = await fetch(`${API_BASE}/institutions/search?value=${value}`);
+          data = await res.json();
         } else {
-          const resPatient = await apiServer.get(`https://medical-schedule-server.onrender.com/api/patients/search?value=${normalizedValue}`);
-          const resInstitution = await apiServer.get(`https://medical-schedule-server.onrender.com/api/institutions/search?value=${normalizedValue}`);
-          setResult((resInstitution.data as any[]).concat(resPatient.data as any[]));
+          const [resPatients, resInstitutions] = await Promise.all([
+            fetch(`${API_BASE}/patients/search?value=${value}`).then(r => r.json()),
+            fetch(`${API_BASE}/institutions/search?value=${value}`).then(r => r.json()),
+          ]);
+          data = [...resPatients, ...resInstitutions];
         }
+
+        setResults(data);
       } catch (err) {
-        console.error("Error searching:", err);
-        setResult([]);
+        console.error("Error fetching search data:", err);
+        setResults([]);
       } finally {
         setLoading(false);
       }
     };
 
-    fetchSearchData();
-  }, [value, path]);
+    fetchResults();
+  }, [debouncedValue, filter, API_BASE]);
 
-  const clearInput = () => {
-    setQuery("");
-    setResult([]);
-  };
-
-  // Hide results if clicked outside the input
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
-      if (inputRef.current && !inputRef.current.contains(event.target as Node)) {
-        //avoid close the search when click on the link
-        setTimeout(() => {
-          setIsFocused(false);
-        }, 1000); 
+      if (wrapperRef.current && !wrapperRef.current.contains(event.target as Node)) {
+        setTimeout(() => setIsFocused(false), 300);
       }
     };
-  
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
-  
+
+  const clearInput = () => {
+    setQuery("");
+    setResults([]);
+  };
 
   return (
-    <div className="relative w-[99%] h-auto flex flex-col items-center justify-center text-color">
-      <div className="absolute w-[99%] h-20 flex flex-col items-center justify-center mx-auto">
-        {/* search section */}
-        <div className="w-[100%] flex align-middle justify-center bg-white rounded-md px-2 shadow-md shadow-[#cccccc] border-[1px] border-[#cccccc]">
-          <Input
-            ref={inputRef}
-            type="text"
-            placeholder={`buscar ${
-              path === "institutions"
-                ? "instituciones"
-                : path === "patients"
-                ? "pacientes"
-                : "pacientes ó instituciones"
-            }`}
-            className="w-[95%] h-10 bg-transparent border-none focus:outline-none active:outline-none placeholder:text-color focus-visible:ring-offset-0"
-            value={query}
-            autoComplete="off"
-            onChange={({ target }) => setQuery(target.value)}
-            onFocus={() => setIsFocused(true)}
-          />
-        </div>
-
-        {/* result section */}
-        {value && isFocused && (
-          <div className="w-[100%] absolute z-50 rounded-md py-5 px-2 top-[62px] gap-2 bg-black/90 backdrop-blur-xl border-[1px] border-white/20 shadow-md shadow-[#cccccc] overflow-y-auto max-h-[300px]">
-            {loading ? (
-              <div className="w-full flex flex-col items-center justify-center gap-2">
-              <Skeleton className="h-10 bg-gray-500 w-[99%] rounded-md" />
-              <Skeleton className="h-10 bg-gray-500 w-[99%] rounded-md" />
-              <Skeleton className="h-10 bg-gray-500 w-[99%] rounded-md" />
-            </div>
-            ) : result && result.length > 0 ? (
-              result.map((patient: Patient) => (
-                <Link
-                  key={patient.id}
-                  href={`/professional/patients/${patient.id}/info`}
-                  className="w-[80%] grid grid-cols-[50%,50%] align-middle justify-center my-2 px-1 py-2 text-transparent hover:scale-110 z-50 transition-all duration-300 ease-in-out"
-                  onClick={clearInput}
-                >
-                  <div className="w-[100%] flex items-center justify-center">
-                    <Image
-                      src={patient.patientPhotoUrl}
-                      alt="patient-photo"
-                      width={50}
-                      height={50}
-                      className="rounded-full grid items-center justify-center"
-                    />
-                  </div>
-                  <p className="text-white font-mono font-semibold text-base flex items-center justify-start">
-                    {`${patient.firstName} ${patient.lastName}`}
-                  </p>
-                </Link>
-              ))
-            ) : (
-              <p className="w-full text-center font-mono text-white font-semibold">No se encontraron resultados</p>
-            )}
-          </div>
+    <div ref={wrapperRef} className="relative w-full max-w-xl mx-auto mt-1 px-1 bg-backdrop-blur-md rounded-lg shadow-lg p-1">
+      {/* Input + Clear */}
+      <div className="flex items-center border border-zinc-300 rounded-full bg-white shadow-sm px-4 py-2 transition-all focus-within:ring-2 focus-within:ring-zinc-400">
+        <Input
+          ref={inputRef}
+          type="text"
+          value={query}
+          onChange={(e) => setQuery(e.target.value)}
+          onFocus={() => setIsFocused(true)}
+          placeholder={`Buscar ${
+            path === "patients"
+              ? "pacientes"
+              : path === "institutions"
+              ? "instituciones"
+              : "pacientes o instituciones"
+          }`}
+          className="flex-1 bg-transparent border-none text-sm focus:outline-none"
+        />
+        {query && (
+          <button
+            onClick={clearInput}
+            className="ml-2 text-zinc-400 hover:text-zinc-600 transition"
+          >
+            ✕
+          </button>
         )}
       </div>
+
+      {/* Filter Buttons */}
+      {isFocused && (
+        <div className="flex justify-center gap-2 mt-3 flex-wrap">
+          <button
+            className={`px-3 py-1 rounded-full text-sm transition ${
+              filter === "all" ? "bg-black text-white" : "bg-zinc-200 text-zinc-800"
+            }`}
+            onClick={() => setFilter("all")}
+          >
+            🔍 Todos
+          </button>
+          <button
+            className={`px-3 py-1 rounded-full text-sm transition ${
+              filter === "patients" ? "bg-black text-white" : "bg-zinc-200 text-zinc-800"
+            }`}
+            onClick={() => setFilter("patients")}
+          >
+            🧑 Pacientes
+          </button>
+          <button
+            className={`px-3 py-1 rounded-full text-sm transition ${
+              filter === "institutions" ? "bg-black text-white" : "bg-zinc-200 text-zinc-800"
+            }`}
+            onClick={() => setFilter("institutions")}
+          >
+            🏥 Instituciones
+          </button>
+        </div>
+      )}
+
+      {/* Results */}
+      {isFocused && query && (
+        <div className="absolute w-full mt-2 z-50 max-h-72 overflow-y-auto bg-white border border-zinc-200 shadow-xl rounded-md animate-fadeIn scale-95 transition-transform duration-300">
+          {loading ? (
+            <div className="p-4 space-y-2">
+              <Skeleton className="h-10 w-full" />
+              <Skeleton className="h-10 w-full" />
+              <Skeleton className="h-10 w-full" />
+            </div>
+          ) : results.length > 0 ? (
+            results.map((item: any) => (
+              <Link
+                key={item.id}
+                href={
+                  "firstName" in item
+                    ? `/professional/patients/${item.id}/info`
+                    : `/professional/institutions/${item.id}`
+                }
+                onClick={clearInput}
+                className="flex items-center gap-3 p-3 hover:bg-zinc-100 transition"
+              >
+                <Image
+                  src={
+                    "firstName" in item
+                      ? item.patientPhotoUrl
+                      : item.institutionImage || "/images/default-institution.jpg"
+                  }
+                  alt="foto"
+                  width={40}
+                  height={40}
+                  className="rounded-full object-cover"
+                />
+                <div className="flex flex-col">
+                  <p className="font-medium text-sm truncate">
+                    {"firstName" in item
+                      ? `${item.firstName} ${item.lastName}`
+                      : item.name}
+                  </p>
+                  <p className="text-xs text-zinc-500 truncate">
+                    {"firstName" in item
+                      ? item.email
+                      : item.address || "Sin dirección"}
+                  </p>
+                </div>
+              </Link>
+            ))
+          ) : (
+            <p className="text-sm text-center p-4 text-zinc-500">
+              No se encontraron resultados.
+            </p>
+          )}
+        </div>
+      )}
     </div>
   );
 };

@@ -4,7 +4,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { usePathname, useRouter } from "next/navigation";
 import { cn } from "@/lib";
-import { ProfessionalInformation, toggleSideI } from "@/interfaces";
+import { IProfessional, ProfessionalInformation, toggleSideI } from "@/interfaces";
 import { AnimatePresence, motion } from "framer-motion";
 import Search from "./Search";
 import { logout } from "./SidebarItems";
@@ -46,11 +46,11 @@ const SearchIcon = () => (
   </svg>
 );
 
-const Navbar = ({ isOpen, setIsOpen }: toggleSideI) => {
+const Navbar = ({ isOpen, setIsOpen, isDemo=false }: toggleSideI) => {
   const router = useRouter();
   const pathname = usePathname();
   let path = pathname && pathname.split("/")[pathname.split("/").length - 1];
-  const [profInfo, setProfInfo] = useState<ProfessionalStorageInformation | null>(null);
+  const [profInfo, setProfInfo] = useState<any>(null);
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
@@ -105,7 +105,7 @@ const Navbar = ({ isOpen, setIsOpen }: toggleSideI) => {
 
         {/* Dr. Greeting */}
         <div className="text-white text-center font-semibold text-lg select-none">
-          <p className="truncate">{`Hola, ${profInfo?.firstname} ${profInfo?.lastname}!`}</p>
+          <p className="truncate">{`Hola, ${isDemo ? profInfo?.firstName : profInfo?.firstname} ${isDemo ? profInfo?.lastName : profInfo?.lastname}!`}</p>
         </div>
 
         {/* right section: Glass + avatar & dropdown mobile only */}
@@ -185,9 +185,9 @@ const Navbar = ({ isOpen, setIsOpen }: toggleSideI) => {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -10 }}
             transition={{ duration: 0.3 }}
-            className="w-[50%] absolute top-14 p-4 md:p-3 right-4 bg-transparent bg-opacity-90 backdrop-blur-xl z-50"
+            className="w-[99%] md:w-[50%] absolute top-12 p-4 md:p-3 right-4 bg-transparent bg-opacity-90 backdrop-blur-md z-50 rounded-xl"
           >
-            <Search path={path} />
+            <Search path={path} isDemo={isDemo} />
           </motion.div>
         )}
       </AnimatePresence>
