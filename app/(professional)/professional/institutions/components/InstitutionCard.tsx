@@ -22,6 +22,7 @@ import { deleteInstitution } from "../services/institutions";
 import { motion } from "framer-motion";
 import Image from "next/image";
 import { ICreateInstitution } from "@/interfaces";
+import Link from "next/link";
 
 interface InstitutionCardProps {
   institution: ICreateInstitution;
@@ -95,7 +96,9 @@ export const InstitutionCard = ({
       </div>
 
       {/* Contenido */}
-      <div className="mt-1 space-y-1">
+      <Link className="mt-1 space-y-1"
+      href={`/professional/institutions/${institution.id}`}
+      >
         <h3 className="text-lg font-semibold text-zinc-800 dark:text-white truncate">
           {institution.name}
         </h3>
@@ -107,7 +110,7 @@ export const InstitutionCard = ({
             📞 {institution.phone}
           </p>
         )}
-      </div>
+      </Link>
 
       {/* Confirmación de borrado */}
       <AlertDialog>
