@@ -16,6 +16,7 @@ import {
 } from "@/components/ui/alert-dialog";
 import { toast } from "@/hooks/use-toast";
 import { deletePatient } from "../../../../actions/patientAction";
+import Link from "next/link";
 
 interface PatientCardProps {
   patient: Patient;
@@ -102,7 +103,9 @@ const PatientCard = ({
       </div>
 
       {/* Info principal */}
-      <div className="flex items-center gap-4 md:w-[30%]">
+      <Link
+      href={`/professional/patients/${patient.id}`}
+      className="flex items-center gap-4 md:w-[30%]">
         <Image
           src={patient.patientPhotoUrl}
           alt={patient.email || "Foto de paciente"}
@@ -126,7 +129,7 @@ const PatientCard = ({
             </div>
           )}
         </div>
-      </div>
+      </Link>
 
       {/* Teléfono y email */}
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 gap-2 text-sm text-muted-foreground w-full md:w-[40%] md:justify-self-center md:px-4">
