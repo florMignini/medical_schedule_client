@@ -5,22 +5,22 @@ import InfiniteScroll from "react-infinite-scroll-component";
 import { Input } from "@/components/ui/input";
 import { PatientsIncluded } from "@/interfaces";
 import PatientCardWithActions from "./components/PatientCardWithAction";
-import { getProfessionalIncludesFromCookies } from "@/utils/getProfessionalIncludesFromCookies";
 import { useProfessionalIncludes } from "@/hooks/useProfessionalIncludes";
 
 const ITEMS_PER_PAGE = 10;
 
 const PatientsPage = () => {
-  const {isDemo, patients} = useProfessionalIncludes();
+  const { isDemo, patients } = useProfessionalIncludes();
   const [filtered, setFiltered] = useState<PatientsIncluded[]>([]);
   const [displayed, setDisplayed] = useState<PatientsIncluded[]>([]);
   const [search, setSearch] = useState("");
   const [page, setPage] = useState(1);
- 
 
   useEffect(() => {
-    const filteredData = patients.filter(({patient}) =>
-      `${patient.firstName} ${patient.lastName}`.toLowerCase().includes(search.toLowerCase())
+    const filteredData = patients.filter(({ patient }) =>
+      `${patient.firstName} ${patient.lastName}`
+        .toLowerCase()
+        .includes(search.toLowerCase())
     );
     setFiltered(filteredData);
     setDisplayed(filteredData.slice(0, ITEMS_PER_PAGE));
@@ -54,9 +54,17 @@ const PatientsPage = () => {
         dataLength={displayed.length}
         next={loadMore}
         hasMore={displayed.length < filtered.length}
-        loader={<p className="text-center text-sm text-gray-500 py-2">Cargando más pacientes...</p>}
+        loader={
+          <p className="text-center text-sm text-gray-500 py-2">
+            Cargando más pacientes...
+          </p>
+        }
       >
-        <PatientCardWithActions patientsIncluded={displayed} isDemo={isDemo} />
+        <PatientCardWithActions
+          showFloatingButton={true}
+          patientsIncluded={displayed}
+          isDemo={isDemo}
+        />
       </InfiniteScroll>
     </section>
   );
