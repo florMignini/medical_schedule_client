@@ -23,7 +23,7 @@ export default function ProfessionalDashboard({
   patients,
   institutions,
   isDemo,
-  showFloatingButton: boolean = false,
+  showFloatingButton = false,
 }: Props) {
   const [isOpen, setIsOpen] = useState(false);
   const [variant, setVariant] = useState<"desktop" | "mobile">("mobile");
