@@ -93,7 +93,7 @@ const ProfessionalDashboard = async () => {
             <PatientCardWithActions
               patientsIncluded={previewPatients}
               isDemo={isDemo}
-              // showFloatingButton={false} 
+              showFloatingButton={false} 
             />
           )}
           <p className="text-xs text-gray-400 mt-2">
@@ -123,7 +123,7 @@ const ProfessionalDashboard = async () => {
             <InstitutionCardWithActions
               institutionsIncluded={previewInstitutions}
               isDemo={isDemo}
-              // showFloatingButton={false} 
+              showFloatingButton={false} 
             />
           )}
           <p className="text-xs text-gray-400 mt-2">

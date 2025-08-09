@@ -27,7 +27,7 @@ export default async function ProfessionalLayout({
   const professionalId = cookieStore.get("professional-id")?.value;
   const isDemo = cookieStore.get("isDemo")?.value === "true";
 
-  const { data, appointments, institutions, patients } =
+  const { showFloatingButton, data, appointments, institutions, patients } =
     await getProfessionalIncludesFromCookies();
   if (!professionalId || !data) {
     redirect("/introducing-medical-schedule");
@@ -43,7 +43,7 @@ export default async function ProfessionalLayout({
           patients={patients}
           institutions={institutions}
           isDemo={isDemo}
-          showFloatingButton={false}
+          showFloatingButton={showFloatingButton}
         >
           {children}
         </ProfessionalDashboard>
