@@ -6,7 +6,7 @@ export async function getProfessionalIncludesFromCookies() {
   const cookieStore = cookies();
   const professionalId = cookieStore.get("professional-id")?.value;
   const isDemo = cookieStore.get("isDemo")?.value === "true";
-
+  const showFloatingButton = false;
   // ✅ Si no hay ID, evitar fetch y devolver nulls
   if (!professionalId) {
     return {
@@ -17,19 +17,21 @@ export async function getProfessionalIncludesFromCookies() {
     };
   }
 
-  const apiBase = isDemo
-    ? API_BASE_URL.demo
-    : API_BASE_URL.prod;
+  const apiBase = isDemo ? API_BASE_URL.demo : API_BASE_URL.prod;
 
-  const res = await fetch(`${apiBase}/professional/get-professional/${professionalId}`, {
-    cache: "no-store",
-  });
+  const res = await fetch(
+    `${apiBase}/professional/get-professional/${professionalId}`,
+    {
+      cache: "no-store",
+    }
+  );
 
   if (!res.ok) throw new Error("Error fetching professional info");
 
   const data: ProfessionalInformation = await res.json();
 
   return {
+    showFloatingButton,
     isDemo,
     data,
     appointments: data.appointmentsIncluded ?? [],
