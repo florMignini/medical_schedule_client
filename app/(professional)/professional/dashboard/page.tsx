@@ -14,7 +14,6 @@ import Loading from "../components/Loading";
 import InstitutionCardWithActions from "../institutions/components/InstitutionCardWithActions";
 import StatsCardsWrapper from "../components/StatsCardsWrapper";
 import AppointmentsPerWeekChart from "../components/charts/AppointmentsPerWeekChart";
-import PatientsTable from "../components/PatientsTable";
 import PatientCardWithActions from "../patients/components/PatientCardWithAction";
 
 const ProfessionalDashboard = async () => {
@@ -50,7 +49,7 @@ const ProfessionalDashboard = async () => {
   const previewInstitutions = institutionsIncluded.slice(0, 3);
 
   return (
-    <section className="w-full h-full flex flex-col lg:grid lg:grid-cols-[70%,30%] overflow-y-auto px-4 py-4 gap-1 bg-gradient-to-br from-[#f0f4f8] via-[#f9fafa] to-[#e8f0ff]">
+    <section className="w-full z-50 h-full flex flex-col lg:grid lg:grid-cols-[70%,30%] overflow-y-auto px-4 py-4 gap-1 bg-gradient-to-br from-[#f0f4f8] via-[#f9fafa] to-[#e8f0ff]">
       {/* Left section */}
       <div className="w-full bg-white rounded-lg h-auto flex flex-col gap-2 mx-auto items-center justify-start px-2 overflow-x-hidden max-w-full">
         <StatsCardsWrapper
@@ -94,6 +93,7 @@ const ProfessionalDashboard = async () => {
             <PatientCardWithActions
               patientsIncluded={previewPatients}
               isDemo={isDemo}
+              showFloatingButton={false} 
             />
           )}
           <p className="text-xs text-gray-400 mt-2">
@@ -123,6 +123,7 @@ const ProfessionalDashboard = async () => {
             <InstitutionCardWithActions
               institutionsIncluded={previewInstitutions}
               isDemo={isDemo}
+              showFloatingButton={false} 
             />
           )}
           <p className="text-xs text-gray-400 mt-2">
