@@ -26,26 +26,28 @@ export default async function ProfessionalLayout({
   const cookieStore = cookies();
   const professionalId = cookieStore.get("professional-id")?.value;
   const isDemo = cookieStore.get("isDemo")?.value === "true";
-  
-  const { data, appointments, institutions, patients } = await getProfessionalIncludesFromCookies();
-  if(!professionalId || !data){
-    redirect("/introducing-medical-schedule")
+
+  const { data, appointments, institutions, patients } =
+    await getProfessionalIncludesFromCookies();
+  if (!professionalId || !data) {
+    redirect("/introducing-medical-schedule");
   }
 
   return (
     <section className="flex flex-col">
-      {/* content */}     
-       <Suspense fallback={<Loading />}>
-       <ProfessionalDashboard
-       professional={data}
-       appointments={appointments}
-       patients={patients}
-       institutions={institutions}
-       isDemo={isDemo}
-       >
-       {children}
-       </ProfessionalDashboard>
-       </Suspense>
+      {/* content */}
+      <Suspense fallback={<Loading />}>
+        <ProfessionalDashboard
+          professional={data}
+          appointments={appointments}
+          patients={patients}
+          institutions={institutions}
+          isDemo={isDemo}
+          showFloatingButton={false}
+        >
+          {children}
+        </ProfessionalDashboard>
+      </Suspense>
     </section>
   );
 }

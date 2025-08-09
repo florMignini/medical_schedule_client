@@ -13,6 +13,7 @@ interface Props {
   patients: any[];
   institutions: any[];
   isDemo: boolean;
+  showFloatingButton: boolean;
 }
 
 export default function ProfessionalDashboard({
@@ -22,6 +23,7 @@ export default function ProfessionalDashboard({
   patients,
   institutions,
   isDemo,
+  showFloatingButton: boolean = false,
 }: Props) {
   const [isOpen, setIsOpen] = useState(false);
   const [variant, setVariant] = useState<"desktop" | "mobile">("mobile");
