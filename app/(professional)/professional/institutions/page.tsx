@@ -54,7 +54,9 @@ const { institutions, isDemo} = useProfessionalIncludes();
         hasMore={displayed.length < filtered.length}
         loader={<p className="text-center text-sm text-gray-500 py-2">Cargando más instituciones...</p>}
       >
-        <InstitutionCardWithActions institutionsIncluded={displayed} isDemo={isDemo} />
+        <InstitutionCardWithActions 
+        showFloatingButton={true}
+        institutionsIncluded={displayed} isDemo={isDemo} />
       </InfiniteScroll>
     </section>
   );
