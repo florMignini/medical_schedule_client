@@ -41,13 +41,15 @@ import {
 } from "@/app/actions";
 import SubmitButton from "../SubmitButton";
 import { Patient } from "@/interfaces";
+import SelectField from "./SelectField";
+import RadioGroupField from "./RadioGroupField";
 
 type Props = {
   selectedPatient?: Partial<Patient> | null;
   onClose: () => void;
   onSuccess: () => void;
 };
-const PatientRegistrationForm : React.FC<Props> = ({
+const PatientRegistrationForm: React.FC<Props> = ({
   selectedPatient,
   onClose,
   onSuccess,
@@ -161,62 +163,56 @@ const PatientRegistrationForm : React.FC<Props> = ({
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit)}
-        className="w-[99%] h-full space-y-6 flex-1 mb-24 pb-3"
+        className="max-w-4xl mx-auto p-8 bg-white rounded-xl shadow-lg space-y-12"
       >
-        {/* patient personal information */}
-        <div className="mb-10">
-          {/* head */}
-          <div className="flex px-2 gap-2 mb-5">
-            <div className="h-5 border-x-2 border-black" />
-            <h1 className="text-16-semibold">Información Personal</h1>
-          </div>
-          {/* forms */}
-          <div className="mb-5 space-y-4 flex flex-wrap items-center justify-center lg:grid lg:grid-cols-[30%,70%] ">
-            {/* left side */}
-            <div className="flex items-start justify-center py-4">
-            {form?.getValues()?.patientPhoto?.length! > 0 ? (
-              <div className="w-full h-full  flex-col flex items-start justify-center pt-0 text-black">
-                <button
-                  className="flex items-center justify-end"
-                  onClick={() => {
-                    setIsTthereAnImage(false);
-                    form.resetField("patientPhoto");
-                  }}
-                >
-                  <Icon
-                    src={closeIcon}
-                    alt="close-icon"
-                    height={30}
-                    width={30}
+        {/* Información Personal */}
+        <section>
+          <h2 className="text-2xl font-semibold mb-6 border-l-4 border-indigo-600 pl-4">
+            Información Personal
+          </h2>
+
+          <div className="flex flex-col md:flex-row md:gap-8">
+            {/* Foto del paciente */}
+            <div className="mb-8 md:mb-0 md:w-1/3 flex flex-col items-center">
+              {form?.getValues()?.patientPhoto?.length! > 0 &&
+              isThereAnImage ? (
+                <div className="w-full flex flex-col items-center gap-4">
+                  <button
+                    type="button"
+                    className="self-end text-gray-600 hover:text-red-600 transition"
+                    onClick={() => {
+                      setIsTthereAnImage(false);
+                      form.resetField("patientPhoto");
+                    }}
+                    aria-label="Eliminar imagen"
+                  >
+                    ✕
+                  </button>
+                  <DinamicForm
+                    fieldType={FormFieldType.SKELETON}
+                    control={form.control}
+                    name="patientPhoto"
+                    renderSkeleton={(field) => (
+                      <FormControl className="w-full">
+                        <FileUploader
+                          files={field.value}
+                          onChange={field.onChange}
+                          // className="rounded-md border border-gray-300 p-2"
+                        />
+                      </FormControl>
+                    )}
                   />
-                </button>
-                <DinamicForm
-                  fieldType={FormFieldType.SKELETON}
-                  control={form.control}
-                  name="patientPhoto"
-                  renderSkeleton={(field) => (
-                    <FormControl className="w-full">
-                      <FileUploader
-                        files={
-                          isThereAnImage ? field.value : (field.value = [])
-                        }
-                        onChange={field.onChange}
-                      />
-                    </FormControl>
-                  )}
-                />
-              </div>
-            ) : (
-              <>
+                </div>
+              ) : (
                 <div
-                  className="w-[100%]"
+                  className="w-full cursor-pointer"
                   onClick={() => setIsTthereAnImage(true)}
                 >
                   <Label
                     htmlFor="patientPhoto"
-                    className="p-0 font-light text-[13px] text-gray-500"
+                    className="text-sm font-light text-gray-500 mb-2 block"
                   >
-                    Imágen del paciente
+                    Imagen del paciente
                   </Label>
                   <DinamicForm
                     fieldType={FormFieldType.SKELETON}
@@ -225,43 +221,52 @@ const PatientRegistrationForm : React.FC<Props> = ({
                     renderSkeleton={(field) => (
                       <FormControl>
                         <FileUploader
-                          files={
-                            isThereAnImage ? field.value : (field.value = [])
-                          }
+                          files={[]}
                           onChange={field.onChange}
+                          // className="rounded-md border border-gray-300 p-2"
                         />
                       </FormControl>
                     )}
                   />
                 </div>
-              </>
-            )}
+              )}
             </div>
-            {/* rightside */}
-            <div className="w-[95%]">
-              {/* firstname & lastname */}
-              <div className="flex gap-2 mb-2 flex-wrap">
+
+            {/* Campos */}
+            <div className="md:w-2/3 space-y-6">
+              {/* Nombre y Apellido */}
+              <div className="flex flex-col sm:flex-row sm:gap-4">
                 <DinamicForm
                   fieldType={FormFieldType.INPUT}
                   control={form.control}
                   name="firstName"
                   label="Nombre/s"
+                  className="flex-1"
+                  inputClassName="w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition"
+                  labelClassName="mb-1 text-gray-700 font-medium"
                 />
                 <DinamicForm
                   fieldType={FormFieldType.INPUT}
                   control={form.control}
                   name="lastName"
                   label="Apellido/s"
+                  className="flex-1 mt-4 sm:mt-0"
+                  inputClassName="w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition"
+                  labelClassName="mb-1 text-gray-700 font-medium"
                 />
               </div>
-              {/* address & occupation */}
-              <div className="flex gap-2 mb-2 flex-wrap">
+
+              {/* Dirección y Ocupación */}
+              <div className="flex flex-col sm:flex-row sm:gap-4">
                 <DinamicForm
                   fieldType={FormFieldType.INPUT}
                   control={form.control}
                   name="address"
                   label="Dirección"
                   placeholder="Av. Independencia 1111, Mar del Plata"
+                  className="flex-1"
+                  inputClassName="w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition"
+                  labelClassName="mb-1 text-gray-700 font-medium"
                 />
                 <DinamicForm
                   fieldType={FormFieldType.INPUT}
@@ -269,18 +274,24 @@ const PatientRegistrationForm : React.FC<Props> = ({
                   name="occupation"
                   label="Ocupación"
                   placeholder="Ingeniero en software"
+                  className="flex-1 mt-4 sm:mt-0"
+                  inputClassName="w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition"
+                  labelClassName="mb-1 text-gray-700 font-medium"
                 />
               </div>
-              {/* email & phone number */}
-              <div className="flex flex-col md:flex-row gap-2 mb-2">
+
+              {/* Email y Teléfono */}
+              <div className="flex flex-col md:flex-row md:gap-4">
                 <DinamicForm
                   fieldType={FormFieldType.EMAIL}
                   control={form.control}
                   name="email"
                   label="Email"
                   placeholder="paciente@email.com"
+                  className="flex-1"
+                  inputClassName="w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition"
+                  labelClassName="mb-1 text-gray-700 font-medium"
                 />
-
                 <DinamicForm
                   fieldType={FormFieldType.PHONE_INPUT}
                   control={form.control}
@@ -289,14 +300,18 @@ const PatientRegistrationForm : React.FC<Props> = ({
                   placeholder="(0223) 1-234567"
                   iconSrc={phoneIcon}
                   iconAlt="phone-icon"
+                  className="flex-1 mt-4 md:mt-0"
+                  inputClassName="w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition"
+                  labelClassName="mb-1 text-gray-700 font-medium"
                 />
               </div>
-              {/* identification type & identification number */}
-              <div className="flex flex-col justify-end md:flex-row gap-2 mb-2">
-                <div className="flex w-[40%] rounded-md items-center justify-center outline-none bg-transparent flex-col">
+
+              {/* Tipo y Número de Documento */}
+              <div className="flex flex-col md:flex-row md:gap-4 items-end">
+                <div className="md:w-1/2 w-full">
                   <DropdownMenu>
-                    <DropdownMenuTrigger className="flex items-center justify-center gap-1 rounded-md shadow-md shadow-[#6e6e6e] border-[#6e6e6e] bg-white border-black/20 border-[1px] px-3 py-2">
-                      Tipo de Documento
+                    <DropdownMenuTrigger className="flex items-center justify-between w-full rounded-md border border-gray-300 bg-white px-3 py-2 shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 cursor-pointer">
+                      {identificationType || "Tipo de Documento"}
                       <Icon
                         src={DropdownIcon}
                         alt="dropdown-icon"
@@ -304,424 +319,299 @@ const PatientRegistrationForm : React.FC<Props> = ({
                         height={18}
                       />
                     </DropdownMenuTrigger>
-                    <DropdownMenuContent className="ml-5 w-full flex items-center justify-start">
+                    <DropdownMenuContent className="w-full mt-1">
                       <DropdownMenuRadioGroup
                         value={identificationType}
                         onValueChange={setIdentificationType}
-                        className="flex w-full flex-col items-center gap-1 rounded-md  border-[#6e6e6e] bg-white
-                      text-black text-ellipsis"
+                        className="flex flex-col gap-2 p-2"
                       >
                         {IdentificationType.map((ID: string) => (
                           <DropdownMenuRadioItem
                             key={ID}
                             value={ID}
-                            className="w-[90%] flex items-center justify-start pl-6"
+                            className="cursor-pointer"
                           >
                             {ID}
                           </DropdownMenuRadioItem>
                         ))}
                       </DropdownMenuRadioGroup>
                     </DropdownMenuContent>
-                    {identificationType ? (
-                      <p className="mt-2">{identificationType}</p>
-                    ) : null}
                   </DropdownMenu>
                 </div>
-
                 <DinamicForm
                   fieldType={FormFieldType.INPUT}
                   control={form.control}
                   name="identityNumber"
                   label="Número de Documento"
                   placeholder="33 333 333"
+                  className="md:w-1/2 w-full mt-4 md:mt-0"
+                  inputClassName="w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition"
+                  labelClassName="mb-1 text-gray-700 font-medium"
                 />
               </div>
-              {/* birthdate & gender */}
-              <div className="flex gap-2 mb-2 flex-wrap">
+
+              {/* Fecha de Nacimiento y Género */}
+              <div className="flex flex-col sm:flex-row sm:gap-4">
                 <DinamicForm
                   fieldType={FormFieldType.DATE_PICKER}
                   control={form.control}
                   name="birthDate"
                   label="Fecha de Nacimiento"
                   placeholder="dd/MM/YYYY"
+                  className="flex-1"
+                  inputClassName="w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition"
+                  labelClassName="mb-1 text-gray-700 font-medium"
                 />
-                <DinamicForm
-                  fieldType={FormFieldType.SKELETON}
+               <RadioGroupField
                   control={form.control}
                   name="gender"
-                  label="Genero"
-                  renderSkeleton={(field) => (
-                    <FormControl>
-                      <RadioGroup
-                        className="flex h-12 xl:justify-between"
-                        onValueChange={field.onChange}
-                        defaultValue={field.value}
-                      >
-                        {genderOptions.map((gender: string) => (
-                          <div key={gender} className="radio-group gap-1">
-                            <RadioGroupItem value={gender} id={gender} />
-                            <Label htmlFor={gender} className="cursor-pointer">
-                              {gender}
-                            </Label>
-                          </div>
-                        ))}
-                      </RadioGroup>
-                    </FormControl>
-                  )}
-                />
+                  label="Género"
+                  options={genderOptions}
+                  />
               </div>
-              {/* emergency contact name & emergency contact number */}
-              <div className="flex gap-2 mb-2 flex-wrap">
+
+              {/* Contacto de emergencia */}
+              <div className="flex flex-col sm:flex-row sm:gap-4">
                 <DinamicForm
                   fieldType={FormFieldType.INPUT}
                   control={form.control}
                   name="emergencyContactName"
-                  label="Nombre de Contacto en caso de Emergencia"
+                  label="Contacto en caso de Emergencia"
                   placeholder="Juan Perez"
+                  className="flex-1"
+                  inputClassName="w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition"
+                  labelClassName="mb-1 text-gray-700 font-medium"
                 />
                 <DinamicForm
                   fieldType={FormFieldType.PHONE_INPUT}
                   control={form.control}
                   name="emergencyContactNumber"
-                  label="Número de Contacto en caso de Emergencia"
+                  label="Número de Contacto"
                   placeholder="(0223) 1-234567"
                   iconSrc={phoneIcon}
                   iconAlt="phone-icon"
+                  className="flex-1 mt-4 sm:mt-0"
+                  inputClassName="w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition"
+                  labelClassName="mb-1 text-gray-700 font-medium"
                 />
               </div>
-              <div className="flex gap-2 mb-2 flex-wrap">
-                <DinamicForm
-                  fieldType={FormFieldType.INPUT}
-                  control={form.control}
-                  name="contactRelationship"
-                  label="Parentesco con el paciente"
-                  placeholder="Vinculo"
-                />
-              </div>
-            </div>
-          </div>
-        </div>
 
-        {/* medical records */}
-        <div className="mb-10">
-          {/* head */}
-          <div className="flex px-2 gap-2 mb-5">
-            <div className="h-5 border-x-2 border-black" />
-            <h1 className="text-16-semibold capitalize">registros médicos</h1>
-          </div>
-          {/* forms */}
-          <div className="px-[1.2rem]">
-            {/* ensurance_provider & ensurance_policy_number */}
-            <div className="flex gap-2 mb-2 flex-wrap">
               <DinamicForm
                 fieldType={FormFieldType.INPUT}
                 control={form.control}
-                name="insuranceProvider"
-                label="Cobertura Médica"
-                placeholder="PAMI"
-              />
-              <DinamicForm
-                fieldType={FormFieldType.INPUT}
-                control={form.control}
-                name="insurancePolicyNumber"
-                label="Número de Afiliado"
-                placeholder="123456789012/00"
-              />
-            </div>
-            {/* smoker & ex-smoker */}
-            <div className="flex gap-2 mb-2 flex-wrap">
-              {/* smoker */}
-              <DinamicForm
-                fieldType={FormFieldType.SKELETON}
-                control={form.control}
-                name="smoker"
-                label="Fumador"
-                renderSkeleton={(field) => (
-                  <FormControl>
-                    <RadioGroup
-                      className="flex h-12 xl:justify-between"
-                      onValueChange={field.onChange}
-                      defaultValue={field.value}
-                    >
-                      {booleanOption.map((bool: string) => (
-                        <div key={bool} className="radio-group gap-1">
-                          <RadioGroupItem value={bool} id={bool} />
-                          <Label htmlFor={bool} className="cursor-pointer">
-                            {bool}
-                          </Label>
-                        </div>
-                      ))}
-                    </RadioGroup>
-                  </FormControl>
-                )}
-              />
-              {/* ex-smoker */}
-              <DinamicForm
-                fieldType={FormFieldType.SKELETON}
-                control={form.control}
-                name="exSmoker"
-                label="Ex-Fumador"
-                renderSkeleton={(field) => (
-                  <FormControl>
-                    <RadioGroup
-                      className="flex h-12 xl:justify-between"
-                      onValueChange={field.onChange}
-                      defaultValue={field.value}
-                    >
-                      {booleanOption.map((bool: string) => (
-                        <div key={bool} className="radio-group gap-1">
-                          <RadioGroupItem value={bool} id={bool} />
-                          <Label htmlFor={bool} className="cursor-pointer">
-                            {bool}
-                          </Label>
-                        </div>
-                      ))}
-                    </RadioGroup>
-                  </FormControl>
-                )}
-              />
-            </div>
-            {/* bloodtype & bloodfactor */}
-            <div className="flex gap-2 mb-2 flex-wrap">
-              {/* bloodType */}
-              <DinamicForm
-                fieldType={FormFieldType.SKELETON}
-                control={form.control}
-                name="bloodType"
-                label="Grupo Sanguíneo"
-                renderSkeleton={(field) => (
-                  <FormControl>
-                    <RadioGroup
-                      className="flex h-12 xl:justify-between"
-                      onValueChange={field.onChange}
-                      defaultValue={field.value}
-                    >
-                      {bloodType.map((type: string) => (
-                        <div key={type} className="radio-group gap-1">
-                          <RadioGroupItem value={type} id={type} />
-                          <Label htmlFor={type} className="cursor-pointer">
-                            {type}
-                          </Label>
-                        </div>
-                      ))}
-                    </RadioGroup>
-                  </FormControl>
-                )}
-              />
-              {/* bloodFactor */}
-              <DinamicForm
-                fieldType={FormFieldType.SKELETON}
-                control={form.control}
-                name="bloodFactor"
-                label="Factor"
-                renderSkeleton={(field) => (
-                  <FormControl>
-                    <RadioGroup
-                      className="flex h-12 xl:justify-between"
-                      onValueChange={field.onChange}
-                      defaultValue={field.value}
-                    >
-                      {bloodFactor.map((factor: string) => (
-                        <div key={factor} className="radio-group gap-1">
-                          <RadioGroupItem value={factor} id={factor} />
-                          <Label htmlFor={factor} className="cursor-pointer">
-                            {factor}
-                          </Label>
-                        </div>
-                      ))}
-                    </RadioGroup>
-                  </FormControl>
-                )}
-              />
-            </div>
-            {/* allergies */}
-            <div className="flex gap-2 mb-2 flex-wrap">
-              {/* allergies type */}
-              <DinamicForm
-                fieldType={FormFieldType.SKELETON}
-                control={form.control}
-                name="allergic"
-                label="Alergico/a"
-                renderSkeleton={(field) => (
-                  <FormControl>
-                    <RadioGroup
-                      className="flex h-12 xl:justify-between"
-                      onValueChange={field.onChange}
-                      defaultValue={field.value}
-                    >
-                      {booleanOption.map((bool: string) => (
-                        <div key={bool} className="radio-group gap-1">
-                          <RadioGroupItem value={bool} id={bool} />
-                          <Label htmlFor={bool} className="cursor-pointer">
-                            {bool}
-                          </Label>
-                        </div>
-                      ))}
-                    </RadioGroup>
-                  </FormControl>
-                )}
-              />
-              {/* choose specific allergie */}
-              <DinamicForm
-                control={form.control}
-                name="allergies"
-                label="Enumere Alergias"
-                placeholder="Ex: Polen, Penicilina, Mani, Otros"
-                fieldType={FormFieldType.TEXTAREA}
-              />
-            </div>
-            {/* current medication */}
-            <div className="flex gap-2 mb-2 flex-wrap">
-              <DinamicForm
-                control={form.control}
-                name="currentMedication"
-                label="Medicamentos Actuales"
-                placeholder="Ex: Prednisone, Amoxicilina, Paracetamol"
-                fieldType={FormFieldType.TEXTAREA}
-              />
-              <DinamicForm
-                control={form.control}
-                name="familyMedicalHistory"
-                label="Antecedentes Familiares"
-                placeholder="Diabetes, Cáncer..."
-                fieldType={FormFieldType.TEXTAREA}
-              />
-            </div>
-            {/* medical history */}
-            <div className="flex flex-col justify-end md:flex-row gap-2 mb-2">
-              <div className="flex w-[40%] rounded-md items-center justify-center outline-none bg-transparent flex-col">
-                <DropdownMenu>
-                  <DropdownMenuTrigger className="flex items-center justify-center gap-1 rounded-md shadow-md shadow-[#6e6e6e] border-[#6e6e6e] bg-white border-black/20 border-[1px] outline-none px-3 py-2">
-                    Antecedentes Médicos
-                    <Icon
-                      src={DropdownIcon}
-                      alt="dropdown-icon"
-                      width={18}
-                      height={18}
-                    />
-                  </DropdownMenuTrigger>
-                  <DropdownMenuContent className="ml-5 w-full flex items-center justify-start">
-                    <DropdownMenuRadioGroup
-                      value={medicalHistoryType}
-                      onValueChange={setMedicalHistoryType}
-                      className="flex w-full flex-col items-center gap-1 rounded-md  border-white bg-white
-                      text-black text-ellipsis"
-                    >
-                      {medicalHistory.map((history: string) => (
-                        <DropdownMenuRadioItem
-                          key={history}
-                          value={history}
-                          className="w-[90%] flex items-center justify-start pl-6"
-                        >
-                          {history}
-                        </DropdownMenuRadioItem>
-                      ))}
-                    </DropdownMenuRadioGroup>
-                  </DropdownMenuContent>
-                  {medicalHistoryType ? <p>{medicalHistoryType}</p> : null}
-                </DropdownMenu>
-              </div>
-              {/* add relevant information */}
-              <DinamicForm
-                fieldType={FormFieldType.TEXTAREA}
-                control={form.control}
-                name="pastMedicalHistory"
-                label="Observaciones/Comentarios"
-                placeholder="Agregar comentarios/observaciones relevantes"
+                name="contactRelationship"
+                label="Parentesco con el paciente"
+                placeholder="Vínculo"
+                className="mt-4"
+                inputClassName="w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition"
+                labelClassName="mb-1 text-gray-700 font-medium"
               />
             </div>
           </div>
-        </div>
+        </section>
 
-        {/* anthropometric measurements */}
-        <div className="mb-10">
-          {/* head */}
-          <div className="flex px-2 gap-2 mb-5">
-            <div className="h-5 border-x-2 border-black" />
-            <h1 className="text-16-semibold capitalize">
-              Medidas Antropométricas
-            </h1>
+        {/* Registros medicos */}
+        <section>
+          <h2 className="text-2xl font-semibold mb-6 border-l-4 border-indigo-600 pl-4">
+            Registros Médicos
+          </h2>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+            <SelectField
+              control={form.control}
+              name="medicalHistoryType"
+              label="Tipo de antecedente Médico"
+              options={medicalHistory}
+              placeholder="Seleccionar"
+            />
+
+            <SelectField
+              control={form.control}
+              name="bloodType"
+              label="Tipo de Sangre"
+              options={bloodType}
+              placeholder="Seleccionar"
+            />
+
+            <SelectField
+              control={form.control}
+              name="bloodFactor"
+              label="Factor Rh"
+              options={bloodFactor}
+              placeholder="Seleccionar"
+            />
+
+            <SelectField
+              control={form.control}
+              name="smoker"
+              label="¿Fuma?"
+              options={booleanOption}
+              placeholder="Seleccionar"
+            />
+
+            <SelectField
+              control={form.control}
+              name="exSmoker"
+              label="¿Ex fumador?"
+              options={booleanOption}
+              placeholder="Seleccionar"
+            />
+
+            <SelectField
+              control={form.control}
+              name="allergic"
+              label="¿Es alérgico?"
+              options={booleanOption}
+              placeholder="Seleccionar"
+            />
           </div>
-          <div className="flex gap-2 mb-2 flex-wrap">
+
+          <DinamicForm
+            fieldType={FormFieldType.TEXTAREA}
+            control={form.control}
+            name="allergies"
+            label="Alergias"
+            placeholder="Especificar alergias"
+            className="w-full"
+            inputClassName="min-h-[80px] resize-y w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition"
+            labelClassName="mb-1 text-gray-700 font-medium"
+          />
+
+          <DinamicForm
+            fieldType={FormFieldType.TEXTAREA}
+            control={form.control}
+            name="familyMedicalHistory"
+            label="Antecedentes Médicos Familiares"
+            placeholder="Especificar antecedentes familiares relevantes"
+            className="w-full"
+            inputClassName="min-h-[80px] resize-y w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition"
+            labelClassName="mb-1 text-gray-700 font-medium"
+          />
+
+          <DinamicForm
+            fieldType={FormFieldType.TEXTAREA}
+            control={form.control}
+            name="pastMedicalHistory"
+            label="Antecedentes Médicos Personales"
+            placeholder="Especificar antecedentes médicos personales relevantes"
+            className="w-full"
+            inputClassName="min-h-[80px] resize-y w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition"
+            labelClassName="mb-1 text-gray-700 font-medium"
+          />
+
+          <DinamicForm
+            fieldType={FormFieldType.TEXTAREA}
+            control={form.control}
+            name="currentMedication"
+            label="Medicamentos Actuales"
+            placeholder="Especificar medicamentos que está tomando actualmente"
+            className="w-full"
+            inputClassName="min-h-[80px] resize-y w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition"
+            labelClassName="mb-1 text-gray-700 font-medium"
+          />
+        </section>
+
+        {/* Medidas Antropométricas */}
+        <section>
+          <h2 className="text-2xl font-semibold mb-6 border-l-4 border-indigo-600 pl-4">
+            Medidas Antropométricas
+          </h2>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
             <DinamicForm
+              fieldType={FormFieldType.INPUT}
+              control={form.control}
               name="patientHeight"
-              control={form.control}
-              placeholder="Altura"
-              label="Altura"
-              fieldType={FormFieldType.INPUT}
+              label="Altura (cm)"
+              placeholder="Ej: 170"
+              inputClassName="w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition"
+              labelClassName="mb-1 text-gray-700 font-medium"
             />
             <DinamicForm
+              fieldType={FormFieldType.INPUT}
+              control={form.control}
               name="patientWeight"
-              control={form.control}
-              placeholder="Peso"
-              label="Peso"
-              fieldType={FormFieldType.INPUT}
-            />
-          </div>
-          <div className="flex gap-2 mb-2 flex-wrap">
-            <DinamicForm
-              name="patientWaist"
-              control={form.control}
-              placeholder="cintura"
-              label="Cintura"
-              fieldType={FormFieldType.INPUT}
+              label="Peso (kg)"
+              placeholder="Ej: 70"
+              inputClassName="w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition"
+              labelClassName="mb-1 text-gray-700 font-medium"
             />
             <DinamicForm
-              name="patientHip"
-              control={form.control}
-              placeholder="cadera"
-              label="Cadera"
               fieldType={FormFieldType.INPUT}
-            />
-          </div>
-          <div className="flex gap-2 mb-2 flex-wrap">
-            <DinamicForm
-              name="patientArm"
               control={form.control}
-              placeholder="brazo"
-              label="Brazo"
-              fieldType={FormFieldType.INPUT}
-            />
-            <DinamicForm
-              name="patientTricepsFold"
-              control={form.control}
-              placeholder="pliegue del triceps"
-              label="Pliegue del Tricep"
-              fieldType={FormFieldType.INPUT}
-            />
-          </div>
-          <div className="flex gap-2 mb-2 flex-wrap">
-            <DinamicForm
               name="patientBMI"
-              control={form.control}
-              placeholder="IMC"
               label="IMC"
-              fieldType={FormFieldType.INPUT}
+              placeholder="Ej: 22.5"
+              inputClassName="w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition"
+              labelClassName="mb-1 text-gray-700 font-medium"
             />
             <DinamicForm
+              fieldType={FormFieldType.INPUT}
+              control={form.control}
               name="patientBFP"
-              control={form.control}
-              placeholder="(%)"
-              label="Porcentaje de grasa corporal"
-              fieldType={FormFieldType.INPUT}
+              label="Porcentaje de Grasa Corporal (%)"
+              placeholder="Ej: 15"
+              inputClassName="w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition"
+              labelClassName="mb-1 text-gray-700 font-medium"
             />
-          </div>
-          <div className="flex gap-2 mb-2 flex-wrap">
             <DinamicForm
-              name="ObservationsComments"
+              fieldType={FormFieldType.INPUT}
               control={form.control}
-              placeholder="Observaciones/Comentarios"
-              label="Observaciones/Comentarios"
-              fieldType={FormFieldType.TEXTAREA}
+              name="patientWaist"
+              label="Cintura (cm)"
+              placeholder="Ej: 80"
+              inputClassName="w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition"
+              labelClassName="mb-1 text-gray-700 font-medium"
+            />
+            <DinamicForm
+              fieldType={FormFieldType.INPUT}
+              control={form.control}
+              name="patientHip"
+              label="Cadera (cm)"
+              placeholder="Ej: 95"
+              inputClassName="w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition"
+              labelClassName="mb-1 text-gray-700 font-medium"
+            />
+            <DinamicForm
+              fieldType={FormFieldType.INPUT}
+              control={form.control}
+              name="patientArm"
+              label="Brazo (cm)"
+              placeholder="Ej: 30"
+              inputClassName="w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition"
+              labelClassName="mb-1 text-gray-700 font-medium"
+            />
+            <DinamicForm
+              fieldType={FormFieldType.INPUT}
+              control={form.control}
+              name="patientTricepsFold"
+              label="Pliegue Tricipital (mm)"
+              placeholder="Ej: 12"
+              inputClassName="w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition"
+              labelClassName="mb-1 text-gray-700 font-medium"
             />
           </div>
-        </div>
-        <div className="flex w-[90%] items-center justify-start">
-          {fileError && <p className="text-red-500 text-start">{fileError}</p>}
-        </div>
+        </section>
+
+        {/* Observaciones y Comentarios */}
+        <DinamicForm
+          fieldType={FormFieldType.TEXTAREA}
+          control={form.control}
+          name="ObservationsComments"
+          label="Observaciones y Comentarios"
+          placeholder="Cualquier observación adicional sobre el paciente"
+          inputClassName="min-h-[80px] resize-y w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition"
+          labelClassName="mb-1 text-gray-700 font-medium"
+        />
+
+        {/* Error de archivo */}
+        {fileError && <p className="text-red-600 text-center">{fileError}</p>}
+
+        {/* Botón Submit */}
         <SubmitButton
-          className="w-[95%] mx-auto border-[1px] border-gray-600 bg-gradient-to-b from-black to-[#807f7f] text-white hover:bg-gradient-to-b hover:from-white hover:to-[#222222] hover:text-[#1c1c1c] text-center p-2 rounded-lg"
+          className="w-full bg-indigo-600 text-white py-3 rounded-md hover:bg-indigo-700 transition"
           loading={loading}
+          // type="submit"
         >
           Agregar Paciente
         </SubmitButton>
