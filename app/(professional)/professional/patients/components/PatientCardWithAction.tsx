@@ -18,7 +18,7 @@ import PatientRegistrationForm from "@/components/forms/PatientRegisterForm";
 type Props = {
   isDemo: boolean;
   patientsIncluded: PatientsIncluded[];
-  showFloatingButton: boolean;
+  showFloatingButton?: boolean;
 };
 
 export default function PatientCardWithActions({
