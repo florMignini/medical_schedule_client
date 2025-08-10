@@ -31,8 +31,7 @@ export default function PatientCardWithActions({
   const [selectedPatient, setSelectedPatient] =
     useState<Partial<Patient> | null>(null);
   const { data, isLoading, refetch } = useProfessionalIncludes();
-  console.log("Selected Patient:", selectedPatient);
-  console.log("formOpen:", formOpen);
+
 
   return (
     <>
