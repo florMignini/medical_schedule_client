@@ -33,7 +33,7 @@ export function AnimatedDialog({
 
         <DialogContent
           className={cn(
-            "bg-white/50 glass-effect-vibrant backdrop-blur-lg w-full max-w-[90vw] lg:max-w-2xl xl:max-w-3xl max-h-[90vh] overflow-auto p-0 rounded-2xl z-50"
+            "bg-white/50 glass-effect-vibrant backdrop-blur-lg w-full lg:w-[80%] max-w-[1500px] max-h-[90vh] overflow-auto p-0 rounded-2xl z-50"
           )}
         >
           <motion.div
