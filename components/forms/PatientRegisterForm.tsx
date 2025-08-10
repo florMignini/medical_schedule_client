@@ -112,7 +112,22 @@ const PatientRegistrationForm: React.FC<Props> = ({
       isActive: true,
     },
   });
+  const patientHeight = form.watch("patientHeight");
+  const patientWeight = form.watch("patientWeight");
 
+  useEffect(() => {
+    if (patientHeight && patientWeight) {
+      const alturaMetros = parseFloat(patientHeight) / 100;
+      const pesoKg = parseFloat(patientWeight);
+
+      if (alturaMetros > 0 && pesoKg > 0) {
+        const imc = pesoKg / alturaMetros ** 2;
+        form.setValue("patientBMI", imc.toFixed(2));
+      }
+    } else {
+      form.setValue("patientBMI", "");
+    }
+  }, [patientHeight, patientWeight, form]);
   async function onSubmit(values: z.infer<typeof patientsRegisterValidation>) {
     setLoading(true);
     let formData;
@@ -362,12 +377,12 @@ const PatientRegistrationForm: React.FC<Props> = ({
                   inputClassName="w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition"
                   labelClassName="mb-1 text-gray-700 font-medium"
                 />
-               <RadioGroupField
+                <RadioGroupField
                   control={form.control}
                   name="gender"
                   label="Género"
                   options={genderOptions}
-                  />
+                />
               </div>
 
               {/* Contacto de emergencia */}
@@ -542,9 +557,19 @@ const PatientRegistrationForm: React.FC<Props> = ({
               name="patientBMI"
               label="IMC"
               placeholder="Ej: 22.5"
-              inputClassName="w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition"
+              inputClassName={`w-full border rounded-md p-2 focus:outline-none focus:ring-2 transition ${
+                parseFloat(form.watch("patientBMI")!) < 18.5
+                  ? "bg-blue-100 border-blue-300"
+                  : parseFloat(form.watch("patientBMI")!) < 25
+                  ? "bg-green-100 border-green-300"
+                  : parseFloat(form.watch("patientBMI")!) < 30
+                  ? "bg-yellow-100 border-yellow-300"
+                  : "bg-red-100 border-red-300"
+              }`}
               labelClassName="mb-1 text-gray-700 font-medium"
+              
             />
+
             <DinamicForm
               fieldType={FormFieldType.INPUT}
               control={form.control}
@@ -562,6 +587,7 @@ const PatientRegistrationForm: React.FC<Props> = ({
               placeholder="Ej: 80"
               inputClassName="w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition"
               labelClassName="mb-1 text-gray-700 font-medium"
+              readOnly// Solo lectura para IMC
             />
             <DinamicForm
               fieldType={FormFieldType.INPUT}

@@ -21,6 +21,7 @@ import Mail from "@/app/(professional)/professional/components/icons/Mail";
 import { Select, SelectContent, SelectTrigger, SelectValue } from "./ui/select";
 import { Textarea } from "./ui/textarea";
 import { Checkbox } from "./ui/checkbox";
+import { read } from "fs";
 
 interface CustomProperty {
   type?: string;
@@ -37,7 +38,7 @@ interface CustomProperty {
   defaultValue?: any;
   children?: React.ReactNode;
   renderSkeleton?: (field: any) => React.ReactNode;
-
+  readOnly?: boolean;
   // Nuevas props para estilos
   className?: string;
   inputClassName?: string;
@@ -62,21 +63,25 @@ export const DinamicField = ({
     defaultValue,
     renderSkeleton,
     disable,
+    readOnly,
     inputClassName,
   } = props;
 
   const baseInputClasses =
     "w-full rounded-md border border-gray-300 px-3 py-2 text-gray-700 shadow-sm " +
     "focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition duration-150 ease-in-out";
-
+  const disableClase = disable ? "bg-gray-100 cursor-not-allowed" : "";
   const inputClasses = inputClassName
-    ? `${baseInputClasses} ${inputClassName}`
+    ? `${baseInputClasses} ${inputClassName} ${disableClase}`
     : baseInputClasses;
 
   switch (fieldType) {
     case FormFieldType.INPUT:
       return (
-        <div className="flex items-center bg-white rounded-md border border-gray-300 shadow-sm">
+        <div
+          className={`flex items-center bg-white rounded-md border border-gray-300 shadow-sm ${disableClase}`}
+        >
+          
           {iconSrc && (
             <Image
               src={iconSrc}
@@ -91,32 +96,31 @@ export const DinamicField = ({
               placeholder={placeholder}
               {...(field !== undefined ? { ...field } : { ...defaultValue })}
               type={type}
-              disabled={disable}
-              className={inputClasses + (iconSrc ? " ml-2" : "")}
+              className={`${inputClasses} ${
+                iconSrc ? "ml-2" : ""
+              } ${disableClase}`}
               defaultValue={defaultValue}
+              disabled={readOnly || disable}
             />
           </FormControl>
         </div>
       );
 
     case FormFieldType.EMAIL:
+    case FormFieldType.TEXTAREA:
       return (
-        <div className="flex items-center bg-white rounded-md border border-gray-300 shadow-sm">
-          <Mail width={20} height={20} className="mx-2 text-gray-500" />
-          <FormControl className="flex-1">
-            <Input
-              placeholder={placeholder}
-              {...(field !== undefined ? { ...field } : { ...defaultValue })}
-              type={type}
-              disabled={disable}
-              className={inputClasses}
-              defaultValue={defaultValue}
-            />
-          </FormControl>
-        </div>
+        <FormControl>
+          <Textarea
+            placeholder={placeholder}
+            {...field}
+            disabled={disable}
+            readOnly={props.readOnly} // <-- NUEVO
+            className={inputClasses}
+            defaultValue={defaultValue}
+          />
+        </FormControl>
       );
 
-    case FormFieldType.TEXTAREA:
       return (
         <FormControl>
           <Textarea
@@ -169,9 +173,7 @@ export const DinamicField = ({
         <FormControl>
           <Select onValueChange={field.onChange} defaultValue={field.value}>
             <FormControl>
-              <SelectTrigger
-                className={`${inputClasses} cursor-pointer`}
-              >
+              <SelectTrigger className={`${inputClasses} cursor-pointer`}>
                 <SelectValue placeholder={placeholder} />
               </SelectTrigger>
             </FormControl>
@@ -212,14 +214,7 @@ export const DinamicField = ({
 };
 
 const DinamicForm = (props: CustomProperty) => {
-  const {
-    control,
-    fieldType,
-    name,
-    label,
-    className,
-    labelClassName,
-  } = props;
+  const { control, fieldType, name, label, className, labelClassName } = props;
 
   return (
     <FormField
@@ -227,9 +222,7 @@ const DinamicForm = (props: CustomProperty) => {
       name={name}
       render={({ field }) => (
         <FormItem
-          className={`flex flex-col w-full max-w-full mb-4 ${
-            className ?? ""
-          }`}
+          className={`flex flex-col w-full max-w-full mb-4 ${className ?? ""}`}
         >
           {fieldType !== FormFieldType.CHECKBOX && label && (
             <FormLabel
