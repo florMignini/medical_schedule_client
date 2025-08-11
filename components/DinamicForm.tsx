@@ -70,16 +70,20 @@ export const DinamicField = ({
   const baseInputClasses =
     "w-full rounded-md border border-gray-300 px-3 py-2 text-gray-700 shadow-sm " +
     "focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition duration-150 ease-in-out";
-  const disableClase = disable ? "bg-gray-100 cursor-not-allowed" : "";
+
   const inputClasses = inputClassName
-    ? `${baseInputClasses} ${inputClassName} ${disableClase}`
+    ? `${baseInputClasses} ${inputClassName}`
     : baseInputClasses;
 
   switch (fieldType) {
     case FormFieldType.INPUT:
       return (
         <div
-          className={`flex items-center bg-white rounded-md border border-gray-300 shadow-sm ${disableClase}`}
+          className={`flex items-center bg-white rounded-md border border-gray-300 shadow-sm ${
+                  readOnly
+                    ? " cursor-not-allowed"
+                    : "cursor-pointer"
+                }`}
         >
           
           {iconSrc && (
@@ -98,9 +102,9 @@ export const DinamicField = ({
               type={type}
               className={`${inputClasses} ${
                 iconSrc ? "ml-2" : ""
-              } ${disableClase}`}
+              }`}
               defaultValue={defaultValue}
-              disabled={readOnly || disable}
+              disabled={readOnly}
             />
           </FormControl>
         </div>

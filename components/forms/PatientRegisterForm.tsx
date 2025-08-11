@@ -567,7 +567,7 @@ const PatientRegistrationForm: React.FC<Props> = ({
                   : "bg-red-100 border-red-300"
               }`}
               labelClassName="mb-1 text-gray-700 font-medium"
-              
+              readOnly={true}
             />
 
             <DinamicForm
@@ -587,7 +587,6 @@ const PatientRegistrationForm: React.FC<Props> = ({
               placeholder="Ej: 80"
               inputClassName="w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition"
               labelClassName="mb-1 text-gray-700 font-medium"
-              readOnly// Solo lectura para IMC
             />
             <DinamicForm
               fieldType={FormFieldType.INPUT}
