@@ -45,7 +45,7 @@ const AppointmentDialogDetail = ({
   }
 
   return (
-    <div>
+    <div className="p-2 rounded-lg">
       {/* Detalles del paciente */}
       <div className="w-full flex items-center justify-between mb-4">
         <div className="flex items-center text-white flex-col">

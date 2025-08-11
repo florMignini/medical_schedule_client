@@ -99,7 +99,7 @@ const AppointmentsList = ({
                 }`}
             >
               <button className="w-full flex justify-between items-center mb-2">
-                <div className="flex items-center gap-2 text-gray-700">
+                <div className="flex items-center gap-2 text-white">
                   <CalendarClock className="w-4 h-4" />
                   <span className="font-medium">{hour}</span>
                 </div>
@@ -172,10 +172,10 @@ const AppointmentsList = ({
       >
         <DialogContent
           key={turnoOcita + (selectedTime?.toISOString() ?? "")} // ← esto fuerza un reset real
-          className="w-[80vw] bg-white/70 backdrop-blur-lg sm:max-w-[600px] max-h-[100vh] p-4 overflow-y-auto rounded-2xl shadow-xl"
+          className="w-[80vw] bg-white/10 backdrop-blur-sm sm:max-w-[600px] max-h-[100vh] p-4 overflow-y-auto rounded-2xl shadow-xl"
         >
           <DialogHeader>
-            <DialogTitle className="text-xl font-bold text-gray-700">
+            <DialogTitle className="text-xl font-bold text-white">
               {turnoOcita === "turno" ? "Crear Turno" : "Detalles del turno"}
             </DialogTitle>
             <DialogDescription className="text-sm text-gray-500">
