@@ -10,15 +10,14 @@ import SubmitButton from "../SubmitButton";
 import { useForm } from "react-hook-form";
 import { Label } from "../ui";
 import { createPastAppointment, createPatientPastAppointmentRelation } from "@/app/actions";
-import  { useRouter } from "next/navigation";
-
+import { useRouter } from "next/navigation";
 import FileUploaderPlus from "../FileUploaderPlus";
-
 
 const PastAppointmentForm = ({ patient, appointment }: any) => {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
   const [isThereAnImage, setIsThereAnImage] = useState<boolean>(false);
+
   const form = useForm<z.infer<typeof NewPastAppointmentSchema>>({
     resolver: zodResolver(NewPastAppointmentSchema),
     defaultValues: {
@@ -30,23 +29,17 @@ const PastAppointmentForm = ({ patient, appointment }: any) => {
     },
   });
 
-  // onSubmit form
   async function onSubmit(values: z.infer<typeof NewPastAppointmentSchema>) {
-      setLoading(true);
+    setLoading(true);
     let formData: FormData | undefined;
-
-    const dataArr:any[] = [];
-    if (
-      values.patientAttachedFilesUrl &&
-      values.patientAttachedFilesUrl.length > 0
-    ) {
-      values.patientAttachedFilesUrl.forEach((file: File) => {
+    const dataArr: any[] = [];
+console.log("values", values);
+    if (values?.patientAttachedFilesUrl?.length! > 0) {
+      values?.patientAttachedFilesUrl!.forEach((file: File) => {
         formData = new FormData();
-        const blobFile = new Blob([file], {
-          type: file.type,
-        });
-        formData?.append("blobFile", blobFile);
-        formData?.append("fileName", file.name);
+        const blobFile = new Blob([file], { type: file.type });
+        formData.append("blobFile", blobFile);
+        formData.append("fileName", file.name);
         dataArr.push(formData);
       });
     }
@@ -57,77 +50,68 @@ const PastAppointmentForm = ({ patient, appointment }: any) => {
         scheduled: appointment.schedule,
         patientAttachedFilesUrl: dataArr,
       };
-    
-      const response: any = await createPastAppointment(pastAppointmentData) as {id:string};
-      if (response !== undefined) {
-        const IDs = {
+
+      const response: any = await createPastAppointment(pastAppointmentData);
+     console.log("response", response);
+      if (response?.id) {
+        await createPatientPastAppointmentRelation({
           patient: patient.id!,
           pastAppointments: response.id,
-        };
-
-        const data = await createPatientPastAppointmentRelation(IDs);
-        if (response) {
-          form.reset();
-          setLoading(false);
-          router.push(`/professional/patients/${patient.id}/info`);
-        }else{
-          setLoading(false);
-        }
+        });
+        form.reset();
+        router.push(`/professional/patients/${patient.id}/info`);
       }
     } catch (error) {
       console.error(error);
+    } finally {
+      setLoading(false);
     }
   }
 
-  // -------------------------------------
   return (
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit)}
-        className="w-[100%] space-y-2 flex-1"
+        className="w-full space-y-4 flex-1"
       >
-         {/* appointment detail */}
-       <div className="w-full flex flex-wrap mb-5 items-start justify-center">
-         {/* diagnosis */}
-         <div className="w-[50%] flex items-start justify-center flex-col">
-          <Label
-            htmlFor="diagnosis"
-            className="w-full p-0 text-start font-light text-[13px] text-gray-300"
-          >
-            Diagnostico:
-          </Label>
+        {/* Scheduled (solo lectura) */}
+        <div className="w-full">
+          <Label className="text-sm text-gray-500">Fecha de la cita:</Label>
           <DinamicForm
-            name="diagnosis"
+            name="scheduled"
             control={form.control}
-            placeholder="Agregar detalles de la consulta"
-            fieldType={FormFieldType.TEXTAREA}
+            fieldType={FormFieldType.INPUT}
+            type="text"
+            defaultValue={new Date(appointment.schedule).toLocaleString()}
+            readOnly
           />
         </div>
-        {/* prescription */}
-        <div className="w-[50%] flex items-start justify-center flex-col">
-          <Label
-            htmlFor="prescription"
-            className="w-full p-0 text-start font-light text-[13px] text-gray-300"
-          >
-            Prescribir medicamento:
-          </Label>
-          <DinamicForm
-            name="prescription"
-            control={form.control}
-            placeholder="Agregar medicamentos a recetar"
-            fieldType={FormFieldType.TEXTAREA}
-          />
+
+        {/* diagnosis & prescription */}
+        <div className="flex flex-col md:flex-row gap-4">
+          <div className="w-full md:w-1/2">
+            <Label className="text-sm text-gray-500">Diagnóstico:</Label>
+            <DinamicForm
+              name="diagnosis"
+              control={form.control}
+              placeholder="Agregar detalles de la consulta"
+              fieldType={FormFieldType.TEXTAREA}
+            />
+          </div>
+          <div className="w-full md:w-1/2">
+            <Label className="text-sm text-gray-500">Prescripción:</Label>
+            <DinamicForm
+              name="prescription"
+              control={form.control}
+              placeholder="Agregar medicamentos a recetar"
+              fieldType={FormFieldType.TEXTAREA}
+            />
+          </div>
         </div>
-       </div>
-       <div className="w-full flex flex-wrap mb-5 items-start justify-center">
+
         {/* notes */}
-        <div className="w-[50%] flex items-start justify-center flex-col">
-          <Label
-            htmlFor="notes"
-            className="w-full p-0 text-start font-light text-[13px] text-gray-300"
-          >
-            Notas adicionales:
-          </Label>
+        <div className="w-full">
+          <Label className="text-sm text-gray-500">Notas adicionales:</Label>
           <DinamicForm
             name="notes"
             control={form.control}
@@ -135,44 +119,30 @@ const PastAppointmentForm = ({ patient, appointment }: any) => {
             fieldType={FormFieldType.TEXTAREA}
           />
         </div>
-        </div>
-        <div className="w-[100%] flex items-start justify-center">
-          {form?.getValues()?.patientAttachedFilesUrl?.length! >= 0 ? (
-            <>
-              <div
-                className="w-[100%]"
-               >
-                <Label
-                  htmlFor="patientAttachedFilesUrl"
-                  className="p-0 font-light text-[13px] text-gray-300"
-                >
-                  <p>Agregar Árchivos Lab-Médicos</p>
-                </Label>
 
-                <DinamicForm
-                  fieldType={FormFieldType.SKELETON}
-                  control={form.control}
-                  name="patientAttachedFilesUrl"
-                  renderSkeleton={(field) => (
-                    <FormControl className="w-full">
-                      <FileUploaderPlus
-                      form={form}
-                        files={
-                          isThereAnImage ? field.value : (field.value = [])
-                        }
-                        onChange={field.onChange}
-                      />
-                    </FormControl>
-                  )}
+        {/* File uploader */}
+        <div className="w-full">
+          <Label className="text-sm text-gray-500">
+            Agregar Archivos Lab-Médicos:
+          </Label>
+          <DinamicForm
+            fieldType={FormFieldType.SKELETON}
+            control={form.control}
+            name="patientAttachedFilesUrl"
+            renderSkeleton={(field) => (
+              <FormControl className="w-full">
+                <FileUploaderPlus
+                  form={form}
+                  files={isThereAnImage ? field.value : (field.value = [])}
+                  onChange={field.onChange}
                 />
-              </div>
-            </>
-          ) : (
-            <div className="w-full h-full  flex-col flex items-start justify-center pt-0 text-white"></div>
-          )}
+              </FormControl>
+            )}
+          />
         </div>
+
         <SubmitButton
-          className="w-[100%] text-black hover:text-white border-white/20 bg-white/80 hover:bg-black p-2 rounded-lg"
+          className="w-full text-black hover:text-white border-white/20 bg-white/80 hover:bg-black p-2 rounded-lg"
           loading={loading}
         >
           Finalizar cita
