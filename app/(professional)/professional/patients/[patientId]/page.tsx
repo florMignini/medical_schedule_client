@@ -18,7 +18,6 @@ const PatientInfoPage = async ({ params }: { params: { patientId: string } }) =>
 
   return (
     <PatientInfo
-      patient={patientFound.patient}
       isDemo={isDemo}
     />
   );
