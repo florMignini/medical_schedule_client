@@ -8,7 +8,6 @@ import { useProfessionalIncludes } from "@/hooks/useProfessionalIncludes";
 import { AppointmentSkeletonLoader } from "./components/AppointmentSkeletonLoader";
 
 const Appointments = () => {
-  const [loading, setLoading] = useState(true);
 
   const { data, appointments, patients, isDemo, isLoading, refetch } =
     useProfessionalIncludes();
