@@ -42,10 +42,10 @@ const PatientCard = ({
       transition={{ duration: 0.2 }}
       whileHover={{ scale: 0.98 }}
       whileTap={{ scale: 0.98 }}
-      className="group relative rounded-2xl border-l-4 border-blue-500 p-4 shadow-md hover:shadow-xl transition-all bg-gradient-to-r from-white/80 to-zinc-100/80 dark:from-zinc-800/80 dark:to-zinc-900/80 backdrop-blur-md flex flex-col md:flex-row md:items-center md:justify-between gap-1"
+      className="group relative rounded-2xl border-l-4 border-black p-1 shadow-md hover:shadow-xl transition-all bg-gradient-to-r from-white/80 to-zinc-100/80 dark:from-zinc-800/80 dark:to-zinc-900/80 backdrop-blur-md flex flex-col md:flex-row md:items-center md:justify-beetwen gap-1"
     >
       {/* Acciones arriba a la derecha */}
-      <div className="absolute top-0 right-4 flex gap-1 z-10">
+      <div className="absolute top-0 right-2 flex gap-1 z-10">
         <Button
           variant="ghost"
           size="icon"
@@ -105,7 +105,7 @@ const PatientCard = ({
       {/* Info principal */}
       <Link
       href={`/professional/patients/${patient.id}`}
-      className="flex items-center gap-4 md:w-[30%]">
+      className="flex items-center justify-start gap-4 md:w-[30%]">
         <Image
           src={patient.patientPhotoUrl}
           alt={patient.email || "Foto de paciente"}
@@ -132,7 +132,7 @@ const PatientCard = ({
       </Link>
 
       {/* Teléfono y email */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 gap-2 text-sm text-muted-foreground w-full md:w-[40%] md:justify-self-center md:px-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 gap-2 text-sm text-muted-foreground w-full md:w-[50%] md:justify-start md:px-4">
         <div className="flex items-center gap-2">
           <Phone size={16} />
           <span className="truncate">{patient.phone}</span>
