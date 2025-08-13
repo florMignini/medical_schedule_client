@@ -6,31 +6,25 @@ import PatientInfo from "../../components/PatientInfo";
 import { Patient } from "@/interfaces";
 import { API_BASE_URL } from "@/lib/constants.api";
 import { Skeleton } from "../../../../../../components/ui/skeleton";
+import axios from "axios";
+import { toast } from "@/hooks/use-toast";
 
 export default function PatientInfoWrapper({ isDemo }: { isDemo: boolean }) {
   const router = useRouter();
   const { patientId } = useParams();
   const [patient, setPatient] = useState<Patient | null>(null);
   const [loading, setLoading] = useState(true);
-const [error, setError] = useState(false);
+  const [error, setError] = useState(false);
   const apiBase = isDemo ? API_BASE_URL.demo : API_BASE_URL.prod;
   useEffect(() => {
     if (!patientId) return;
 
     const fetchPatient = async () => {
       try {
-       
-         const res = await fetch(
-           `${apiBase}/patients/get-patient/${patientId}`,
-           {
-             cache: "no-store",
-           }
-         );
-       
-         if (!res.ok) throw new Error("Error fetching patient info");
-       
-         const data: Patient = await res.json();
-         setPatient(data);
+        const { data } = await axios.get<Patient>(
+          `${apiBase}/patients/get-patient/${patientId}`
+        );
+        setPatient(data);
       } catch (error) {
         console.error("Error fetching patient:", error);
         setError(true);
@@ -40,7 +34,7 @@ const [error, setError] = useState(false);
     };
 
     fetchPatient();
-  }, [patientId, apiBase, setPatient, patient]);
+  }, [patientId, apiBase]);
 
   if (loading) {
     return (

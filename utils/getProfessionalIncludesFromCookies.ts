@@ -1,41 +1,39 @@
-import { ProfessionalInformation } from "@/interfaces";
-import { API_BASE_URL } from "@/lib/constants.api";
+import axios from "axios";
 import { cookies } from "next/headers";
+import { API_BASE_URL } from "@/lib/constants.api";
+import { ProfessionalInformation } from "@/interfaces";
 
-export async function getProfessionalIncludesFromCookies() {
-  const cookieStore = cookies();
-  const professionalId = cookieStore.get("professional-id")?.value;
-  const isDemo = cookieStore.get("isDemo")?.value === "true";
-  const showFloatingButton = false;
-  // ✅ Si no hay ID, evitar fetch y devolver nulls
-  if (!professionalId) {
-    return {
-      data: null,
-      appointments: [],
-      patients: [],
-      institutions: [],
-    };
-  }
-
-  const apiBase = isDemo ? API_BASE_URL.demo : API_BASE_URL.prod;
-
-  const res = await fetch(
-    `${apiBase}/professional/get-professional/${professionalId}`,
-    {
-      cache: "no-store",
+export const getProfessionalIncludesFromCookies =
+  async () => {
+    const cookieStore = cookies();
+    const professionalId = cookieStore.get("professional-id")?.value;
+    const isDemo = cookieStore.get("isDemo")?.value === "true";
+    // ✅ Si no hay ID, evitar fetch y devolver nulls
+    if (!professionalId) {
+      return {
+        data: null,
+        appointments: [],
+        patients: [],
+        institutions: [],
+      };
     }
-  );
+    
+    const apiBase = isDemo ? API_BASE_URL.demo : API_BASE_URL.prod;
+    
+    const showFloatingButton = false;
 
-  if (!res.ok) throw new Error("Error fetching professional info");
+      const { data } = await axios.get<ProfessionalInformation>(
+        `${apiBase}/professional/get-professional/${professionalId}`
+      );
+console.log(data)
 
-  const data: ProfessionalInformation = await res.json();
-
-  return {
-    showFloatingButton,
-    isDemo,
-    data,
-    appointments: data.appointmentsIncluded ?? [],
-    patients: data.patientsIncluded ?? [],
-    institutions: data.institutionsIncluded ?? [],
+      return {
+        showFloatingButton,
+        isDemo,
+        data,
+        appointments: data.appointmentsIncluded ?? [],
+        patients: data.patientsIncluded ?? [],
+        institutions: data.institutionsIncluded ?? [],
+      };
+    
   };
-}
