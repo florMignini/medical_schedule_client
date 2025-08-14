@@ -6,11 +6,11 @@ import PatientInfo from "./info/page";
 const PatientInfoPage = async ({ params }: { params: { patientId: string } }) => {
   const cookieStore = cookies();
   const isDemo = cookieStore.get("isDemo")?.value === "true";
-  const { data } = await getProfessionalIncludesFromCookies();
+  const { patients } = await getProfessionalIncludesFromCookies();
 
-  const patientsIncluded = data?.patientsIncluded || [];
 
-  const patientFound = patientsIncluded.find(
+
+  const patientFound = patients.find(
     (item) => item.patient.id === params.patientId
   );
 

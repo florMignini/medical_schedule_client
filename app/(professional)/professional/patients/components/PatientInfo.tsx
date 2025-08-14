@@ -14,7 +14,7 @@ import PatientActionBar from "./PatientActionBar";
 import PatientSectionNav from "./PatientSectionNav";
 import NewAppointmentForm from "@/components/forms/NewAppointmentForm";
 
-import AppointmentDialogDetail from "../../components/AppointmentDialogDetail";
+import AppointmentDialogDetail from "../../appointments/components/AppointmentDialogDetail";
 import { useToast } from "@/hooks/use-toast";
 
 

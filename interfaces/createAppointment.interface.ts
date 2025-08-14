@@ -12,5 +12,5 @@ export interface ICreatePastAppointment {
   notes?: string | undefined;
   followUpRequired?: boolean | undefined;
   scheduled: Date | undefined;
-  patientAttachedFilesUrl?: FormData[] | FormData | undefined;
+  patientAttachedFilesUrl?: FormData[] | FormData | string[] | string | undefined;
 }
