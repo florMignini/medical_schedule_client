@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import Calendar from "../components/Calendar";
-import AppointmentsList from "../components/AppointmentsList";
+import AppointmentsList from "./components/AppointmentsList";
 import CalendarIcon from "../components/icons/CalendarIcon";
 import { useProfessionalIncludes } from "@/hooks/useProfessionalIncludes";
 import { AppointmentSkeletonLoader } from "./components/AppointmentSkeletonLoader";
@@ -11,7 +11,6 @@ const Appointments = () => {
 
   const { data, appointments, patients, isDemo, isLoading, refetch } =
     useProfessionalIncludes();
-
   return (
     <section className="w-[99%] mx-auto p-6 space-y-4 bg-white rounded-lg shadow-md h-[100%]">
       {/* Header */}

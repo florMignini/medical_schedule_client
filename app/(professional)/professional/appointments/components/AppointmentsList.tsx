@@ -8,7 +8,7 @@ import { getAppointmentDetail } from "@/utils/getAppointmentDetail";
 import { useSelectedDate } from "@/utils/useSelectedDate";
 import { addMinutes, format, setHours, setMinutes } from "date-fns";
 import dayjs from "dayjs";
-import ConfigAppointmentButton from "./ConfigAppointmentButton";
+import ConfigAppointmentButton from "../../components/ConfigAppointmentButton";
 import {
   Dialog,
   DialogContent,
@@ -16,7 +16,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-import NewAppointmentForm from "../../../../components/forms/NewAppointmentForm";
+import NewAppointmentForm from "../../../../../components/forms/NewAppointmentForm";
 import AppointmentDialogDetail from "./AppointmentDialogDetail";
 
 import { CalendarClock, Plus } from "lucide-react";
@@ -99,7 +99,7 @@ const AppointmentsList = ({
                 }`}
             >
               <button className="w-full flex justify-between items-center mb-2">
-                <div className="flex items-center gap-2 text-white">
+                <div className="flex items-center gap-2 text-black">
                   <CalendarClock className="w-4 h-4" />
                   <span className="font-medium">{hour}</span>
                 </div>
