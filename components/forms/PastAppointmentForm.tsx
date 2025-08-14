@@ -9,15 +9,16 @@ import { FormFieldType } from "./ProfessionalLoginForm";
 import SubmitButton from "../SubmitButton";
 import { useForm } from "react-hook-form";
 import { Label } from "../ui";
-import { createPastAppointment, createPatientPastAppointmentRelation } from "@/app/actions";
+import { createPastAppointment } from "@/app/actions";
 import { useRouter } from "next/navigation";
 import FileUploaderPlus from "../FileUploaderPlus";
+import { useToast } from "@/hooks/use-toast";
 
 const PastAppointmentForm = ({ patient, appointment }: any) => {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
   const [isThereAnImage, setIsThereAnImage] = useState<boolean>(false);
-
+const {toast} = useToast();
   const form = useForm<z.infer<typeof NewPastAppointmentSchema>>({
     resolver: zodResolver(NewPastAppointmentSchema),
     defaultValues: {
@@ -31,38 +32,50 @@ const PastAppointmentForm = ({ patient, appointment }: any) => {
 
   async function onSubmit(values: z.infer<typeof NewPastAppointmentSchema>) {
     setLoading(true);
-    let formData: FormData | undefined;
-    const dataArr: any[] = [];
-console.log("values", values);
-    if (values?.patientAttachedFilesUrl?.length! > 0) {
-      values?.patientAttachedFilesUrl!.forEach((file: File) => {
-        formData = new FormData();
-        const blobFile = new Blob([file], { type: file.type });
-        formData.append("blobFile", blobFile);
-        formData.append("fileName", file.name);
-        dataArr.push(formData);
-      });
-    }
 
     try {
-      const pastAppointmentData = {
+      let filesData: FormData[] = [];
+
+      // Preparar archivos si hay
+      if (values?.patientAttachedFilesUrl?.length) {
+        filesData = values.patientAttachedFilesUrl.map((file: File) => {
+          const formData = new FormData();
+          const blobFile = new Blob([file], { type: file.type });
+          formData.append("blobFile", blobFile);
+          formData.append("fileName", file.name);
+          return formData;
+        });
+      }
+
+      // Construir payload
+      const payload = {
         ...values,
         scheduled: appointment.schedule,
-        patientAttachedFilesUrl: dataArr,
+        patientId: patient.id,
+        patientAttachedFilesUrl: filesData,
       };
 
-      const response: any = await createPastAppointment(pastAppointmentData);
-     console.log("response", response);
-      if (response?.id) {
-        await createPatientPastAppointmentRelation({
-          patient: patient.id!,
-          pastAppointments: response.id,
+      // Crear past appointment (backend se encarga de la relación)
+      const response: any = await createPastAppointment(payload);
+
+      if (!response.success) {
+        toast({
+          title: "Error",
+          description: response.message || "Error al crear la cita pasada",
+          className: "bg-red-500 text-white",
         });
+      } else {
+        toast({
+          title: "Cita pasada creada",
+          description: "La cita se ha creado exitosamente.",
+          className: "bg-emerald-500 text-black",
+        })
         form.reset();
-        router.push(`/professional/patients/${patient.id}/info`);
+        router.push(`/professiona/patients/${patient.id}/info`);
       }
     } catch (error) {
-      console.error(error);
+      console.error("Error creando past appointment:", error);
+      // Opcional: mostrar toast de error
     } finally {
       setLoading(false);
     }
@@ -76,7 +89,7 @@ console.log("values", values);
       >
         {/* Scheduled (solo lectura) */}
         <div className="w-full">
-          <Label className="text-sm text-gray-500">Fecha de la cita:</Label>
+          <Label className="text-sm text-white">Fecha de la cita:</Label>
           <DinamicForm
             name="scheduled"
             control={form.control}
@@ -90,7 +103,7 @@ console.log("values", values);
         {/* diagnosis & prescription */}
         <div className="flex flex-col md:flex-row gap-4">
           <div className="w-full md:w-1/2">
-            <Label className="text-sm text-gray-500">Diagnóstico:</Label>
+            <Label className="text-sm text-white">Diagnóstico:</Label>
             <DinamicForm
               name="diagnosis"
               control={form.control}
@@ -99,7 +112,7 @@ console.log("values", values);
             />
           </div>
           <div className="w-full md:w-1/2">
-            <Label className="text-sm text-gray-500">Prescripción:</Label>
+            <Label className="text-sm text-white">Prescripción:</Label>
             <DinamicForm
               name="prescription"
               control={form.control}
@@ -111,7 +124,7 @@ console.log("values", values);
 
         {/* notes */}
         <div className="w-full">
-          <Label className="text-sm text-gray-500">Notas adicionales:</Label>
+          <Label className="text-sm text-white">Notas adicionales:</Label>
           <DinamicForm
             name="notes"
             control={form.control}
@@ -122,7 +135,7 @@ console.log("values", values);
 
         {/* File uploader */}
         <div className="w-full">
-          <Label className="text-sm text-gray-500">
+          <Label className="text-sm text-white">
             Agregar Archivos Lab-Médicos:
           </Label>
           <DinamicForm
