@@ -1,5 +1,4 @@
-import { AppointmentsIncluded, Patient, PatientsIncluded } from "@/interfaces";
-import dayjs from "dayjs";
+import { AppointmentsIncluded, PatientsIncluded } from "@/interfaces";
 const today = new Date()
 
 export const filterTodayAppointments = (
