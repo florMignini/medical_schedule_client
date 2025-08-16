@@ -91,13 +91,13 @@ const NewAppointmentForm = ({
 
   async function onSubmit(values: z.infer<typeof appointmentValidation>) {
     setLoading(true);
+
     try {
       const appointmentData = {
         schedule: new Date(values.schedule),
         reason: values.reason,
         notes: values.notes,
       };
-
       if (isDemo) {
         // 💡 Simulation without persistance
         await new Promise((res) => setTimeout(res, 1000));
@@ -117,7 +117,7 @@ const NewAppointmentForm = ({
       const response = (await createAppointment(
         appointmentData
       )) as AppointmentResponse;
-
+ 
       if (response) {
         const professionalIDs = {
           professional: professionalId?.id,

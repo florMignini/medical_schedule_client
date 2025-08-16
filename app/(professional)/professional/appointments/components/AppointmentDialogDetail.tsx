@@ -26,7 +26,7 @@ const AppointmentDialogDetail = ({
   isDemo = false,
 }: AppointmentDialogDetailProps) => {
   const [requiereSeguimiento, setRequiereSeguimiento] = useState(false);
-console.log(appt)
+
   const {patient} = patientData || {};
   const appointment = appt?.appointment;
 

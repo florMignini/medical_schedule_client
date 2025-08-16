@@ -53,6 +53,7 @@ const {toast} = useToast();
         scheduled: appointment.schedule,
         patientId: patient.id,
         patientAttachedFilesUrl: filesData,
+        appointmentId: appointment.id,
       };
 
       // Crear past appointment (backend se encarga de la relación)
@@ -71,7 +72,7 @@ const {toast} = useToast();
           className: "bg-emerald-500 text-black",
         })
         form.reset();
-        router.push(`/professiona/patients/${patient.id}/info`);
+        router.push(`/professional/patients/${patient.id}/info`);
       }
     } catch (error) {
       console.error("Error creando past appointment:", error);
