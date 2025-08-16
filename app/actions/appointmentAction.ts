@@ -1,6 +1,7 @@
 "use server";
 import { apiServer } from "@/api/api-server";
 import { ICreateAppointment } from "@/interfaces";
+import axios from "axios";
 interface IIDs {
   professional: string | undefined;
   appointment: string | undefined;
@@ -11,19 +12,27 @@ interface IpatientIDs {
 }
 export async function createAppointment(appointmentData: ICreateAppointment) {
 
-  "use server";
   try {
-    const { data } = await apiServer.post(
+    const config = { headers: { "Content-Type": "application/json" } };
+    console.log("Configuración de axios:", config);
+    const response = await apiServer.post(
       `/appointment/new-appointment`,
-      appointmentData
+      appointmentData,
+      config
     );
-    return data;
-  } catch (error) {
-    if (error instanceof Error) {
-      console.log(error.message);
-    } else {
-      console.log(error);
-    }
+
+    return response.data;
+  } catch (error:any) {
+
+      console.error("Error en createAppointment:", {
+        message: error.message,
+        response: error.response?.data,
+        status: error.response?.status,
+        headers: error.response?.headers,
+        requestData: JSON.stringify(appointmentData, null, 2), // Log adicional
+      });
+   
+    throw error;
   }
 }
 

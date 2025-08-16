@@ -2,7 +2,7 @@
 import React, { useState } from "react";
 import NewAppointmentForm from "@/components/forms/NewAppointmentForm";
 import PastAppointmentForm from "@/components/forms/PastAppointmentForm";
-import { AppointmentsIncluded } from "@/interfaces";
+import { AppointmentsIncluded, Patient } from "@/interfaces";
 
 interface AppointmentDialogDetailProps {
   appt?: AppointmentsIncluded;
@@ -26,8 +26,8 @@ const AppointmentDialogDetail = ({
   isDemo = false,
 }: AppointmentDialogDetailProps) => {
   const [requiereSeguimiento, setRequiereSeguimiento] = useState(false);
-
-  const patient = patientData?.patient;
+console.log(appt)
+  const {patient} = patientData || {};
   const appointment = appt?.appointment;
 
   if (type === "create") {

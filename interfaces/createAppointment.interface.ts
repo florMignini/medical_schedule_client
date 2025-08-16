@@ -1,6 +1,6 @@
 export interface ICreateAppointment {
   appointmentId?: string | undefined;
-  schedule: Date;
+  schedule: Date | string;
   reason: string | undefined;
   notes: string | undefined;
   cancellationReason?: string | undefined;
@@ -11,6 +11,11 @@ export interface ICreatePastAppointment {
   prescription?: string | undefined;
   notes?: string | undefined;
   followUpRequired?: boolean | undefined;
-  scheduled: Date | undefined;
-  patientAttachedFilesUrl?: FormData[] | FormData | string[] | string | undefined;
+  scheduled: Date | string | undefined;
+  patientAttachedFilesUrl?:
+    | FormData[]
+    | FormData
+    | string[]
+    | string
+    | undefined;
 }
