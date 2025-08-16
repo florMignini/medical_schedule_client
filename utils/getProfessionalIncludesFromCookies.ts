@@ -25,7 +25,6 @@ export const getProfessionalIncludesFromCookies =
       const { data } = await axios.get<ProfessionalInformation>(
         `${apiBase}/professional/get-professional/${professionalId}`
       );
-console.log(data)
 
       return {
         showFloatingButton,
