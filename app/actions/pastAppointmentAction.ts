@@ -67,7 +67,7 @@ export async function createPastAppointment({
     };
 
     // Obtener accessToken desde cookies (o ajusta según tu sistema de autenticación)
-    const accessToken = cookies().get("accessToken")?.value;
+    const accessToken = cookies().get("session-token")?.value;
     if (!accessToken) {
       throw new Error("No estás autenticado. Por favor, inicia sesión.");
     }
