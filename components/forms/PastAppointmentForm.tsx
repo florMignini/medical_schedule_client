@@ -96,7 +96,7 @@ const {toast} = useToast();
             control={form.control}
             fieldType={FormFieldType.INPUT}
             type="text"
-            defaultValue={new Date(appointment.schedule).toLocaleString()}
+            defaultValue={new Date(appointment?.schedule).toLocaleString()}
             readOnly
           />
         </div>
