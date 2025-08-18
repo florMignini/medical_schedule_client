@@ -19,14 +19,13 @@ export default function Sidebar({isOpen, setIsOpen, variant}: {
   return (
     <>
       {/* mobile only toggle button */}
-      <div className="md:hidden max-h-screen p-4 fixed top-0 left-0 z-50">
+      <div className="md:hidden max-h-screen p-3 backdrop-blur-xl bg-opacity-50 w-auto fixed top-0 left-2 z-50">
         <button onClick={() => setIsOpen(!isOpen)} className="text-white">
-          {isOpen ? <X size={1} /> : <Image
-          src={onlyLogo}
-          alt='Only Logo'
-          width={35}
-          height={35}
-          />}
+          {isOpen ? (
+            <X size={1} />
+          ) : (
+            <Image src={onlyLogo} alt="Only Logo" width={35} height={35} />
+          )}
         </button>
       </div>
 
@@ -41,24 +40,20 @@ export default function Sidebar({isOpen, setIsOpen, variant}: {
       {/* Sidebar mobile (motion) */}
       <motion.aside
         initial="closed"
-        animate={isOpen ? 'open' : 'closed'}
+        animate={isOpen ? "open" : "closed"}
         variants={sidebarVariants}
         transition={{ duration: 0.3 }}
         className="fixed top-0 left-0 h-full w-64 bg-black/20 backdrop-blur-md border-r border-white/20 shadow-lg z-50 md:hidden"
       >
         <div className="h-full p-6">
-          <SidebarItems
-          setIsOpen={setIsOpen}
-          />
+          <SidebarItems setIsOpen={setIsOpen} />
         </div>
       </motion.aside>
 
       {/* Sidebar estático en desktop */}
       <aside className="hidden md:flex md:flex-col w-44 lg:w-52 h-screen bg-transparent backdrop-blur-lg text-white p-6">
-        <SidebarItems
-        setIsOpen={setIsOpen}
-        />
+        <SidebarItems setIsOpen={setIsOpen} />
       </aside>
     </>
-  )
+  );
 }
