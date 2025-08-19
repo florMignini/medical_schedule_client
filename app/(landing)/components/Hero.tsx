@@ -31,8 +31,9 @@ const router = useRouter();
       }>("https://medical-schedule-server-demo.onrender.com/api/auth/demo-login");
 
       const { access_token, user } = response.data;
-
-      localStorage.setItem("session-token", access_token);
+      
+     if(user && access_token){
+       localStorage.setItem("session-token", access_token);
       localStorage.setItem("infoProfSession", JSON.stringify(user));
 
       Cookies.set("session-token", access_token, {
@@ -47,6 +48,7 @@ const router = useRouter();
         path: "/",
         sameSite: "Lax",
       });
+     }
 
       toast({
         title: "Sesión iniciada en modo demo",
