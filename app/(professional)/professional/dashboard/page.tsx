@@ -38,8 +38,7 @@ const ProfessionalDashboard = async () => {
   const {
     appointmentsIncluded,
   }: { appointmentsIncluded: AppointmentsIncluded[] } = data;
-  // @ts-ignore
-  const { followsUpIncluded }: { followsUpIncluded: any[] } = data;
+  
   // @ts-ignore
   const {
     institutionsIncluded,
@@ -56,7 +55,6 @@ const ProfessionalDashboard = async () => {
           data={[
             { label: "Pacientes", value: patientsIncluded.length },
             { label: "Turnos", value: appointmentsIncluded.length },
-            { label: "Seguimientos", value: followsUpIncluded.length },
           ]}
         />
 
