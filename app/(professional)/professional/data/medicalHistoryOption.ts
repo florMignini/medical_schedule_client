@@ -1,8 +1,8 @@
 export const medicalHistory = [
-  "Clínico",
-  "Hematológico",
-  "Oncológico",
-  "Quirurgíco",
+  "Clinico",
+  "Hematologico",
+  "Oncologico",
+  "Quirurgico",
   "Otro",
 ];
 
