@@ -62,7 +62,7 @@ export const patientsRegisterValidation = z.object({
   familyMedicalHistory: z.string().optional(),
   pastMedicalHistory: z.string().optional(),
   currentMedication: z.string().optional(),
-  medicalHistoryType: z.enum(["Clinico", "Hematologico", "Oncologico", "Quirurgico"]),
+  medicalHistoryType: z.enum(["Clinico", "Hematologico", "Oncologico", "Quirurgico", "Otro"]),
   // past medical histor
   // anthropometric measurements
   patientHeight: z.string().optional(),
