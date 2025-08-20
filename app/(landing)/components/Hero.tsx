@@ -52,7 +52,7 @@ const router = useRouter();
 
       toast({
         title: "Sesión iniciada en modo demo",
-        description: "Has accedido correctamente al modo demo.",
+        description: "Has accedido correctamente al modo demo. Aguarda un instante, por favor...",
         className: "bg-emerald-500 text-black",
       });
 
