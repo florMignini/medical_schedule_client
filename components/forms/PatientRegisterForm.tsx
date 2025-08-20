@@ -128,6 +128,7 @@ const PatientRegistrationForm: React.FC<Props> = ({
       form.setValue("patientBMI", "");
     }
   }, [patientHeight, patientWeight, form]);
+
   async function onSubmit(values: z.infer<typeof patientsRegisterValidation>) {
     setLoading(true);
     let formData;
@@ -384,7 +385,27 @@ const PatientRegistrationForm: React.FC<Props> = ({
                   options={genderOptions}
                 />
               </div>
-
+              {/* insurance policyNumber & provider */}
+              <div className="flex flex-col sm:flex-row sm:gap-4">
+                <DinamicForm
+                  fieldType={FormFieldType.INPUT}
+                  control={form.control}
+                  name="insuranceProvider"
+                  label="Obra Social / Prepaga"
+                  className="flex-1"
+                  inputClassName="w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition"
+                  labelClassName="mb-1 text-gray-700 font-medium"
+                />
+                <DinamicForm
+                  fieldType={FormFieldType.INPUT}
+                  control={form.control}
+                  name="insurancePolicyNumber"
+                  label="Número de Afiliado"
+                  className="flex-1"
+                  inputClassName="w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition"
+                  labelClassName="mb-1 text-gray-700 font-medium"
+                />
+              </div>
               {/* Contacto de emergencia */}
               <div className="flex flex-col sm:flex-row sm:gap-4">
                 <DinamicForm
