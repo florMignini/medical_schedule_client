@@ -1,93 +1,104 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
-import { useParams, useSearchParams } from "next/navigation";
+import React, { useMemo } from "react";
+import { useParams } from "next/navigation";
 import Image from "next/image";
-import axios from "axios";
+import { Mail, Phone, Globe, MapPin } from "lucide-react";
 
-import { Mail, Phone, Globe } from "lucide-react";
-import Loading from "../../../components/Loading";
+import { useProfessionalIncludes } from "@/hooks/useProfessionalIncludes";
 
 const InstitutionDetail = () => {
   const { institutionId } = useParams<{ institutionId: string }>();
-  const searchParams = useSearchParams();
-  const isDemo = searchParams?.get("demo") === "true";
+  const { institutions } = useProfessionalIncludes();
 
-  const [institutionInfo, setInstitutionInfo] = useState<any>();
-  const [loading, setLoading] = useState(true);
+  const institution = useMemo(
+    () => institutions.find(({ institution }) => institution.id === institutionId)?.institution,
+    [institutions, institutionId]
+  );
 
-  const BASE_URL = isDemo
-    ? "https://medical-schedule-server-demo.onrender.com/api"
-    : process.env.NEXT_PUBLIC_API_BASE_URL || "https://medical-schedule-server.onrender.com/api";
-
-  useEffect(() => {
-    async function fetchInstitutionInfo() {
-      try {
-        const { data } = await axios.get(
-          `${BASE_URL}/institutions/get-institution/${institutionId}`
-        );
-        setInstitutionInfo(data);
-      } catch (error) {
-        console.error("Error al obtener la institución:", error);
-      } finally {
-        setLoading(false);
-      }
-    }
-
-    if (institutionId) fetchInstitutionInfo();
-  }, [institutionId, BASE_URL]);
-
-  if (loading) return <Loading />;
+  if (!institution) {
+    return (
+      <section className="w-full bg-gray-50 min-h-screen flex flex-col items-center justify-center px-4 py-8">
+        <div className="w-full max-w-md mx-auto bg-white rounded-2xl shadow-xl p-6 text-center">
+          <p className="text-red-600 font-semibold text-lg">
+            No se pudo cargar la información de la institución.
+          </p>
+        </div>
+      </section>
+    );
+  }
 
   return (
-    <section className="w-full bg-white min-h-screen flex flex-col items-center justify-start gap-4 px-2 py-4">
-      <div className="w-full max-w-5xl mx-auto flex flex-col gap-6">
-        {/* Header con imagen y nombre */}
-        <div className="relative w-full h-[220px] sm:h-[300px] md:h-[360px] rounded-lg overflow-hidden shadow-md">
+    <section className="w-full bg-gray-50 min-h-screen flex flex-col items-center justify-start px-4 py-8">
+      <div className="w-full max-w-4xl mx-auto flex flex-col gap-8">
+        {/* Header con imagen contenida */}
+        <div className=" w-full h-[200px] sm:h-[240px] md:h-[280px] rounded-2xl overflow-hidden shadow-2xl mx-auto">
           <Image
-            src={institutionInfo.institutionImage}
-            alt="institution-image"
+            src={institution.institutionImage || "/fallback-image.jpg"}
+            alt={`${institution.name} image`}
             fill
-            className="object-cover opacity-80"
+            className="object-cover transition-transform duration-300 hover:scale-105"
+            priority
+            placeholder="blur"
+            blurDataURL="data:image/jpeg;base64,/9j/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAAIAAoDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAf/xAAUEAEAAAAAAAAAAAAAAAAAAAAA/8QAFQEBAQAAAAAAAAAAAAAAAAAABgj/xAAUEQEAAAAAAAAAAAAAAAAAAAAA/9oADAMBAAIRAxEAPwA="
           />
-          <div className="absolute bottom-4 left-4 bg-white/80 px-4 py-2 rounded-xl shadow text-gray-800">
-            <h1 className="font-extrabold text-3xl sm:text-4xl truncate">
-              {institutionInfo.name}
+          <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
+          <div className="absolute bottom-4 left-4 right-4">
+            <h1 className="font-bold text-2xl sm:text-3xl md:text-4xl text-white truncate drop-shadow-lg">
+              {institution.name}
             </h1>
           </div>
         </div>
 
-        {/* Detalles */}
-        <div className="bg-white w-full rounded-xl shadow-lg p-6 flex flex-col gap-4">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div className="flex flex-col">
-              <label className="text-sm text-gray-600 mb-1">Dirección</label>
-              <input
-                type="text"
-                value={institutionInfo.address}
-                disabled
-                className="border border-gray-300 rounded-md p-2 bg-gray-100 text-gray-800"
-              />
-            </div>
-            <div className="flex flex-col">
-              <label className="text-sm text-gray-600 mb-1">Email</label>
-              <div className="flex items-center gap-2 border border-gray-300 rounded-md bg-gray-100 p-2">
-                <Mail size={16} />
-                <p className="text-sm text-gray-800 truncate">{institutionInfo.email}</p>
+        {/* Sección de detalles */}
+        <div className="bg-white w-full rounded-2xl shadow-xl p-6 md:p-8 flex flex-col gap-6 transition-shadow duration-300 hover:shadow-2xl">
+          <h2 className="text-xl font-semibold text-gray-800">Información de Contacto</h2>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 md:gap-6">
+            <div className="flex items-start gap-3 p-4 bg-gray-50 rounded-xl border border-gray-200">
+              <MapPin size={20} className="text-gray-600 mt-1 flex-shrink-0" />
+              <div className="flex flex-col">
+                <label className="text-sm font-medium text-gray-600">Dirección</label>
+                <p className="text-gray-800 text-base truncate">
+                  {institution.address || "No disponible"}
+                </p>
               </div>
             </div>
-            <div className="flex flex-col">
-              <label className="text-sm text-gray-600 mb-1">Teléfono</label>
-              <div className="flex items-center gap-2 border border-gray-300 rounded-md bg-gray-100 p-2">
-                <Phone size={16} />
-                <p className="text-sm text-gray-800 truncate">{institutionInfo.phone}</p>
+            <div className="flex items-start gap-3 p-4 bg-gray-50 rounded-xl border border-gray-200">
+              <Mail size={20} className="text-gray-600 mt-1 flex-shrink-0" />
+              <div className="flex flex-col">
+                <label className="text-sm font-medium text-gray-600">Email</label>
+                <a
+                  href={`mailto:${institution.email}`}
+                  className="text-blue-600 text-base hover:underline truncate"
+                >
+                  {institution.email || "No disponible"}
+                </a>
               </div>
             </div>
-            <div className="flex flex-col">
-              <label className="text-sm text-gray-600 mb-1">Sitio Web</label>
-              <div className="flex items-center gap-2 border border-gray-300 rounded-md bg-gray-100 p-2">
-                <Globe size={16} />
-                <p className="text-sm text-gray-800 truncate">{institutionInfo.website}</p>
+            <div className="flex items-start gap-3 p-4 bg-gray-50 rounded-xl border border-gray-200">
+              <Phone size={20} className="text-gray-600 mt-1 flex-shrink-0" />
+              <div className="flex flex-col">
+                <label className="text-sm font-medium text-gray-600">Teléfono</label>
+                <a
+                  href={`tel:${institution.phone}`}
+                  className="text-blue-600 text-base hover:underline truncate"
+                >
+                  {institution.phone || "No disponible"}
+                </a>
+              </div>
+            </div>
+            <div className="flex items-start gap-3 p-4 bg-gray-50 rounded-xl border border-gray-200">
+              <Globe size={20} className="text-gray-600 mt-1 flex-shrink-0" />
+              <div className="flex flex-col">
+                <label className="text-sm font-medium text-gray-600">Sitio Web</label>
+                <a
+                  href={institution.website}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-blue-600 text-base hover:underline truncate"
+                >
+                  {institution.website || "No disponible"}
+                </a>
               </div>
             </div>
           </div>
