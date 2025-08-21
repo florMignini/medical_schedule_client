@@ -37,6 +37,19 @@ export const InstitutionCard = ({
   onDelete,
   professionalId,
 }: InstitutionCardProps) => {
+  // Fallback image URL
+  const fallbackImage = "/fallback-image.jpg";
+
+  // Determine if the image is external
+  const isExternalImage =
+    institution.institutionImage &&
+    institution.institutionImage.startsWith("http");
+
+  // Use fallback if image is invalid or missing
+  const imageSrc = isExternalImage
+    ? institution.institutionImage
+    : fallbackImage;
+
   return (
     <motion.div
       initial={{ opacity: 0, scale: 0.95, y: 10 }}
@@ -46,64 +59,71 @@ export const InstitutionCard = ({
       className="relative rounded-2xl bg-white/70 dark:bg-zinc-800/80 backdrop-blur-sm shadow-md p-3 transition-all hover:shadow-xl hover:scale-[1.02] group border border-zinc-200 dark:border-zinc-700"
     >
       {/* Acciones arriba a la derecha */}
-     <AlertDialog>
-       <TooltipProvider>
-        <div className="absolute top-2 right-2 flex gap-1 z-10 opacity-0 group-hover:opacity-100 transition-opacity">
-          <Tooltip>
-            <TooltipTrigger asChild>
-              <Button variant="ghost" size="icon" onClick={onEdit}>
-                <Pencil
-                  size={18}
-                  className="text-zinc-500 hover:text-zinc-800 dark:text-zinc-300 dark:hover:text-white"
-                />
-              </Button>
-            </TooltipTrigger>
-            <TooltipContent className="bg-black text-white rounded px-2 py-1 text-xs">
-              Editar institución
-            </TooltipContent>
-          </Tooltip>
-
-          <Tooltip>
-            <TooltipTrigger asChild>
-              <AlertDialogTrigger asChild>
-                <Button variant="ghost" size="icon">
-                  <Trash2
+      <AlertDialog>
+        <TooltipProvider>
+          <div className="absolute top-2 right-2 flex gap-1 z-10 opacity-0 group-hover:opacity-100 transition-opacity">
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <Button variant="ghost" size="icon" onClick={onEdit}>
+                  <Pencil
                     size={18}
-                    className="text-red-500 hover:text-red-700"
+                    className="text-zinc-500 hover:text-zinc-800 dark:text-zinc-300 dark:hover:text-white"
                   />
                 </Button>
-              </AlertDialogTrigger>
-            </TooltipTrigger>
-            <TooltipContent className="bg-black text-white rounded px-2 py-1 text-xs">
-              Eliminar institución
-            </TooltipContent>
-          </Tooltip>
-        </div>
-      </TooltipProvider>
-     </AlertDialog>
+              </TooltipTrigger>
+              <TooltipContent className="bg-black text-white rounded px-2 py-1 text-xs">
+                Editar institución
+              </TooltipContent>
+            </Tooltip>
+
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <AlertDialogTrigger asChild>
+                  <Button variant="ghost" size="icon">
+                    <Trash2
+                      size={18}
+                      className="text-red-500 hover:text-red-700"
+                    />
+                  </Button>
+                </AlertDialogTrigger>
+              </TooltipTrigger>
+              <TooltipContent className="bg-black text-white rounded px-2 py-1 text-xs">
+                Eliminar institución
+              </TooltipContent>
+            </Tooltip>
+          </div>
+        </TooltipProvider>
+      </AlertDialog>
 
       {/* Imagen */}
       <div className="w-full h-16 relative rounded-xl overflow-hidden bg-zinc-100 dark:bg-zinc-700">
         <Image
-          src={
-            institution.institutionImage || "/images/default-institution.jpg"
-          }
-          alt={institution.name || "Institución"}
-          layout="fill"
-          objectFit="cover"
-          className="transition-transform opacity-40 duration-300 group-hover:scale-105"
+          src={imageSrc}
+          alt="institution-image"
+          fill
+          className="object-cover opacity-80"
+          onError={(e) => {
+            e.currentTarget.src = fallbackImage;
+            toast({
+              title: "Error de imagen",
+              description: "No se pudo cargar la imagen de la institución.",
+              className: "bg-red-500 text-black",
+              duration: 3000,
+            });
+          }}
         />
       </div>
 
       {/* Contenido */}
-      <Link className="mt-1 space-y-1"
-      href={`/professional/institutions/${institution.id}`}
+      <Link
+        className="mt-1 space-y-1"
+        href={`/professional/institutions/${institution.id}`}
       >
         <h3 className="text-lg font-semibold text-zinc-800 dark:text-white truncate">
-          {institution.name}
+          {institution.name || "Sin nombre"}
         </h3>
         <p className="text-sm text-zinc-500 dark:text-zinc-400 truncate">
-          {institution.address}
+          {institution.address || "Sin dirección"}
         </p>
         {institution.phone && (
           <p className="text-sm text-zinc-500 dark:text-zinc-400 truncate">
