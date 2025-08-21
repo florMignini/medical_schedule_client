@@ -3,11 +3,11 @@ import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { usePathname, useRouter } from "next/navigation";
-import { cn } from "@/lib";
-import { IProfessional, ProfessionalInformation, toggleSideI } from "@/interfaces";
 import { AnimatePresence, motion } from "framer-motion";
 import Search from "./Search";
 import { logout } from "./SidebarItems";
+import { Skeleton } from "../../../../components/ui/skeleton";
+import { toggleSideI } from "@/interfaces";
 type ProfessionalStorageInformation = {
   firstname:string;
   gender:string;
@@ -104,9 +104,18 @@ const Navbar = ({ isOpen, setIsOpen, isDemo=false }: toggleSideI) => {
           )}
 
         {/* Dr. Greeting */}
-        <div className="text-white text-center font-semibold text-lg select-none">
+        {
+          profInfo && profInfo ? (
+            <div className="text-white text-center font-semibold text-lg select-none">
           <p className="truncate">{`Hola, ${isDemo ? profInfo?.firstName : profInfo?.firstname} ${isDemo ? profInfo?.lastName : profInfo?.lastname}!`}</p>
         </div>
+          ) : (
+           <div className="text-center">
+             <Skeleton className="h-2 w-[10%] text-gray-400" />
+              <Skeleton className="h-2 w-[10%] text-gray-400" />
+           </div>
+          )
+        }
 
         {/* right section: Glass + avatar & dropdown mobile only */}
         <div className="flex items-center space-x-4 relative">
