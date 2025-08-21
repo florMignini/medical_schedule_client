@@ -9,6 +9,7 @@ import { useState } from "react";
 import { AnimatedDialog } from "./AnimatedDialog";
 import InstitutionUpdateForm from "@/components/forms/InstitutionUpdateForm";
 import { Button } from "@/components/ui/button";
+import InstitutionRegisterForm from "@/components/forms/InstitutionRegisterForm";
 
 type Props = {
   institutionsIncluded: InstitutionsIncluded[];
@@ -26,12 +27,12 @@ export default function InstitutionCardWithActions({
   );
   const [selectedInstitution, setSelectedInstitution] =
     useState<Partial<ICreateInstitution> | null>(null);
-  const { data, isLoading, refetch } = useProfessionalIncludes();
+  const { data, institutions, isLoading, refetch } = useProfessionalIncludes();
   return (
     <>
       {/* Lista de instituciones */}
       <div className="w-full space-y-2 max-w-full overflow-x-hidden">
-        {institutionsIncluded?.map(({ institution }) => (
+        {institutions?.map(({ institution }) => (
           <InstitutionCard
             key={institution.id}
             institution={institution}
@@ -76,6 +77,31 @@ export default function InstitutionCardWithActions({
                   : "bg-green-500 text-white",
               });
               setFormOpen(false);
+            }}
+          />
+        </AnimatedDialog>
+      )}
+      {formOpen && (
+        <AnimatedDialog open={formOpen} onOpenChange={setFormOpen}>
+          <InstitutionRegisterForm
+            selectedInstitution={selectedInstitution}
+            onSuccess={() => {
+              toast({
+                title: isDemo ? "Registro simulado" : "Institución registrada",
+                description: isDemo
+                  ? "Este es un entorno de prueba"
+                  : "Institución registrada correctamente!",
+                className: isDemo
+                  ? "bg-blue-500 text-white"
+                  : "bg-green-500 text-white",
+              });
+              setFormOpen(false);
+
+              refetch();
+            }}
+            onClose={() => {
+              setFormOpen(false);
+              setSelectedInstitution(null);
             }}
           />
         </AnimatedDialog>
