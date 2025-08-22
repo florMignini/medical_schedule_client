@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useMemo } from "react";
+import React, { useMemo, useState } from "react";
 import { useParams } from "next/navigation";
 import Image from "next/image";
 import { Mail, Phone, Globe, MapPin } from "lucide-react";
@@ -9,64 +9,82 @@ import { useProfessionalIncludes } from "@/hooks/useProfessionalIncludes";
 
 const InstitutionDetail = () => {
   const { institutionId } = useParams<{ institutionId: string }>();
-  const { institutions } = useProfessionalIncludes();
-
+  const { institutions, data, refetch } = useProfessionalIncludes();
+const [selectedInstitution, setSelectedInstitution] = useState();
   const institution = useMemo(
-    () => institutions.find(({ institution }) => institution.id === institutionId)?.institution,
+    () =>
+      institutions.find(({ institution }) => institution.id === institutionId)
+        ?.institution,
     [institutions, institutionId]
   );
 
   if (!institution) {
     return (
-      <section className="w-full bg-gray-50 min-h-screen flex flex-col items-center justify-center px-4 py-8">
-        <div className="w-full max-w-md mx-auto bg-white rounded-2xl shadow-xl p-6 text-center">
-          <p className="text-red-600 font-semibold text-lg">
-            No se pudo cargar la información de la institución.
+      <section className="min-h-screen bg-gray-100 flex items-center justify-center px-4 py-6">
+        <div className="w-full max-w-md bg-white rounded-2xl shadow-lg p-6 text-center">
+          <p className="text-red-600 font-medium text-lg">
+            No se encontró información de la institución.
           </p>
+          <a
+            href="/"
+            className="mt-4 inline-block bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors"
+          >
+            Volver al inicio
+          </a>
         </div>
       </section>
     );
   }
 
   return (
-    <section className="w-full bg-gray-50 min-h-screen flex flex-col items-center justify-start px-4 py-8">
-      <div className="w-full max-w-4xl mx-auto flex flex-col gap-8">
+    <section className="min-h-screen bg-gray-100 flex flex-col items-center px-4 py-6">
+      <div className="w-full max-w-4xl mx-auto flex flex-col gap-6">
         {/* Header con imagen contenida */}
-        <div className=" w-full h-[200px] sm:h-[240px] md:h-[280px] rounded-2xl overflow-hidden shadow-2xl mx-auto">
-          <Image
+         <div className="relative w-full h-[300px] rounded-2xl overflow-hidden shadow-lg bg-gray-200">
+         <Image
             src={institution.institutionImage || "/fallback-image.jpg"}
-            alt={`${institution.name} image`}
-            fill
-            className="object-cover transition-transform duration-300 hover:scale-105"
+            alt={`${institution.name} imagen`}
+            width={800}
+            height={600}
+            className="w-full h-full object-cover transition-transform duration-300 hover:scale-105"
             priority
-            placeholder="blur"
-            blurDataURL="data:image/jpeg;base64,/9j/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAAIAAoDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAf/xAAUEAEAAAAAAAAAAAAAAAAAAAAA/8QAFQEBAQAAAAAAAAAAAAAAAAAABgj/xAAUEQEAAAAAAAAAAAAAAAAAAAAA/9oADAMBAAIRAxEAPwA="
-          />
-          <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
+          /> 
+
+          {/* Gradiente encima de la imagen */}
+          <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
+
+          {/* Título encima de todo */}
           <div className="absolute bottom-4 left-4 right-4">
-            <h1 className="font-bold text-2xl sm:text-3xl md:text-4xl text-white truncate drop-shadow-lg">
-              {institution.name}
+            <h1 className="text-2xl sm:text-3xl font-bold text-white truncate drop-shadow-md">
+              {institution.name || "Sin nombre"}
             </h1>
           </div>
-        </div>
+        </div> 
 
         {/* Sección de detalles */}
-        <div className="bg-white w-full rounded-2xl shadow-xl p-6 md:p-8 flex flex-col gap-6 transition-shadow duration-300 hover:shadow-2xl">
-          <h2 className="text-xl font-semibold text-gray-800">Información de Contacto</h2>
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 md:gap-6">
-            <div className="flex items-start gap-3 p-4 bg-gray-50 rounded-xl border border-gray-200">
-              <MapPin size={20} className="text-gray-600 mt-1 flex-shrink-0" />
-              <div className="flex flex-col">
-                <label className="text-sm font-medium text-gray-600">Dirección</label>
-                <p className="text-gray-800 text-base truncate">
+        <div className="bg-white rounded-2xl shadow-lg p-6 flex flex-col gap-6">
+          <h2 className="text-xl font-semibold text-gray-900">
+            Detalles de la Institución
+          </h2>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div className="flex items-start gap-3 p-3 bg-gray-50 rounded-lg border border-gray-100">
+              <MapPin
+                size={18}
+                className="text-gray-500 mt-0.5 flex-shrink-0"
+              />
+              <div>
+                <span className="text-sm font-medium text-gray-600">
+                  Dirección
+                </span>
+                <p className="text-gray-800 text-base">
                   {institution.address || "No disponible"}
                 </p>
               </div>
             </div>
-            <div className="flex items-start gap-3 p-4 bg-gray-50 rounded-xl border border-gray-200">
-              <Mail size={20} className="text-gray-600 mt-1 flex-shrink-0" />
-              <div className="flex flex-col">
-                <label className="text-sm font-medium text-gray-600">Email</label>
+            <div className="flex items-start gap-3 p-3 bg-gray-50 rounded-lg border border-gray-100">
+              <Mail size={18} className="text-gray-500 mt-0.5 flex-shrink-0" />
+              <div>
+                <span className="text-sm font-medium text-gray-600">Email</span>
                 <a
                   href={`mailto:${institution.email}`}
                   className="text-blue-600 text-base hover:underline truncate"
@@ -75,10 +93,12 @@ const InstitutionDetail = () => {
                 </a>
               </div>
             </div>
-            <div className="flex items-start gap-3 p-4 bg-gray-50 rounded-xl border border-gray-200">
-              <Phone size={20} className="text-gray-600 mt-1 flex-shrink-0" />
-              <div className="flex flex-col">
-                <label className="text-sm font-medium text-gray-600">Teléfono</label>
+            <div className="flex items-start gap-3 p-3 bg-gray-50 rounded-lg border border-gray-100">
+              <Phone size={18} className="text-gray-500 mt-0.5 flex-shrink-0" />
+              <div>
+                <span className="text-sm font-medium text-gray-600">
+                  Teléfono
+                </span>
                 <a
                   href={`tel:${institution.phone}`}
                   className="text-blue-600 text-base hover:underline truncate"
@@ -87,10 +107,12 @@ const InstitutionDetail = () => {
                 </a>
               </div>
             </div>
-            <div className="flex items-start gap-3 p-4 bg-gray-50 rounded-xl border border-gray-200">
-              <Globe size={20} className="text-gray-600 mt-1 flex-shrink-0" />
-              <div className="flex flex-col">
-                <label className="text-sm font-medium text-gray-600">Sitio Web</label>
+            <div className="flex items-start gap-3 p-3 bg-gray-50 rounded-lg border border-gray-100">
+              <Globe size={18} className="text-gray-500 mt-0.5 flex-shrink-0" />
+              <div>
+                <span className="text-sm font-medium text-gray-600">
+                  Sitio Web
+                </span>
                 <a
                   href={institution.website}
                   target="_blank"
