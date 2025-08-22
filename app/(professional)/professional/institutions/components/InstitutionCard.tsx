@@ -96,23 +96,26 @@ export const InstitutionCard = ({
       </AlertDialog>
 
       {/* Imagen */}
-      <div className="w-full h-16 relative rounded-xl overflow-hidden bg-zinc-100 dark:bg-zinc-700">
-        <Image
-          src={imageSrc}
-          alt="institution-image"
-          fill
-          className="object-cover opacity-80"
-          onError={(e) => {
-            e.currentTarget.src = fallbackImage;
-            toast({
-              title: "Error de imagen",
-              description: "No se pudo cargar la imagen de la institución.",
-              className: "bg-red-500 text-black",
-              duration: 3000,
-            });
-          }}
-        />
-      </div>
+     <div className="relative w-full h-[300px] rounded-2xl overflow-hidden shadow-lg bg-gray-200">
+              <Image
+                 src={institution.institutionImage || "/fallback-image.jpg"}
+                 alt={`${institution.name} imagen`}
+                 width={800}
+                 height={600}
+                 className="w-full h-full object-cover transition-transform duration-300 hover:scale-105"
+                 priority
+               /> 
+     
+               {/* Gradiente encima de la imagen */}
+               <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
+     
+               {/* Título encima de todo */}
+               <div className="absolute bottom-4 left-4 right-4">
+                 <h1 className="text-2xl sm:text-3xl font-bold text-white truncate drop-shadow-md">
+                   {institution.name || "Sin nombre"}
+                 </h1>
+               </div>
+             </div>
 
       {/* Contenido */}
       <Link
