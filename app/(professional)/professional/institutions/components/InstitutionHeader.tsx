@@ -8,13 +8,18 @@ interface Props {
 export function InstitutionHeader({ institution }: Props) {
   return (
     <div className="flex gap-6 items-center">
-      <Image
-        fill
-        sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-        className="object-cover opacity-80"
-        src={institution.institutionImage || "/fallback.jpg"}
-        alt={institution.name || "Institution"}
-      />
+      {/* Contenedor limitado */}
+      <div className="relative w-[200px] h-[150px] rounded-xl overflow-hidden shadow">
+        <Image
+          src={institution.institutionImage || "/fallback.jpg"}
+          alt={institution.name || "Institution"}
+          fill
+          className="object-cover opacity-80"
+          sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+        />
+      </div>
+
+      {/* Info */}
       <div>
         <h2 className="text-2xl font-semibold">{institution.name}</h2>
         <p className="text-muted-foreground">{institution.address}</p>
@@ -34,3 +39,4 @@ export function InstitutionHeader({ institution }: Props) {
     </div>
   );
 }
+
