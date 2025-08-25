@@ -9,12 +9,12 @@ import { useProfessionalIncludes } from "@/hooks/useProfessionalIncludes";
 
 const ITEMS_PER_PAGE = 8;
 
-export default function InstitutionsPage() {
+export default function InstitutionsPage({ isDemo }: { isDemo: boolean }) {
   const [filtered, setFiltered] = useState<InstitutionsIncluded[]>([]);
   const [displayed, setDisplayed] = useState<InstitutionsIncluded[]>([]);
   const [search, setSearch] = useState("");
   const [page, setPage] = useState(1);
-const { institutions, isDemo} = useProfessionalIncludes();
+const { institutions} = useProfessionalIncludes();
 
   useEffect(() => {
     const filteredData = institutions.filter(({institution}) =>

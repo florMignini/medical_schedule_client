@@ -10,10 +10,11 @@ import { AnimatedDialog } from "./AnimatedDialog";
 import InstitutionUpdateForm from "@/components/forms/InstitutionUpdateForm";
 import { Button } from "@/components/ui/button";
 import InstitutionRegisterForm from "@/components/forms/InstitutionRegisterForm";
+import Link from "next/link";
 
 type Props = {
-  institutionsIncluded: InstitutionsIncluded[];
   isDemo: boolean;
+  institutionsIncluded: InstitutionsIncluded[];
   showFloatingButton?: boolean;
 };
 export default function InstitutionCardWithActions({
@@ -32,16 +33,14 @@ export default function InstitutionCardWithActions({
     <>
       {/* Lista de instituciones */}
       <div className="w-full space-y-2 max-w-full overflow-x-hidden">
-        {institutions?.map(({ institution }) => (
+        {institutionsIncluded?.map(({ institution }) => (
           <InstitutionCard
             key={institution.id}
             institution={institution}
-            onEdit={() => {
-              setSelectedInstitution(institution);
-              setFormOpen(true);
-            }}
+            onEdit={() => setSelectedInstitution(institution)}
             onDelete={refetch}
             professionalId={data?.id || ""}
+            isDemo={isDemo}
           />
         ))}
       </div>
