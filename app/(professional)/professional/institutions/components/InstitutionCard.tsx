@@ -29,6 +29,7 @@ interface InstitutionCardProps {
   onEdit: () => void;
   onDelete: () => void;
   professionalId?: string;
+  isDemo?: boolean;
 }
 
 export const InstitutionCard = ({
@@ -36,20 +37,8 @@ export const InstitutionCard = ({
   onEdit,
   onDelete,
   professionalId,
+  isDemo = false,
 }: InstitutionCardProps) => {
-  // Fallback image URL
-  const fallbackImage = "/fallback-image.jpg";
-
-  // Determine if the image is external
-  const isExternalImage =
-    institution.institutionImage &&
-    institution.institutionImage.startsWith("http");
-
-  // Use fallback if image is invalid or missing
-  const imageSrc = isExternalImage
-    ? institution.institutionImage
-    : fallbackImage;
-
   return (
     <motion.div
       initial={{ opacity: 0, scale: 0.95, y: 10 }}
@@ -96,26 +85,26 @@ export const InstitutionCard = ({
       </AlertDialog>
 
       {/* Imagen */}
-     <div className="relative w-full h-[300px] rounded-2xl overflow-hidden shadow-lg bg-gray-200">
-              <Image
-                 src={institution.institutionImage || "/fallback-image.jpg"}
-                 alt={`${institution.name} imagen`}
-                 width={800}
-                 height={600}
-                 className="w-full h-full object-cover transition-transform duration-300 hover:scale-105"
-                 priority
-               /> 
-     
-               {/* Gradiente encima de la imagen */}
-               <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
-     
-               {/* Título encima de todo */}
-               <div className="absolute bottom-4 left-4 right-4">
-                 <h1 className="text-2xl sm:text-3xl font-bold text-white truncate drop-shadow-md">
-                   {institution.name || "Sin nombre"}
-                 </h1>
-               </div>
-             </div>
+      <div className="relative w-full h-[300px] rounded-2xl overflow-hidden shadow-lg bg-gray-200">
+        <Image
+          src={institution.institutionImage}
+          alt={`${institution.name} imagen`}
+          width={800}
+          height={600}
+          className="w-full h-full object-cover transition-transform duration-300 hover:scale-105"
+          priority
+        />
+
+        {/* Gradiente encima de la imagen */}
+        <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
+
+        {/* Título encima de todo */}
+        <div className="absolute bottom-4 left-4 right-4">
+          <h1 className="text-2xl sm:text-3xl font-bold text-white truncate drop-shadow-md">
+            {institution.name || "Sin nombre"}
+          </h1>
+        </div>
+      </div>
 
       {/* Contenido */}
       <Link
