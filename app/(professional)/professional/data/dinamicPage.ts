@@ -8,3 +8,14 @@ export const DinamicPage = [
     //   content: <PendingAppointments />,
     },
   ];
+
+  export const DinamicInstitutionSection = [
+    {
+      name: "Overview",     
+    //   content: <Appointments />,
+    },
+    {
+      name: "Offices",
+    //   content: <PendingAppointments />,
+    },
+  ];
