@@ -76,6 +76,7 @@ export default function InstitutionCardWithActions({
                   : "bg-green-500 text-white",
               });
               setFormOpen(false);
+              refetch();
             }}
           />
         </AnimatedDialog>

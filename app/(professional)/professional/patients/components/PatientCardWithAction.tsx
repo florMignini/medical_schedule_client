@@ -79,6 +79,7 @@ export default function PatientCardWithActions({
                   : "bg-green-500 text-white",
               });
               setFormOpen(false);
+              refetch();
             }}
           />
         </AnimatedDialog>
@@ -99,6 +100,7 @@ export default function PatientCardWithActions({
                   : "bg-green-500 text-white",
               });
               setFormOpen(false);
+              refetch();
             }}
           />
         </AnimatedDialog>
