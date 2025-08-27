@@ -44,6 +44,7 @@ import { Patient } from "@/interfaces";
 import SelectField from "./SelectField";
 import RadioGroupField from "./RadioGroupField";
 
+
 type Props = {
   selectedPatient?: Partial<Patient> | null;
   onClose: () => void;
@@ -148,25 +149,27 @@ const PatientRegistrationForm: React.FC<Props> = ({
         isActive: true,
       };
       // @ts-ignore
-      console.log("patientData", patientData);
-      const response = await patientRegistration(patientData);
 
-      if (profData) {
+      const response : Patient = await patientRegistration(patientData);
+      
+      if (response) {
+        if (profData) {
         const IDs = {
           professional: profData.id,
           patient: response.id,
         };
         const data = await createProfessionalPatientRelation(IDs);
       }
-      if (response) {
         form.reset();
         router.refresh();
         setLoading(false);
-        router.push("/professional/patients");
+        onSuccess();
+        onClose();
       }
     } catch (error) {
       console.error(error);
-      setFileError(error as string);
+      const message = error instanceof Error ? error.message : String(error);
+      setFileError(message);
       setLoading(false);
     }
   }
