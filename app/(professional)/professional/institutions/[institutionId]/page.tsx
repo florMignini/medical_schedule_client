@@ -1,7 +1,7 @@
 import { cookies } from "next/headers";
 import { notFound } from "next/navigation";
 import { getProfessionalIncludesFromCookies } from "@/utils/getProfessionalIncludesFromCookies";
-import InstitutionsPage from "../page";
+import InstitutionInfo from "./info/page";
 
 
 const InstitutionInfoPage = async ({
@@ -13,13 +13,15 @@ const InstitutionInfoPage = async ({
   const isDemo = cookieStore.get("isDemo")?.value === "true";
   const { institutions } = await getProfessionalIncludesFromCookies();
 
-  const patientFound = institutions.find(
+  const institutionFound = institutions.find(
     (item) => item.institution.id === params.institutionId
   );
 
-  if (!patientFound) return notFound();
+  if (!institutionFound) return notFound();
 
-  return <InstitutionsPage isDemo={isDemo} />;
+  return (
+    <InstitutionInfo isDemo={isDemo} />
+  );
 };
 
 export default InstitutionInfoPage;

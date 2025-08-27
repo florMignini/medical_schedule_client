@@ -10,7 +10,12 @@ import {
 } from "@/app/(professional)/professional/data";
 import { cookies } from "next/headers";
 import { InputFile } from "node-appwrite/file";
-import { PATIENT_PROFILE_BUCKET_ID, ENDPOINT, PROJECT_ID, storage } from "@/lib";
+import {
+  PATIENT_PROFILE_BUCKET_ID,
+  ENDPOINT,
+  PROJECT_ID,
+  storage,
+} from "@/lib";
 import { ID } from "node-appwrite";
 import { apiServer } from "@/api/api-server";
 interface IPatient {
@@ -49,10 +54,10 @@ interface IPatient {
   patientBMI?: string;
   patientBFP?: string;
   isActive?: boolean;
-  patientPhoto ?: any
-  patientId ?:string
+  patientPhoto?: any;
+  patientId?: string;
 }
-interface IIDs{
+interface IIDs {
   professional: string;
   patient: string;
 }
@@ -66,29 +71,45 @@ export async function patientRegistration({ patientPhoto, ...patient }: any) {
         patientPhoto?.get("blobFile") as Blob,
         patientPhoto?.get("fileName") as string
       );
-      file = await storage.createFile(PATIENT_PROFILE_BUCKET_ID!, ID.unique(), inputFile)
+      file = await storage.createFile(
+        PATIENT_PROFILE_BUCKET_ID!,
+        ID.unique(),
+        inputFile
+      );
     }
     let patientRegistrationData = {
-      patientPhotoUrl: file ? `${ENDPOINT}/storage/buckets/${PATIENT_PROFILE_BUCKET_ID!}/files/${file?.$id}/view?project=${PROJECT_ID}` : `https://static.vecteezy.com/system/resources/thumbnails/037/336/395/small_2x/user-profile-flat-illustration-avatar-person-icon-gender-neutral-silhouette-profile-picture-free-vector.jpg`,
-      ...patient}
-      const { data } = await apiServer.post(
-        `/patients/patient-registration`,
-        patientRegistrationData
-      );
-
+      patientPhotoUrl: file
+        ? `${ENDPOINT}/storage/buckets/${PATIENT_PROFILE_BUCKET_ID!}/files/${
+            file?.$id
+          }/view?project=${PROJECT_ID}`
+        : `https://static.vecteezy.com/system/resources/thumbnails/037/336/395/small_2x/user-profile-flat-illustration-avatar-person-icon-gender-neutral-silhouette-profile-picture-free-vector.jpg`,
+      ...patient,
+    };
+    const { data } = await apiServer.post(
+      `/patients/patient-registration`,
+      patientRegistrationData
+    );
+ 
     return data;
-  } catch (error:any) {
-    if(error?.response.message){
-      return error?.response.message
-    }else{
-      return error
+  } catch (error: any) {
+    console.error(error);
+
+    if (error?.response?.message) {
+      return { error: true, message: error.response.message };
     }
-    
+
+    return {
+      error: true,
+      message: error instanceof Error ? error.message : String(error),
+    };
   }
 }
 
- export async function updatePatientProfileAction({patientPhoto, ...patientUpdate}: IPatient) {
-    "use server";
+export async function updatePatientProfileAction({
+  patientPhoto,
+  ...patientUpdate
+}: IPatient) {
+  "use server";
 
   try {
     const cookieStore = cookies();
@@ -100,30 +121,37 @@ export async function patientRegistration({ patientPhoto, ...patient }: any) {
         message: "Edición simulada correctamente (modo demo)",
       };
     }
-    
-      const {patientId, ...rest} = patientUpdate
-        let file;
-        if(patientPhoto){
-            const inputFile = InputFile.fromBuffer(
-                patientPhoto?.get("blobFile") as Blob,
-                patientPhoto?.get("fileName") as string
-            );
-            file = await storage.createFile(PATIENT_PROFILE_BUCKET_ID!, ID.unique(), inputFile);
-        }
-        const patientUpdateData = {
-          patientPhotoUrl: file ? `${ENDPOINT}/storage/buckets/${PATIENT_PROFILE_BUCKET_ID}/files/${file?.$id}/view?project=${PROJECT_ID}` : `https://static.vecteezy.com/system/resources/thumbnails/037/336/395/small_2x/user-profile-flat-illustration-avatar-person-icon-gender-neutral-silhouette-profile-picture-free-vector.jpg`,
-            ...rest}
 
-            const { data } = await apiServer.put(
-              `/patients/update/${patientId}`,
-              patientUpdateData
-            );
+    const { patientId, ...rest } = patientUpdate;
+    let file;
+    if (patientPhoto) {
+      const inputFile = InputFile.fromBuffer(
+        patientPhoto?.get("blobFile") as Blob,
+        patientPhoto?.get("fileName") as string
+      );
+      file = await storage.createFile(
+        PATIENT_PROFILE_BUCKET_ID!,
+        ID.unique(),
+        inputFile
+      );
+    }
+    const patientUpdateData = {
+      patientPhotoUrl: file
+        ? `${ENDPOINT}/storage/buckets/${PATIENT_PROFILE_BUCKET_ID}/files/${file?.$id}/view?project=${PROJECT_ID}`
+        : `https://static.vecteezy.com/system/resources/thumbnails/037/336/395/small_2x/user-profile-flat-illustration-avatar-person-icon-gender-neutral-silhouette-profile-picture-free-vector.jpg`,
+      ...rest,
+    };
 
-            return data;
-        } catch (error:any) {
-            console.log(error.response);
-        }
-        }
+    const { data } = await apiServer.put(
+      `/patients/update/${patientId}`,
+      patientUpdateData
+    );
+
+    return data;
+  } catch (error: any) {
+    console.log(error.response);
+  }
+}
 
 export async function deletePatient({
   patientId,
@@ -142,7 +170,9 @@ export async function deletePatient({
       message: "Borrado simulado correctamente (modo demo)",
     };
   }
-  const res = await apiServer.delete(`https://medical-schedule-server.onrender.com/api/patients/delete/${patientId}`);
+  const res = await apiServer.delete(
+    `https://medical-schedule-server.onrender.com/api/patients/delete/${patientId}`
+  );
   if (res.status !== 200) {
     throw new Error("Error al eliminar el paciente");
   }
@@ -152,7 +182,7 @@ export async function deletePatient({
   };
 }
 
-export async function createProfessionalPatientRelation (IDs: IIDs) {
+export async function createProfessionalPatientRelation(IDs: IIDs) {
   const relationData = await apiServer.post(
     `/professional/add-patient-relation`,
     IDs
