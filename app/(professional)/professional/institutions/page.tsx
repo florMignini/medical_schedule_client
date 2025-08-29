@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState, useMemo } from "react";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { Input } from "@/components/ui/input";
 import { InstitutionsIncluded } from "@/interfaces";
@@ -10,27 +10,21 @@ import { useProfessionalIncludes } from "@/hooks/useProfessionalIncludes";
 const ITEMS_PER_PAGE = 8;
 
 export default function InstitutionsPage({ isDemo }: { isDemo: boolean }) {
-  const [filtered, setFiltered] = useState<InstitutionsIncluded[]>([]);
-  const [displayed, setDisplayed] = useState<InstitutionsIncluded[]>([]);
+  const { institutions } = useProfessionalIncludes();
   const [search, setSearch] = useState("");
   const [page, setPage] = useState(1);
-const { institutions} = useProfessionalIncludes();
 
-  useEffect(() => {
-    const filteredData = institutions.filter(({institution}) =>
+  const filtered = useMemo(() => {
+    return institutions.filter(({ institution }) =>
       institution.name.toLowerCase().includes(search.toLowerCase())
     );
-    setFiltered(filteredData);
-    setDisplayed(filteredData.slice(0, ITEMS_PER_PAGE));
-    setPage(1);
-  }, [search, institutions]);
+  }, [institutions, search]);
 
-  const loadMore = () => {
-    const nextPage = page + 1;
-    const newItems = filtered.slice(0, nextPage * ITEMS_PER_PAGE);
-    setDisplayed(newItems);
-    setPage(nextPage);
-  };
+  const displayed = useMemo(() => {
+    return filtered.slice(0, page * ITEMS_PER_PAGE);
+  }, [filtered, page]);
+
+  const loadMore = () => setPage((prev) => prev + 1);
 
   return (
     <section className="w-[99%] mx-auto p-6 space-y-4 bg-white rounded-lg shadow-md min-h-screen">
@@ -44,7 +38,10 @@ const { institutions} = useProfessionalIncludes();
       <Input
         placeholder="Buscar institución..."
         value={search}
-        onChange={(e) => setSearch(e.target.value)}
+        onChange={(e) => {
+          setSearch(e.target.value);
+          setPage(1); // reinicia la paginación al cambiar la búsqueda
+        }}
         className="max-w-sm"
       />
 
@@ -52,11 +49,17 @@ const { institutions} = useProfessionalIncludes();
         dataLength={displayed.length}
         next={loadMore}
         hasMore={displayed.length < filtered.length}
-        loader={<p className="text-center text-sm text-gray-500 py-2">Cargando más instituciones...</p>}
+        loader={
+          <p className="text-center text-sm text-gray-500 py-2">
+            Cargando más instituciones...
+          </p>
+        }
       >
-        <InstitutionCardWithActions 
-        showFloatingButton={true}
-        institutionsIncluded={displayed} isDemo={isDemo} />
+        <InstitutionCardWithActions
+          showFloatingButton={true}
+          institutionsIncluded={displayed}
+          isDemo={isDemo}
+        />
       </InfiniteScroll>
     </section>
   );

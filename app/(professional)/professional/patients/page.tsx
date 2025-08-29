@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useMemo } from "react";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { Input } from "@/components/ui/input";
 import { PatientsIncluded } from "@/interfaces";
@@ -11,28 +11,22 @@ const ITEMS_PER_PAGE = 10;
 
 const PatientsPage = () => {
   const { isDemo, patients } = useProfessionalIncludes();
-  const [filtered, setFiltered] = useState<PatientsIncluded[]>([]);
-  const [displayed, setDisplayed] = useState<PatientsIncluded[]>([]);
   const [search, setSearch] = useState("");
   const [page, setPage] = useState(1);
 
-  useEffect(() => {
-    const filteredData = patients.filter(({ patient }) =>
+  const filtered = useMemo(() => {
+    return patients.filter(({ patient }) =>
       `${patient.firstName} ${patient.lastName}`
         .toLowerCase()
         .includes(search.toLowerCase())
     );
-    setFiltered(filteredData);
-    setDisplayed(filteredData.slice(0, ITEMS_PER_PAGE));
-    setPage(1);
-  }, [search, patients]);
+  }, [patients, search]);
 
-  const loadMore = () => {
-    const nextPage = page + 1;
-    const newItems = filtered.slice(0, nextPage * ITEMS_PER_PAGE);
-    setDisplayed(newItems);
-    setPage(nextPage);
-  };
+  const displayed = useMemo(() => {
+    return filtered.slice(0, page * ITEMS_PER_PAGE);
+  }, [filtered, page]);
+
+  const loadMore = () => setPage((prev) => prev + 1);
 
   return (
     <section className="w-[99%] mx-auto p-6 space-y-4 bg-white rounded-lg shadow-md min-h-screen">
@@ -46,7 +40,10 @@ const PatientsPage = () => {
       <Input
         placeholder="Buscar paciente..."
         value={search}
-        onChange={(e) => setSearch(e.target.value)}
+        onChange={(e) => {
+          setSearch(e.target.value);
+          setPage(1); // reiniciar página solo cuando cambia la búsqueda
+        }}
         className="max-w-sm"
       />
 
