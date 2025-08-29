@@ -5,9 +5,14 @@ import { PROFESSIONALYINSTITUTION_PROFILE_BUCKET_ID, ENDPOINT, PROJECT_ID, stora
 import { ID } from "node-appwrite";;
 import { InputFile } from "node-appwrite/file";
 
-interface IIDs {
+interface IIDsProfessional {
     professional: string | undefined;
     institution: string | undefined;
+  }
+
+export  interface IIDsPatient {
+    patientId: string;
+    medicalInstitutionId: string;
   }
 
   export async function createNewInstitution({institutionImage, ...institution}: any) {
@@ -35,9 +40,20 @@ interface IIDs {
         }
   
 
-  export async function createProfessionalInstitutionRelation(IDs: IIDs) {
+  export async function createProfessionalInstitutionRelation(IDs: IIDsProfessional) {
     const res = await apiServer.post(`/professional/add-institution-relation`,IDs);
   }
+
+export async function createPatientInstitutionRelation(IDs: IIDsPatient[]) {
+  "use server";
+  const { data } = await apiServer.post(
+    `/institutions/add-patient-relation`,
+    IDs // enviamos un array
+  );
+
+  return data;
+}
+
 
   export async function getInstitutionById(institutionId: string): Promise<ICreateInstitution | null> {
     "use server";
@@ -49,6 +65,8 @@ interface IIDs {
       return null;
     }
   }
+
+  
 
   export async function updateInstitutionAction({payload,
     institutionId}: any) {

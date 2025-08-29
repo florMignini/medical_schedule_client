@@ -1,3 +1,5 @@
+import { PatientsIncluded } from "./professionalInfo.interface";
+
 export interface ICreateInstitution {
   id: string;
   name: string;
@@ -6,4 +8,5 @@ export interface ICreateInstitution {
   phone: string;
   website: string;
   institutionImage: string;
+  patientsIncluded?: PatientsIncluded[];
 }
