@@ -4,9 +4,10 @@ import { useParams, useRouter } from "next/navigation";
 import axios from "axios";
 
 import { API_BASE_URL } from "@/lib/constants.api";
-import InstitutionInfo from "../../components/InstitutionInfo";
+
 import { Skeleton } from "../../../../../../components/ui/skeleton";
 import { ICreateInstitution } from "@/interfaces";
+import InstitutionInfo from "../../components/InstitutionInfo";
 
 
 export default function InstitutionInfoWrapper({ isDemo }: { isDemo: boolean }) {
