@@ -71,7 +71,7 @@ export default function InstitutionInfoWrapper({ isDemo }: { isDemo: boolean }) 
       </section>
     );
   }
-console.log(institution);
+
   if (error || !institution) {
     return (
       <div className="w-full h-screen flex flex-col items-center justify-center gap-6 text-gray-300">
@@ -88,5 +88,5 @@ console.log(institution);
     );
   }
 
-  return <InstitutionInfo institution={institution} isDemo={isDemo} />;
+  return <InstitutionInfo isDemo={isDemo} />;
 }
