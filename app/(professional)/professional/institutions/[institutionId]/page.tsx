@@ -1,7 +1,8 @@
 import { cookies } from "next/headers";
 import { notFound } from "next/navigation";
 import { getProfessionalIncludesFromCookies } from "@/utils/getProfessionalIncludesFromCookies";
-import InstitutionInfo from "./info/page";
+import InstitutionInfo from "../components/InstitutionInfo";
+
 
 
 const InstitutionInfoPage = async ({
