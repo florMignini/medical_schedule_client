@@ -42,7 +42,7 @@ const PatientCard = ({
       transition={{ duration: 0.2 }}
       whileHover={{ scale: 0.98 }}
       whileTap={{ scale: 0.98 }}
-      className="group relative rounded-2xl border-l-4 border-black p-1 shadow-md hover:shadow-xl transition-all bg-gradient-to-r from-white/80 to-zinc-100/80 dark:from-zinc-800/80 dark:to-zinc-900/80 backdrop-blur-md flex flex-col md:flex-row md:items-center md:justify-beetwen gap-1"
+      className="group relative rounded-2xl p-1 shadow-md hover:shadow-xl transition-all bg-gradient-to-r from-white/80 to-zinc-100/80 dark:from-zinc-800/80 dark:to-zinc-900/80 backdrop-blur-md flex flex-col md:flex-row md:items-center md:justify-beetwen gap-1 hover:bg-zinc-400"
     >
       {/* Acciones arriba a la derecha */}
       <div className="absolute top-0 right-2 flex gap-1 z-10">
@@ -114,7 +114,7 @@ const PatientCard = ({
           className="rounded-full object-cover border border-zinc-300 shadow-sm"
         />
         <div>
-          <p className="text-base font-semibold leading-tight">
+          <p className="text-base font-semibold leading-tight truncate">
             {patient.firstName} {patient.lastName}
             {isDemo && (
               <span className="ml-2 text-xs px-2 py-0.5 rounded-full bg-yellow-100 text-yellow-600">

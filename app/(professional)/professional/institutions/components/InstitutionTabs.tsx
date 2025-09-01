@@ -2,12 +2,15 @@
 import clsx from "clsx";
 import { ClipboardList, CalendarClock, Stethoscope } from "lucide-react";
 import { Overview } from "./Overview";
-type Section = "Overview" | "Offices" | "";
 
-type Props = {
-  current: string;
+
+type Section = "Overview" | "Offices";
+
+interface Props {
+  current: Section;
   onChange: (section: Section) => void;
-};
+}
+
 export function InstitutionTabs({ current, onChange }: Props) {
   const options: { name: Section; icon: JSX.Element }[] = [
       {
