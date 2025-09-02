@@ -2,20 +2,16 @@
 
 import { useState, useMemo, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import axios from "axios";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Skeleton } from "@/components/ui/skeleton";
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
-
-// Fake data
-const patientsData = Array.from({ length: 42 }, (_, i) => ({
-  id: i + 1,
-  name: `Paciente ${i + 1}`,
-  email: `paciente${i + 1}@mail.com`,
-  status: i % 2 === 0 ? "Activo" : "Inactivo",
-}));
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { API_BASE_URL } from "@/lib/constants.api";
+import { ICreateInstitution, PatientsIncluded, Patient } from "@/interfaces";
+import Link from "next/link";
 
 const ITEMS_PER_PAGE = 8;
 
@@ -23,26 +19,41 @@ export default function Overview({ institutionId }: { institutionId: string }) {
   const [search, setSearch] = useState("");
   const [statusFilter, setStatusFilter] = useState("all");
   const [page, setPage] = useState(1);
+  const [patients, setPatients] = useState<PatientsIncluded[]>([]);
+  const [selectedPatient, setSelectedPatient] = useState<Patient | null>(null);
   const [loading, setLoading] = useState(true);
-  const [selectedPatient, setSelectedPatient] = useState<typeof patientsData[0] | null>(null);
 
-  // Simula fetch de datos
+  // Traemos la institución con sus pacientes
   useEffect(() => {
+    if (!institutionId) return;
+
     setLoading(true);
-    const timeout = setTimeout(() => setLoading(false), 600);
-    return () => clearTimeout(timeout);
-  }, [search, statusFilter, page]);
+    axios
+      .get<ICreateInstitution>(
+        `${API_BASE_URL.prod}/institutions/get-institution/${institutionId}`
+      )
+      .then(({ data }) => {
+        setPatients(data.patientsIncluded ?? []);
+        setLoading(false);
+      })
+      .catch(() => setLoading(false));
+  }, [institutionId]);
 
   const filteredPatients = useMemo(() => {
-    return patientsData.filter((p) => {
+    return patients.filter(({ patient }) => {
+      const fullName = `${patient.firstName} ${patient.lastName}`;
       const matchesSearch =
-        p.name.toLowerCase().includes(search.toLowerCase()) ||
-        p.email.toLowerCase().includes(search.toLowerCase());
+        fullName.toLowerCase().includes(search.toLowerCase()) ||
+        patient.email.toLowerCase().includes(search.toLowerCase());
+
       const matchesStatus =
-        statusFilter === "all" || p.status.toLowerCase() === statusFilter.toLowerCase();
+        statusFilter === "all" ||
+        (statusFilter === "Activo" && patient.isActive) ||
+        (statusFilter === "Inactivo" && !patient.isActive);
+
       return matchesSearch && matchesStatus;
     });
-  }, [search, statusFilter]);
+  }, [search, statusFilter, patients]);
 
   const totalPages = Math.ceil(filteredPatients.length / ITEMS_PER_PAGE);
   const paginatedPatients = filteredPatients.slice(
@@ -78,9 +89,9 @@ export default function Overview({ institutionId }: { institutionId: string }) {
           {/* Institution Cards */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             {[
-              { title: "Nombre", value: "Clínica Médica Central" },
-              { title: "Dirección", value: "Av. Siempre Viva 123" },
-              { title: "Pacientes Asociados", value: patientsData.length },
+              { title: "Nombre", value: "Clínica Médica Central" }, // TODO: tomar de data real
+              { title: "Dirección", value: "Av. Siempre Viva 123" }, // TODO: tomar de data real
+              { title: "Pacientes Asociados", value: patients.length },
             ].map((item, idx) => (
               <motion.div
                 key={item.title}
@@ -146,19 +157,23 @@ export default function Overview({ institutionId }: { institutionId: string }) {
                 <TableBody>
                   <AnimatePresence>
                     {paginatedPatients.length > 0 ? (
-                      paginatedPatients.map((p, idx) => (
+                      paginatedPatients.map(({ patient }, idx) => (
                         <motion.tr
-                          key={p.id}
+                          key={patient.id}
                           initial={{ opacity: 0, y: 10 }}
                           animate={{ opacity: 1, y: 0 }}
                           exit={{ opacity: 0, y: -10 }}
                           transition={{ delay: idx * 0.05 }}
                           className="hover:bg-emerald-50 transition cursor-pointer"
-                          onClick={() => setSelectedPatient(p)}
+                          onClick={() => setSelectedPatient(patient)}
                         >
-                          <TableCell>{p.name}</TableCell>
-                          <TableCell>{p.email}</TableCell>
-                          <TableCell>{p.status}</TableCell>
+                          <TableCell>
+                            {patient.firstName} {patient.lastName}
+                          </TableCell>
+                          <TableCell>{patient.email}</TableCell>
+                          <TableCell>
+                            {patient.isActive ? "Activo" : "Inactivo"}
+                          </TableCell>
                         </motion.tr>
                       ))
                     ) : (
@@ -200,19 +215,38 @@ export default function Overview({ institutionId }: { institutionId: string }) {
           </motion.div>
 
           {/* Patient Preview Modal */}
-          <Dialog open={!!selectedPatient} onOpenChange={() => setSelectedPatient(null)}>
+          <Dialog
+            open={!!selectedPatient}
+            onOpenChange={() => setSelectedPatient(null)}
+          >
             <DialogContent className="sm:max-w-md bg-white rounded-2xl shadow-lg">
               <DialogHeader>
                 <DialogTitle>Información del Paciente</DialogTitle>
               </DialogHeader>
               {selectedPatient && (
-                <div className="p-4 space-y-2">
-                  <p><strong>Nombre:</strong> {selectedPatient.name}</p>
-                  <p><strong>Email:</strong> {selectedPatient.email}</p>
-                  <p><strong>Estado:</strong> {selectedPatient.status}</p>
-                  <Button onClick={() => console.log("Redirigir a sección info del paciente", selectedPatient.id)}>
-                    Ver detalles
-                  </Button>
+                <div className="p-4 space-y-1">
+                  <p>
+                    <strong>Nombre:</strong> {selectedPatient.firstName}{" "}
+                    {selectedPatient.lastName}
+                  </p>
+                  <p>
+                    <strong>Email:</strong> {selectedPatient.email}
+                  </p>
+                  <p>
+                    <strong>Teléfono:</strong> {selectedPatient.phone}
+                  </p>
+                  <p>
+                    <strong>Estado:</strong>{" "}
+                    {selectedPatient.isActive ? "Activo" : "Inactivo"}
+                  </p>
+                  <div className="flex justify-end space-x-2 mt-4">
+                    <Link
+                      href={`/professional/patients/${selectedPatient.id}`}
+                      className="font-bold p-2 mt-10 text-sm text-gray-600 hover:border-gray-300 shadow-lg rounded-lg"
+                    >
+                      Ver detalles
+                    </Link>
+                  </div>
                 </div>
               )}
             </DialogContent>
