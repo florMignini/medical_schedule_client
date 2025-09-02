@@ -27,7 +27,7 @@ const FollowUp = ({ patientInfo, isDemo = false }: FollowUpProps) => {
 
       {/* Cards */}
       <TooltipProvider>
-        <div className="w-full max-w-4xl flex flex-wrap justify-center gap-4">
+       <div className="w-full max-w-4xl flex flex-col md:flex-row gap-4">
           {followUpIncluded && followUpIncluded.length > 0 ? (
             followUpIncluded.map((followUp) => (
               <Tooltip key={followUp.followUp.id}>
