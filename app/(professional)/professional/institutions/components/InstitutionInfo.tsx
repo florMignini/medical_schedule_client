@@ -35,9 +35,9 @@ export default function InstitutionInfo() {
   const { patients, isDemo } = useProfessionalIncludes();
 
   const [filter, setFilter] = useState("");
-  const [dinamicPage, setDinamicPage] = useState<"Overview" | "Offices">(
-    "Overview"
-  );
+  const [dinamicPage, setDinamicPage] = useState<
+    "Detalles de la institución" | "Oficinas/Consultorios"
+  >("Detalles de la institución");
   const [formOpen, setFormOpen] = useState(false);
   const [institution, setInstitution] = useState<ICreateInstitution | null>(
     null
@@ -234,7 +234,7 @@ export default function InstitutionInfo() {
 
         <div className="w-full pt-4 px-2 sm:px-4">
           <AnimatePresence mode="wait">
-            {dinamicPage === "Overview" && (
+            {dinamicPage === "Detalles de la institución" && (
               <motion.div
                 key="info"
                 initial={{ opacity: 0, y: 15 }}
@@ -245,7 +245,7 @@ export default function InstitutionInfo() {
                 <Overview institutionId={institutionId} />
               </motion.div>
             )}
-            {dinamicPage === "Offices" && (
+            {dinamicPage === "Oficinas/Consultorios" && (
               <motion.div
                 key="offices"
                 initial={{ opacity: 0, y: 15 }}
