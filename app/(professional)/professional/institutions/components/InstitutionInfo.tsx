@@ -30,9 +30,9 @@ interface Props {
   isDemo: boolean;
 }
 
-export default function InstitutionInfo({ isDemo }: Props) {
+export default function InstitutionInfo() {
   const { institutionId } = useParams<{ institutionId: string }>();
-  const { patients } = useProfessionalIncludes();
+  const { patients, isDemo } = useProfessionalIncludes();
 
   const [filter, setFilter] = useState("");
   const [dinamicPage, setDinamicPage] = useState<"Overview" | "Offices">(
