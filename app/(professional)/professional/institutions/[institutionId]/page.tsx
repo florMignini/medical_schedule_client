@@ -21,7 +21,7 @@ const InstitutionInfoPage = async ({
   if (!institutionFound) return notFound();
 
   return (
-    <InstitutionInfo isDemo={isDemo} />
+    <InstitutionInfo />
   );
 };
 

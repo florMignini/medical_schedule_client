@@ -8,11 +8,14 @@ import { API_BASE_URL } from "@/lib/constants.api";
 import { Skeleton } from "../../../../../../components/ui/skeleton";
 import { ICreateInstitution } from "@/interfaces";
 import InstitutionInfo from "../../components/InstitutionInfo";
+import { useProfessionalIncludes } from "@/hooks/useProfessionalIncludes";
 
 
-export default function InstitutionInfoWrapper({ isDemo }: { isDemo: boolean }) {
+export default function InstitutionInfoWrapper() {
   const router = useRouter();
   const { institutionId } = useParams();
+    const { isDemo } = useProfessionalIncludes();
+  
   const [institution, setInstitution] = useState<ICreateInstitution | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
@@ -89,5 +92,5 @@ export default function InstitutionInfoWrapper({ isDemo }: { isDemo: boolean }) 
     );
   }
 
-  return <InstitutionInfo isDemo={isDemo} />;
+  return <InstitutionInfo/>;
 }
