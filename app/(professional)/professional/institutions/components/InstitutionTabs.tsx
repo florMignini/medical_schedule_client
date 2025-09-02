@@ -1,10 +1,9 @@
 "use client";
 import clsx from "clsx";
-import { ClipboardList, CalendarClock, Stethoscope } from "lucide-react";
-import { Overview } from "./Overview";
+import { ClipboardList, CalendarClock } from "lucide-react";
 
 
-type Section = "Overview" | "Offices";
+type Section = "Detalles de la institución" | "Oficinas/Consultorios";
 
 interface Props {
   current: Section;
@@ -14,17 +13,13 @@ interface Props {
 export function InstitutionTabs({ current, onChange }: Props) {
   const options: { name: Section; icon: JSX.Element }[] = [
       {
-        name: "Overview",
+        name: "Detalles de la institución",
         icon: <ClipboardList className="w-4 h-4" />,
       },
       {
-        name: "Offices",
+        name: "Oficinas/Consultorios",
         icon: <CalendarClock className="w-4 h-4" />,
-      },
-      // {
-      //   name: "Seguimientos",
-      //   icon: <Stethoscope className="w-4 h-4" />,
-      // },
+      }
     ];
   return (
    <div className="sticky top-[60px] z-20 bg-white w-full flex items-center justify-start px-3 gap-2 overflow-x-auto py-2 border-b">
