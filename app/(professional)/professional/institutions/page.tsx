@@ -3,14 +3,13 @@
 import { useState, useMemo } from "react";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { Input } from "@/components/ui/input";
-import { InstitutionsIncluded } from "@/interfaces";
 import InstitutionCardWithActions from "./components/InstitutionCardWithActions";
 import { useProfessionalIncludes } from "@/hooks/useProfessionalIncludes";
 
 const ITEMS_PER_PAGE = 8;
 
-export default function InstitutionsPage({ isDemo }: { isDemo: boolean }) {
-  const { institutions } = useProfessionalIncludes();
+export default function InstitutionsPage() {
+  const { institutions, isDemo } = useProfessionalIncludes();
   const [search, setSearch] = useState("");
   const [page, setPage] = useState(1);
 
