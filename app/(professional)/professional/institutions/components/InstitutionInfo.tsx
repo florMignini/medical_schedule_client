@@ -24,11 +24,9 @@ import { useProfessionalIncludes } from "@/hooks/useProfessionalIncludes";
 import { createPatientInstitutionRelation, IIDsPatient } from "@/app/actions";
 import { Skeleton } from "../../../../../components/ui/skeleton";
 import Overview from "./Overview";
+import { demoInstitution } from "@/lib/mocks/institutions.mock";
+import { demoPatients } from "@/lib/mocks/patients.mock";
 
-
-interface Props {
-  isDemo: boolean;
-}
 
 export default function InstitutionInfo() {
   const { institutionId } = useParams<{ institutionId: string }>();
@@ -42,10 +40,23 @@ export default function InstitutionInfo() {
   const [institution, setInstitution] = useState<ICreateInstitution | null>(
     null
   );
-  const [selectedPatientIds, setSelectedPatientIds] = useState<string[]>([]);
+  const [selectedPatientIds, setSelectedPatientIds] = useState<
+    string[]
+  >([]);
 
   /** Fetch institution */
   const fetchInstitution = useCallback(async () => {
+    if (isDemo) {
+      // Usamos mock demo
+      setInstitution(demoInstitution as ICreateInstitution);
+      setSelectedPatientIds(
+        demoInstitution.patients
+          .map((p) => p.id)
+          .filter((id): id is string => !!id) // filtramos undefined y aseguramos string[]
+      );
+      return;
+    }
+
     if (!institutionId) return;
     try {
       const { data } = await axios.get<ICreateInstitution>(
@@ -56,7 +67,7 @@ export default function InstitutionInfo() {
     } catch (error) {
       console.error("Error fetching institution:", error);
     }
-  }, [institutionId]);
+  }, [institutionId, isDemo]);
 
   useEffect(() => {
     fetchInstitution();
@@ -64,10 +75,15 @@ export default function InstitutionInfo() {
 
   /** Save relation */
   const handleSavePatients = async () => {
+    if (isDemo) {
+      // En demo no guardamos, solo simulamos
+      setFormOpen(false);
+      return;
+    }
+
     try {
       if (selectedPatientIds.length === 0) return;
 
-      // Armamos un array de DTOs para todos los pacientes seleccionados
       const payload: IIDsPatient[] = selectedPatientIds.map((patientId) => ({
         medicalInstitutionId: institutionId!,
         patientId,
@@ -76,9 +92,7 @@ export default function InstitutionInfo() {
       await createPatientInstitutionRelation(payload);
 
       setFormOpen(false);
-
-      fetchInstitution(); // refrescamos la institución con los pacientes actualizados
-      // Limpiamos los checkboxes
+      fetchInstitution(); // refrescamos
       setSelectedPatientIds([]);
     } catch (error) {
       console.error("Error al guardar pacientes:", error);
@@ -96,38 +110,32 @@ export default function InstitutionInfo() {
   useEffect(() => {
     if (!institution) return;
     setSelectedPatientIds(
-      institution.patientsIncluded?.map((p) => p.patient.id) ?? []
+      institution.patientsIncluded?.map((p) => p.patient?.id ?? p.id) ?? []
     );
   }, [institution]);
 
-    if (!institution) {
+  if (!institution) {
     return (
       <section className="w-full min-h-screen bg-white p-4 sm:p-6 md:p-8 space-y-6">
-        {/* Skeleton que imita InstitutionInfo HeaderCard */}
+        {/* Skeleton */}
         <div className="flex items-center gap-4 mb-20">
           <div className="flex-1 items-center justify-center space-y-3">
-            <Skeleton className="bg-gray-400 h-56 w-[75%]" /> {/* imagen */}
+            <Skeleton className="bg-gray-400 h-56 w-[75%]" />
           </div>
         </div>
-
-        {/* Skeleton para barra de acciones */}
         <div className="flex gap-2">
           <Skeleton className="bg-gray-400 h-10 w-full" />
-
         </div>
-
-        {/* Skeleton para contenido principal */}
         <div className="flex gap-4">
           <Skeleton className="bg-gray-400 h-20 w-full" />
         </div>
-
       </section>
     );
   }
+
   return (
     <section className="w-full min-h-screen bg-white p-4 sm:p-6 md:p-8 space-y-6">
       <div className="w-full max-w-4xl mx-auto flex flex-col gap-6">
-        {/* InstitutionCard + Botón para asignar pacientes */}
         <div className="flex flex-col md:flex-row md:justify-between items-start md:items-center gap-4">
           {institution && (
             <InstitutionCard
@@ -145,7 +153,6 @@ export default function InstitutionInfo() {
                 Asignar pacientes
               </Button>
             </DialogTrigger>
-
             <DialogContent className="sm:max-w-lg bg-white/20 backdrop-blur-md border border-gray-200 shadow-lg">
               <DialogHeader>
                 <DialogTitle>
