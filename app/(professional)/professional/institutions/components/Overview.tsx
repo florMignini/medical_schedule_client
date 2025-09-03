@@ -6,12 +6,27 @@ import axios from "axios";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
 import { Skeleton } from "@/components/ui/skeleton";
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
 import { API_BASE_URL } from "@/lib/constants.api";
 import { ICreateInstitution, PatientsIncluded, Patient } from "@/interfaces";
+
 import Link from "next/link";
+import { demoInstitution } from "@/lib/mocks/institutions.mock";
+import { useProfessionalIncludes } from "@/hooks/useProfessionalIncludes";
 
 const ITEMS_PER_PAGE = 8;
 
@@ -22,22 +37,35 @@ export default function Overview({ institutionId }: { institutionId: string }) {
   const [patients, setPatients] = useState<PatientsIncluded[]>([]);
   const [selectedPatient, setSelectedPatient] = useState<Patient | null>(null);
   const [loading, setLoading] = useState(true);
+  const { isDemo } = useProfessionalIncludes();
 
-  // Traemos la institución con sus pacientes
+  // Fetch o mock según modo
   useEffect(() => {
-    if (!institutionId) return;
-
     setLoading(true);
-    axios
-      .get<ICreateInstitution>(
-        `${API_BASE_URL.prod}/institutions/get-institution/${institutionId}`
-      )
-      .then(({ data }) => {
-        setPatients(data.patientsIncluded ?? []);
+
+    if (isDemo) {
+      // Simula delay para demo
+      setTimeout(() => {
+        setPatients(
+          demoInstitution.patients.map((p) => ({
+            patient: p,
+          })) as PatientsIncluded[]
+        );
         setLoading(false);
-      })
-      .catch(() => setLoading(false));
-  }, [institutionId]);
+      }, 500);
+    } else {
+      if (!institutionId) return;
+      axios
+        .get<ICreateInstitution>(
+          `${API_BASE_URL.prod}/institutions/get-institution/${institutionId}`
+        )
+        .then(({ data }) => {
+          setPatients(data.patientsIncluded ?? []);
+          setLoading(false);
+        })
+        .catch(() => setLoading(false));
+    }
+  }, [institutionId, isDemo]);
 
   const filteredPatients = useMemo(() => {
     return patients.filter(({ patient }) => {
@@ -60,6 +88,11 @@ export default function Overview({ institutionId }: { institutionId: string }) {
     (page - 1) * ITEMS_PER_PAGE,
     page * ITEMS_PER_PAGE
   );
+
+  // Datos de la institución: demo o real
+  const institutionData = isDemo
+    ? demoInstitution
+    : { name: "Clínica Médica Central", address: "Av. Siempre Viva 123" }; // TODO: reemplazar por datos reales
 
   return (
     <div className="p-6 space-y-6">
@@ -89,8 +122,8 @@ export default function Overview({ institutionId }: { institutionId: string }) {
           {/* Institution Cards */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             {[
-              { title: "Nombre", value: "Clínica Médica Central" }, // TODO: tomar de data real
-              { title: "Dirección", value: "Av. Siempre Viva 123" }, // TODO: tomar de data real
+              { title: "Nombre", value: institutionData.name },
+              { title: "Dirección", value: institutionData.address },
               { title: "Pacientes Asociados", value: patients.length },
             ].map((item, idx) => (
               <motion.div
@@ -239,14 +272,16 @@ export default function Overview({ institutionId }: { institutionId: string }) {
                     <strong>Estado:</strong>{" "}
                     {selectedPatient.isActive ? "Activo" : "Inactivo"}
                   </p>
-                  <div className="flex justify-end space-x-2 mt-4">
-                    <Link
-                      href={`/professional/patients/${selectedPatient.id}`}
-                      className="font-bold p-2 mt-10 text-sm text-gray-600 hover:border-gray-300 shadow-lg rounded-lg"
-                    >
-                      Ver detalles
-                    </Link>
-                  </div>
+                  {isDemo ? null : (
+                    <div className="flex justify-end space-x-2 mt-4">
+                      <Link
+                        href={`/professional/patients/${selectedPatient.id}`}
+                        className="font-bold p-2 mt-10 text-sm text-gray-600 hover:border-gray-300 shadow-lg rounded-lg"
+                      >
+                        Ver detalles
+                      </Link>
+                    </div>
+                  )}
                 </div>
               )}
             </DialogContent>
