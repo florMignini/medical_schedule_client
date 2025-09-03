@@ -5,13 +5,36 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
 import { Skeleton } from "@/components/ui/skeleton";
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+import { useProfessionalIncludes } from "@/hooks/useProfessionalIncludes";
 
-// Fake data de offices
-const officesData = Array.from({ length: 25 }, (_, i) => ({
-  id: i + 1,
+interface Office {
+  id: string;
+  name: string;
+  location: string;
+  specialty: string;
+  status: "Activo" | "Inactivo";
+  hours: string;
+}
+
+
+const demoOffices: Office[] = Array.from({ length: 25 }, (_, i) => ({
+  id: `demo-${i + 1}`,
   name: `Consultorio ${i + 1}`,
   location: `Piso ${Math.ceil(Math.random() * 3)}`,
   specialty: ["Cardiología", "Pediatría", "Radiología", "Dermatología"][i % 4],
@@ -21,29 +44,37 @@ const officesData = Array.from({ length: 25 }, (_, i) => ({
 
 const ITEMS_PER_PAGE = 6;
 
-export default function Offices(/* { institutionId }: { institutionId: string } */) {
+export default function Offices() {
   const [search, setSearch] = useState("");
   const [statusFilter, setStatusFilter] = useState("all");
   const [page, setPage] = useState(1);
   const [loading, setLoading] = useState(true);
-
+  const [offices, setOffices] = useState<Office[]>([]);
+const {isDemo} = useProfessionalIncludes();
   useEffect(() => {
-    // Simula fetch de datos
-    const timeout = setTimeout(() => setLoading(false), 500);
-    return () => clearTimeout(timeout);
-  }, [search, statusFilter, page]);
+    setLoading(true);
+    if (isDemo) {
+      // Usamos datos demo
+      setOffices(demoOffices);
+      setTimeout(() => setLoading(false), 500);
+    } else {
+      // Aquí iría fetch real si existiera
+      setTimeout(() => setLoading(false), 500);
+    }
+  }, [isDemo]);
 
   const filteredOffices = useMemo(() => {
-    return officesData.filter((o) => {
+    return offices.filter((o) => {
       const matchesSearch =
         o.name.toLowerCase().includes(search.toLowerCase()) ||
         o.location.toLowerCase().includes(search.toLowerCase()) ||
         o.specialty.toLowerCase().includes(search.toLowerCase());
       const matchesStatus =
-        statusFilter === "all" || o.status.toLowerCase() === statusFilter.toLowerCase();
+        statusFilter === "all" ||
+        o.status.toLowerCase() === statusFilter.toLowerCase();
       return matchesSearch && matchesStatus;
     });
-  }, [search, statusFilter]);
+  }, [search, statusFilter, offices]);
 
   const totalPages = Math.ceil(filteredOffices.length / ITEMS_PER_PAGE);
   const paginatedOffices = filteredOffices.slice(
@@ -99,8 +130,9 @@ export default function Offices(/* { institutionId }: { institutionId: string } 
             <DialogHeader>
               <DialogTitle>Agregar Nuevo Office</DialogTitle>
             </DialogHeader>
-            {/* Aquí iría el formulario para crear un office */}
-            <p className="p-4 text-gray-600">Formulario de creación de office aquí</p>
+            <p className="p-4 text-gray-600">
+              Formulario de creación de office aquí
+            </p>
           </DialogContent>
         </Dialog>
       </motion.div>
@@ -134,12 +166,24 @@ export default function Offices(/* { institutionId }: { institutionId: string } 
                       <CardTitle>{office.name}</CardTitle>
                     </CardHeader>
                     <CardContent className="space-y-1">
-                      <p><strong>Ubicación:</strong> {office.location}</p>
-                      <p><strong>Especialidad:</strong> {office.specialty}</p>
-                      <p><strong>Horario:</strong> {office.hours}</p>
+                      <p>
+                        <strong>Ubicación:</strong> {office.location}
+                      </p>
+                      <p>
+                        <strong>Especialidad:</strong> {office.specialty}
+                      </p>
+                      <p>
+                        <strong>Horario:</strong> {office.hours}
+                      </p>
                       <p>
                         <strong>Estado:</strong>{" "}
-                        <span className={office.status === "Activo" ? "text-green-600" : "text-red-600"}>
+                        <span
+                          className={
+                            office.status === "Activo"
+                              ? "text-green-600"
+                              : "text-red-600"
+                          }
+                        >
                           {office.status}
                         </span>
                       </p>
