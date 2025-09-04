@@ -30,7 +30,7 @@ import { demoPatients } from "@/lib/mocks/patients.mock";
 
 export default function InstitutionInfo() {
   const { institutionId } = useParams<{ institutionId: string }>();
-  const { patients, isDemo } = useProfessionalIncludes();
+  const { data, isDemo } = useProfessionalIncludes();
 
   const [filter, setFilter] = useState("");
   const [dinamicPage, setDinamicPage] = useState<
@@ -99,13 +99,24 @@ export default function InstitutionInfo() {
     }
   };
 
+  // Garantizamos que patientsIncluded siempre sea array y filtramos nulls
+    const patientsIncluded = useMemo(
+      () =>
+        (data?.patientsIncluded || []).filter(
+          (item) => item?.patient != null
+        ),
+      [data]
+    );
+
   /** Pacientes filtrados */
   const filteredPatients = useMemo(() => {
     const lower = filter.toLowerCase();
-    return patients.filter(({ patient }) =>
-      `${patient.firstName} ${patient.lastName}`.toLowerCase().includes(lower)
+     return patientsIncluded.filter(
+      ({ patient }) =>
+        `${patient.firstName} ${patient.lastName}`
+          .toLowerCase().includes(lower)
     );
-  }, [patients, filter]);
+  }, [patientsIncluded, filter]);
 
   useEffect(() => {
     if (!institution) return;
@@ -164,7 +175,7 @@ export default function InstitutionInfo() {
                 {/* Badges */}
                 {selectedPatientIds.length > 0 && (
                   <div className="flex flex-wrap gap-1 mb-1">
-                    {patients
+                    {patientsIncluded
                       .filter(({ patient }) =>
                         selectedPatientIds.includes(patient.id)
                       )

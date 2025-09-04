@@ -89,7 +89,6 @@ const ProfessionalDashboard = async () => {
             <p className="text-gray-600">Aún no posee pacientes registrados</p>
           ) : (
             <PatientCardWithActions
-              patientsIncluded={previewPatients}
               isDemo={isDemo}
               showFloatingButton={false} 
             />
@@ -119,7 +118,6 @@ const ProfessionalDashboard = async () => {
             <p className="text-gray-600">Aún no posee instituciones activas</p>
           ) : (
             <InstitutionCardWithActions
-              institutionsIncluded={previewInstitutions}
               isDemo={isDemo}
               showFloatingButton={false} 
             />
