@@ -23,10 +23,11 @@ import { motion } from "framer-motion";
 import Image from "next/image";
 import { ICreateInstitution } from "@/interfaces";
 import Link from "next/link";
+import { Dialog } from "@radix-ui/react-dialog";
 
 interface InstitutionCardProps {
   institution: ICreateInstitution;
-  onEdit: () => void;
+  onEdit: (institution: ICreateInstitution) => void;
   onDelete: () => void;
   professionalId?: string;
   isDemo?: boolean;
@@ -48,41 +49,80 @@ export const InstitutionCard = ({
       className="relative rounded-2xl bg-white/70 dark:bg-zinc-800/80 backdrop-blur-sm shadow-md p-3 transition-all hover:shadow-xl hover:scale-[1.02] group border border-zinc-200 dark:border-zinc-700"
     >
       {/* Acciones arriba a la derecha */}
-      <AlertDialog>
-        <TooltipProvider>
-          <div className="absolute top-2 right-2 flex gap-1 z-10 opacity-0 group-hover:opacity-100 transition-opacity">
+      <TooltipProvider>
+        <div className="absolute top-2 right-2 flex gap-1 z-20 opacity-0 group-hover:opacity-100 transition-opacity">
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <Button
+                variant="ghost"
+                size="icon"
+                onClick={() => onEdit(institution)}
+              >
+                <Pencil
+                  size={18}
+                  className="text-zinc-500 hover:text-zinc-800 dark:text-zinc-300 dark:hover:text-white"
+                />
+              </Button>
+            </TooltipTrigger>
+            <TooltipContent className="bg-black text-white rounded px-2 py-1 text-xs">
+              Editar institución
+            </TooltipContent>
+          </Tooltip>
+
+          <AlertDialog>
             <Tooltip>
-              <TooltipTrigger asChild>
-                <Button variant="ghost" size="icon" onClick={onEdit}>
-                  <Pencil
+              <AlertDialogTrigger asChild>
+                <Button variant="ghost" size="icon">
+                  <Trash2
                     size={18}
-                    className="text-zinc-500 hover:text-zinc-800 dark:text-zinc-300 dark:hover:text-white"
+                    className="text-red-500 hover:text-red-700"
                   />
                 </Button>
-              </TooltipTrigger>
-              <TooltipContent className="bg-black text-white rounded px-2 py-1 text-xs">
-                Editar institución
-              </TooltipContent>
-            </Tooltip>
-
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <AlertDialogTrigger asChild>
-                  <Button variant="ghost" size="icon">
-                    <Trash2
-                      size={18}
-                      className="text-red-500 hover:text-red-700"
-                    />
-                  </Button>
-                </AlertDialogTrigger>
-              </TooltipTrigger>
+              </AlertDialogTrigger>
               <TooltipContent className="bg-black text-white rounded px-2 py-1 text-xs">
                 Eliminar institución
               </TooltipContent>
             </Tooltip>
-          </div>
-        </TooltipProvider>
-      </AlertDialog>
+
+            <AlertDialogContent className="bg-white dark:bg-zinc-900 border text-zinc-900 dark:text-white shadow-lg rounded-xl p-6">
+                  <AlertDialogHeader className="font-semibold text-xl">
+                            ¿Eliminar institución?
+                          </AlertDialogHeader>
+                          <p>Esta acción no se puede deshacer.</p>
+                          <AlertDialogFooter className="pt-4">
+                            <AlertDialogCancel>Cancelar</AlertDialogCancel>
+                            <AlertDialogAction
+                              className="bg-red-500 hover:bg-red-600 text-white"
+                              onClick={async () => {
+                                try {
+                                  const result:any = await deleteInstitution({
+                                    institutionId: institution.id,
+                                    professionalId,
+                                  });
+                                  toast({
+                                    title: "Eliminando institución...",
+                                    description: `La institución ha sido eliminada correctamente. 🎉`,
+                                    className: "bg-emerald-500 text-black",
+                                    duration: 3000,
+                                  });
+                                  onDelete();
+                                } catch (err) {
+                                  toast({
+                                    title: "Error",
+                                    description: `❌ ${(err as Error).message}`,
+                                    className: "bg-red-500 text-black",
+                                    duration: 3000,
+                                  });
+                                }
+                              }}
+                            >
+                              Eliminar
+                            </AlertDialogAction>
+                          </AlertDialogFooter>
+            </AlertDialogContent>
+          </AlertDialog>
+        </div>
+      </TooltipProvider>
 
       {/* Imagen */}
       <div className="relative w-full h-[300px] rounded-2xl overflow-hidden shadow-lg bg-gray-200">
@@ -94,11 +134,7 @@ export const InstitutionCard = ({
           className="w-full h-full object-cover transition-transform duration-300 hover:scale-105"
           priority
         />
-
-        {/* Gradiente encima de la imagen */}
         <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
-
-        {/* Título encima de todo */}
         <div className="absolute bottom-4 left-4 right-4">
           <h1 className="text-2xl sm:text-3xl font-bold text-white truncate drop-shadow-md">
             {institution.name || "Sin nombre"}
@@ -108,7 +144,7 @@ export const InstitutionCard = ({
 
       {/* Contenido */}
       <Link
-        className="mt-1 space-y-1"
+        className="mt-1 space-y-1 z-10 block"
         href={`/professional/institutions/${institution.id}`}
       >
         <h3 className="text-lg font-semibold text-zinc-800 dark:text-white truncate">
@@ -137,11 +173,10 @@ export const InstitutionCard = ({
               className="bg-red-500 hover:bg-red-600 text-white"
               onClick={async () => {
                 try {
-                  const ids = {
+                  await deleteInstitution({
                     institutionId: institution.id,
                     professionalId,
-                  };
-                  await deleteInstitution(ids);
+                  });
                   toast({
                     title: "Eliminando institución...",
                     description: "Institución eliminada exitosamente 🎉",
@@ -151,8 +186,8 @@ export const InstitutionCard = ({
                   onDelete();
                 } catch (err) {
                   toast({
-                    title: "Eliminando institución...",
-                    description: "Error al eliminar institución",
+                    title: "Error",
+                    description: "No se pudo eliminar la institución",
                     className: "bg-red-500 text-black",
                     duration: 3000,
                   });

@@ -1,57 +1,116 @@
 "use client";
 
+import { useState, useCallback } from "react";
 import { toast } from "@/hooks/use-toast";
-import { ICreateInstitution, InstitutionsIncluded } from "@/interfaces";
-import ConfigButton from "../../components/ConfigButton";
-import { InstitutionCard } from "./InstitutionCard";
-import { useProfessionalIncludes } from "@/hooks/useProfessionalIncludes";
-import { useState } from "react";
-import { AnimatedDialog } from "./AnimatedDialog";
-import InstitutionUpdateForm from "@/components/forms/InstitutionUpdateForm";
+import { ICreateInstitution } from "@/interfaces";
 import { Button } from "@/components/ui/button";
+import { useProfessionalIncludes } from "@/hooks/useProfessionalIncludes";
+import { AnimatedDialog } from "./AnimatedDialog";
+
+import InstitutionUpdateForm from "@/components/forms/InstitutionUpdateForm";
 import InstitutionRegisterForm from "@/components/forms/InstitutionRegisterForm";
-import Link from "next/link";
+import { InstitutionCard } from "./InstitutionCard";
 
 type Props = {
   isDemo: boolean;
-  institutionsIncluded: InstitutionsIncluded[];
   showFloatingButton?: boolean;
 };
+
+type ModalMode = "create" | "edit" | null;
+
 export default function InstitutionCardWithActions({
-  institutionsIncluded,
   isDemo,
   showFloatingButton = true,
 }: Props) {
   const [formOpen, setFormOpen] = useState(false);
-  const [institution, setInstitution] = useState<ICreateInstitution | null>(
-    null
-  );
+  const [modalMode, setModalMode] = useState<ModalMode>(null);
   const [selectedInstitution, setSelectedInstitution] =
     useState<Partial<ICreateInstitution> | null>(null);
-  const { data, institutions, isLoading, refetch } = useProfessionalIncludes();
+
+  // Traemos directamente la data del hook
+  const { data, refetch } = useProfessionalIncludes();
+  const institutionsIncluded = data?.institutionsIncluded || [];
+
+  // Refetch envuelto en useCallback
+  const handleRefetch = useCallback(async () => {
+    try {
+      await refetch();
+    } catch (err) {
+      console.error("Error al refetchear instituciones:", err);
+    }
+  }, [refetch]);
+
+  const handleOpenCreate = () => {
+    setSelectedInstitution(null);
+    setModalMode("create");
+    setFormOpen(true);
+  };
+
+  const handleOpenEdit = (institution: ICreateInstitution) => {
+    setSelectedInstitution(institution);
+    setModalMode("edit");
+    setFormOpen(true);
+  };
+
+  const handleClose = () => {
+    setFormOpen(false);
+    setModalMode(null);
+    setSelectedInstitution(null);
+  };
+
+  const handleSuccess = async (action: "create" | "edit") => {
+    toast({
+      title:
+        action === "edit"
+          ? isDemo
+            ? "Edición simulada"
+            : "Institución actualizada"
+          : isDemo
+          ? "Registro simulado"
+          : "Institución registrada",
+      description:
+        action === "edit"
+          ? isDemo
+            ? "Este es un entorno de prueba"
+            : "¡Institución editada correctamente!"
+          : isDemo
+          ? "Este es un entorno de prueba"
+          : "¡Institución registrada correctamente!",
+      className:
+        action === "edit"
+          ? isDemo
+            ? "bg-blue-500 text-white"
+            : "bg-green-500 text-white"
+          : isDemo
+          ? "bg-blue-500 text-white"
+          : "bg-green-500 text-white",
+    });
+
+    handleClose();
+    await handleRefetch(); // refetch garantiza que la lista se actualice
+  };
+
   return (
     <>
       {/* Lista de instituciones */}
       <div className="w-full space-y-2 max-w-full overflow-x-hidden">
-        {institutionsIncluded?.map(({ institution }) => (
+        {institutionsIncluded.map(({ institution }) => (
           <InstitutionCard
             key={institution.id}
             institution={institution}
-            onEdit={() => setSelectedInstitution(institution)}
-            onDelete={refetch}
+            onEdit={() => handleOpenEdit(institution)}
+            onDelete={handleRefetch} // refetch directo
             professionalId={data?.id || ""}
             isDemo={isDemo}
           />
         ))}
       </div>
+
       {/* ➕ Botón flotante */}
       {showFloatingButton && (
         <div className="fixed bottom-6 right-10 z-50">
           <Button
-            onClick={() => {
-              setFormOpen(true);
-              setSelectedInstitution(null);
-            }}
+            onClick={handleOpenCreate}
             className="rounded-full shadow-xl h-14 w-14 p-0 text-xl"
           >
             +
@@ -59,51 +118,22 @@ export default function InstitutionCardWithActions({
         </div>
       )}
 
-      {/* Modal de edición */}
-      {formOpen && institution && (
-        <AnimatedDialog open={formOpen} onOpenChange={setFormOpen}>
-          <InstitutionUpdateForm
-            institutionInfo={institution}
-            onClose={() => setFormOpen(false)}
-            onSuccess={() => {
-              toast({
-                title: isDemo ? "Edición simulada" : "Paciente actualizado",
-                description: isDemo
-                  ? "Este es un entorno de prueba"
-                  : "¡Paciente editado correctamente!",
-                className: isDemo
-                  ? "bg-blue-500 text-white"
-                  : "bg-green-500 text-white",
-              });
-              setFormOpen(false);
-              refetch();
-            }}
-          />
-        </AnimatedDialog>
-      )}
+      {/* Modal único */}
       {formOpen && (
         <AnimatedDialog open={formOpen} onOpenChange={setFormOpen}>
-          <InstitutionRegisterForm
-            selectedInstitution={selectedInstitution}
-            onSuccess={() => {
-              toast({
-                title: isDemo ? "Registro simulado" : "Institución registrada",
-                description: isDemo
-                  ? "Este es un entorno de prueba"
-                  : "Institución registrada correctamente!",
-                className: isDemo
-                  ? "bg-blue-500 text-white"
-                  : "bg-green-500 text-white",
-              });
-              setFormOpen(false);
-
-              refetch();
-            }}
-            onClose={() => {
-              setFormOpen(false);
-              setSelectedInstitution(null);
-            }}
-          />
+          {modalMode === "edit" && selectedInstitution ? (
+            <InstitutionUpdateForm
+              institutionInfo={selectedInstitution}
+              onClose={handleClose}
+              onSuccess={() => handleSuccess("edit")}
+            />
+          ) : (
+            <InstitutionRegisterForm
+              selectedInstitution={selectedInstitution}
+              onClose={handleClose}
+              onSuccess={() => handleSuccess("create")}
+            />
+          )}
         </AnimatedDialog>
       )}
     </>
