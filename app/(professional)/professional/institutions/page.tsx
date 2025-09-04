@@ -56,7 +56,6 @@ export default function InstitutionsPage() {
       >
         <InstitutionCardWithActions
           showFloatingButton={true}
-          institutionsIncluded={displayed}
           isDemo={isDemo}
         />
       </InfiniteScroll>
