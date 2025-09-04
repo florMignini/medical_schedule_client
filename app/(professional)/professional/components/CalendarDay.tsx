@@ -3,8 +3,8 @@
 import dayjs from "dayjs";
 import { CalendarX, PartyPopper } from "lucide-react";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
-import { motion, AnimatePresence } from "framer-motion";
-import { cn } from "@/lib/utils"; // si usás clsx o helper para concatenar clases
+import { motion } from "framer-motion";
+import { cn } from "@/lib/utils";
 
 interface Props {
   day: number;
@@ -50,13 +50,13 @@ const CalendarDay = ({
   };
 
   const baseStyle = cn(
-    "relative flex flex-col justify-between items-end p-2 w-full h-24 rounded-xl text-sm font-medium transition-all",
-    isSelected && "bg-blue-600 text-white ring-2 ring-blue-700 shadow-md",
-    isToday && !isSelected && "ring-2 ring-blue-400",
-    isHoliday && "bg-zinc-800 text-white cursor-not-allowed",
+    "relative flex flex-col justify-between items-end w-full h-20 sm:h-24 rounded-xl font-medium transition-all",
+    "cursor-pointer text-xs sm:text-sm md:text-base p-1 sm:p-2",
+    isSelected && "bg-blue-100 text-blue-800 ring-2 ring-blue-500 shadow-md",
+    isToday && !isSelected && "bg-emerald-500 text-white font-bold shadow-md",
+    isHoliday && "bg-red-100 text-red-600 cursor-not-allowed",
     isPast && !isSelected && "opacity-40 cursor-not-allowed",
-    !isSelected && !isHoliday && !isPast && "hover:bg-zinc-100 hover:scale-[1.02]",
-    "cursor-pointer"
+    !isSelected && !isHoliday && !isPast && "hover:ring-2 hover:ring-emerald-400 hover:shadow-sm"
   );
 
   return (
@@ -66,28 +66,29 @@ const CalendarDay = ({
           {/* Número del día */}
           <motion.span
             key={day}
-            initial={{ opacity: 0, scale: 0.85 }}
+            initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
-            exit={{ opacity: 0 }}
             transition={{ duration: 0.2 }}
-            className="text-base font-bold self-start"
+            className="self-start"
           >
             {day}
           </motion.span>
 
           {/* Indicador de citas */}
           {dayEvents.length > 0 && (
-            <div className="flex flex-col items-end text-xs">
+            <div className="flex flex-col items-end text-[10px] sm:text-xs">
               <span className="font-semibold">{dayEvents.length}</span>
               <span className="hidden xl:flex">
                 {dayEvents.length > 1 ? "turnos" : "turno"}
               </span>
+              {/* Dot indicador */}
+              <span className="absolute bottom-1 right-1 w-2 h-2 rounded-full bg-emerald-500"></span>
             </div>
           )}
 
           {/* Nombre del feriado */}
           {isHoliday && (
-            <div className="absolute bottom-1 left-1 right-1 text-[10px] text-center text-white font-semibold truncate">
+            <div className="absolute bottom-1 left-1 right-1 text-[9px] sm:text-[10px] text-center font-semibold truncate">
               {matchingHoliday?.nombre}
             </div>
           )}
