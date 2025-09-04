@@ -3,25 +3,36 @@
 import { useState, useMemo } from "react";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { Input } from "@/components/ui/input";
-import { PatientsIncluded } from "@/interfaces";
 import PatientCardWithActions from "./components/PatientCardWithAction";
 import { useProfessionalIncludes } from "@/hooks/useProfessionalIncludes";
 
 const ITEMS_PER_PAGE = 10;
 
 const PatientsPage = () => {
-  const { isDemo, patients } = useProfessionalIncludes();
+  const { isDemo, data } = useProfessionalIncludes();
   const [search, setSearch] = useState("");
   const [page, setPage] = useState(1);
 
-  const filtered = useMemo(() => {
-    return patients.filter(({ patient }) =>
-      `${patient.firstName} ${patient.lastName}`
-        .toLowerCase()
-        .includes(search.toLowerCase())
-    );
-  }, [patients, search]);
+  // Garantizamos que patientsIncluded siempre sea array y filtramos nulls
+  const patientsIncluded = useMemo(
+    () =>
+      (data?.patientsIncluded || []).filter(
+        (item) => item?.patient != null
+      ),
+    [data]
+  );
 
+  // Filtrado por búsqueda
+  const filtered = useMemo(() => {
+    return patientsIncluded.filter(
+      ({ patient }) =>
+        `${patient.firstName} ${patient.lastName}`
+          .toLowerCase()
+          .includes(search.toLowerCase())
+    );
+  }, [patientsIncluded, search]);
+
+  // Paginación
   const displayed = useMemo(() => {
     return filtered.slice(0, page * ITEMS_PER_PAGE);
   }, [filtered, page]);
@@ -42,7 +53,7 @@ const PatientsPage = () => {
         value={search}
         onChange={(e) => {
           setSearch(e.target.value);
-          setPage(1); // reiniciar página solo cuando cambia la búsqueda
+          setPage(1); // reiniciar página cuando cambia la búsqueda
         }}
         className="max-w-sm"
       />
@@ -59,8 +70,8 @@ const PatientsPage = () => {
       >
         <PatientCardWithActions
           showFloatingButton={true}
-          patientsIncluded={displayed}
           isDemo={isDemo}
+          // patientsIncluded={displayed} // <-- pasamos solo los pacientes filtrados y paginados
         />
       </InfiniteScroll>
     </section>
