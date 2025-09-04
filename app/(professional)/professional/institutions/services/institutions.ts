@@ -16,6 +16,7 @@ export const deleteInstitution = async (ids: deleteInstitutionsIDS) => {
     const response = await apiServer.delete(
       `https://medical-schedule-server.onrender.com/api/institutions/${ids.institutionId}/${ids.professionalId}`
     );
+    return response.data;
   } catch (error) {
     console.error("Error al eliminar institución:", error);
     throw new Error("No se pudo eliminar la institución");
