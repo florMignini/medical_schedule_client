@@ -20,7 +20,7 @@ import Link from "next/link";
 
 interface PatientCardProps {
   patient: Patient;
-  onEdit: () => void;
+  onEdit: (patient: Patient) => void;
   onDelete: () => void;
   professionalId?: string;
   isDemo?: boolean;
@@ -42,16 +42,16 @@ const PatientCard = ({
       transition={{ duration: 0.2 }}
       whileHover={{ scale: 0.98 }}
       whileTap={{ scale: 0.98 }}
-      className="group relative rounded-2xl p-1 shadow-md hover:shadow-xl transition-all bg-gradient-to-r from-white/80 to-zinc-100/80 dark:from-zinc-800/80 dark:to-zinc-900/80 backdrop-blur-md flex flex-col md:flex-row md:items-center md:justify-beetwen gap-1 hover:bg-zinc-400"
+      className="group relative rounded-2xl p-1 shadow-md hover:shadow-xl transition-all bg-gradient-to-r from-white/80 to-zinc-100/80 dark:from-zinc-800/80 dark:to-zinc-900/80 backdrop-blur-md flex flex-col md:flex-row md:items-center md:justify-between gap-1 hover:bg-zinc-400"
     >
       {/* Acciones arriba a la derecha */}
-      <div className="absolute top-0 right-2 flex gap-1 z-10">
+      <div className="absolute top-0 right-2 flex gap-1 z-20">
         <Button
           variant="ghost"
           size="icon"
-          onClick={(e) => {
-            e.preventDefault();
-            onEdit();
+          onClick={() => {
+            console.log("Editando paciente:", patient.id);
+            onEdit(patient);
           }}
         >
           <Pencil size={18} className="text-zinc-500 hover:text-zinc-800" />
@@ -104,8 +104,9 @@ const PatientCard = ({
 
       {/* Info principal */}
       <Link
-      href={`/professional/patients/${patient.id}`}
-      className="flex items-center justify-start gap-4 md:w-[30%]">
+        href={`/professional/patients/${patient.id}`}
+        className="flex items-center justify-start gap-4 md:w-[30%] z-10"
+      >
         <Image
           src={patient.patientPhotoUrl}
           alt={patient.email || "Foto de paciente"}

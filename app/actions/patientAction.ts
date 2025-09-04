@@ -89,7 +89,7 @@ export async function patientRegistration({ patientPhoto, ...patient }: any) {
       `/patients/patient-registration`,
       patientRegistrationData
     );
- 
+
     return data;
   } catch (error: any) {
     console.error(error);
@@ -170,16 +170,19 @@ export async function deletePatient({
       message: "Borrado simulado correctamente (modo demo)",
     };
   }
+
   const res = await apiServer.delete(
-    `https://medical-schedule-server.onrender.com/api/patients/delete/${patientId}`
+    `https://medical-schedule-server.onrender.com/api/patients/delete/${patientId}/${professionalId}`,
   );
+  console.log(res);
   if (res.status !== 200) {
     throw new Error("Error al eliminar el paciente");
+  } else {
+    return {
+      success: true,
+      message: "Paciente eliminado exitosamente",
+    };
   }
-  return {
-    success: true,
-    message: "Paciente eliminado exitosamente",
-  };
 }
 
 export async function createProfessionalPatientRelation(IDs: IIDs) {
