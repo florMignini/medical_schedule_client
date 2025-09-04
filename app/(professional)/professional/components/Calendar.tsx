@@ -55,10 +55,12 @@ const Calendar = ({ appointments, isDemo = false }: calendarListProps) => {
         handleNextMonth={handleNextMonth}
       />
 
-      {/* Nombres de los días */}
-      <div className="grid grid-cols-7 gap-3 mt-6 text-center text-sm font-medium text-gray-500">
+      <div className="grid grid-cols-7 gap-2 sm:gap-3 mt-6 text-center font-medium text-gray-500">
         {["Dom", "Lun", "Mar", "Mié", "Jue", "Vie", "Sáb"].map((day) => (
-          <div key={day} className="py-1 rounded-lg">
+          <div
+            key={day}
+            className="py-1 text-[10px] sm:text-xs md:text-sm lg:text-base rounded-lg tracking-wide"
+          >
             {day}
           </div>
         ))}
@@ -75,15 +77,18 @@ const Calendar = ({ appointments, isDemo = false }: calendarListProps) => {
               initial="enter"
               animate="center"
               exit="exit"
-              transition={{ duration: 0.3 }}
-              className="absolute inset-0 grid grid-cols-7 gap-3 text-center text-sm font-medium text-gray-700"
+              transition={{ duration: 0.25 }}
+              className={clsx(
+                "absolute inset-0 grid grid-cols-7 gap-2 sm:gap-3",
+                "text-center text-[11px] sm:text-sm md:text-base font-medium text-gray-700"
+              )}
             >
-              {/* Espacios vacíos antes del primer día */}
+              {/* Espacios vacíos */}
               {Array.from({ length: startDay }).map((_, idx) => (
                 <div key={`empty-${idx}`} />
               ))}
 
-              {/* Días del mes */}
+              {/* Días */}
               {Array.from({ length: daysInMonth }).map((_, idx) => (
                 <CalendarDay
                   key={idx}
@@ -99,7 +104,7 @@ const Calendar = ({ appointments, isDemo = false }: calendarListProps) => {
                   currentYear={currentYear}
                   today={today}
                   holidays={holidays}
-                  isDemo={isDemo} // <<< extra: si querés usarlo dentro de CalendarDay
+                  isDemo={isDemo}
                 />
               ))}
             </motion.div>
