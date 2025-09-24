@@ -28,9 +28,14 @@ export default function Home({ searchParams }: any) {
           <ProfessionalLoginForm />
           {/* Copyright */}
           <div className="text-14-regular mt-5 flex flex-col gap-2 xl:text-left">
-            <Link href="/introducing-medical-schedule">
-              <p>volver a la pagina principal</p>
-            </Link>
+            <div className="flex items-center justify-between w-[100%]">
+              <Link href="/introducing-medical-schedule">
+                <p>volver a la pagina principal</p>
+              </Link>
+              <Link href="/forgot-password">
+                <p className="border-b">olvidé mi contraseña</p>
+              </Link>
+            </div>
             <p>
               © {new Date().getFullYear()} Medical_Schedule{" "}
               <small>a product of </small> CRM Solution. All rights reserved.
