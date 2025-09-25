@@ -1,7 +1,6 @@
 
 "use client";
 import { useEffect, useState, useCallback } from "react";
-import ProfessionalSidebar from "@/components/ProfessionalSidebar";
 import Navbar from "./components/Navbar";
 import { SelectedDateProvider } from "../../context/SeletedDateContext";
 import { ProfessionalInformation } from "@/interfaces";
@@ -47,13 +46,6 @@ export default function ProfessionalDashboard({
   return (
     <SelectedDateProvider>
       <section className="flex min-h-screen bg-[#111111]">
-        <div className="hidden lg:block w-52">
-          <ProfessionalSidebar setIsOpen={setIsOpen} isOpen={true} variant="desktop" />
-        </div>
-
-        <div className="lg:hidden">
-          <ProfessionalSidebar isOpen={isOpen} setIsOpen={setIsOpen} variant="mobile" />
-        </div>
 
         <main className="flex-1 flex flex-col overflow-y-auto max-h-screen">
           <Navbar setIsOpen={setIsOpen} isDemo={isDemo} isOpen={isOpen} />
