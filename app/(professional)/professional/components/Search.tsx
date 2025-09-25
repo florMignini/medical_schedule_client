@@ -11,7 +11,7 @@ import Link from "next/link";
 import { Patient, ICreateInstitution } from "@/interfaces";
 
 type SearchProps = {
-  path: string;
+  path: string | undefined;
   isDemo: boolean;
 };
 
