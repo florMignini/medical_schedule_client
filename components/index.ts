@@ -2,7 +2,6 @@ export * from './DinamicForm';
 export * from './FileUploader';
 export * from './forms/PatientRegisterForm';
 export * from './forms/ProfessionalLoginForm';
-export * from './ProfessionalSidebar';
 export * from './SubmitButton';
 export * from './theme-provider';
 export * from './ui/button';
