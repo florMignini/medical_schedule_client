@@ -28,7 +28,6 @@ export default function PatientCardWithActions({
   // Traemos directamente los pacientes del hook
   const { data, refetch } = useProfessionalIncludes();
   const patientsIncluded = data?.patientsIncluded || [];
-console.log("Patient card with actions", data);
   // Refetch envuelto en useCallback
   const handleRefetch = useCallback(async () => {
     try {
