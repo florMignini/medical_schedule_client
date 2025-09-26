@@ -64,9 +64,7 @@ export const InstitutionCard = ({
                 />
               </Button>
             </TooltipTrigger>
-            <TooltipContent className="bg-black text-white rounded px-2 py-1 text-xs">
-              Editar institución
-            </TooltipContent>
+            
           </Tooltip>
 
           <AlertDialog>
