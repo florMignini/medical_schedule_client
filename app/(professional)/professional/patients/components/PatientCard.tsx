@@ -17,6 +17,11 @@ import {
 import { toast } from "@/hooks/use-toast";
 import { deletePatient } from "../../../../actions/patientAction";
 import Link from "next/link";
+import {
+  Tooltip,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 
 interface PatientCardProps {
   patient: Patient;
@@ -42,66 +47,73 @@ const PatientCard = ({
       transition={{ duration: 0.2 }}
       whileHover={{ scale: 0.98 }}
       whileTap={{ scale: 0.98 }}
-      className="group relative rounded-2xl p-1 shadow-md hover:shadow-xl transition-all bg-gradient-to-r from-white/80 to-zinc-100/80 dark:from-zinc-800/80 dark:to-zinc-900/80 backdrop-blur-md flex flex-col md:flex-row md:items-center md:justify-between gap-1 hover:bg-zinc-400"
+      className="group relative rounded-2xl px-3 py-4 shadow-md hover:shadow-xl transition-all bg-gradient-to-r from-white/80 to-zinc-100/80 dark:from-zinc-800/80 dark:to-zinc-900/80 backdrop-blur-md flex flex-col md:flex-row md:items-center md:justify-between gap-1 hover:bg-zinc-400"
     >
       {/* Acciones arriba a la derecha */}
-      <div className="absolute top-0 right-2 flex gap-1 z-20">
-        <Button
-          variant="ghost"
-          size="icon"
-          onClick={() => {
-            console.log("Editando paciente:", patient.id);
-            onEdit(patient);
-          }}
-        >
-          <Pencil size={18} className="text-zinc-500 hover:text-zinc-800" />
-        </Button>
-
-        <AlertDialog>
-          <AlertDialogTrigger asChild>
-            <Button variant="ghost" size="icon">
-              <Trash2 size={18} className="text-red-500 hover:text-red-700" />
-            </Button>
-          </AlertDialogTrigger>
-          <AlertDialogContent className="bg-white dark:bg-zinc-900 border text-zinc-900 dark:text-white shadow-lg rounded-xl p-6">
-            <AlertDialogHeader className="font-semibold text-xl">
-              ¿Eliminar paciente?
-            </AlertDialogHeader>
-            <p>Esta acción no se puede deshacer.</p>
-            <AlertDialogFooter className="pt-4">
-              <AlertDialogCancel>Cancelar</AlertDialogCancel>
-              <AlertDialogAction
-                className="bg-red-500 hover:bg-red-600 text-white"
-                onClick={async () => {
-                  try {
-                    const result = await deletePatient({
-                      patientId: patient.id,
-                      professionalId,
-                    });
-                    toast({
-                      title: "Eliminando paciente...",
-                      description: `${result.message} 🎉`,
-                      className: "bg-emerald-500 text-black",
-                      duration: 3000,
-                    });
-                    onDelete();
-                  } catch (err) {
-                    toast({
-                      title: "Error",
-                      description: `❌ ${(err as Error).message}`,
-                      className: "bg-red-500 text-black",
-                      duration: 3000,
-                    });
-                  }
+      <TooltipProvider>
+        <div className="absolute top-0 right-2 flex gap-1 z-20 opacity-0 group-hover:opacity-100 transition-opacity">
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <Button
+                variant="ghost"
+                size="icon"
+                onClick={() => {
+                  onEdit(patient);
                 }}
               >
-                Eliminar
-              </AlertDialogAction>
-            </AlertDialogFooter>
-          </AlertDialogContent>
-        </AlertDialog>
-      </div>
+                <Pencil
+                  size={18}
+                  className="text-zinc-500 hover:text-zinc-800 dark:text-zinc-300 dark:hover:text-white"
+                />
+              </Button>
+            </TooltipTrigger>
+          </Tooltip>
 
+          <AlertDialog>
+            <AlertDialogTrigger asChild>
+              <Button variant="ghost" size="icon">
+                <Trash2 size={18} className="text-red-500 hover:text-red-700" />
+              </Button>
+            </AlertDialogTrigger>
+            <AlertDialogContent className="bg-white dark:bg-zinc-900 border text-zinc-900 dark:text-white shadow-lg rounded-xl p-6">
+              <AlertDialogHeader className="font-semibold text-xl">
+                ¿Eliminar paciente?
+              </AlertDialogHeader>
+              <p>Esta acción no se puede deshacer.</p>
+              <AlertDialogFooter className="pt-4">
+                <AlertDialogCancel>Cancelar</AlertDialogCancel>
+                <AlertDialogAction
+                  className="bg-red-500 hover:bg-red-600 text-white"
+                  onClick={async () => {
+                    try {
+                      const result = await deletePatient({
+                        patientId: patient.id,
+                        professionalId,
+                      });
+                      toast({
+                        title: "Eliminando paciente...",
+                        description: `${result.message} 🎉`,
+                        className: "bg-emerald-500 text-black",
+                        duration: 3000,
+                      });
+                      onDelete();
+                    } catch (err) {
+                      toast({
+                        title: "Error",
+                        description: `❌ ${(err as Error).message}`,
+                        className: "bg-red-500 text-black",
+                        duration: 3000,
+                      });
+                    }
+                  }}
+                >
+                  Eliminar
+                </AlertDialogAction>
+              </AlertDialogFooter>
+            </AlertDialogContent>
+          </AlertDialog>
+        </div>
+      </TooltipProvider>
       {/* Info principal */}
       <Link
         href={`/professional/patients/${patient.id}`}
