@@ -79,7 +79,7 @@ const Navbar = ({ isOpen, setIsOpen, isDemo = false }: toggleSideI) => {
       >
         {/* Logo */}
         <Link href="/professional/dashboard" className="flex items-center">
-          <Image src={Logo} width={120} height={40} alt="Logo Empresa" className="object-contain" />
+          <Image src={Logo} width={150} height={40} alt="Logo Empresa" className="object-contain" />
         </Link>
 
         {/* Desktop nav */}
