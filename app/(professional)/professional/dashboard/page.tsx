@@ -18,17 +18,17 @@ import { useCallback, useState } from "react";
 import { AnimatedDialog } from "../institutions/components/AnimatedDialog";
 import PatientRegistrationForm from "@/components/forms/PatientRegisterForm";
 import { useToast } from "@/hooks/use-toast";
-import InstitutionRegisterForm from "@/components/forms/InstitutionRegisterForm";
 import { Button } from "../../../../components/ui/button";
+import NewAppointmentForm from "@/components/forms/NewAppointmentForm";
 
-type ModalMode = "patient" | "institution" | null;
+type ModalMode = "patient" | "appointment" | null;
 const ProfessionalDashboard = () => {
   //modal states
   const [formOpen, setFormOpen] = useState(false);
   const [modalMode, setModalMode] = useState<ModalMode>(null);
   const { data, isDemo, refetch } = useProfessionalIncludes();
-const {toast} = useToast();
- const handleRefetch = useCallback(async () => {
+  const { toast } = useToast();
+  const handleRefetch = useCallback(async () => {
     try {
       await refetch();
     } catch (err) {
@@ -40,18 +40,17 @@ const {toast} = useToast();
     return <Loading />;
   }
 
-   const handleOpenCreate = (entity: ModalMode) => {
-    console.log("Opening modal for:", entity);
+  const handleOpenCreate = (entity: ModalMode) => {
     setModalMode(entity);
     setFormOpen(true);
-    };
-  
-    const handleClose = () => {
-      setFormOpen(false);
-      setModalMode(null);
-    };
+  };
 
-    const handleSuccess = async (action: "create" | "edit") => {
+  const handleClose = () => {
+    setFormOpen(false);
+    setModalMode(null);
+  };
+
+  const handleSuccess = async (action: "create" | "edit") => {
     toast({
       title:
         action === "edit"
@@ -85,14 +84,20 @@ const {toast} = useToast();
   // @ts-ignore
   const { patientsIncluded }: { patientsIncluded: PatientsIncluded[] } = data;
   // @ts-ignore
-  const { appointmentsIncluded }: { appointmentsIncluded: AppointmentsIncluded[] } = data;
+  const {
+    appointmentsIncluded,
+  }: { appointmentsIncluded: AppointmentsIncluded[] } = data;
   // @ts-ignore
-  const { institutionsIncluded }: { institutionsIncluded: InstitutionsIncluded[] } = data;
+  const {
+    institutionsIncluded,
+  }: { institutionsIncluded: InstitutionsIncluded[] } = data;
 
   const previewPatients = patientsIncluded.slice(0, 6);
   const previewInstitutions = institutionsIncluded.slice(0, 3);
 
-  const professionalName = `${data?.firstName || ""} ${data?.lastName || ""}`.trim();
+  const professionalName = `${data?.firstName || ""} ${
+    data?.lastName || ""
+  }`.trim();
 
   // Calcular turnos de hoy
   const today = dayjs().format("YYYY-MM-DD");
@@ -118,14 +123,14 @@ const {toast} = useToast();
           <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
             <Button
               className="px-4 py-2 rounded-xl bg-blue-600 text-white text-sm md:text-base font-medium shadow hover:bg-blue-700 transition"
-              onClick={() => console.log("Agendar turno")} // Implementar agendar turno
+              onClick={() => handleOpenCreate("appointment")}
             >
               + Agendar turno
             </Button>
           </motion.div>
           <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
             <Button
-             onClick={() =>handleOpenCreate("patient")}
+              onClick={() => handleOpenCreate("patient")}
               className="px-4 py-2 rounded-xl bg-green-600 text-white text-sm md:text-base font-medium shadow hover:bg-green-700 transition"
             >
               + Nuevo paciente
@@ -142,9 +147,13 @@ const {toast} = useToast();
       >
         <p className="text-gray-700 text-sm md:text-lg font-medium">
           📅 Hoy tienes{" "}
-          <span className="font-bold text-blue-600">{todaysAppointments.length}</span>{" "}
+          <span className="font-bold text-blue-600">
+            {todaysAppointments.length}
+          </span>{" "}
           turnos programados y{" "}
-          <span className="font-bold text-green-600">{patientsIncluded.length}</span>{" "}
+          <span className="font-bold text-green-600">
+            {patientsIncluded.length}
+          </span>{" "}
           pacientes en total.
         </p>
       </motion.div>
@@ -208,7 +217,8 @@ const {toast} = useToast();
           <PatientCardWithActions isDemo={isDemo} showFloatingButton={false} />
         )}
         <p className="text-xs text-gray-400 mt-2">
-          Mostrando {previewPatients.length} de {patientsIncluded.length} pacientes
+          Mostrando {previewPatients.length} de {patientsIncluded.length}{" "}
+          pacientes
         </p>
       </motion.div>
 
@@ -240,32 +250,78 @@ const {toast} = useToast();
         {institutionsIncluded.length < 1 ? (
           <p className="text-gray-600">Aún no posee instituciones activas</p>
         ) : (
-          <InstitutionCardWithActions isDemo={isDemo} showFloatingButton={false} />
+          <InstitutionCardWithActions
+            isDemo={isDemo}
+            showFloatingButton={false}
+          />
         )}
         <p className="text-xs text-gray-400 mt-2">
-          Mostrando {previewInstitutions.length} de {institutionsIncluded.length} instituciones
+          Mostrando {previewInstitutions.length} de{" "}
+          {institutionsIncluded.length} instituciones
         </p>
       </motion.div>
 
-      {/* Modal único */}
-      {formOpen && (
+      {formOpen && modalMode !== "appointment" && (
         <AnimatedDialog open={formOpen} onOpenChange={setFormOpen}>
           {modalMode === "patient" ? (
-             <PatientRegistrationForm
+            <PatientRegistrationForm
               onClose={handleClose}
               onSuccess={() => handleSuccess("create")}
             />
-          ) : (
-            <InstitutionRegisterForm
-              onClose={handleClose}
-              onSuccess={() => handleSuccess("create")}
-            />
-          )}
+          ) : null}
         </AnimatedDialog>
       )}
-    </section>
 
-   
+      {/* Modal especial para turnos */}
+      {formOpen && modalMode === "appointment" && (
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          className="fixed inset-0 z-50 flex"
+        >
+          {/* Fondo oscuro con blur */}
+          <motion.div
+            onClick={handleClose}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 0.5 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.3 }}
+            className="absolute inset-0 bg-black/50 backdrop-blur-sm"
+          />
+
+          {/* Panel lateral derecho */}
+          <motion.div
+            initial={{ x: "100%", opacity: 0 }}
+            animate={{ x: 0, opacity: 1 }}
+            exit={{ x: "100%", opacity: 0 }}
+            transition={{ type: "spring", stiffness: 90, damping: 20 }}
+            className="relative ml-auto w-full max-w-md h-full bg-white shadow-2xl p-6 rounded-l-2xl overflow-y-auto"
+          >
+            <div className="flex justify-between items-center mb-4">
+              <h2 className="text-xl font-semibold text-gray-800">
+                Agendar nuevo turno
+              </h2>
+              <button
+                onClick={handleClose}
+                className="text-gray-400 hover:text-gray-600 transition"
+              >
+                ✕
+              </button>
+            </div>
+
+            <NewAppointmentForm
+              type="create"
+              patientId=""
+              patientsList={patientsIncluded}
+              onSuccess={() => handleSuccess("create")}
+              component="dashboard"
+              isDemo={isDemo}
+            />
+          </motion.div>
+        </motion.div>
+      )}
+    </section>
   );
 };
 
