@@ -1,8 +1,8 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
-import { Form } from "@/components/ui/form";
+import { Form, FormField, FormItem } from "@/components/ui/form";
 import DinamicForm from "../DinamicForm";
 import { FormFieldType } from "./ProfessionalLoginForm";
 import SubmitButton from "../SubmitButton";
@@ -24,10 +24,12 @@ import {
 } from "../ui/select";
 import Image from "next/image";
 import { ScrollArea } from "../ui/scroll-area";
-import { FormField, FormItem } from "../ui/form";
 import { Patient } from "@/interfaces";
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "../ui/dialog";
+import PatientRegistrationForm from "./PatientRegisterForm";
+import { useProfessionalIncludes } from "@/hooks/useProfessionalIncludes";
 
-// SpinnerOverlay: visual feedback al enviar
+// SpinnerOverlay: feedback visual al enviar
 const SpinnerOverlay = () => (
   <div className="absolute inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm rounded-md">
     <div className="animate-spin rounded-full h-16 w-16 border-t-4 border-b-4 border-emerald-400"></div>
@@ -66,6 +68,7 @@ const NewAppointmentForm = ({
 }) => {
   const [loading, setLoading] = useState(false);
   const [professionalId, setProfessionalId] = useState<professionalDataType>();
+
   const appointmentValidation = getAppointmentSchema(type);
   const { toast } = useToast();
   const router = useRouter();
@@ -98,8 +101,8 @@ const NewAppointmentForm = ({
         reason: values.reason,
         notes: values.notes,
       };
+
       if (isDemo) {
-        // 💡 Simulation without persistance
         await new Promise((res) => setTimeout(res, 1000));
         toast({
           title: "Turno simulado",
@@ -113,11 +116,10 @@ const NewAppointmentForm = ({
         return;
       }
 
-      // 🟢 Real persistance
       const response = (await createAppointment(
         appointmentData
       )) as AppointmentResponse;
- 
+
       if (response) {
         const professionalIDs = {
           professional: professionalId?.id,
@@ -154,7 +156,6 @@ const NewAppointmentForm = ({
     }
   }
 
-
   let buttonLabel = "Enviar";
   if (type === "cancel") buttonLabel = "Cancelar Turno";
   else if (type === "create") buttonLabel = "Crear Turno";
@@ -163,8 +164,7 @@ const NewAppointmentForm = ({
   const showPatientSelector =
     patientsList &&
     patientsList.length > 0 &&
-    component !== "seguimiento" &&
-    component === "calendar";
+    (component === "calendar" || component === "dashboard");
 
   return (
     <Form {...form}>
@@ -174,7 +174,7 @@ const NewAppointmentForm = ({
       >
         {type !== "cancel" && (
           <>
-            {showPatientSelector ? (
+            {showPatientSelector && patientsList ? (
               <div className="w-full flex flex-col text-gray-500 gap-2 items-center justify-center bg-inherit">
                 <h3 className="w-full font-thin text-lg">
                   Pacientes pertenecientes a su cartera:
@@ -197,7 +197,7 @@ const NewAppointmentForm = ({
                               <SelectItem
                                 key={patient.id}
                                 value={patient.id}
-                                className="text-white h-16"
+                                className="text-black h-16"
                               >
                                 <div className="flex gap-2 items-center justify-center">
                                   <Image
@@ -207,7 +207,7 @@ const NewAppointmentForm = ({
                                     height={50}
                                     className="rounded-full"
                                   />
-                                  <h2 className="text-white font-bold text-base">
+                                  <h2 className="font-bold text-base">
                                     {patient.firstName} {patient.lastName}
                                   </h2>
                                 </div>
@@ -219,6 +219,12 @@ const NewAppointmentForm = ({
                     </FormItem>
                   )}
                 />
+              </div>
+            ) : patientsList && patientsList.length === 0 ? (
+              <div className="w-full text-center text-gray-400 italic py-4">
+                <h3 className="underline text-gray-400 hover:text-gray-300">
+                  No tienes pacientes registrados aún
+                </h3>
               </div>
             ) : (
               patient && (
