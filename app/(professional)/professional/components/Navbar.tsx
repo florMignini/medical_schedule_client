@@ -84,7 +84,7 @@ const Navbar = ({ isOpen, setIsOpen, isDemo = false }: toggleSideI) => {
 
         {/* Desktop nav */}
         {!isMobile && (
-          <div className="flex-1 flex justify-center space-x-6">
+          <div className="flex-1 font-sans flex justify-center space-x-6">
             {navItems.map((item) => (
               <Link
                 key={item.name}
