@@ -110,19 +110,19 @@ const ProfessionalDashboard = () => {
       {/* Header */}
       <header className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
         <div>
-          <h1 className="text-xl md:text-3xl font-bold text-gray-800">
-            Hola, {professionalName.split(" ")[0]} 👋
+          <h1 className="text-lg font-bold text-gray-800">
+            Hola, {data?.gender === "F" ? "Dra" : "Dr"} {professionalName.split(" ")[0]} 👋
           </h1>
-          <p className="text-gray-600 text-xs md:text-base">
+          <p className="text-gray-600 text-sm">
             Resumen de tu actividad y estadísticas más recientes.
           </p>
         </div>
 
         {/* Call to Action */}
-        <div className="flex gap-3">
+        <div className="flex gap-3 ">
           <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
             <Button
-              className="px-4 py-2 rounded-xl bg-blue-600 text-white text-sm md:text-base font-medium shadow hover:bg-blue-700 transition"
+              className="p-1  rounded-xl text-gray-700 text-sm font-light shadow-xl hover:bg-gray-300 transition"
               onClick={() => handleOpenCreate("appointment")}
             >
               + Agendar turno
@@ -131,7 +131,7 @@ const ProfessionalDashboard = () => {
           <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
             <Button
               onClick={() => handleOpenCreate("patient")}
-              className="px-4 py-2 rounded-xl bg-green-600 text-white text-sm md:text-base font-medium shadow hover:bg-green-700 transition"
+              className="p-1 rounded-xl text-gray-700 text-sm font-light shadow-xl hover:bg-gray-300 transition"
             >
               + Nuevo paciente
             </Button>
@@ -143,18 +143,14 @@ const ProfessionalDashboard = () => {
       <motion.div
         initial={{ opacity: 0, y: -10 }}
         animate={{ opacity: 1, y: 0 }}
-        className="bg-white/80 backdrop-blur-md rounded-2xl shadow p-4 md:p-6 border border-white/20"
+        className="border-b-2 border-gray-200 pb-4 mb-4"
       >
-        <p className="text-gray-700 text-sm md:text-lg font-medium">
-          📅 Hoy tienes{" "}
-          <span className="font-bold text-blue-600">
-            {todaysAppointments.length}
+        <p className="text-gray-700 text-base font-base">
+          📅 
+          <span className="font-semibold text-blue-600 ml-4">
+           Tenes{" "} {todaysAppointments.length} turnos programados para hoy.
           </span>{" "}
-          turnos programados y{" "}
-          <span className="font-bold text-green-600">
-            {patientsIncluded.length}
-          </span>{" "}
-          pacientes en total.
+          
         </p>
       </motion.div>
 
@@ -197,12 +193,6 @@ const ProfessionalDashboard = () => {
           </h2>
           <div className="flex gap-3">
             <Link
-              href="/professional/patients/new"
-              className="text-sm px-3 py-1 bg-green-600 text-white rounded-lg shadow hover:bg-green-700 transition"
-            >
-              + Agregar
-            </Link>
-            <Link
               href="/professional/patients"
               className="text-blue-600 hover:font-bold text-sm transition-colors"
             >
@@ -232,12 +222,6 @@ const ProfessionalDashboard = () => {
             Instituciones
           </h2>
           <div className="flex gap-3">
-            <Link
-              href="/professional/institutions/new"
-              className="text-sm px-3 py-1 bg-blue-600 text-white rounded-lg shadow hover:bg-blue-700 transition"
-            >
-              + Agregar
-            </Link>
             <Link
               href="/professional/institutions"
               className="text-blue-600 hover:font-bold text-sm transition-colors"
