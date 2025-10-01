@@ -5,11 +5,12 @@ import { toast } from "@/hooks/use-toast";
 import { Patient } from "@/interfaces";
 import { Button } from "@/components/ui/button";
 import { useProfessionalIncludes } from "@/hooks/useProfessionalIncludes";
-import { AnimatedDialog } from "../../institutions/components/AnimatedDialog";
+import { AnimatePresence, motion } from "framer-motion";
 
 import PatientProfileUpdateForm from "@/components/forms/PatientProfileUpdateForm";
 import PatientRegistrationForm from "@/components/forms/PatientRegisterForm";
 import PatientCard from "./PatientCard";
+import { Skeleton } from "@/components/ui/skeleton";
 
 type Props = {
   isDemo: boolean;
@@ -25,10 +26,10 @@ export default function PatientCardWithActions({
   const [formOpen, setFormOpen] = useState(false);
   const [modalMode, setModalMode] = useState<ModalMode>(null);
   const [selectedPatient, setSelectedPatient] = useState<Partial<Patient> | null>(null);
-  // Traemos directamente los pacientes del hook
+
   const { data, refetch } = useProfessionalIncludes();
   const patientsIncluded = data?.patientsIncluded || [];
-  // Refetch envuelto en useCallback
+
   const handleRefetch = useCallback(async () => {
     try {
       await refetch();
@@ -92,22 +93,24 @@ export default function PatientCardWithActions({
       {/* Lista de pacientes */}
       <div className="w-full space-y-4 max-w-full overflow-x-hidden">
         {patientsIncluded.length > 0 ? (
-          patientsIncluded.map(({ patient }) => (
-
+          patientsIncluded.map(({ patient }) =>
             !patient ? null : (
               <PatientCard
-              key={patient.id}
-              patient={patient}
-              onEdit={() => handleOpenEdit(patient)}
-              onDelete={handleRefetch} // refetch directo
-              professionalId={data?.id || ""}
-              isDemo={isDemo}
-            />
-          )))
+                key={patient.id}
+                patient={patient}
+                onEdit={() => handleOpenEdit(patient)}
+                onDelete={handleRefetch}
+                professionalId={data?.id || ""}
+                isDemo={isDemo}
+              />
+            )
+          )
         ) : (
-          <p className="text-center text-muted-foreground">
-            Aún no posee pacientes en su lista
-          </p>
+          <>
+          <Skeleton className="h-14 w-full bg-gray-100 border-[1px] border-gray-200 rounded-lg" />
+          <Skeleton className="h-14 w-full rounded-lg bg-gray-100 border-[1px] border-gray-200" />
+          <Skeleton className="h-14 w-full rounded-lg bg-gray-100 border-[1px] border-gray-200" />
+          </>
         )}
       </div>
 
@@ -123,24 +126,54 @@ export default function PatientCardWithActions({
         </div>
       )}
 
-      {/* Modal único */}
-      {formOpen && (
-        <AnimatedDialog open={formOpen} onOpenChange={setFormOpen}>
-          {modalMode === "edit" && selectedPatient ? (
-            <PatientProfileUpdateForm
-              selectedPatient={selectedPatient}
-              onClose={handleClose}
-              onSuccess={() => handleSuccess("edit")}
-            />
-          ) : (
-            <PatientRegistrationForm
-              selectedPatient={selectedPatient}
-              onClose={handleClose}
-              onSuccess={() => handleSuccess("create")}
-            />
-          )}
-        </AnimatedDialog>
+      {/* Slide lateral */}
+     <AnimatePresence>
+        {formOpen && (
+          <motion.div
+            initial={{ x: "100%", opacity: 0 }}
+            animate={{ x: 0, opacity: 1 }}
+            exit={{ x: "100%", opacity: 0 }}
+            transition={{
+              x: { type: "spring", stiffness: 90, damping: 20 },
+              opacity: { duration: 0.3 },
+              default: { ease: "easeInOut", duration: 0.6 },
+            }}
+            className={`fixed inset-y-0 right-0 z-50 flex flex-col bg-white p-6 overflow-y-auto rounded-l-2xl ${
+              modalMode === "create" ? "w-[70%] min-w-[600px]" : "w-[50%] min-w-[500px]"
+            }`}
+          >
+          {/* Header */}
+          <div className="flex justify-between items-center mb-4 sticky top-0 bg-transparent z-10 py-1">
+            <h2 className="text-xl font-semibold text-gray-800">
+              {modalMode === "edit" ? "Editar paciente" : "Ingresar nuevo paciente"}
+            </h2>
+            <button
+              onClick={handleClose}
+              className="text-gray-400 hover:text-gray-600 transition"
+            >
+              ✕
+            </button>
+          </div>
+
+          {/* Contenido del formulario */}
+          <div className="flex-1 border-[1px] border-gray-300 rounded-lg overflow-y-auto p-1">
+            {modalMode === "edit" && selectedPatient ? (
+              <PatientProfileUpdateForm
+                selectedPatient={selectedPatient}
+                onClose={handleClose}
+                onSuccess={() => handleSuccess("edit")}
+              />
+            ) : (
+              <PatientRegistrationForm
+                selectedPatient={selectedPatient}
+                onClose={handleClose}
+                onSuccess={() => handleSuccess("create")}
+              />
+            )}
+          </div>
+        </motion.div>
       )}
+      </AnimatePresence>
     </>
   );
 }

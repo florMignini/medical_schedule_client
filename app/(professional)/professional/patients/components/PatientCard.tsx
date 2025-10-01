@@ -45,9 +45,7 @@ const PatientCard = ({
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: -10 }}
       transition={{ duration: 0.2 }}
-      whileHover={{ scale: 0.98 }}
-      whileTap={{ scale: 0.98 }}
-      className="group relative rounded-2xl px-3 py-4 shadow-md hover:shadow-xl transition-all bg-gradient-to-r from-white/80 to-zinc-100/80 dark:from-zinc-800/80 dark:to-zinc-900/80 backdrop-blur-md flex flex-col md:flex-row md:items-center md:justify-between gap-1 hover:bg-zinc-400"
+      className="group relative rounded-lg p-2 shadow-sm hover:shadow-xl transition-all bg-transparent boder-gray-400 border-[1px] flex flex-col md:flex-row md:items-center border-bcmd:justify-between gap-1"
     >
       {/* Acciones arriba a la derecha */}
       <TooltipProvider>
