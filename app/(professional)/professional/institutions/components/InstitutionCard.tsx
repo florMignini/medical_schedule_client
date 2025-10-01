@@ -23,7 +23,6 @@ import { motion } from "framer-motion";
 import Image from "next/image";
 import { ICreateInstitution } from "@/interfaces";
 import Link from "next/link";
-import { Dialog } from "@radix-ui/react-dialog";
 
 interface InstitutionCardProps {
   institution: ICreateInstitution;
@@ -46,7 +45,7 @@ export const InstitutionCard = ({
       animate={{ opacity: 1, scale: 1, y: 0 }}
       exit={{ opacity: 0, scale: 0.9, y: -10 }}
       transition={{ duration: 0.3 }}
-      className="relative rounded-2xl bg-white/70 dark:bg-zinc-800/80 backdrop-blur-sm shadow-md p-3 transition-all hover:shadow-xl hover:scale-[1.02] group border border-zinc-200 dark:border-zinc-700"
+      className="relative rounded-lg p-2 transition-all group border-[1px] border-gray-300"
     >
       {/* Acciones arriba a la derecha */}
       <TooltipProvider>
