@@ -182,7 +182,7 @@ const PatientRegistrationForm: React.FC<Props> = ({
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit)}
-        className="max-w-4xl mx-auto p-8 bg-white rounded-xl shadow-lg space-y-12"
+        className="max-w-4xl mx-auto p-8 bg-transparent rounded-xl shadow-lg space-y-12"
       >
         {/* Información Personal */}
         <section>
