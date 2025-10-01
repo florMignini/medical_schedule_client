@@ -35,31 +35,31 @@ export default function Loading() {
   }, []);
 
   return (
-    <section className="flex flex-col items-center justify-center min-h-screen bg-[#0f0f0f] text-white font-mono px-4">
+    <section className="flex flex-col items-center justify-center min-h-screen bg-white text-black font-mono px-4">
       {/* Logo spinning */}
       <motion.div
         animate={{ rotate: 360 }}
         transition={{ repeat: Infinity, duration: 6, ease: "linear" }}
       >
-        <LoaderCircle className="w-10 h-10 animate-spin text-green-400" />
+        <LoaderCircle className="w-10 h-10 animate-spin" />
       </motion.div>
 
       {/* Loading Message */}
-      <div className="mt-8 text-green-400 text-lg tracking-wide flex items-center gap-2">
+      <div className="text-lg tracking-wide flex items-center mt-8 gap-2">
         <span>{loadingMessages[messageIndex]}</span>
         <motion.div
           className="flex space-x-1"
           variants={dotsVariants}
           animate="animate"
         >
-          <motion.span className="w-1 h-1 bg-green-400 rounded-full" />
-          <motion.span className="w-1 h-1 bg-green-400 rounded-full" />
-          <motion.span className="w-1 h-1 bg-green-400 rounded-full" />
+          <motion.span className="w-1 h-1 bg-black rounded-full" />
+          <motion.span className="w-1 h-1 bg-black rounded-full" />
+          <motion.span className="w-1 h-1 bg-black rounded-full" />
         </motion.div>
       </div>
 
       {/* Secondary info */}
-      <p className="mt-4 text-xs text-white/40">
+      <p className="mt-4 text-base font-mono">
         Por favor, espera mientras cargamos tu información profesional...
       </p>
     </section>

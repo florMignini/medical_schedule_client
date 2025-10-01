@@ -5,7 +5,7 @@ import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import ProfessionalDashboard from "./page";
 import { getProfessionalIncludesFromCookies } from "@/utils/getProfessionalIncludesFromCookies";
-import Loading from "./components/Loading";
+import LayoutLoading from "./components/LayoutLoading";
 
 const PlusFont = Plus_Jakarta_Sans({
   subsets: ["latin"],
@@ -36,7 +36,7 @@ export default async function ProfessionalLayout({
   return (
     <section className="flex flex-col">
       {/* content */}
-      <Suspense fallback={<Loading />}>
+      <Suspense fallback={<LayoutLoading />}>
         <ProfessionalDashboard
           professional={data}
           appointments={appointments}
