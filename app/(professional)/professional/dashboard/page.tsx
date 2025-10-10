@@ -162,22 +162,23 @@ const ProfessionalDashboard = () => {
       />
 
       {/* Charts */}
-      <div className="w-full grid grid-cols-1 md:grid-cols-2 gap-6">
-        <motion.div
-          whileHover={{ scale: 1.01 }}
-          className="bg-white shadow-lg rounded-2xl p-4"
-        >
-          <PatientsByAge patients={patientsIncluded} />
+      <div className="w-full grid grid-cols-1 md:grid-cols-2 gap-6 mb-5">
+        <motion.div className="rounded-2xl shadow-lg border border-white/30 bg-white/60 backdrop-blur-xl p-3 flex flex-col justify-between h-[470px]">
+          <h2 className="text-lg font-semibold text-gray-700 mb-4">
+            Distribución de pacientes por edad
+          </h2>
+          <div className="flex-1 overflow-hidden">
+            <PatientsByAge patients={patientsIncluded} />
+          </div>
         </motion.div>
 
-        <motion.div
-          whileHover={{ scale: 1.01 }}
-          className="bg-white/40 backdrop-blur-md shadow-lg rounded-2xl p-4 border border-white/20"
-        >
-          <h2 className="text-lg font-semibold mb-2 text-gray-700">
+        <motion.div className="rounded-2xl shadow-lg border border-white/30 bg-white/60 backdrop-blur-xl p-3 flex flex-col justify-between h-[470px]">
+          <h2 className="text-lg font-semibold mb-4 text-gray-700">
             Turnos por día (últimos 7 días)
           </h2>
-          <AppointmentsPerWeekChart appointments={appointmentsIncluded} />
+          <div className="flex-1 my-auto overflow-hidden">
+            <AppointmentsPerWeekChart appointments={appointmentsIncluded} />
+          </div>
         </motion.div>
       </div>
 
@@ -245,61 +246,59 @@ const ProfessionalDashboard = () => {
       </motion.div>
 
       {/* Drawer lateral unificado */}
-          <AnimatePresence>
-            {formOpen && (
-              <motion.div
-                initial={{ x: "100%", opacity: 0 }}
-                animate={{ x: 0, opacity: 1 }}
-                exit={{ x: "100%", opacity: 0 }}
-                transition={{
-                  x: { type: "spring", stiffness: 90, damping: 20 },
-                  opacity: { duration: 0.3 },
-                  default: { ease: "easeInOut", duration: 0.6 },
-                }}
-                className={`fixed inset-y-0 right-0 z-50 flex flex-col bg-white p-6 overflow-y-auto rounded-l-2xl ${
-                  modalMode === "appointment"
-                    ? "w-[40%] min-w-[500px]"
-                    : "w-[80%] min-w-[600px]"
-                }`}
+      <AnimatePresence>
+        {formOpen && (
+          <motion.div
+            initial={{ x: "100%", opacity: 0 }}
+            animate={{ x: 0, opacity: 1 }}
+            exit={{ x: "100%", opacity: 0 }}
+            transition={{
+              x: { type: "spring", stiffness: 90, damping: 20 },
+              opacity: { duration: 0.3 },
+              default: { ease: "easeInOut", duration: 0.6 },
+            }}
+            className={`fixed inset-y-0 right-0 z-50 flex flex-col bg-white p-6 overflow-y-auto rounded-l-2xl ${
+              modalMode === "appointment"
+                ? "w-[40%] min-w-[500px]"
+                : "w-[80%] min-w-[600px]"
+            }`}
+          >
+            {/* Header */}
+            <div className="flex justify-between items-center mb-4 sticky top-0 bg-transparent z-10 py-1">
+              <h2 className="text-xl font-semibold text-gray-800">
+                {modalMode === "appointment"
+                  ? "Agendar nuevo turno"
+                  : "Crear nuevo paciente"}
+              </h2>
+              <button
+                onClick={handleClose}
+                className="text-gray-400 hover:text-gray-600 transition"
               >
-                {/* Header */}
-                <div className="flex justify-between items-center mb-4 sticky top-0 bg-transparent z-10 py-1">
-                  <h2 className="text-xl font-semibold text-gray-800">
-                    {modalMode === "appointment"
-                      ? "Agendar nuevo turno"
-                      : "Crear nuevo paciente"}
-                  </h2>
-                  <button
-                    onClick={handleClose}
-                    className="text-gray-400 hover:text-gray-600 transition"
-                  >
-                    ✕
-                  </button>
-                </div>
+                ✕
+              </button>
+            </div>
 
-                {/* Content */}
-                <div className="flex-1 border-[1px] p-1 border-gray-300 rounded-lg overflow-y-auto">
-                  {modalMode === "appointment" ? (
-                    <NewAppointmentForm
-                      type="create"
-                      patientId=""
-                      patientsList={patientsIncluded}
-                      onSuccess={() => handleSuccess("create")}
-                      component="dashboard"
-                      isDemo={isDemo}
-                    />
-                  ) : (
-                    <PatientRegistrationForm
-                      onClose={handleClose}
-                      onSuccess={() => handleSuccess("create")}
-                    />
-                  )}
-                </div>
-              </motion.div>
-            )}
-          </AnimatePresence>
-      
-      
+            {/* Content */}
+            <div className="flex-1 border-[1px] p-1 border-gray-300 rounded-lg overflow-y-auto">
+              {modalMode === "appointment" ? (
+                <NewAppointmentForm
+                  type="create"
+                  patientId=""
+                  patientsList={patientsIncluded}
+                  onSuccess={() => handleSuccess("create")}
+                  component="dashboard"
+                  isDemo={isDemo}
+                />
+              ) : (
+                <PatientRegistrationForm
+                  onClose={handleClose}
+                  onSuccess={() => handleSuccess("create")}
+                />
+              )}
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </section>
   );
 };
