@@ -58,7 +58,7 @@ const NewAppointmentForm = ({
   isDemo = false,
 }: {
   type: AppointmentType;
-  patientId: string;
+  patientId?: string;
   patientsList?: { patient: Patient }[];
   patient?: Patient;
   initialDateTime?: Date | null;

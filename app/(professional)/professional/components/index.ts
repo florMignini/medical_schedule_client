@@ -1,5 +1,5 @@
 export * from './AddButton';
-export * from './Calendar';
+export * from './CalendarModern';
 export * from './ConfigButton';
 export * from './FollowUp';
 export * from './Navbar';
