@@ -24,9 +24,10 @@ import { CalendarClock, Plus } from "lucide-react";
 type appointmentListProps = {
   appointments: Array<AppointmentsIncluded>;
   patients: Array<PatientsIncluded>;
-  pastAppointmentPatientData: any;
+  pastAppointmentPatientData?: any;
   isDemo?: boolean;
   refetch?: () => void;
+  onAddAppointment?: () => void;
 };
 
 const AppointmentsList = ({
@@ -35,6 +36,7 @@ const AppointmentsList = ({
   pastAppointmentPatientData,
   isDemo=false,
   refetch,
+  onAddAppointment
 }: appointmentListProps) => {
   const [patientId, setPatientId] = useState<any | null>(null);
   const [patientData, setPatientData] = useState<any | null>(null);
@@ -69,10 +71,7 @@ const AppointmentsList = ({
 
   return (
     <div className="w-full flex flex-col gap-4">
-      <h1 className="px-auto text-xl font-semibold text-gray-800">
-        Turnos del día {dayjs(selectedDate || new Date()).format("DD/MM/YYYY")}
-      </h1>
-
+     
       <ScrollArea className="h-[700px] space-y-4">
         {timeSlots.map(({ time }, i) => {
           const appt = getAppointmentAt(time);
@@ -86,7 +85,7 @@ const AppointmentsList = ({
           return (
             <div
               key={i}
-              className={`w-full rounded-xl p-4 transition border text-sm
+              className={`w-full rounded-xl p-2 transition shadow-md border-[1px] border-gray-100 mb-1 text-sm
                 ${
                   appt
                     ? "bg-emerald-100 border-emerald-300"
@@ -145,7 +144,9 @@ const AppointmentsList = ({
                   </p>
                 </>
               ) : (
-                <div className="text-gray-500 text-sm italic flex items-center gap-2">
+                <div
+                onClick={onAddAppointment}
+                className="text-gray-500 text-sm italic flex items-center gap-2">
                   <Plus className="w-4 h-4" /> agregar evento
                 </div>
               )}
@@ -154,74 +155,6 @@ const AppointmentsList = ({
           );
         })}
       </ScrollArea>
-
-      <Dialog
-        open={isOpen}
-        onOpenChange={(open) => {
-          setIsOpen(open);
-          if (!open) {
-            setTimeout(() => {
-              setTurnoOcita("");
-              setCurrentAppointment(null);
-              setPatientData(null);
-              setPatientId(null);
-              setSelectedTime(null);
-            }, 100); // espera al desmontaje visual
-          }
-        }}
-      >
-        <DialogContent
-          key={turnoOcita + (selectedTime?.toISOString() ?? "")} // ← esto fuerza un reset real
-          className="w-[80vw] bg-white/10 backdrop-blur-sm sm:max-w-[600px] max-h-[100vh] p-4 overflow-y-auto rounded-2xl shadow-xl"
-        >
-          <DialogHeader>
-            <DialogTitle className="text-xl font-bold text-white">
-              {turnoOcita === "turno" ? "Crear Turno" : "Detalles del turno"}
-            </DialogTitle>
-            <DialogDescription className="text-sm text-gray-500">
-              {turnoOcita === "turno"
-                ? "Crear un nuevo turno para el paciente"
-                : "Detalles del turno"}
-            </DialogDescription>
-          </DialogHeader>
-
-          <div className="relative">
-            {turnoOcita === "turno" && selectedTime && (
-              <NewAppointmentForm
-                key="create"
-                type="create"
-                isDemo={isDemo}
-                patientId={patientId}
-                initialDateTime={selectedTime}
-                component="calendar"
-                patientsList={patients}
-                onSuccess={() => {
-                  setIsOpen(false);
-                  setTurnoOcita("");
-                  if (refetch) refetch();
-                }}
-              />
-            )}
-
-            {turnoOcita !== "turno" && currentAppointment && (
-              <AppointmentDialogDetail
-                key="update"
-                isDemo={isDemo}
-                patientData={patientData}
-                patientId={patientId}
-                initialDateTime={selectedTime}
-                type="update"
-                appt={currentAppointment}
-                onSuccess={() => {
-                  setIsOpen(false);
-                  setTurnoOcita("");
-                  if (refetch) refetch();
-                }}
-              />
-            )}
-          </div>
-        </DialogContent>
-      </Dialog>
     </div>
   );
 };
