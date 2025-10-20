@@ -1,14 +1,5 @@
 import Image from "next/image";
 import Link from "next/link";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
-import Icon from "@/components/ui/icon";
 
 import { apiServer } from "@/api/api-server";
 import { ProfessionalInformation } from "@/interfaces";
