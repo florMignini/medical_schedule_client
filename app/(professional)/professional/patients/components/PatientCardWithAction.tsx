@@ -139,7 +139,7 @@ export default function PatientCardWithActions({
               default: { ease: "easeInOut", duration: 0.6 },
             }}
             className={`fixed inset-y-0 right-0 z-50 flex flex-col bg-white p-6 overflow-y-auto rounded-l-2xl ${
-              modalMode === "create" ? "w-[70%] min-w-[600px]" : "w-[50%] min-w-[500px]"
+              modalMode === "create" ? "w-[70%] min-w-[400px]" : "w-[50%] min-w-[500px]"
             }`}
           >
           {/* Header */}
