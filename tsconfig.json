@@ -15,17 +15,17 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "jsx": "preserve",
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["./*"]
+    },
+    "types": ["jest"],
     "incremental": true,
     "plugins": [
       {
         "name": "next"
       }
     ],
-    "paths": {
-      "@/*": [
-        "./*"
-      ]
-    },
     "target": "ES2017",
     "typeRoots": ["./types", "./node_modules/@types"],
   },
@@ -34,7 +34,7 @@
     "**/*.ts",
     "**/*.tsx",
     ".next/types/**/*.ts"
-  ],
+, "__mock__/node-appwrite.js", "jest.setup.js"  ],
   "exclude": [
     "node_modules"
   ]
