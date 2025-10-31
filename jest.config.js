@@ -6,9 +6,8 @@ module.exports = {
 
   // Transformar JS/TS y archivos con babel-jest
    transform: {
-    '^.+\\.(ts|tsx|js|jsx)$': ['ts-jest', { babelConfig: true }],
+    '^.+\\.(js|ts|tsx)$': ['babel-jest', { configFile: './babel.jest.js' }],
   },
-
 
   // Ignorar node_modules excepto los que queremos transformar
   transformIgnorePatterns: [
