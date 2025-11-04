@@ -2,6 +2,9 @@ import { fireEvent, render, screen } from "@testing-library/react";
 import AppointmentsList from "../../app/(professional)/professional/appointments/components/AppointmentsList";
 import { getTodayAppointments } from "@/utils/getTodayAppointments";
 import { SelectedDateProvider } from "@/app/context/SeletedDateContext";
+import { waitFor } from "@testing-library/react";
+import { getAppointmentDetail } from "@/utils/getAppointmentDetail";
+import { mockAppointment, mockPatient, mockAppointmentResult } from "@/__mock__/mockData";
 
 // ====== MOCKS ======
 
@@ -13,10 +16,19 @@ const mockedGetTodayAppointments = getTodayAppointments as jest.MockedFunction<
   typeof getTodayAppointments
 >;
 
+jest.mock("@/utils/getAppointmentDetail", () => ({
+  getAppointmentDetail: jest.fn(),
+}));
+
+const mockedGetAppointmentDetail = getAppointmentDetail as jest.MockedFunction<
+  typeof getAppointmentDetail
+>;
+
+// ==================
+
 describe("AppointmentsList", () => {
-  const mockedGetTodayAppointments = getTodayAppointments as jest.MockedFunction<
-    typeof getTodayAppointments
-  >;
+  const mockedGetTodayAppointments =
+    getTodayAppointments as jest.MockedFunction<typeof getTodayAppointments>;
 
   const baseProps = {
     appointments: [],
@@ -24,7 +36,7 @@ describe("AppointmentsList", () => {
     pastAppointmentPatientData: [],
   };
 
-  // 1️⃣ - ya implementado: render de turno existente
+  // 1️⃣ - render de turno existente
   it("muestra datos de un turno cuando existe", () => {
     const appointmentsMock = [
       {
@@ -59,10 +71,7 @@ describe("AppointmentsList", () => {
 
     render(
       <SelectedDateProvider>
-        <AppointmentsList
-          {...baseProps}
-          onAddAppointment={mockAdd}
-        />
+        <AppointmentsList {...baseProps} onAddAppointment={mockAdd} />
       </SelectedDateProvider>
     );
 
@@ -93,14 +102,47 @@ describe("AppointmentsList", () => {
         <AppointmentsList
           {...baseProps}
           appointments={mockPastAppointments as any}
-          pastAppointmentPatientData={[
-            { pastAppointments: { id: 1 } },
-          ]}
+          pastAppointmentPatientData={[{ pastAppointments: { id: 1 } }]}
         />
       </SelectedDateProvider>
     );
 
     const disabledSlots = document.querySelectorAll(".cursor-not-allowed");
     expect(disabledSlots.length).toBeGreaterThan(0);
+  });
+
+  // 4️⃣ - apertura de modal y llamada a getAppointmentDetail
+  it("llama a getAppointmentDetail y abre el modal al hacer click en un turno", async () => {
+    const appointmentsMock = [mockAppointment()];
+
+    mockedGetTodayAppointments.mockReturnValue(appointmentsMock as any);
+    mockedGetAppointmentDetail.mockResolvedValue(
+      mockAppointmentResult({ patientsIncluded: [mockPatient] })
+    );
+
+    render(
+      <SelectedDateProvider>
+        <AppointmentsList
+          appointments={appointmentsMock as any}
+          patients={[mockPatient] as any}
+          pastAppointmentPatientData={[]}
+        />
+      </SelectedDateProvider>
+    );
+
+    // Click en el turno
+    const turno = screen.getByText("Revisión general");
+    fireEvent.click(turno);
+
+    // Esperar que se llame el detalle del turno
+    await waitFor(() => {
+      expect(mockedGetAppointmentDetail).toHaveBeenCalledWith(101);
+    });
+
+    // Verificar que el modal (Dialog) se abre
+    await waitFor(() => {
+      const modal = document.querySelector("[data-state='open']");
+      expect(modal).toBeTruthy();
+    });
   });
 });
