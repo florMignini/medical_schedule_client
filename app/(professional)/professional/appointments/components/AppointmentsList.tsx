@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useMemo } from "react";
+import { useMemo } from "react";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { AppointmentsIncluded, PatientsIncluded } from "@/interfaces";
 import { getTodayAppointments } from "@/utils/getTodayAppointments";
@@ -9,25 +9,20 @@ import { useSelectedDate } from "@/utils/useSelectedDate";
 import { addMinutes, format, setHours, setMinutes } from "date-fns";
 import dayjs from "dayjs";
 import ConfigAppointmentButton from "../../components/ConfigAppointmentButton";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-} from "@/components/ui/dialog";
-import NewAppointmentForm from "../../../../../components/forms/NewAppointmentForm";
-import AppointmentDialogDetail from "./AppointmentDialogDetail";
-
 import { CalendarClock, Plus } from "lucide-react";
 
-type appointmentListProps = {
+type AppointmentListProps = {
   appointments: Array<AppointmentsIncluded>;
   patients: Array<PatientsIncluded>;
   pastAppointmentPatientData?: any;
   isDemo?: boolean;
   refetch?: () => void;
-  onAddAppointment?: () => void;
+  /** 
+   * 🔹 Handler recibido desde CalendarModern
+   * Se usa para abrir el SlidePanel en la hora seleccionada.
+   * Recibe un objeto Date con la fecha y hora exacta del turno.
+   */
+  onAddAppointment?: (datetime: Date) => void;
 };
 
 const AppointmentsList = ({
@@ -37,31 +32,35 @@ const AppointmentsList = ({
   isDemo = false,
   refetch,
   onAddAppointment,
-}: appointmentListProps) => {
-  const [patientId, setPatientId] = useState<any | null>(null);
-  const [patientData, setPatientData] = useState<any | null>(null);
-  const [isOpen, setIsOpen] = useState(false);
-  const [selectedTime, setSelectedTime] = useState<Date | null>(null);
-  const [currentAppointment, setCurrentAppointment] = useState<any | null>(
-    null
-  );
-  const [turnoOcita, setTurnoOcita] = useState<string>("");
-
+}: AppointmentListProps) => {
+  // Fecha seleccionada global del calendario
   const { selectedDate } = useSelectedDate();
 
+  // Lista de turnos del día actual
   const events = getTodayAppointments(appointments, selectedDate || new Date());
+
+  // Determina si la fecha seleccionada ya pasó
   const isPast = dayjs(selectedDate || new Date()).isBefore(dayjs(), "day");
 
+  /**
+   * 🔹 Genera los intervalos de media hora (08:00 - 20:30)
+   * Cada intervalo se usa como “bloque horario” del día.
+   */
   const timeSlots = useMemo(() => {
     const slots = [];
     const date = selectedDate || new Date();
+
     for (let hour = 8; hour <= 20; hour++) {
       slots.push({ time: setHours(setMinutes(date, 0), hour) });
       slots.push({ time: setHours(setMinutes(date, 30), hour) });
     }
+
     return slots;
   }, [selectedDate]);
 
+  /**
+   * 🔹 Retorna el turno (si existe) en un horario específico
+   */
   const getAppointmentAt = (time: Date) =>
     events.find(
       (appt: AppointmentsIncluded) =>
@@ -69,17 +68,9 @@ const AppointmentsList = ({
         dayjs(time).format("HH:mm")
     );
 
-  const handleCloseDialog = () => {
-    setIsOpen(false);
-    setCurrentAppointment(null);
-    setPatientData(null);
-    setPatientId(null);
-    setSelectedTime(null);
-    setTurnoOcita("");
-  };
-
   return (
     <div className="w-full flex flex-col gap-4">
+      {/* Scroll de los intervalos horarios */}
       <ScrollArea className="h-[700px] space-y-4">
         {timeSlots.map(({ time }, i) => {
           const appt = getAppointmentAt(time);
@@ -88,28 +79,28 @@ const AppointmentsList = ({
             isPast ||
             (appt &&
               appt.appointment.id ===
-                pastAppointmentPatientData[0]?.pastAppointments?.id);
+                pastAppointmentPatientData?.[0]?.pastAppointments?.id);
 
           return (
             <div
               key={i}
-              className={`w-full rounded-xl p-2 transition shadow-md border-[1px] border-gray-100 mb-1 text-sm
+              className={`w-full rounded-xl p-2 transition shadow-md border mb-1 text-sm
                 ${
                   appt
                     ? "bg-emerald-100 border-emerald-300"
                     : "bg-white border-gray-200 hover:bg-gray-50"
                 }
-                ${
-                  isDisabled
-                    ? "opacity-50 cursor-not-allowed"
-                    : "cursor-pointer"
-                }`}
+                ${isDisabled ? "opacity-50 cursor-not-allowed" : "cursor-pointer"}
+              `}
             >
+              {/* 🔹 Cabecera del bloque horario */}
               <div className="w-full flex justify-between items-center mb-2">
                 <div className="flex items-center gap-2 text-black">
                   <CalendarClock className="w-4 h-4" />
                   <span className="font-medium">{hour}</span>
                 </div>
+
+                {/* Botón de configuración (solo si existe turno en esa hora) */}
                 {appt && (
                   <ConfigAppointmentButton
                     appointment={appt}
@@ -118,106 +109,50 @@ const AppointmentsList = ({
                 )}
               </div>
 
-              <div
-                onClick={async () => {
-                  if (isDisabled) return;
-                  if (appt) {
-                    setCurrentAppointment(appt);
-                    const data = await getAppointmentDetail(
-                      appt?.appointment?.id
-                    );
-                    setPatientId(data?.patientsIncluded[0]?.id);
-                    setPatientData({ patient: data?.patientsIncluded[0] });
-                    setTurnoOcita("seguimiento");
-                  } else {
-                    setTurnoOcita("turno");
+              {/* 🔹 Contenido del bloque */}
+              {appt ? (
+                /* Si hay un turno, mostramos su información */
+                <div
+                  onClick={async () => {
+                    if (isDisabled) return;
+                    // Muestra detalle o manejo de seguimiento
+                    await getAppointmentDetail(appt.appointment.id);
+                  }}
+                  className="text-gray-800"
+                >
+                  <p className="font-semibold truncate">
+                    {appt.appointment.notes}
+                  </p>
+                  <p className="text-gray-500 text-sm truncate">
+                    {appt.appointment.reason}
+                  </p>
+                  <p className="text-xs text-muted-foreground">
+                    {`${format(
+                      new Date(appt.appointment.schedule),
+                      "HH:mm"
+                    )} - ${format(
+                      addMinutes(new Date(appt.appointment.schedule), 30),
+                      "HH:mm"
+                    )}`}
+                  </p>
+                </div>
+              ) : (
+                /* Si no hay turno, mostramos “Agregar evento” */
+                <div
+                  onClick={() =>
+                    !isDisabled &&
+                    onAddAppointment &&
+                    onAddAppointment(time) // ⏰ Pasa la hora exacta al SlidePanel
                   }
-                  setSelectedTime(time);
-                  setIsOpen(true);
-                }}
-              >
-                {appt ? (
-                  <>
-                    <p className="font-semibold text-gray-800 truncate">
-                      {appt.appointment.notes}
-                    </p>
-                    <p className="text-gray-500 text-sm truncate">
-                      {appt.appointment.reason}
-                    </p>
-                    <p className="text-xs text-muted-foreground">
-                      {`${format(
-                        new Date(appt.appointment.schedule),
-                        "HH:mm"
-                      )} - ${format(
-                        addMinutes(new Date(appt.appointment.schedule), 30),
-                        "HH:mm"
-                      )}`}
-                    </p>
-                  </>
-                ) : (
-                  <div
-                    onClick={onAddAppointment}
-                    className="text-gray-500 text-sm italic flex items-center gap-2"
-                  >
-                    <Plus className="w-4 h-4" /> agregar evento
-                  </div>
-                )}
-              </div>
+                  className="text-gray-500 text-sm italic flex items-center gap-2 hover:text-emerald-600 transition"
+                >
+                  <Plus className="w-4 h-4" /> agregar evento
+                </div>
+              )}
             </div>
           );
         })}
       </ScrollArea>
-      <Dialog
-        open={isOpen}
-        onOpenChange={(open) => {
-          if (!open) {
-            handleCloseDialog();
-          }
-        }}
-      >
-        <DialogContent className="max-w-3xl w-full border border-gray-200 rounded-xl bg-white shadow-xl">
-          <DialogHeader>
-            <DialogTitle className="text-lg font-semibold text-gray-800">
-              {turnoOcita === "seguimiento"
-                ? "Detalles del turno"
-                : "Nuevo turno"}
-            </DialogTitle>
-            {turnoOcita === "seguimiento" && (
-              <DialogDescription className="text-sm text-gray-500">
-                Información del turno seleccionado.
-              </DialogDescription>
-            )}
-          </DialogHeader>
-          {turnoOcita === "seguimiento" ? (
-            <AppointmentDialogDetail
-              appt={currentAppointment || undefined}
-              component="appointments"
-              patientId={patientId || undefined}
-              initialDateTime={selectedTime}
-              patientData={patientData}
-              onSuccess={() => {
-                handleCloseDialog();
-                refetch?.();
-              }}
-              isDemo={isDemo}
-              type="update"
-            />
-          ) : (
-            <NewAppointmentForm
-              type="create"
-              patientId={patientId || undefined}
-              patientsList={patients}
-              initialDateTime={selectedTime}
-              component="appointments"
-              onSuccess={() => {
-                handleCloseDialog();
-                refetch?.();
-              }}
-              isDemo={isDemo}
-            />
-          )}
-        </DialogContent>
-      </Dialog>
     </div>
   );
 };
