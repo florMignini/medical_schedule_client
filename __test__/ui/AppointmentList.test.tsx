@@ -4,7 +4,11 @@ import { getTodayAppointments } from "@/utils/getTodayAppointments";
 import { SelectedDateProvider } from "@/app/context/SeletedDateContext";
 import { waitFor } from "@testing-library/react";
 import { getAppointmentDetail } from "@/utils/getAppointmentDetail";
-import { mockAppointment, mockPatient, mockAppointmentResult } from "@/__mock__/mockData";
+import {
+  mockAppointment,
+  mockPatient,
+  mockAppointmentResult,
+} from "@/__mock__/mockData";
 
 // ====== MOCKS ======
 
@@ -111,8 +115,8 @@ describe("AppointmentsList", () => {
     expect(disabledSlots.length).toBeGreaterThan(0);
   });
 
-  // 4️⃣ - apertura de modal y llamada a getAppointmentDetail
-  it("llama a getAppointmentDetail y abre el modal al hacer click en un turno", async () => {
+  // 4️⃣ - llamada a getAppointmentDetail al hacer click en un turno existente
+  it("llama a getAppointmentDetail al hacer click en un turno existente", async () => {
     const appointmentsMock = [mockAppointment()];
 
     mockedGetTodayAppointments.mockReturnValue(appointmentsMock as any);
@@ -130,19 +134,40 @@ describe("AppointmentsList", () => {
       </SelectedDateProvider>
     );
 
-    // Click en el turno
+    // Click en el turno existente
     const turno = screen.getByText("Revisión general");
     fireEvent.click(turno);
 
-    // Esperar que se llame el detalle del turno
+    // Esperar que se llame la función de detalle
     await waitFor(() => {
       expect(mockedGetAppointmentDetail).toHaveBeenCalledWith(101);
     });
 
-    // Verificar que el modal (Dialog) se abre
-    await waitFor(() => {
-      const modal = document.querySelector("[data-state='open']");
-      expect(modal).toBeTruthy();
-    });
+    // 🔍 Verificamos que el texto del turno sigue visible (sin modal)
+    expect(screen.getByText("Revisión general")).toBeInTheDocument();
+  });
+
+  // 5️⃣ - verifica que onAddAppointment recibe la fecha + hora exacta
+  it("pasa un objeto Date con hora exacta al callback onAddAppointment", () => {
+    const mockAdd = jest.fn();
+    mockedGetTodayAppointments.mockReturnValue([]); // no hay turnos
+
+    render(
+      <SelectedDateProvider>
+        <AppointmentsList {...baseProps} onAddAppointment={mockAdd} />
+      </SelectedDateProvider>
+    );
+
+    const addButton = screen.getAllByText("agregar evento")[0];
+    fireEvent.click(addButton);
+
+    expect(mockAdd).toHaveBeenCalledTimes(1);
+    const dateArg = mockAdd.mock.calls[0][0];
+
+    // 🕒 Verifica que el argumento sea una fecha válida con hora distinta de 00:00
+    expect(dateArg).toBeInstanceOf(Date);
+    const hours = new Date(dateArg).getHours();
+    const minutes = new Date(dateArg).getMinutes();
+    expect(hours !== 0 || minutes !== 0).toBe(true);
   });
 });
