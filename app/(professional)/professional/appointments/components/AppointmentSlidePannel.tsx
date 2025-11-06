@@ -35,7 +35,7 @@ export default function AppointmentSlidePanel({
   // 🔹 Estado local que siempre guarda la última fecha/hora seleccionada
   const [activeDateTime, setActiveDateTime] = useState<Date | null>(null);
 
-  /** 
+  /**
    * ✅ Sincroniza el estado local con la fecha recibida desde el calendario.
    * Esto asegura que, si cambia la hora seleccionada, el formulario se actualice.
    */
@@ -45,7 +45,7 @@ export default function AppointmentSlidePanel({
     }
   }, [selectedDate]);
 
-  /** 
+  /**
    * 🔹 Filtra los turnos del mismo día (sin importar la hora)
    */
   const filteredAppointments = useMemo(() => {
@@ -79,7 +79,12 @@ export default function AppointmentSlidePanel({
             initial={{ x: "100%" }}
             animate={{ x: 0 }}
             exit={{ x: "100%" }}
-            transition={{ type: "spring", stiffness: 80, damping: 22, mass: 0.6 }}
+            transition={{
+              type: "spring",
+              stiffness: 80,
+              damping: 22,
+              mass: 0.6,
+            }}
             className="fixed top-0 right-0 z-50 h-full w-[100vw] max-w-full sm:max-w-[760px] 
                        bg-white/90 backdrop-blur-xl border-l border-gray-200 shadow-2xl flex flex-col"
           >
@@ -104,6 +109,7 @@ export default function AppointmentSlidePanel({
                   </Button>
                 )}
                 <button
+                  aria-label="Cerrar panel"
                   onClick={onClose}
                   className="p-2 rounded-full hover:bg-gray-100 transition-colors"
                 >
