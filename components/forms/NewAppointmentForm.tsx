@@ -188,7 +188,7 @@ const NewAppointmentForm = ({
                         onValueChange={field.onChange}
                         defaultValue={field.value}
                       >
-                        <SelectTrigger className="h-16">
+                        <SelectTrigger className="h-16" data-testid="patient-select">
                           <SelectValue placeholder="Seleccione paciente" />
                         </SelectTrigger>
                         <ScrollArea className="w-full max-h-[300px]">
@@ -293,6 +293,7 @@ const NewAppointmentForm = ({
         )}
 
         <SubmitButton
+        data-testid="appointment-submit-btn"
           loading={loading}
           className={`${
             type === "cancel" ? "shad-danger-btn" : "shad-primary-btn"
