@@ -2,6 +2,24 @@ import "@testing-library/jest-dom";
 
 // ✅ Mocks globales
 
+// --- Fix Radix UI tests (Select, Dialog, etc.) for jsdom ---
+Object.defineProperty(HTMLElement.prototype, "hasPointerCapture", {
+  value: () => false,
+});
+
+Object.defineProperty(HTMLElement.prototype, "setPointerCapture", {
+  value: () => {},
+});
+
+Object.defineProperty(HTMLElement.prototype, "releasePointerCapture", {
+  value: () => {},
+});
+
+Object.defineProperty(HTMLElement.prototype, "scrollIntoView", {
+  value: jest.fn(), // evita errores al abrir dropdowns
+  writable: true,
+});
+
 // --- MOCK Next.js navigation ---
 jest.mock('next/navigation', () => {
   return {
