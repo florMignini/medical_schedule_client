@@ -46,7 +46,7 @@ export type professionalDataType = {
 type AppointmentResponse = {
   id: string;
 };
-
+const isE2E = typeof window !== "undefined" && new URLSearchParams(window.location.search).get("e2e") === "1";
 const NewAppointmentForm = ({
   type,
   patientId,
