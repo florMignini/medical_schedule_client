@@ -36,6 +36,7 @@
     ".next/types/**/*.ts"
 , "__mock__/node-appwrite.js", "jest.setup.js", "__mock__/mockData.ts"  ],
   "exclude": [
-    "node_modules"
+    "node_modules",
+    "cypress"
   ]
 }
