@@ -31,7 +31,7 @@ import { useProfessionalIncludes } from "@/hooks/useProfessionalIncludes";
 
 // SpinnerOverlay: feedback visual al enviar
 const SpinnerOverlay = () => (
-  <div className="absolute inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm rounded-md">
+  <div className="absolute inset-0 z-50 flex items-center justify-center bg-black/10 backdrop-blur-sm rounded-md">
     <div className="animate-spin rounded-full h-16 w-16 border-t-4 border-b-4 border-emerald-400"></div>
   </div>
 );
@@ -119,7 +119,7 @@ const NewAppointmentForm = ({
       const response = (await createAppointment(
         appointmentData
       )) as AppointmentResponse;
-
+console.log(response)
       if (response) {
         const professionalIDs = {
           professional: professionalId?.id,
