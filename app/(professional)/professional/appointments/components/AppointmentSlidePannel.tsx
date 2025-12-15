@@ -97,7 +97,7 @@ export default function AppointmentSlidePanel({
               </h2>
 
               <div className="flex items-center gap-2">
-                {!showNewForm && (
+                {/* {!showNewForm && (
                   <Button
                     size="icon"
                     variant="ghost"
@@ -107,7 +107,7 @@ export default function AppointmentSlidePanel({
                   >
                     <Plus className="w-5 h-5 text-gray-600" />
                   </Button>
-                )}
+                )} */}
                 <button
                   aria-label="Cerrar panel"
                   onClick={onClose}
@@ -139,7 +139,7 @@ export default function AppointmentSlidePanel({
                         setShowNewForm(true);
                       }}
                     />
-                    <div className="flex justify-center">
+                    {/* <div className="flex justify-center">
                       <Button
                         className="bg-emerald-500 hover:bg-emerald-600 text-white px-6 py-3 rounded-xl shadow-md text-sm font-medium"
                         onClick={() => setShowNewForm(true)}
@@ -147,7 +147,7 @@ export default function AppointmentSlidePanel({
                         <Plus className="w-4 h-4 mr-2" />
                         Agregar turno
                       </Button>
-                    </div>
+                    </div> */}
                   </motion.div>
                 ) : (
                   // 🩺 Formulario para crear nuevo turno
