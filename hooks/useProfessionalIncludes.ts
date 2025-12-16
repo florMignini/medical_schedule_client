@@ -37,7 +37,7 @@ export function useProfessionalIncludes() {
         }
       );
       setIsDemo(isDemoCookie);
-      setData(response.data);
+      setData({...response.data});
     } catch (err: any) {
       console.error("❌ Error al obtener información del profesional:", err);
       setError(err);

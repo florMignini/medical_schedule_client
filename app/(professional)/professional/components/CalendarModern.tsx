@@ -16,9 +16,10 @@ dayjs.locale("es");
 interface Props {
   appointments: AppointmentsIncluded[];
   isDemo?: boolean;
+  refetch?: () => void;
 }
 
-export default function CalendarModern({ appointments, isDemo }: Props) {
+export default function CalendarModern({ appointments, refetch, isDemo }: Props) {
   /**
    * 📅 Estado del mes actual en visualización
    */
@@ -224,7 +225,7 @@ export default function CalendarModern({ appointments, isDemo }: Props) {
              * 🔹 Integramos el nuevo AppointmentsList dentro del panel
              * Pasamos handleSelectDate como onAddAppointment para recibir hora exacta
              */
-            refetch={() => null}
+            refetch={refetch}
           />
         )}
       </AnimatePresence>

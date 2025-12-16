@@ -139,15 +139,6 @@ export default function AppointmentSlidePanel({
                         setShowNewForm(true);
                       }}
                     />
-                    {/* <div className="flex justify-center">
-                      <Button
-                        className="bg-emerald-500 hover:bg-emerald-600 text-white px-6 py-3 rounded-xl shadow-md text-sm font-medium"
-                        onClick={() => setShowNewForm(true)}
-                      >
-                        <Plus className="w-4 h-4 mr-2" />
-                        Agregar turno
-                      </Button>
-                    </div> */}
                   </motion.div>
                 ) : (
                   // 🩺 Formulario para crear nuevo turno

@@ -119,7 +119,7 @@ const NewAppointmentForm = ({
       const response = (await createAppointment(
         appointmentData
       )) as AppointmentResponse;
-console.log(response)
+
       if (response) {
         const professionalIDs = {
           professional: professionalId?.id,
@@ -142,7 +142,6 @@ console.log(response)
         });
         form.reset();
         onSuccess?.();
-        router.refresh();
       }
     } catch (error) {
       console.error(error);
