@@ -37,6 +37,7 @@ export default function ForgotPasswordForm() {
     setLoading(true);
     try {
       const res =  await forgotPassword(value);
+      console.log("res", res);
       toast({
         title: "Éxito",
         description:
