@@ -39,7 +39,7 @@ const page = async () => {
             <div className="w-[50%] flex items-center justify-end">
               <AddButton
                 text="Professional"
-                to="/admin/admin-panel/professional-registration"
+                to="/admin"
               />
             </div>
           </div>
