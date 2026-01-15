@@ -2,7 +2,7 @@
 import Link from "next/link";
 import Image from "next/image";
 
-import Logo from "@/public/assets/medical_schedule-transparent.png";
+import Logo from "../../../public/assets/medical_schedule-transparent.png";
 
 const Header = () => {
 
@@ -23,6 +23,12 @@ const Header = () => {
 
         {/* Buttons */}
         <div className="flex items-center gap-3 sm:gap-5">
+          <Link
+            href="/professional-invitation"
+            className="text-sm font-semibold px-3 py-1 rounded-xl hover:scale-105 transition-transform bg-emerald-500 text-white hover:bg-emerald-200/10 backdrop-blur-md"
+          >
+            Registrarme
+          </Link>
           <Link
             href="/login"
             className="text-sm font-semibold px-3 py-1 rounded-xl hover:scale-105 transition-transform bg-white/10 text-white hover:bg-white/20 backdrop-blur-md"
