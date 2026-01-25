@@ -11,7 +11,7 @@ export function useProfessionalIncludes() {
   const [error, setError] = useState<Error | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [isDemo, setIsDemo] = useState(false);
-
+  
   const fetchData = useCallback(async () => {
     const professionalId = Cookies.get("professional-id");
     const isDemoCookie = Cookies.get("isDemo") === "true";

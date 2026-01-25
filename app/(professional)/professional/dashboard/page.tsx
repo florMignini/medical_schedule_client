@@ -57,24 +57,24 @@ const ProfessionalDashboard = () => {
             ? "Edición simulada"
             : "Paciente actualizado"
           : isDemo
-          ? "Creación simulada"
-          : "Paciente creado",
+            ? "Creación simulada"
+            : "Paciente creado",
       description:
         action === "edit"
           ? isDemo
             ? "Este es un entorno de prueba"
             : "¡Paciente editado correctamente!"
           : isDemo
-          ? "Este es un entorno de prueba"
-          : "¡Paciente creado correctamente!",
+            ? "Este es un entorno de prueba"
+            : "¡Paciente creado correctamente!",
       className:
         action === "edit"
           ? isDemo
             ? "bg-blue-500 text-white"
             : "bg-green-500 text-white"
           : isDemo
-          ? "bg-blue-500 text-white"
-          : "bg-green-500 text-white",
+            ? "bg-blue-500 text-white"
+            : "bg-green-500 text-white",
     });
 
     handleClose();
@@ -101,7 +101,7 @@ const ProfessionalDashboard = () => {
   // Calcular turnos de hoy
   const today = dayjs().format("YYYY-MM-DD");
   const todaysAppointments = appointmentsIncluded.filter(
-    (appt) => dayjs(appt?.appointment?.schedule).format("YYYY-MM-DD") === today
+    (appt) => dayjs(appt?.appointment?.schedule).format("YYYY-MM-DD") === today,
   );
 
   return (
@@ -257,44 +257,47 @@ const ProfessionalDashboard = () => {
               opacity: { duration: 0.3 },
               default: { ease: "easeInOut", duration: 0.6 },
             }}
-            className={`fixed inset-y-0 right-0 z-50 flex flex-col bg-white p-6 overflow-y-auto rounded-l-2xl ${
+            className={`fixed inset-y-0 right-0 z-50 flex flex-col bg-white p-6 rounded-l-2xl ${
               modalMode === "appointment"
                 ? "w-[40%] min-w-[500px]"
                 : "w-[80%] min-w-[600px]"
             }`}
           >
-            {/* Header */}
-            <div className="flex justify-between items-center mb-4 sticky top-0 bg-transparent z-10 py-1">
-              <h2 className="text-xl font-semibold text-gray-800">
-                {modalMode === "appointment"
-                  ? "Agendar nuevo turno"
-                  : "Crear nuevo paciente"}
-              </h2>
-              <button
-                onClick={handleClose}
-                className="text-gray-400 hover:text-gray-600 transition"
-              >
-                ✕
-              </button>
-            </div>
+            {/* Scroll container ÚNICO */}
+            <div className="flex h-full flex-col overflow-hidden">
+              {/* Content */}
+              <div className="flex-1 border-[1px] p-1 border-gray-300 rounded-lg overflow-y-auto">
+                {/* Header */}
+                <div className="flex justify-between items-center mb-4 shrink-0">
+                  <h2 className="text-xl font-semibold text-gray-800">
+                    {modalMode === "appointment"
+                      ? "Agendar nuevo turno"
+                      : "Crear nuevo paciente"}
+                  </h2>
 
-            {/* Content */}
-            <div className="flex-1 border-[1px] p-1 border-gray-300 rounded-lg overflow-y-auto">
-              {modalMode === "appointment" ? (
-                <NewAppointmentForm
-                  type="create"
-                  patientId=""
-                  patientsList={patientsIncluded}
-                  onSuccess={() => handleSuccess("create")}
-                  component="dashboard"
-                  isDemo={isDemo}
-                />
-              ) : (
-                <PatientRegistrationForm
-                  onClose={handleClose}
-                  onSuccess={() => handleSuccess("create")}
-                />
-              )}
+                  <button
+                    onClick={handleClose}
+                    className="text-gray-400 hover:text-gray-600 transition"
+                  >
+                    ✕
+                  </button>
+                </div>
+                {modalMode === "appointment" ? (
+                  <NewAppointmentForm
+                    type="create"
+                    patientId=""
+                    patientsList={patientsIncluded}
+                    onSuccess={() => handleSuccess("create")}
+                    component="dashboard"
+                    isDemo={isDemo}
+                  />
+                ) : (
+                  <PatientRegistrationForm
+                    onClose={handleClose}
+                    onSuccess={() => handleSuccess("create")}
+                  />
+                )}
+              </div>
             </div>
           </motion.div>
         )}
