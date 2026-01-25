@@ -105,7 +105,7 @@ const ProfessionalDashboard = () => {
   );
 
   return (
-    <section className="w-full h-full flex flex-col overflow-y-auto px-6 md:px-12 py-8 gap-8 bg-gradient-to-br from-[#f0f4f8] via-[#f9fafa] to-[#e8f0ff]">
+    <section className="w-full h-full flex flex-col overflow-y-auto px-6 md:px-12 py-8 gap-8 bg-white">
       {/* Header */}
       <header className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
         <div>
