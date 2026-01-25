@@ -34,18 +34,7 @@ export const PatientInfoSection = (patientInfo: Patient) => {
     medicalHistory,
   } = patientInfo;
 
-  const InfoItem = ({
-    label,
-    value,
-  }: {
-    label: string;
-    value: string | number | null | undefined;
-  }) => (
-    <div className="flex flex-col">
-      <Label className="text-xs text-gray-300 font-mono">{label}</Label>
-      <p className="text-sm text-white">{value || "—"}</p>
-    </div>
-  );
+
   const {toast} = useToast();
   const sectionRef = useRef<HTMLDivElement>(null);
 
@@ -96,10 +85,7 @@ export const PatientInfoSection = (patientInfo: Patient) => {
   
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
             <InfoItem label="Género" value={gender === "F" ? "Femenino" : "Masculino"} />
-            <InfoItem label="Email" value={email} />
             <InfoItem label="Ocupación" value={occupation} />
-            <InfoItem label="Teléfono" value={phone} />
-            <InfoItem label="Dirección" value={address} />
             <InfoItem label="Seguro Médico" value={`${insuranceProvider || "—"} - N° ${insurancePolicyNumber || "—"}`} />
             <InfoItem label="Tipo y Factor de Sangre" value={`${bloodType ?? "—"} ${bloodFactor === "Negativo" ? "-" : "+"}`} />
             <InfoItem label="Contacto de Emergencia" value={emergencyContactName} />
@@ -147,3 +133,17 @@ export const PatientInfoSection = (patientInfo: Patient) => {
   );
   
 };
+
+
+export const InfoItem = ({
+    label,
+    value,
+  }: {
+    label: string;
+    value: string | number | null | undefined;
+  }) => (
+    <div className="flex flex-col">
+      <Label className="text-xs text-gray-300 font-mono">{label}</Label>
+      <p className="text-sm text-white">{value || "—"}</p>
+    </div>
+  );
