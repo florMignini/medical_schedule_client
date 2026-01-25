@@ -40,7 +40,7 @@ const PatientsPage = () => {
   const loadMore = () => setPage((prev) => prev + 1);
 
   return (
-    <section className="w-[99%] px-4 md:px-12 lg:px-24  mx-auto p-6 space-y-4 bg-white rounded-lg shadow-md min-h-screen">
+    <section className="w-[99%] px-4 md:px-12 lg:px-24  mx-auto p-6 space-y-4 bg-white  min-h-screen">
       <header className="flex flex-col w-full h-14 items-start justify-center px-2 border-b border-gray-300">
         <h1 className="text-2xl text-black font-semibold">Pacientes</h1>
         <p className="hidden md:flex text-xs font-light text-gray-600">
