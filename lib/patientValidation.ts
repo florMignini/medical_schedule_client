@@ -13,18 +13,18 @@ export const patientsRegisterValidation = z.object({
   address: z
     .string()
     .min(2, "Dirección debe tener al menos 6 caracteres")
-    .max(500, "Dirección debe tener como máximo 500 caracteres"),
+    .max(500, "Dirección debe tener como máximo 500 caracteres").optional(),
   occupation: z
     .string()
     .min(2, "Ocupación debe tener al menos 6 caracteres")
-    .max(500, "Ocupación debe tener al menos 500 caracteres"),
-  email: z.string().email("Email inválido"),
+    .max(500, "Ocupación debe tener al menos 500 caracteres").optional(),
+  email: z.string().email("Email inválido").optional(),
   phone: z
     .string()
     .refine(
       (phone) => /^\+\d{10,15}$/.test(phone ?? ""),
       "Número de teléfono inválido"
-    ),
+    ).optional(),
     gender: z.enum(["M", "F", "X"]),
     birthDate: z.coerce.date({
       required_error: "Por favor seleccione una fecha",
@@ -67,12 +67,7 @@ export const patientsRegisterValidation = z.object({
   // anthropometric measurements
   patientHeight: z.string().optional(),
   patientWeight: z.string().optional(),
-  patientWaist: z.string().optional(),
-  patientHip: z.string().optional(),
-  patientArm: z.string().optional(),
-  patientTricepsFold: z.string().optional(),
   patientBMI: z.string().optional(),
-  patientBFP: z.string().optional(),
   ObservationsComments: z.string().optional(),
   isActive: z.boolean().optional(),
 });

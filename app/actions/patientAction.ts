@@ -85,6 +85,7 @@ export async function patientRegistration({ patientPhoto, ...patient }: any) {
         : `https://static.vecteezy.com/system/resources/thumbnails/037/336/395/small_2x/user-profile-flat-illustration-avatar-person-icon-gender-neutral-silhouette-profile-picture-free-vector.jpg`,
       ...patient,
     };
+  
     const { data } = await apiServer.post(
       `/patients/patient-registration`,
       patientRegistrationData
@@ -92,7 +93,7 @@ export async function patientRegistration({ patientPhoto, ...patient }: any) {
 
     return data;
   } catch (error: any) {
-    console.error(error);
+    console.error(error.response.data);
 
     if (error?.response?.message) {
       return { error: true, message: error.response.message };

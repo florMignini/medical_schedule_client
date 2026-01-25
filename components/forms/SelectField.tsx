@@ -29,6 +29,7 @@ const SelectField: React.FC<Props> = ({
     control={control}
     name={name}
     label={label}
+    labelClassName="text-red-500"
     fieldType={FormFieldType.SKELETON}
     renderSkeleton={({ value, onChange }) => (
       <FormControl>

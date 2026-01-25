@@ -17,6 +17,7 @@ const RadioGroupField: React.FC<Props> = ({ control, name, label, options }) => 
     control={control}
     name={name}
     label={label}
+    labelClassName="text-red-500"
     fieldType={FormFieldType.SKELETON}
     renderSkeleton={(field) => (
       <FormControl>

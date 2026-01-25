@@ -22,10 +22,7 @@ import {
   BooleanOption,
 } from "@/app/(professional)/professional/data";
 import phoneIcon from "../../public/assets/icons/phone.svg";
-import closeIcon from "../../public/assets/icons/close.svg";
 import DropdownIcon from "../../public/assets/icons/arrowDown.svg";
-
-import { RadioGroup, RadioGroupItem } from "../ui/radio-group";
 
 import {
   DropdownMenu,
@@ -43,7 +40,6 @@ import SubmitButton from "../SubmitButton";
 import { Patient } from "@/interfaces";
 import SelectField from "./SelectField";
 import RadioGroupField from "./RadioGroupField";
-
 
 type Props = {
   selectedPatient?: Partial<Patient> | null;
@@ -104,11 +100,6 @@ const PatientRegistrationForm: React.FC<Props> = ({
       patientHeight: "",
       patientWeight: "",
       patientBMI: "",
-      patientBFP: "",
-      patientWaist: "",
-      patientHip: "",
-      patientArm: "",
-      patientTricepsFold: "",
       ObservationsComments: "",
       isActive: true,
     },
@@ -123,7 +114,7 @@ const PatientRegistrationForm: React.FC<Props> = ({
 
       if (alturaMetros > 0 && pesoKg > 0) {
         const imc = pesoKg / alturaMetros ** 2;
-        form.setValue("patientBMI", imc.toFixed(2));
+        form.setValue("patientBMI", imc.toFixed(2).toString());
       }
     } else {
       form.setValue("patientBMI", "");
@@ -149,17 +140,16 @@ const PatientRegistrationForm: React.FC<Props> = ({
         isActive: true,
       };
       // @ts-ignore
+      const response: Patient = await patientRegistration(patientData);
 
-      const response : Patient = await patientRegistration(patientData);
-      
       if (response) {
         if (profData) {
-        const IDs = {
-          professional: profData.id,
-          patient: response.id,
-        };
-        const data = await createProfessionalPatientRelation(IDs);
-      }
+          const IDs = {
+            professional: profData.id,
+            patient: response.id,
+          };
+          const data = await createProfessionalPatientRelation(IDs);
+        }
         form.reset();
         router.refresh();
         setLoading(false);
@@ -259,19 +249,19 @@ const PatientRegistrationForm: React.FC<Props> = ({
                   fieldType={FormFieldType.INPUT}
                   control={form.control}
                   name="firstName"
-                  label="Nombre/s"
+                  label="Nombre/s *"
                   className="flex-1"
                   inputClassName="w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition"
-                  labelClassName="mb-1 text-gray-700 font-medium"
+                  labelClassName="mb-1 text-red-500 font-medium"
                 />
                 <DinamicForm
                   fieldType={FormFieldType.INPUT}
                   control={form.control}
                   name="lastName"
-                  label="Apellido/s"
+                  label="Apellido/s *"
                   className="flex-1 mt-4 sm:mt-0"
                   inputClassName="w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition"
-                  labelClassName="mb-1 text-gray-700 font-medium"
+                  labelClassName="mb-1 text-red-500 font-medium"
                 />
               </div>
 
@@ -326,8 +316,8 @@ const PatientRegistrationForm: React.FC<Props> = ({
               </div>
 
               {/* Tipo y Número de Documento */}
-              <div className="flex flex-col md:flex-row md:gap-4 items-end">
-                <div className="md:w-1/2 w-full">
+              <div className="flex flex-col md:flex-row md:gap-4 items-start">
+                <div className="md:w-1/2 w-full items-start">
                   <DropdownMenu>
                     <DropdownMenuTrigger className="flex items-center justify-between w-full rounded-md border border-gray-300 bg-white px-3 py-2 shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 cursor-pointer">
                       {identificationType || "Tipo de Documento"}
@@ -338,7 +328,7 @@ const PatientRegistrationForm: React.FC<Props> = ({
                         height={18}
                       />
                     </DropdownMenuTrigger>
-                    <DropdownMenuContent className="w-full mt-1">
+                    <DropdownMenuContent className="w-full mt-1 bg-white rounded-md shadow-lg border border-gray-200">
                       <DropdownMenuRadioGroup
                         value={identificationType}
                         onValueChange={setIdentificationType}
@@ -361,11 +351,11 @@ const PatientRegistrationForm: React.FC<Props> = ({
                   fieldType={FormFieldType.INPUT}
                   control={form.control}
                   name="identityNumber"
-                  label="Número de Documento"
+                  label="Número de Documento *"
                   placeholder="33 333 333"
                   className="md:w-1/2 w-full mt-4 md:mt-0"
                   inputClassName="w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition"
-                  labelClassName="mb-1 text-gray-700 font-medium"
+                  labelClassName="mb-1 text-red-500 font-medium"
                 />
               </div>
 
@@ -384,7 +374,7 @@ const PatientRegistrationForm: React.FC<Props> = ({
                 <RadioGroupField
                   control={form.control}
                   name="gender"
-                  label="Género"
+                  label="Género *"
                   options={genderOptions}
                 />
               </div>
@@ -397,16 +387,16 @@ const PatientRegistrationForm: React.FC<Props> = ({
                   label="Obra Social / Prepaga"
                   className="flex-1"
                   inputClassName="w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition"
-                  labelClassName="mb-1 text-gray-700 font-medium"
+                  labelClassName="mb-1 text-red-500 font-medium"
                 />
                 <DinamicForm
                   fieldType={FormFieldType.INPUT}
                   control={form.control}
                   name="insurancePolicyNumber"
-                  label="Número de Afiliado"
+                  label="Número de Afiliado *"
                   className="flex-1"
                   inputClassName="w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition"
-                  labelClassName="mb-1 text-gray-700 font-medium"
+                  labelClassName="mb-1 text-red-500 font-medium"
                 />
               </div>
               {/* Contacto de emergencia */}
@@ -425,7 +415,7 @@ const PatientRegistrationForm: React.FC<Props> = ({
                   fieldType={FormFieldType.PHONE_INPUT}
                   control={form.control}
                   name="emergencyContactNumber"
-                  label="Número de Contacto"
+                  label="Número de Contacto *"
                   placeholder="(0223) 1-234567"
                   iconSrc={phoneIcon}
                   iconAlt="phone-icon"
@@ -459,7 +449,7 @@ const PatientRegistrationForm: React.FC<Props> = ({
             <SelectField
               control={form.control}
               name="medicalHistoryType"
-              label="Tipo de antecedente Médico"
+              label="Tipo de antecedente Médico *"
               options={medicalHistory}
               placeholder="Seleccionar"
             />
@@ -467,7 +457,7 @@ const PatientRegistrationForm: React.FC<Props> = ({
             <SelectField
               control={form.control}
               name="bloodType"
-              label="Tipo de Sangre"
+              label="Tipo de Sangre *"
               options={bloodType}
               placeholder="Seleccionar"
             />
@@ -475,7 +465,7 @@ const PatientRegistrationForm: React.FC<Props> = ({
             <SelectField
               control={form.control}
               name="bloodFactor"
-              label="Factor Rh"
+              label="Factor Rh *"
               options={bloodFactor}
               placeholder="Seleccionar"
             />
@@ -483,7 +473,7 @@ const PatientRegistrationForm: React.FC<Props> = ({
             <SelectField
               control={form.control}
               name="smoker"
-              label="¿Fuma?"
+              label="¿Fuma? *"
               options={booleanOption}
               placeholder="Seleccionar"
             />
@@ -491,7 +481,7 @@ const PatientRegistrationForm: React.FC<Props> = ({
             <SelectField
               control={form.control}
               name="exSmoker"
-              label="¿Ex fumador?"
+              label="¿Ex fumador? *"
               options={booleanOption}
               placeholder="Seleccionar"
             />
@@ -499,7 +489,7 @@ const PatientRegistrationForm: React.FC<Props> = ({
             <SelectField
               control={form.control}
               name="allergic"
-              label="¿Es alérgico?"
+              label="¿Es alérgico? *"
               options={booleanOption}
               placeholder="Seleccionar"
             />
@@ -531,11 +521,11 @@ const PatientRegistrationForm: React.FC<Props> = ({
             fieldType={FormFieldType.TEXTAREA}
             control={form.control}
             name="pastMedicalHistory"
-            label="Antecedentes Médicos Personales"
+            label="Antecedentes Médicos Personales *"
             placeholder="Especificar antecedentes médicos personales relevantes"
             className="w-full"
             inputClassName="min-h-[80px] resize-y w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition"
-            labelClassName="mb-1 text-gray-700 font-medium"
+            labelClassName="mb-1 text-red-500 font-medium"
           />
 
           <DinamicForm
@@ -561,19 +551,19 @@ const PatientRegistrationForm: React.FC<Props> = ({
               fieldType={FormFieldType.INPUT}
               control={form.control}
               name="patientHeight"
-              label="Altura (cm)"
+              label="Altura (cm) *"
               placeholder="Ej: 170"
               inputClassName="w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition"
-              labelClassName="mb-1 text-gray-700 font-medium"
+              labelClassName="mb-1 text-red-500 font-medium"
             />
             <DinamicForm
               fieldType={FormFieldType.INPUT}
               control={form.control}
               name="patientWeight"
-              label="Peso (kg)"
+              label="Peso (kg) *"
               placeholder="Ej: 70"
               inputClassName="w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition"
-              labelClassName="mb-1 text-gray-700 font-medium"
+              labelClassName="mb-1 text-red-500 font-medium"
             />
             <DinamicForm
               fieldType={FormFieldType.INPUT}
@@ -585,59 +575,13 @@ const PatientRegistrationForm: React.FC<Props> = ({
                 parseFloat(form.watch("patientBMI")!) < 18.5
                   ? "bg-blue-100 border-blue-300"
                   : parseFloat(form.watch("patientBMI")!) < 25
-                  ? "bg-green-100 border-green-300"
-                  : parseFloat(form.watch("patientBMI")!) < 30
-                  ? "bg-yellow-100 border-yellow-300"
-                  : "bg-red-100 border-red-300"
+                    ? "bg-green-100 border-green-300"
+                    : parseFloat(form.watch("patientBMI")!) < 30
+                      ? "bg-yellow-100 border-yellow-300"
+                      : "bg-red-100 border-red-300"
               }`}
               labelClassName="mb-1 text-gray-700 font-medium"
               readOnly={true}
-            />
-
-            <DinamicForm
-              fieldType={FormFieldType.INPUT}
-              control={form.control}
-              name="patientBFP"
-              label="Porcentaje de Grasa Corporal (%)"
-              placeholder="Ej: 15"
-              inputClassName="w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition"
-              labelClassName="mb-1 text-gray-700 font-medium"
-            />
-            <DinamicForm
-              fieldType={FormFieldType.INPUT}
-              control={form.control}
-              name="patientWaist"
-              label="Cintura (cm)"
-              placeholder="Ej: 80"
-              inputClassName="w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition"
-              labelClassName="mb-1 text-gray-700 font-medium"
-            />
-            <DinamicForm
-              fieldType={FormFieldType.INPUT}
-              control={form.control}
-              name="patientHip"
-              label="Cadera (cm)"
-              placeholder="Ej: 95"
-              inputClassName="w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition"
-              labelClassName="mb-1 text-gray-700 font-medium"
-            />
-            <DinamicForm
-              fieldType={FormFieldType.INPUT}
-              control={form.control}
-              name="patientArm"
-              label="Brazo (cm)"
-              placeholder="Ej: 30"
-              inputClassName="w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition"
-              labelClassName="mb-1 text-gray-700 font-medium"
-            />
-            <DinamicForm
-              fieldType={FormFieldType.INPUT}
-              control={form.control}
-              name="patientTricepsFold"
-              label="Pliegue Tricipital (mm)"
-              placeholder="Ej: 12"
-              inputClassName="w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition"
-              labelClassName="mb-1 text-gray-700 font-medium"
             />
           </div>
         </section>

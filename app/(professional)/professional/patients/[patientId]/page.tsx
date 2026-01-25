@@ -8,10 +8,8 @@ const PatientInfoPage = async ({ params }: { params: { patientId: string } }) =>
   const isDemo = cookieStore.get("isDemo")?.value === "true";
   const { patients } = await getProfessionalIncludesFromCookies();
 
-
-
   const patientFound = patients.find(
-    (item) => item.patient.id === params.patientId
+    (item) => item?.patient.id === params.patientId
   );
 
   if (!patientFound) return notFound();
