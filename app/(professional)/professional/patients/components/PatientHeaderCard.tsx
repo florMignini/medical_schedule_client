@@ -3,6 +3,7 @@
 import Image from "next/image";
 import { Patient } from "@/interfaces";
 import { cn } from "@/lib/utils";
+import { InfoItem } from "../../components";
 
 type Props = {
   patient: Patient;
@@ -12,14 +13,13 @@ export default function PatientHeaderCard({ patient }: Props) {
   return (
     <div
       className={cn(
-        "w-full flex flex-col sm:flex-row items-center justify-between",
-        "bg-gradient-to-r from-sky-50 via-white to-emerald-50",
-        "dark:from-gray-900 dark:via-gray-800 dark:to-gray-900",
-        "rounded-2xl shadow-md p-4 sm:p-6 gap-4 sm:gap-6"
+        "w-full flex flex-col sm:flex-row items-center justify-center",
+        "bg-[#262626] rounded-xl",
+        " rounded-2xl shadow-md p-4 sm:p-6 gap-4 sm:gap-6"
       )}
     >
       {/* patient profile pic */}
-      <div className="flex-shrink-0">
+      <div className="flex items-center justify-center w-[30%]">
         <Image
           src={patient.patientPhotoUrl}
           alt={`Foto de ${patient.firstName}`}
@@ -30,17 +30,21 @@ export default function PatientHeaderCard({ patient }: Props) {
       </div>
 
       {/* patient info */}
-      <div className="flex flex-col items-center sm:items-start text-center sm:text-left gap-1">
-        <h2 className="text-xl sm:text-2xl font-bold text-gray-800 dark:text-white">
+      <div className="w-[70%] flex flex-col gap-3 text-white">
+        
+          <h2 className="flex text-xl sm:text-2xl font-bold  dark:text-white">
           {patient.firstName} {patient.lastName}
         </h2>
-        <p className="text-sm sm:text-base text-gray-600 dark:text-gray-300">
-          <strong>{patient.identificationType}:</strong>{" "}
-          {patient.identityNumber}
+        <p className="flex text-sm sm:text-base dark:text-gray-300 gap-2">
+          <strong>{patient.identificationType} : </strong>{" "}
+          <p> {patient.identityNumber}</p>
         </p>
-        <p className="text-sm sm:text-base text-gray-500 dark:text-gray-400 italic">
-          ID: {patient.id}
-        </p>
+  
+        <div className="grid grid-cols-2 md:grid-cols-3 gap-6">
+          <InfoItem label="Email" value={patient.email} />
+                      <InfoItem label="Teléfono" value={patient.phone} />
+                      <InfoItem label="Dirección" value={patient.address} />
+        </div>
       </div>
     </div>
   );
