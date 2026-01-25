@@ -179,6 +179,9 @@ const PatientRegistrationForm: React.FC<Props> = ({
           <h2 className="text-2xl font-semibold mb-6 border-l-4 border-indigo-600 pl-4">
             Información Personal
           </h2>
+          
+            <small className="text-red-500 font-semibold mb-2">** Los campos en rojo son requeridos</small>
+      
 
           <div className="flex flex-col md:flex-row md:gap-8">
             {/* Foto del paciente */}
@@ -206,7 +209,6 @@ const PatientRegistrationForm: React.FC<Props> = ({
                         <FileUploader
                           files={field.value}
                           onChange={field.onChange}
-                          // className="rounded-md border border-gray-300 p-2"
                         />
                       </FormControl>
                     )}

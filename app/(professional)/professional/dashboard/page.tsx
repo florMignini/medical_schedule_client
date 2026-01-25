@@ -204,7 +204,8 @@ const ProfessionalDashboard = () => {
         {patientsIncluded.length < 1 ? (
           <p className="text-gray-600">Aún no posee pacientes registrados</p>
         ) : (
-          <PatientCardWithActions isDemo={isDemo} showFloatingButton={false} />
+          <PatientCardWithActions isDemo={isDemo} showFloatingButton={false}
+          component={"dashboard"} />
         )}
         <p className="text-xs text-gray-400 mt-2">
           Mostrando {previewPatients.length} de {patientsIncluded.length}{" "}
