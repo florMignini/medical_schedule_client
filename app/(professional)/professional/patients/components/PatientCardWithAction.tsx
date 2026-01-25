@@ -15,6 +15,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 type Props = {
   isDemo: boolean;
   showFloatingButton?: boolean;
+  component?: "dashboard" | "other";
 };
 
 type ModalMode = "create" | "edit" | null;
@@ -22,6 +23,7 @@ type ModalMode = "create" | "edit" | null;
 export default function PatientCardWithActions({
   isDemo,
   showFloatingButton = true,
+  component = "other",
 }: Props) {
   const [formOpen, setFormOpen] = useState(false);
   const [modalMode, setModalMode] = useState<ModalMode>(null);
@@ -107,6 +109,7 @@ export default function PatientCardWithActions({
           patientsIncluded.map(({ patient }) =>
             !patient ? null : (
               <PatientCard
+                component={component}
                 key={patient.id}
                 patient={patient}
                 onEdit={() => handleOpenEdit(patient)}
@@ -159,10 +162,10 @@ export default function PatientCardWithActions({
               opacity: { duration: 0.3 },
               default: { ease: "easeInOut", duration: 0.6 },
             }}
-            className={`fixed inset-y-0 right-0 z-50 flex flex-col bg-white p-6 overflow-y-auto rounded-l-2xl ${
+            className={`fixed inset-y-0 right-0 z-50 flex flex-col bg-white p-6 overflow-y-hidden rounded-l-2xl ${
               modalMode === "create"
                 ? "w-[70%] min-w-[400px]"
-                : "w-[50%] min-w-[500px]"
+                : "w-[70%] min-w-[500px]"
             }`}
           >
             {/* Header */}

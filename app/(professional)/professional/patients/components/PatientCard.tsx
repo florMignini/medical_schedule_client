@@ -29,6 +29,7 @@ interface PatientCardProps {
   onDelete: () => void;
   professionalId?: string;
   isDemo?: boolean;
+  component?: "dashboard" | "other";
 }
 
 const PatientCard = ({
@@ -37,6 +38,7 @@ const PatientCard = ({
   onDelete,
   professionalId,
   isDemo = false,
+  component = "other",
 }: PatientCardProps) => {
   return (
     <motion.div
@@ -48,70 +50,75 @@ const PatientCard = ({
       className="group relative rounded-lg p-2 shadow-sm hover:shadow-xl transition-all bg-transparent boder-gray-400 border-[1px] flex flex-col md:flex-row md:items-center border-bcmd:justify-between gap-1"
     >
       {/* Acciones arriba a la derecha */}
-      <TooltipProvider>
-        <div className="absolute top-0 right-2 flex gap-1 z-20 opacity-0 group-hover:opacity-100 transition-opacity">
-          <Tooltip>
-            <TooltipTrigger asChild>
-              <Button
-                variant="ghost"
-                size="icon"
-                onClick={() => {
-                  onEdit(patient);
-                }}
-              >
-                <Pencil
-                  size={18}
-                  className="text-zinc-500 hover:text-zinc-800 dark:text-zinc-300 dark:hover:text-white"
-                />
-              </Button>
-            </TooltipTrigger>
-          </Tooltip>
-
-          <AlertDialog>
-            <AlertDialogTrigger asChild>
-              <Button variant="ghost" size="icon">
-                <Trash2 size={18} className="text-red-500 hover:text-red-700" />
-              </Button>
-            </AlertDialogTrigger>
-            <AlertDialogContent className="bg-white dark:bg-zinc-900 border text-zinc-900 dark:text-white shadow-lg rounded-xl p-6">
-              <AlertDialogHeader className="font-semibold text-xl">
-                ¿Eliminar paciente?
-              </AlertDialogHeader>
-              <p>Esta acción no se puede deshacer.</p>
-              <AlertDialogFooter className="pt-4">
-                <AlertDialogCancel>Cancelar</AlertDialogCancel>
-                <AlertDialogAction
-                  className="bg-red-500 hover:bg-red-600 text-white"
-                  onClick={async () => {
-                    try {
-                      const result = await deletePatient({
-                        patientId: patient.id,
-                        professionalId,
-                      });
-                      toast({
-                        title: "Eliminando paciente...",
-                        description: `${result.message} 🎉`,
-                        className: "bg-emerald-500 text-black",
-                        duration: 3000,
-                      });
-                      onDelete();
-                    } catch (err) {
-                      toast({
-                        title: "Error",
-                        description: `❌ ${(err as Error).message}`,
-                        className: "bg-red-500 text-black",
-                        duration: 3000,
-                      });
-                    }
+      {component !== "dashboard" && (
+        <TooltipProvider>
+          <div className="absolute top-0 right-2 flex gap-1 z-20 opacity-0 group-hover:opacity-100 transition-opacity">
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  onClick={() => {
+                    onEdit(patient);
                   }}
                 >
-                  Eliminar
-                </AlertDialogAction>
-              </AlertDialogFooter>
-            </AlertDialogContent>
-          </AlertDialog>
-        </div>
-      </TooltipProvider>
+                  <Pencil
+                    size={18}
+                    className="text-zinc-500 hover:text-zinc-800 dark:text-zinc-300 dark:hover:text-white"
+                  />
+                </Button>
+              </TooltipTrigger>
+            </Tooltip>
+
+            <AlertDialog>
+              <AlertDialogTrigger asChild>
+                <Button variant="ghost" size="icon">
+                  <Trash2
+                    size={18}
+                    className="text-red-500 hover:text-red-700"
+                  />
+                </Button>
+              </AlertDialogTrigger>
+              <AlertDialogContent className="bg-white dark:bg-zinc-900 border text-zinc-900 dark:text-white shadow-lg rounded-xl p-6">
+                <AlertDialogHeader className="font-semibold text-xl">
+                  ¿Eliminar paciente?
+                </AlertDialogHeader>
+                <p>Esta acción no se puede deshacer.</p>
+                <AlertDialogFooter className="pt-4">
+                  <AlertDialogCancel>Cancelar</AlertDialogCancel>
+                  <AlertDialogAction
+                    className="bg-red-500 hover:bg-red-600 text-white"
+                    onClick={async () => {
+                      try {
+                        const result = await deletePatient({
+                          patientId: patient.id,
+                          professionalId,
+                        });
+                        toast({
+                          title: "Eliminando paciente...",
+                          description: `${result.message} 🎉`,
+                          className: "bg-emerald-500 text-black",
+                          duration: 3000,
+                        });
+                        onDelete();
+                      } catch (err) {
+                        toast({
+                          title: "Error",
+                          description: `❌ ${(err as Error).message}`,
+                          className: "bg-red-500 text-black",
+                          duration: 3000,
+                        });
+                      }
+                    }}
+                  >
+                    Eliminar
+                  </AlertDialogAction>
+                </AlertDialogFooter>
+              </AlertDialogContent>
+            </AlertDialog>
+          </div>
+        </TooltipProvider>
+      )}
       {/* Info principal */}
       <Link
         href={`/professional/patients/${patient.id}`}
