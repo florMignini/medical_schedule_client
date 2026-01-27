@@ -47,13 +47,13 @@ export default function CalendarLayout({
   };
 
   return (
-    <div className="relative flex flex-col w-full h-dvh overflow-hidden bg-white backdrop-blur-md rounded-2xl shadow-md p-2">
+    <div className="relative flex flex-col w-full h-dvh overflow-hidden bg-white p-2">
       {isLoading ? (
         <AppointmentSkeletonLoader />
       ) : (
         <main className="relative flex-1 w-full overflow-hidden rounded-2xl">
           <h1 className="text-red-500 font-extrabold text-xl">Seccion en optimizacion</h1>
-          <div className="flex-1 h-full rounded-xl shadow-inner overflow-hidden">
+          <div className="flex-1 h-full overflow-hidden">
             <CalendarModern
               isDemo={isDemo}
               appointments={appointments}
