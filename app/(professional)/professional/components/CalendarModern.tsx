@@ -217,14 +217,14 @@ export default function CalendarModern({
   };
 
   return (
-    <div className="h-dvh w-full bg-[#262626] text-slate-100">
+    <div className="h-dvh w-full bg-white text-slate-600">
       {/* TOP BAR */}
-      <div className="sticky top-0 z-30 bg-[#262626]/95 backdrop-blur border-b border-white/10">
+      <div className="sticky top-0 z-30 bg-white backdrop-blur border-b border-black/10">
         <div className="px-3 sm:px-4 py-3 flex items-center justify-between gap-2">
           <div className="flex items-center gap-2 min-w-0">
             <button
               onClick={goToday}
-              className="hidden sm:inline-flex text-xs px-3 py-1.5 rounded-full border border-white/10 hover:bg-white/5"
+              className="hidden sm:inline-flex text-xs px-3 py-1.5 rounded-full border border-slate-500 hover:bg-black/30"
             >
               Today
             </button>
@@ -237,24 +237,18 @@ export default function CalendarModern({
             <button onClick={handleNext} className="p-2 rounded-full hover:bg-white/5" aria-label="Semana siguiente">
               <ChevronRight className="w-5 h-5" />
             </button>
-            <button className="p-2 rounded-full hover:bg-white/5" aria-label="Buscar">
-              <Search className="w-5 h-5" />
-            </button>
-            <button className="p-2 rounded-full hover:bg-white/5" aria-label="Ajustes">
-              <Settings2 className="w-5 h-5" />
-            </button>
           </div>
         </div>
 
         <div className="px-3 sm:px-4 pb-3 flex items-center justify-between">
-          <div className="text-sm sm:text-base text-slate-200 capitalize">
+          <div className="text-sm sm:text-base text-slate-600 capitalize">
             {selectedDay.format("MMMM D, YYYY")}
           </div>
           <button
             onClick={goToday}
-            className="sm:hidden text-xs px-3 py-1.5 rounded-full border border-white/10 hover:bg-white/5"
+            className="sm:hidden text-xs px-3 py-1.5 rounded-full border text-[#c0d6f9] border-white/10 hover:bg-white/5"
           >
-            Today
+            Hoy
           </button>
         </div>
 
@@ -272,12 +266,12 @@ export default function CalendarModern({
                   onClick={() => selectDayOnly(d)}
                   className={[
                     "rounded-xl border px-2 py-2 text-left transition-all",
-                    "border-white/10 hover:bg-white/5",
-                    isSel ? "bg-[#1a73e8] border-[#1a73e8]" : "bg-transparent",
+                    "border-black/10 hover:bg-black/5",
+                    isSel ? "bg-[#1a73e8] border-[#1a73e8] text-[#c0d6f9]" : "bg-transparent",
                   ].join(" ")}
                 >
                   <div className="flex items-center justify-between">
-                    <div className="text-[10px] sm:text-xs uppercase text-slate-200">{d.format("ddd")}</div>
+                    <div className="text-[10px] sm:text-xs uppercase">{d.format("ddd")}</div>
                     {isT && !isSel && (
                       <span className="text-[10px] px-2 py-0.5 rounded-full bg-white/10">hoy</span>
                     )}
@@ -285,7 +279,7 @@ export default function CalendarModern({
                   <div className="mt-1 flex items-end justify-between">
                     <div className="text-base sm:text-lg font-semibold leading-none">{d.format("D")}</div>
                     {count > 0 && (
-                      <div className={["text-[10px] px-2 py-0.5 rounded-full", isSel ? "bg-white/20" : "bg-[#1a73e8]/20 text-[#8ab4f8]"].join(" ")}>
+                      <div className={["text-[12px] px-2 py-0.5 rounded-full", isSel ? "bg-white/20" : "bg-[#1a73e8] text-[#c0d6f9]"].join(" ")}>
                         {count}
                       </div>
                     )}
@@ -303,18 +297,18 @@ export default function CalendarModern({
         <aside className="hidden lg:flex w-[320px] min-w-[320px] border-r border-white/10 p-4 flex-col gap-4">
           <button
             onClick={() => openCreateAt(selectedDay, DAY_START_HOUR, 0)}
-            className="w-full flex items-center justify-between px-4 py-3 rounded-2xl bg-white/5 hover:bg-white/10 border border-white/10"
+            className="w-full flex items-center justify-between px-4 py-3 rounded-2xl bg-white hover:bg-black/10 border border-black/10"
           >
             <span className="font-medium">+ Create</span>
-            <span className="text-xs text-slate-300">{DEFAULT_APPT_MINUTES} min</span>
+            <span className="text-xs text-slate-600">{DEFAULT_APPT_MINUTES} min</span>
           </button>
 
           {/* Mini Month */}
-          <div className="rounded-2xl border border-white/10 bg-white/5 p-3">
+          <div className="rounded-2xl border border-black/10 bg-white p-3">
             <div className="flex items-center justify-between mb-2">
               <div className="text-sm font-semibold capitalize">{anchor.format("MMMM YYYY")}</div>
               <div className="flex items-center gap-1">
-                <button onClick={() => setAnchor((a) => a.subtract(1, "month"))} className="p-1.5 rounded-full hover:bg-white/10">
+                <button onClick={() => setAnchor((a) => a.subtract(1, "month"))} className="p-1.5 rounded-full hover:bg-black/10">
                   <ChevronLeft className="w-4 h-4" />
                 </button>
                 <button onClick={() => setAnchor((a) => a.add(1, "month"))} className="p-1.5 rounded-full hover:bg-white/10">
@@ -323,7 +317,7 @@ export default function CalendarModern({
               </div>
             </div>
 
-            <div className="grid grid-cols-7 text-[10px] text-slate-300 mb-2">
+            <div className="grid grid-cols-7 text-[12px] text-slate-600 mb-2">
               {["D", "L", "M", "M", "J", "V", "S"].map((x) => (
                 <div key={x} className="text-center">{x}</div>
               ))}
@@ -341,8 +335,8 @@ export default function CalendarModern({
                     onClick={() => selectDayOnly(d)}
                     className={[
                       "h-8 rounded-lg text-xs transition",
-                      inMonth ? "text-slate-100" : "text-slate-400/60",
-                      isSel ? "bg-[#1a73e8]" : "hover:bg-white/10",
+                      inMonth ? "text-slate-400" : "text-slate-200",
+                      isSel ? "bg-[#1a73e8] text-[#c0d6f9]" : "hover:bg-white/10",
                       isT && !isSel ? "border border-white/20" : "border border-transparent",
                     ].join(" ")}
                   >
@@ -357,15 +351,15 @@ export default function CalendarModern({
         {/* DAY VIEW HYBRID */}
         <main className="flex-1 min-w-0">
           <div className="h-full px-2 sm:px-4 py-3 min-h-0">
-            <div className="h-full rounded-2xl border border-white/10 bg-[#0f1620] overflow-hidden flex flex-col">
-              <div className="px-4 py-3 border-b border-white/10 bg-[#262626] flex items-center justify-between">
+            <div className="h-full rounded-2xl border border-white/10 bg-white overflow-hidden flex flex-col">
+              <div className="px-4 py-3 border rounded-md border-black/20 bg-white flex items-center justify-between">
                 <div className="min-w-0">
-                  <div className="text-xs text-slate-300">Day</div>
+                  <div className="text-xs text-slate-600">Día</div>
                   <div className="text-sm sm:text-base font-semibold capitalize truncate">
                     {selectedDay.format("dddd, D MMMM")}
                   </div>
                 </div>
-                <div className="text-xs text-slate-300">GMT-03</div>
+                <div className="text-xs text-slate-600">GMT-03</div>
               </div>
 
               {/* ✅ MOBILE/TABLET: LIST VIEW (intervalos 15m) */}
@@ -389,17 +383,17 @@ export default function CalendarModern({
                 <div ref={gridScrollRef} className="h-full overflow-y-auto">
                   <div className="grid grid-cols-[72px_1fr]">
                     {/* Hours */}
-                    <div className="relative border-r border-white/10 mt-3 bg-[#0f1620]">
+                    <div className="relative border-r border-black/20 mt-3 bg-white">
                       <div style={{ height: timelineHeight }} className="relative">
                         {Array.from({ length: DAY_END_HOUR - DAY_START_HOUR + 1 }, (_, i) => DAY_START_HOUR + i).map((h) => {
                           const top = (h - DAY_START_HOUR) * 60 * PX_PER_MIN;
                           return (
                             <div
                               key={h}
-                              className="absolute left-0 w-full pr-3 text-right text-[11px] text-slate-300"
+                              className="absolute left-0 w-full pr-3 text-right text-[11px] text-slate-600"
                               style={{ top: top - 7 }}
                             >
-                              {String(h).padStart(2, "0")}:00
+                              {String(h).padStart(2, "0")}:25
                             </div>
                           );
                         })}
@@ -419,7 +413,7 @@ export default function CalendarModern({
                               className="absolute left-0 right-0"
                               style={{
                                 top,
-                                borderTop: isHour ? "1px solid rgba(255,255,255,0.14)" : "1px solid rgba(255,255,255,0.06)",
+                                borderTop: isHour ? "1px solid rgba(10,10,10)" : "1px solid rgba(213,213,213)",
                               }}
                             />
                           );
