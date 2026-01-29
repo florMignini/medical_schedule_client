@@ -6,6 +6,7 @@ import DatePicker from "react-datepicker";
 
 import "react-datepicker/dist/react-datepicker.css";
 import "react-phone-number-input/style.css";
+
 import {
   FormControl,
   FormField,
@@ -17,11 +18,12 @@ import { Input } from "@/components/ui/input";
 import { FormFieldType } from "./forms";
 import PhoneInput from "react-phone-number-input";
 import CalendarIcon from "@/app/(professional)/professional/components/icons/CalendarIcon";
-import Mail from "@/app/(professional)/professional/components/icons/Mail";
 import { Select, SelectContent, SelectTrigger, SelectValue } from "./ui/select";
 import { Textarea } from "./ui/textarea";
 import { Checkbox } from "./ui/checkbox";
-import { read } from "fs";
+
+import { useState } from "react";
+import { Eye, EyeOff } from "lucide-react";
 
 interface CustomProperty {
   type?: string;
@@ -39,7 +41,6 @@ interface CustomProperty {
   children?: React.ReactNode;
   renderSkeleton?: (field: any) => React.ReactNode;
   readOnly?: boolean;
-  // Nuevas props para estilos
   className?: string;
   inputClassName?: string;
   labelClassName?: string;
@@ -67,6 +68,8 @@ export const DinamicField = ({
     inputClassName,
   } = props;
 
+  const [showPassword, setShowPassword] = useState(false);
+
   const baseInputClasses =
     "w-full rounded-md border border-gray-300 px-3 py-2 text-gray-700 shadow-sm " +
     "focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition duration-150 ease-in-out";
@@ -76,16 +79,21 @@ export const DinamicField = ({
     : baseInputClasses;
 
   switch (fieldType) {
-    case FormFieldType.INPUT:
+    case FormFieldType.INPUT: {
+      const isPassword = type === "password";
+      const hasValue = !!field.value && field.value.length > 0;
+      const resolvedType = isPassword
+        ? showPassword
+          ? "text"
+          : "password"
+        : type;
+
       return (
         <div
-          className={`flex items-center bg-white rounded-md border border-gray-300 shadow-sm ${
-                  readOnly
-                    ? " cursor-not-allowed"
-                    : "cursor-pointer"
-                }`}
+          className={`relative flex items-center bg-white rounded-md border border-gray-300 shadow-sm ${
+            readOnly ? "cursor-not-allowed" : "cursor-pointer"
+          }`}
         >
-          
           {iconSrc && (
             <Image
               src={iconSrc}
@@ -95,20 +103,35 @@ export const DinamicField = ({
               className="ml-2"
             />
           )}
+
           <FormControl className="flex-1">
             <Input
               placeholder={placeholder}
               {...(field !== undefined ? { ...field } : { ...defaultValue })}
-              type={type}
-              className={`${inputClasses} ${
-                iconSrc ? "ml-2" : ""
+              type={resolvedType}
+              className={`${inputClasses} ${iconSrc ? "ml-2" : ""} ${
+                isPassword && hasValue ? "pr-11" : ""
               }`}
               defaultValue={defaultValue}
-              disabled={readOnly}
+              disabled={readOnly || disable}
             />
           </FormControl>
+
+          {isPassword && hasValue && (
+            <button
+              type="button"
+              onMouseDown={(e) => e.preventDefault()} // mantiene foco
+              onClick={() => setShowPassword((v) => !v)}
+              disabled={readOnly || disable}
+              className="absolute right-2 inline-flex h-9 w-9 items-center justify-center rounded-md text-gray-500 hover:text-gray-800 hover:bg-gray-100 transition disabled:opacity-50"
+              aria-label={showPassword ? "Ocultar contraseña" : "Mostrar contraseña"}
+            >
+              {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+            </button>
+          )}
         </div>
       );
+    }
 
     case FormFieldType.EMAIL:
     case FormFieldType.TEXTAREA:
@@ -118,19 +141,7 @@ export const DinamicField = ({
             placeholder={placeholder}
             {...field}
             disabled={disable}
-            readOnly={props.readOnly} // <-- NUEVO
-            className={inputClasses}
-            defaultValue={defaultValue}
-          />
-        </FormControl>
-      );
-
-      return (
-        <FormControl>
-          <Textarea
-            placeholder={placeholder}
-            {...field}
-            disabled={disable}
+            readOnly={props.readOnly}
             className={inputClasses}
             defaultValue={defaultValue}
           />
