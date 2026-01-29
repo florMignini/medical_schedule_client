@@ -18,7 +18,7 @@ const PastAppointmentForm = ({ patient, appointment }: any) => {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
   const [isThereAnImage, setIsThereAnImage] = useState<boolean>(false);
-const {toast} = useToast();
+  const { toast } = useToast();
   const form = useForm<z.infer<typeof NewPastAppointmentSchema>>({
     resolver: zodResolver(NewPastAppointmentSchema),
     defaultValues: {
@@ -70,7 +70,7 @@ const {toast} = useToast();
           title: "Cita pasada creada",
           description: "La cita se ha creado exitosamente.",
           className: "bg-emerald-500 text-black",
-        })
+        });
         form.reset();
         router.push(`/professional/patients/${patient.id}/info`);
       }
@@ -147,7 +147,8 @@ const {toast} = useToast();
               <FormControl className="w-full">
                 <FileUploaderPlus
                   form={form}
-                  files={isThereAnImage ? field.value : (field.value = [])}
+                  name="patientAttachedFilesUrl"
+                  files={field.value || []}
                   onChange={field.onChange}
                 />
               </FormControl>
