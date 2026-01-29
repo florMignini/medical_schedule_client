@@ -1,6 +1,6 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import { Form, FormControl } from "@/components/ui/form";
+import { Form } from "@/components/ui/form";
 import DinamicForm from "../DinamicForm";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
@@ -21,18 +21,30 @@ import createFollowUp, {
 } from "@/app/actions/followUpAction";
 import {
   createAppointment,
-  createPatientAppointmentRelation,
   createProfessionalAppointmentRelation,
 } from "@/app/actions";
 import DatePicker from "react-datepicker";
 
 import "react-datepicker/dist/react-datepicker.css";
 import "react-phone-number-input/style.css";
-import { professionalDataType } from "./NewAppointmentForm";
+import professionalDataType from "./NewAppointmentForm";
 
-const FollowUpForm = ({component, patientId, onSuccess, initialDateTime, type  }: { component?:string, patientId: string, onSuccess: () => void, initialDateTime: Date | null, type?: string }) => {
+const FollowUpForm = ({
+  component,
+  patientId,
+  onSuccess,
+  initialDateTime,
+  type,
+}: {
+  component?: string;
+  patientId: string;
+  onSuccess: () => void;
+  initialDateTime: Date | null;
+  type?: string;
+}) => {
   const router = useRouter();
-  const [professionalId, setProfessionalId] = useState<professionalDataType>();
+  const [professionalId, setProfessionalId] =
+    useState<{ id: string } | undefined>();
   const [loading, setLoading] = useState(false);
   const [ifFollowUp, setIfFollowUp] = useState(false);
   const [nextAppointmentSchedule, setNextAppointmentSchedule] =
@@ -42,8 +54,8 @@ const FollowUpForm = ({component, patientId, onSuccess, initialDateTime, type  }
   useEffect(() => {
     const professionalData = localStorage.getItem("infoProfSession");
     if (professionalData) {
-      const parsedData: professionalDataType = JSON.parse(professionalData);
-      setProfessionalId(parsedData);
+      const parsedData = JSON.parse(professionalData);
+      setProfessionalId({ id: parsedData.id });
     }
   }, []);
   const form = useForm<z.infer<typeof FollowUpSchema>>({
@@ -63,74 +75,70 @@ const FollowUpForm = ({component, patientId, onSuccess, initialDateTime, type  }
     setLoading(true);
 
     try {
-
       const response = await createFollowUp(values);
-console.log(response.data)
-      if (response.success) {
-        const professionalIDs = {
-          professional: professionalId?.id,
-          followUp: ((response.data as { id?: string })?.id ?? "") as string,
-        };
 
-        const profData = await createProfessionalFollowUpRelation(
-          professionalIDs
-        );
-        const patientsIDs = {
-          patient: patientId,
-          followUp: ((response.data as { id?: string })?.id ?? "") as string,
-        };
-        const patientData = await createPatientFollowUpRelation(patientsIDs);
-    
-    
-      //if follow up is required
+      if (!response?.success) return;
+
+      const followUpId = ((response.data as { id?: string })?.id ??
+        "") as string;
+
+      await createProfessionalFollowUpRelation({
+        professional: professionalId?.id,
+        followUp: followUpId,
+      });
+
+      await createPatientFollowUpRelation({
+        patient: patientId,
+        followUp: followUpId,
+      });
+
       if (ifFollowUp) {
-       const appointmentData = {
+        const appointmentData = {
           schedule: nextAppointmentSchedule
-            ? new Date(nextAppointmentSchedule)
-            : new Date(),
+            ? new Date(nextAppointmentSchedule).toISOString()
+            : new Date().toISOString(),
           reason: values.currentSymptoms,
-          notes: values.notes,
+          notes: values.notes ?? "",
+          patientId, // ✅ clave: backend crea la relación paciente-cita
         };
-        const appointmentResponse = await createAppointment(appointmentData) as { id: string };
-        if (appointmentResponse) {
-          const professionalIDs = {
+
+        const appointmentResponse = (await createAppointment(
+          appointmentData,
+        )) as {
+          id: string;
+        };
+
+        if (appointmentResponse?.id) {
+          // ✅ profesional relation (seguí haciéndola como antes)
+          await createProfessionalAppointmentRelation({
             professional: professionalId?.id,
-            appointment: appointmentResponse?.id,
-          };
+            appointment: appointmentResponse.id,
+          });
 
-          const profData = await createProfessionalAppointmentRelation(
-            professionalIDs
-          );
-          const patientsIDs = {
-            patient: patientId,
-            appointment: appointmentResponse?.id,
-          };
-          const patientData = await createPatientAppointmentRelation(
-            patientsIDs
-          );
+          // ❌ eliminar: esto ahora genera conflicto unique
+          // await createPatientAppointmentRelation({ patient: patientId, appointment: appointmentResponse.id });
 
-          const followUpIDs = {
-            followUpId: ((response.data as { id?: string })?.id ?? "") as string,
-            appointment: appointmentResponse?.id,
-          };
-          const followUpData = await createAppointmentFollowUpRelation(
-            followUpIDs
-          );
+          // ✅ relación followUp <-> appointment (queda igual)
+          await createAppointmentFollowUpRelation({
+            followUpId: ((response.data as { id?: string })?.id ??
+              "") as string,
+            appointment: appointmentResponse.id,
+          });
         }
       }
 
-        if (response) {
-          form.reset();
-          setLoading(false);
-          router.push(`/professional/patients/${patientId}/info`);
-        }
-      } else {
-        setLoading(false);
-      }
-
-      setLoading(false);
+      form.reset();
+      router.push(`/professional/patients/${patientId}/info`);
+      onSuccess?.();
     } catch (error) {
       console.error(error);
+      toast({
+        title: "Error",
+        description: "Ocurrió un problema al finalizar el seguimiento.",
+        className: "bg-red-500 text-white",
+      });
+    } finally {
+      setLoading(false);
     }
   }
 
