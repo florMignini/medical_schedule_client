@@ -23,6 +23,7 @@ import {
   createAppointment,
   createProfessionalAppointmentRelation,
 } from "@/app/actions";
+import { ICreateAppointment } from "@/interfaces";
 import DatePicker from "react-datepicker";
 
 import "react-datepicker/dist/react-datepicker.css";
@@ -93,12 +94,12 @@ const FollowUpForm = ({
       });
 
       if (ifFollowUp) {
-        const appointmentData = {
+        const appointmentData: ICreateAppointment & { patientId: string } = {
           schedule: nextAppointmentSchedule
             ? new Date(nextAppointmentSchedule).toISOString()
             : new Date().toISOString(),
-          reason: values.currentSymptoms ?? null,
-          notes: values.notes ?? "",
+          reason: values.currentSymptoms?.trim() || null,
+          notes: values.notes?.trim() || null,
           patientId, // ✅ clave: backend crea la relación paciente-cita
         };
 
