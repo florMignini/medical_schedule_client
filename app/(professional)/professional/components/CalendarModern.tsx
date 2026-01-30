@@ -456,17 +456,17 @@ export default function CalendarModern({
                                   openDetail(it.appt.appointment.id, it.start);
                                 }}
                                 className={[
-                                  "h-full w-full rounded-xl text-left p-2",
+                                  "h-auto w-full rounded-xl text-left p-2",
                                   "border border-[#1a73e8]/40 bg-[#1a73e8]/15 hover:bg-[#1a73e8]/25",
                                   "transition shadow-sm focus:outline-none focus:ring-2 focus:ring-[#1a73e8]/60",
                                 ].join(" ")}
                               >
-                                <div className="text-[11px] font-semibold text-slate-100 line-clamp-1">{title}</div>
-                                <div className="text-[11px] text-slate-200/90">
+                                <div className="text-[11px] font-semibold text-slate-600 line-clamp-1">{title}</div>
+                                <div className="text-[11px] text-slate-600">
                                   {startLabel} – {endLabel}
                                 </div>
                                 {it.appt.appointment.notes && (
-                                  <div className="mt-1 text-[10px] text-slate-300/80 line-clamp-2">
+                                  <div className="mt-1 text-[10px] text-slate-6 line-clamp-2">
                                     {it.appt.appointment.notes}
                                   </div>
                                 )}
