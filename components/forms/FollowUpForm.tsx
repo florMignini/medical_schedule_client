@@ -97,7 +97,7 @@ const FollowUpForm = ({
           schedule: nextAppointmentSchedule
             ? new Date(nextAppointmentSchedule).toISOString()
             : new Date().toISOString(),
-          reason: values.currentSymptoms,
+          reason: values.currentSymptoms ?? null,
           notes: values.notes ?? "",
           patientId, // ✅ clave: backend crea la relación paciente-cita
         };
