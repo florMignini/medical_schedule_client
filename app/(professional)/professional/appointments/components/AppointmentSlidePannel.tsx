@@ -10,6 +10,7 @@ import AppointmentsList from "./AppointmentsList";
 import NewAppointmentForm from "@/components/forms/NewAppointmentForm";
 import PastAppointmentForm from "@/components/forms/PastAppointmentForm"; // ✅ ajustá path si difiere
 import { AppointmentsIncluded, PatientsIncluded } from "@/interfaces";
+import PastAppointmentDetailCard from "./PastAppointmentDetailCard";
 
 type PanelView = "list" | "create" | "detail" | "past";
 
@@ -143,7 +144,7 @@ export default function AppointmentSlidePanel({
             animate={{ opacity: 0.4 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.2 }}
-            className="fixed inset-0 bg-black/30 backdrop-blur-sm z-40"
+            className="fixed inset-0 bg-white backdrop-blur-sm z-40"
             onClick={onClose}
           />
 
@@ -160,7 +161,7 @@ export default function AppointmentSlidePanel({
               mass: 0.6,
             }}
             className="fixed top-0 right-0 z-50 h-dvh w-[100vw] max-w-full sm:max-w-[760px]
-                       bg-[#262626] text-white backdrop-blur-xl border-l border-gray-200 shadow-2xl flex flex-col"
+                       bg-white text-black backdrop-blur-xl shadow-2xl flex flex-col"
           >
             {/* Header */}
             <div className="flex items-center justify-between px-4 py-3 border-b border-gray-200">
@@ -305,7 +306,7 @@ export default function AppointmentSlidePanel({
                       <div className="pt-3 border-t border-gray-100 flex items-center justify-between gap-3">
                         <div className="min-w-0">
                           <div className="text-sm font-semibold text-gray-800">
-                            Evolución (PastAppointment)
+                            Evolución
                           </div>
                           <div className="text-xs text-gray-500">
                             {selectedAppointment.appointment.pastAppointment
@@ -314,11 +315,31 @@ export default function AppointmentSlidePanel({
                           </div>
                         </div>
 
-                        <Button onClick={goPast} className="rounded-full">
-                          {selectedAppointment.appointment.pastAppointment
-                            ? "Editar"
-                            : "Finalizar"}
-                        </Button>
+                        {selectedAppointment.appointment.pastAppointment &&
+                        selectedAppointment.appointment.pastAppointment.id ? (
+                          <PastAppointmentDetailCard
+                            pastAppointment={
+                              selectedAppointment.appointment.pastAppointment
+                            }
+                            onEdit={goPast}
+                          />
+                        ) : (
+                          <div className="rounded-2xl border border-gray-200 bg-white p-4">
+                            <div className="text-sm font-semibold text-gray-900">
+                              Evolución pendiente
+                            </div>
+                            <div className="text-sm text-gray-600 mt-1">
+                              Todavía no se finalizó esta cita. Cuando la
+                              cierres, acá vas a ver el detalle clínico.
+                            </div>
+                            <Button
+                              onClick={goPast}
+                              className="mt-3 rounded-xl"
+                            >
+                              Finalizar ahora
+                            </Button>
+                          </div>
+                        )}
                       </div>
                     </div>
 

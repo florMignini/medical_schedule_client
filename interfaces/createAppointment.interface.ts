@@ -1,21 +1,20 @@
 export interface ICreateAppointment {
-  appointmentId?: string | undefined;
-  schedule: Date | string;
-  reason: string | undefined;
-  notes: string | undefined;
-  cancellationReason?: string | undefined;
+  appointmentId?: string | null | undefined;
+  schedule?: Date | string;
+  reason: string | null;
+  notes: string | null;
+  cancellationReason?: string | null;
 }
 
 export interface ICreatePastAppointment {
-  diagnosis?: string | undefined;
-  prescription?: string | undefined;
-  notes?: string | undefined;
-  followUpRequired?: boolean | undefined;
-  scheduled: Date | string | undefined;
-  patientAttachedFilesUrl?:
-    | FormData[]
-    | FormData
-    | string[]
-    | string
-    | undefined;
+  id?: string | null | undefined;
+  diagnosis: string | null;
+  prescription: string | null;
+  reason: string | null;
+  notes: string | null;
+  followUpRequired: boolean;
+  patientAttachedFilesUrl?: string | null;
+  scheduled?: string; // ISO
+  createdAt?: string; // ISO
+  updatedAt?: string; // ISO
 }
