@@ -20,15 +20,18 @@ const PastAppointmentForm = ({ patient, appointment }: any) => {
   const [isThereAnImage, setIsThereAnImage] = useState<boolean>(false);
   const { toast } = useToast();
   const form = useForm<z.infer<typeof NewPastAppointmentSchema>>({
-    resolver: zodResolver(NewPastAppointmentSchema),
-    defaultValues: {
-      diagnosis: "",
-      prescription: "",
-      notes: "",
-      scheduled: new Date(appointment?.schedule),
-      patientAttachedFilesUrl: [],
-    },
-  });
+  resolver: zodResolver(NewPastAppointmentSchema),
+  defaultValues: {
+    diagnosis: "",
+    prescription: "",
+    notes: "",
+    scheduled: new Date(appointment?.schedule),
+    patientAttachedFilesUrl: [],
+    reason: appointment?.reason ?? "",
+    followUpRequired: appointment?.followUpRequired ?? false,
+  },
+});
+
 
   async function onSubmit(values: z.infer<typeof NewPastAppointmentSchema>) {
     setLoading(true);
@@ -47,14 +50,20 @@ const PastAppointmentForm = ({ patient, appointment }: any) => {
         });
       }
 
-      // Construir payload
-      const payload = {
-        ...values,
-        scheduled: appointment.schedule,
-        patientId: patient.id,
-        patientAttachedFilesUrl: filesData,
-        appointmentId: appointment.id,
-      };
+   const payload = {
+  scheduled: appointment.schedule,
+  patientId: patient.id,
+  appointmentId: appointment.id,
+  patientAttachedFilesUrl: filesData,
+
+  diagnosis: values.diagnosis,
+  reason: values.reason,
+  followUpRequired: values.followUpRequired,
+  notes: values.notes ?? null,
+  prescription: values.prescription ?? null,
+};
+
+
 
       // Crear past appointment (backend se encarga de la relación)
       const response: any = await createPastAppointment(payload);

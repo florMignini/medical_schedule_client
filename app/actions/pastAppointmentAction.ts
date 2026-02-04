@@ -16,12 +16,18 @@ interface ICreatePastAppointmentWithIds extends ICreatePastAppointment {
   appointmentId: string;
 }
 
+type ICreatePastAppointmentWithIdsClient =
+  Omit<ICreatePastAppointmentWithIds, "patientAttachedFilesUrl"> & {
+    patientAttachedFilesUrl?: FormData[];
+  };
+
 export async function createPastAppointment({
   patientAttachedFilesUrl,
   patientId,
   appointmentId,
   ...pastAppointmentData
-}: ICreatePastAppointmentWithIds) {
+}: ICreatePastAppointmentWithIdsClient) {
+
   try {
     let uploadedFilesUrls: string[] = [];
 

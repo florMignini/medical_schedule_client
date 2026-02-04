@@ -9,10 +9,10 @@ export interface ICreateAppointment {
 export interface ICreatePastAppointment {
   id?: string | null | undefined;
   diagnosis: string | null;
-  prescription: string | null;
-  reason: string | null;
+  prescription?: string | null;
+  reason?: string | null;
   notes: string | null;
-  followUpRequired: boolean;
+  followUpRequired?: boolean;
   patientAttachedFilesUrl?: string | null;
   scheduled?: string; // ISO
   createdAt?: string; // ISO

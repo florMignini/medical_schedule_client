@@ -74,6 +74,8 @@ export const NewPastAppointmentSchema = z.object({
   notes: z.string().optional(),
   scheduled: z.coerce.date(),
   patientAttachedFilesUrl: z.custom<File[]>().optional(),
+  reason: z.string(),
+  followUpRequired: z.boolean(),
 });
 
 export const CancelAppointmentSchema = z.object({
