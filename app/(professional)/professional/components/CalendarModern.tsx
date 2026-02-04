@@ -3,7 +3,7 @@
 import React, { useMemo, useRef, useState } from "react";
 import dayjs from "dayjs";
 import "dayjs/locale/es";
-import { ChevronLeft, ChevronRight, Search, Settings2 } from "lucide-react";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 
 import { AppointmentsIncluded, Appointment, PatientsIncluded } from "@/interfaces";
 import AppointmentsList from "../appointments/components/AppointmentsList"; // ajustá path real
@@ -29,10 +29,8 @@ interface Props {
   onOpenDetail: (appointmentId: string, dt: Date) => void;
 }
 
-const clamp = (n: number, min: number, max: number) =>
-  Math.max(min, Math.min(max, n));
-const roundToStep = (minutes: number, step: number) =>
-  Math.round(minutes / step) * step;
+const clamp = (n: number, min: number, max: number) => Math.max(min, Math.min(max, n));
+const roundToStep = (minutes: number, step: number) => Math.round(minutes / step) * step;
 
 function minutesFromDayStart(d: dayjs.Dayjs) {
   return (d.hour() - DAY_START_HOUR) * 60 + d.minute();
@@ -59,7 +57,7 @@ type LayoutItem = {
 
 function computeOverlapsLayout(
   items: { key: string; start: dayjs.Dayjs; end: dayjs.Dayjs; appt: AppointmentsIncluded }[],
-  timelineMinutes: number
+  timelineMinutes: number,
 ): LayoutItem[] {
   const sorted = [...items].sort((a, b) => a.start.valueOf() - b.start.valueOf());
 
@@ -262,7 +260,7 @@ export default function CalendarModern({
 
               return (
                 <button
-                  key={d.toString()}
+                  key={d.format("YYYY-MM-DD")}
                   onClick={() => selectDayOnly(d)}
                   className={[
                     "rounded-xl border px-2 py-2 text-left transition-all",
@@ -272,14 +270,17 @@ export default function CalendarModern({
                 >
                   <div className="flex items-center justify-between">
                     <div className="text-[10px] sm:text-xs uppercase">{d.format("ddd")}</div>
-                    {isT && !isSel && (
-                      <span className="text-[10px] px-2 py-0.5 rounded-full bg-white/10">hoy</span>
-                    )}
+                    {isT && !isSel && <span className="text-[10px] px-2 py-0.5 rounded-full bg-white/10">hoy</span>}
                   </div>
                   <div className="mt-1 flex items-end justify-between">
                     <div className="text-base sm:text-lg font-semibold leading-none">{d.format("D")}</div>
                     {count > 0 && (
-                      <div className={["text-[12px] px-2 py-0.5 rounded-full", isSel ? "bg-white/20" : "bg-[#1a73e8] text-[#c0d6f9]"].join(" ")}>
+                      <div
+                        className={[
+                          "text-[12px] px-2 py-0.5 rounded-full",
+                          isSel ? "bg-white/20" : "bg-[#1a73e8] text-[#c0d6f9]",
+                        ].join(" ")}
+                      >
                         {count}
                       </div>
                     )}
@@ -317,9 +318,12 @@ export default function CalendarModern({
               </div>
             </div>
 
+            {/* ✅ FIX: keys únicas aunque haya "M" duplicado */}
             <div className="grid grid-cols-7 text-[12px] text-slate-600 mb-2">
-              {["D", "L", "M", "M", "J", "V", "S"].map((x) => (
-                <div key={x} className="text-center">{x}</div>
+              {["D", "L", "M", "M", "J", "V", "S"].map((x, idx) => (
+                <div key={`${x}-${idx}`} className="text-center">
+                  {x}
+                </div>
               ))}
             </div>
 
@@ -331,7 +335,7 @@ export default function CalendarModern({
 
                 return (
                   <button
-                    key={d.toString()}
+                    key={d.format("YYYY-MM-DD")}
                     onClick={() => selectDayOnly(d)}
                     className={[
                       "h-8 rounded-lg text-xs transition",
@@ -393,7 +397,8 @@ export default function CalendarModern({
                               className="absolute left-0 w-full pr-3 text-right text-[11px] text-slate-600"
                               style={{ top: top - 7 }}
                             >
-                              {String(h).padStart(2, "0")}:25
+                              {/* ✅ FIX: mostraba :25 fijo */}
+                              {String(h).padStart(2, "0")}:00
                             </div>
                           );
                         })}
@@ -466,7 +471,7 @@ export default function CalendarModern({
                                   {startLabel} – {endLabel}
                                 </div>
                                 {it.appt.appointment.notes && (
-                                  <div className="mt-1 text-[10px] text-slate-6 line-clamp-2">
+                                  <div className="mt-1 text-[10px] text-slate-600 line-clamp-2">
                                     {it.appt.appointment.notes}
                                   </div>
                                 )}
