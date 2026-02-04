@@ -116,8 +116,6 @@ const FollowUpForm = ({
             appointment: appointmentResponse.id,
           });
 
-          // ❌ eliminar: esto ahora genera conflicto unique
-          // await createPatientAppointmentRelation({ patient: patientId, appointment: appointmentResponse.id });
 
           // ✅ relación followUp <-> appointment (queda igual)
           await createAppointmentFollowUpRelation({
