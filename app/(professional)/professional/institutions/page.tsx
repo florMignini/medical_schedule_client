@@ -34,16 +34,6 @@ export default function InstitutionsPage() {
         </p>
       </header>
 
-      <Input
-        placeholder="Buscar institución..."
-        value={search}
-        onChange={(e) => {
-          setSearch(e.target.value);
-          setPage(1); // reinicia la paginación al cambiar la búsqueda
-        }}
-        className="max-w-sm"
-      />
-
       <InfiniteScroll
         dataLength={displayed.length}
         next={loadMore}

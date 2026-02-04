@@ -47,17 +47,6 @@ const PatientsPage = () => {
           Aquí encontrará la lista de pacientes que se hallan en su cartera
         </p>
       </header>
-
-      <Input
-        placeholder="Buscar paciente..."
-        value={search}
-        onChange={(e) => {
-          setSearch(e.target.value);
-          setPage(1); // reiniciar página cuando cambia la búsqueda
-        }}
-        className="max-w-sm"
-      />
-
       <InfiniteScroll
         dataLength={displayed.length}
         next={loadMore}
