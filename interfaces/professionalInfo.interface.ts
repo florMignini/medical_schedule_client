@@ -37,7 +37,9 @@ export interface InstitutionsIncluded {
 }
 export interface AppointmentsIncluded {
   id: string;
-  createdAt: Date;
-  updatedAt: Date;
+  isActive: boolean;
+  createdAt: string;
+  updatedAt: string;
   appointment: Appointment;
+  patient: Patient;
 }
