@@ -54,9 +54,6 @@ export default function CalendarLayout({
         <AppointmentSkeletonLoader />
       ) : (
         <main className="relative flex-1 w-full overflow-hidden rounded-2xl">
-          <h1 className="text-red-500 font-extrabold text-xl">
-            Seccion en optimizacion
-          </h1>
           <div className="flex-1 h-full overflow-hidden">
             <CalendarModern
               isDemo={isDemo}
