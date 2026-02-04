@@ -1,212 +1,124 @@
 "use client";
 
-import { useMemo } from "react";
-import { ScrollArea } from "@/components/ui/scroll-area";
-import { AppointmentsIncluded, PatientsIncluded } from "@/interfaces";
-import { addMinutes, format, setHours, setMinutes } from "date-fns";
+import React, { useMemo } from "react";
 import dayjs from "dayjs";
-import ConfigAppointmentButton from "../../components/ConfigAppointmentButton";
-import { CalendarClock, Plus } from "lucide-react";
+import { Plus, ChevronRight, Stethoscope, UserRound } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { AppointmentsIncluded } from "@/interfaces";
 
-type AppointmentListProps = {
-  appointments: Array<AppointmentsIncluded>;
-  patients: Array<PatientsIncluded>;
-  isDemo?: boolean;
-  refetch?: () => void;
-
-  /** ✅ fecha del día que estamos viendo (evita acoplar con useSelectedDate) */
+type Props = {
+  appointments: AppointmentsIncluded[];
   selectedDate: Date;
-
-  /** ✅ crear turno en datetime exacto (snap 15m idealmente) */
-  onAddAppointment?: (datetime: Date) => void;
-
-  /** ✅ abrir detalle del turno (para PastAppointment) */
+  onAddAppointment: (datetime: Date) => void;
   onSelectAppointment?: (appointmentId: string) => void;
-
-  /** opcional: si querés bloquear por pastAppointment ya creado */
-  pastAppointmentPatientData?: any;
 };
 
-const DAY_START_HOUR = 8;
-const DAY_END_HOUR = 18;
-const STEP_MINUTES = 15;
-const DEFAULT_APPT_MINUTES = 15;
-
-function buildSlots(date: Date) {
-  const slots: { time: Date }[] = [];
-  // 08:00 -> 18:00 inclusive (18:00)
-  for (let hour = DAY_START_HOUR; hour <= DAY_END_HOUR; hour++) {
-    for (let min = 0; min < 60; min += STEP_MINUTES) {
-      // si hour == 18, solo 18:00 (no 18:15/18:30/18:45)
-      if (hour === DAY_END_HOUR && min !== 0) continue;
-      slots.push({ time: setHours(setMinutes(date, min), hour) });
-    }
-  }
-  return slots;
+function timeLabel(iso: string) {
+  return dayjs(iso).format("HH:mm");
 }
-
-const safeDate = (d: unknown): Date | null => {
-  const date = d instanceof Date ? d : new Date(d as any);
-  return Number.isNaN(date.getTime()) ? null : date;
-};
-
-const fmtHHmm = (d: unknown) => {
-  const dd = safeDate(d);
-  return dd ? dayjs(dd).format("HH:mm") : "--:--";
-};
 
 export default function AppointmentsList({
   appointments,
-  patients,
-  isDemo = false,
-  refetch,
+  selectedDate,
   onAddAppointment,
   onSelectAppointment,
-  selectedDate,
-  pastAppointmentPatientData,
-}: AppointmentListProps) {
-  // Turnos del día
-  const events = useMemo(() => {
-    const day = dayjs(selectedDate).startOf("day");
-    return appointments
-      .filter((a) => dayjs(a.appointment.schedule).isSame(day, "day"))
-      .sort(
-        (a, b) =>
-          dayjs(a.appointment.schedule).valueOf() -
-          dayjs(b.appointment.schedule).valueOf(),
-      );
-  }, [appointments, selectedDate]);
-
-  const isPastDay = dayjs(selectedDate).isBefore(dayjs(), "day");
-
-  const timeSlots = useMemo(() => {
-    const base = selectedDate ? new Date(selectedDate) : new Date();
-    const dayBase = new Date(
-      base.getFullYear(),
-      base.getMonth(),
-      base.getDate(),
-      0,
-      0,
-      0,
-      0,
+}: Props) {
+  const sorted = useMemo(() => {
+    return [...appointments].sort(
+      (a, b) =>
+        dayjs(a.appointment.schedule).valueOf() -
+        dayjs(b.appointment.schedule).valueOf(),
     );
+  }, [appointments]);
 
-    const slots: { time: Date }[] = [];
-    for (let hour = 8; hour <= 18; hour++) {
-      for (let min = 0; min < 60; min += 15) {
-        if (hour === 18 && min !== 0) continue; // solo 18:00
-        slots.push({
-          time: new Date(
-            dayBase.getFullYear(),
-            dayBase.getMonth(),
-            dayBase.getDate(),
-            hour,
-            min,
-            0,
-            0,
-          ),
-        });
-      }
-    }
-    return slots;
+  const dateLabel = useMemo(() => {
+    return dayjs(selectedDate).format("DD/MM/YYYY");
   }, [selectedDate]);
 
-  const getAppointmentAt = (time: Date) => {
-  const key = dayjs(time).format("HH:mm");
-  return events.find((appt) => dayjs(appt.appointment.schedule).format("HH:mm") === key);
-};
-
+  if (sorted.length === 0) {
+    return (
+      <div className="rounded-2xl border border-gray-200 bg-white p-5">
+        <div className="text-sm font-semibold text-gray-900">
+          No hay turnos para el {dateLabel}
+        </div>
+        <div className="text-sm text-gray-600 mt-1">
+          Podés crear uno nuevo en el horario que quieras.
+        </div>
+        <Button
+          onClick={() => {
+            const base = dayjs(selectedDate).hour(8).minute(0).second(0).millisecond(0);
+            onAddAppointment(base.toDate());
+          }}
+          className="mt-4 rounded-xl"
+        >
+          <Plus className="w-4 h-4 mr-2" />
+          Crear turno
+        </Button>
+      </div>
+    );
+  }
 
   return (
-    <div className="w-full flex flex-col gap-4">
-      <ScrollArea className="h-[700px] space-y-4">
-        {timeSlots.map(({ time }, i) => {
-          const appt = getAppointmentAt(time);
+    <div className="space-y-3">
+      {sorted.map((a) => {
+        const p = a.patient;
+        const patientName = p
+          ? `${p.firstName ?? ""} ${p.lastName ?? ""}`.trim()
+          : "Paciente";
 
-          // ✅ hora del slot: siempre sale de timeSlots, pero igual la blindamos
-          const hour = fmtHHmm(time);
+        const hasPast = !!a.appointment.pastAppointment?.id;
 
-          const isDisabled =
-            isPastDay ||
-            (appt &&
-              appt.appointment.id ===
-                pastAppointmentPatientData?.[0]?.pastAppointments?.id);
+        return (
+          <button
+            key={a.appointment.id}
+            onClick={() => onSelectAppointment?.(a.appointment.id)}
+            className={[
+              "w-full text-left rounded-2xl border p-4 transition",
+              "border-gray-200 bg-white hover:bg-gray-50",
+            ].join(" ")}
+          >
+            <div className="flex items-start justify-between gap-3">
+              <div className="min-w-0">
+                <div className="text-xs text-gray-500">{timeLabel(a.appointment.schedule)}</div>
 
-          // ✅ start/end seguros para render
-          const start = appt ? fmtHHmm(appt.appointment.schedule) : null;
-          const end = appt
-            ? (() => {
-                const sd = safeDate(appt.appointment.schedule);
-                if (!sd) return "--:--";
-                return dayjs(sd)
-                  .add(DEFAULT_APPT_MINUTES, "minute")
-                  .format("HH:mm");
-              })()
-            : null;
-
-          return (
-            <div
-              key={i}
-              className={[
-                "w-full rounded-xl p-2 transition shadow-md border mb-1 text-sm",
-                appt
-                  ? "bg-emerald-100 border-emerald-300"
-                  : "bg-white border-gray-200 hover:bg-gray-50",
-                isDisabled ? "opacity-50 cursor-not-allowed" : "cursor-pointer",
-              ].join(" ")}
-            >
-              {/* Header slot */}
-              <div className="w-full flex justify-between items-center mb-2">
-                <div className="flex items-center gap-2 text-black">
-                  <CalendarClock className="w-4 h-4" />
-                  <span className="font-medium">{hour}</span>
+                <div className="mt-1 flex items-center gap-2">
+                  <UserRound className="w-4 h-4 text-gray-600" />
+                  <div className="text-sm font-semibold text-gray-900 truncate">
+                    {patientName}
+                  </div>
                 </div>
 
-                {appt && (
-                  <ConfigAppointmentButton
-                    appointment={appt}
-                    refetch={refetch}
-                  />
-                )}
+                <div className="mt-1 flex items-center gap-2">
+                  <Stethoscope className="w-4 h-4 text-gray-600" />
+                  <div className="text-sm text-gray-800 truncate">
+                    {a.appointment.reason?.trim() || "Sin motivo"}
+                  </div>
+                </div>
+
+                {a.appointment.notes ? (
+                  <div className="mt-2 text-xs text-gray-600 line-clamp-2">
+                    {a.appointment.notes}
+                  </div>
+                ) : null}
               </div>
 
-              {/* Content */}
-              {appt ? (
-                <div
-                  onClick={() => {
-                    if (isDisabled) return;
-                    onSelectAppointment?.(appt.appointment.id);
-                  }}
-                  className="text-gray-800"
+              <div className="flex items-center gap-2 shrink-0">
+                <span
+                  className={[
+                    "text-[11px] px-2 py-1 rounded-full border",
+                    hasPast
+                      ? "bg-emerald-50 text-emerald-700 border-emerald-200"
+                      : "bg-amber-50 text-amber-800 border-amber-200",
+                  ].join(" ")}
                 >
-                  <p className="font-semibold truncate">
-                    {appt.appointment.reason || "Turno"}
-                  </p>
-                  <p className="text-gray-500 text-sm truncate">
-                    {appt.appointment.notes || "—"}
-                  </p>
-                  <p className="text-xs text-muted-foreground">
-                    {start} - {end}
-                  </p>
-                </div>
-              ) : (
-                <div
-                  onClick={() => {
-                    if (isDisabled) return;
-                    // ✅ si por algún motivo time viniera inválido, no explota
-                    const t = safeDate(time);
-                    if (!t) return;
-                    onAddAppointment?.(t);
-                  }}
-                  className="text-gray-500 text-sm italic flex items-center gap-2 hover:text-emerald-600 transition"
-                >
-                  <Plus className="w-4 h-4" /> agregar evento
-                </div>
-              )}
+                  {hasPast ? "Finalizada" : "Pendiente"}
+                </span>
+                <ChevronRight className="w-4 h-4 text-gray-400" />
+              </div>
             </div>
-          );
-        })}
-      </ScrollArea>
+          </button>
+        );
+      })}
     </div>
   );
 }

@@ -31,7 +31,10 @@ type Props = {
   onClose: () => void;
   selectedDate: Date | null | undefined;
   appointments: AppointmentsIncluded[];
-  patientsList: PatientsIncluded[];
+
+  /** ✅ Solo para crear (NewAppointmentForm) */
+  patientsForCreate: PatientsIncluded[];
+
   refetch?: () => void;
   selectedAppointmentId?: string | null;
 };
@@ -84,19 +87,17 @@ export default function AppointmentSlidePanel({
   onClose,
   selectedDate,
   appointments,
-  patientsList,
+  patientsForCreate,
   refetch,
   selectedAppointmentId = null,
 }: Props) {
   const [activeDateTime, setActiveDateTime] = useState<Date | null>(null);
   const [view, setView] = useState<PanelView>("list");
 
-  /** Sync con selectedDate */
   useEffect(() => {
     if (selectedDate) setActiveDateTime(new Date(selectedDate));
   }, [selectedDate]);
 
-  /** Turno seleccionado */
   const selectedAppointment = useMemo(() => {
     if (!selectedAppointmentId) return null;
     return (
@@ -105,7 +106,6 @@ export default function AppointmentSlidePanel({
     );
   }, [appointments, selectedAppointmentId]);
 
-  /** Cuando viene un appointmentId, abrimos detalle */
   useEffect(() => {
     if (selectedAppointmentId && selectedAppointment) {
       setView("detail");
@@ -115,7 +115,6 @@ export default function AppointmentSlidePanel({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedAppointmentId, selectedAppointment]);
 
-  /** Turnos del mismo día (sin importar hora) */
   const filteredAppointments = useMemo(() => {
     if (!activeDateTime) return [];
     const day = dayjs(activeDateTime).startOf("day");
@@ -133,13 +132,11 @@ export default function AppointmentSlidePanel({
     return selectedAppointment?.patient ?? null;
   }, [selectedAppointment]);
 
-  /** Navegación */
   const goList = () => setView("list");
   const goCreate = () => setView("create");
   const goDetail = () => setView("detail");
   const goPast = () => setView("past");
 
-  /** Header title */
   const headerTitle = useMemo(() => {
     if (!activeDateTime && !selectedAppointment) return "Turnos";
     if (view === "create") return "Nuevo turno";
@@ -168,7 +165,6 @@ export default function AppointmentSlidePanel({
     <AnimatePresence>
       {canRender && (
         <>
-          {/* Overlay */}
           <motion.div
             key="overlay"
             initial={{ opacity: 0 }}
@@ -179,7 +175,6 @@ export default function AppointmentSlidePanel({
             onClick={onClose}
           />
 
-          {/* Panel */}
           <motion.aside
             key={`panel-${selectedAppointmentId ?? activeDateTime?.getTime() ?? "none"}`}
             initial={{ x: "100%" }}
@@ -247,7 +242,6 @@ export default function AppointmentSlidePanel({
                 </div>
               </div>
 
-              {/* Quick actions (solo en list/detail) */}
               {(view === "list" || view === "detail") && (
                 <div className="px-4 pb-3 flex items-center gap-2">
                   {view === "list" && (
@@ -298,7 +292,7 @@ export default function AppointmentSlidePanel({
             {/* Content */}
             <div className="flex-1 min-h-0 overflow-y-auto px-3 py-4">
               <AnimatePresence mode="wait">
-                {/* ===== LIST ===== */}
+                {/* LIST */}
                 {view === "list" && (
                   <motion.div
                     key="list"
@@ -309,7 +303,6 @@ export default function AppointmentSlidePanel({
                     className="w-full max-w-[600px] mx-auto space-y-4"
                   >
                     <AppointmentsList
-                      patients={patientsList}
                       appointments={filteredAppointments}
                       selectedDate={activeDateTime ?? new Date()}
                       onAddAppointment={(datetime) => {
@@ -317,7 +310,7 @@ export default function AppointmentSlidePanel({
                         goCreate();
                       }}
                       onSelectAppointment={() => {
-                        // En tu flujo actual lo controla el padre por selectedAppointmentId
+                        // lo maneja el padre via selectedAppointmentId
                       }}
                     />
 
@@ -328,8 +321,7 @@ export default function AppointmentSlidePanel({
                             Tip rápido
                           </div>
                           <div className="text-xs text-gray-600">
-                            Abrí un turno para ver el paciente y la evolución en
-                            detalle.
+                            Abrí un turno para ver paciente y evolución en detalle.
                           </div>
                         </div>
                         <CalendarClock className="w-5 h-5 text-gray-500" />
@@ -338,7 +330,7 @@ export default function AppointmentSlidePanel({
                   </motion.div>
                 )}
 
-                {/* ===== CREATE ===== */}
+                {/* CREATE */}
                 {view === "create" && activeDateTime && (
                   <motion.div
                     key={`create-${activeDateTime.getTime()}`}
@@ -350,7 +342,7 @@ export default function AppointmentSlidePanel({
                   >
                     <NewAppointmentForm
                       type="create"
-                      patientsList={patientsList}
+                      patientsList={patientsForCreate}
                       initialDateTime={activeDateTime}
                       onSuccess={() => {
                         refetch?.();
@@ -361,7 +353,7 @@ export default function AppointmentSlidePanel({
                   </motion.div>
                 )}
 
-                {/* ===== DETAIL ===== */}
+                {/* DETAIL */}
                 {view === "detail" && selectedAppointment && (
                   <motion.div
                     key={`detail-${selectedAppointment.appointment.id}`}
@@ -372,10 +364,7 @@ export default function AppointmentSlidePanel({
                     className="w-full max-w-[600px] mx-auto space-y-4"
                   >
                     {/* Paciente */}
-                    <Section
-                      icon={<UserRound className="w-4 h-4" />}
-                      title="Paciente"
-                    >
+                    <Section icon={<UserRound className="w-4 h-4" />} title="Paciente">
                       <div className="flex items-start justify-between gap-3">
                         <div className="min-w-0">
                           <div className="text-base font-semibold text-gray-900 truncate">
@@ -384,15 +373,9 @@ export default function AppointmentSlidePanel({
                               : "—"}
                           </div>
                           <div className="mt-1 flex flex-wrap items-center gap-2">
-                            {resolvedPatient?.identityNumber && (
-                              <Badge>DNI: {resolvedPatient.identityNumber}</Badge>
-                            )}
-                            {resolvedPatient?.phone && (
-                              <Badge>Tel: {resolvedPatient.phone}</Badge>
-                            )}
-                            {resolvedPatient?.email && (
-                              <Badge>{resolvedPatient.email}</Badge>
-                            )}
+                            {resolvedPatient?.identityNumber && <Badge>DNI: {resolvedPatient?.identityNumber}</Badge>}
+                            {resolvedPatient?.phone && <Badge>Tel: {resolvedPatient.phone}</Badge>}
+                            {resolvedPatient?.email && <Badge>{resolvedPatient.email}</Badge>}
                           </div>
                         </div>
 
@@ -405,27 +388,18 @@ export default function AppointmentSlidePanel({
                     </Section>
 
                     {/* Turno */}
-                    <Section
-                      icon={<ClipboardList className="w-4 h-4" />}
-                      title="Turno"
-                    >
+                    <Section icon={<ClipboardList className="w-4 h-4" />} title="Turno">
                       <div className="space-y-3">
                         <div className="flex items-center justify-between gap-3">
                           <div className="min-w-0">
                             <div className="text-xs text-gray-500">Horario</div>
                             <div className="text-lg font-semibold text-gray-900">
-                              {dayjs(selectedAppointment.appointment.schedule).format(
-                                "DD/MM/YYYY HH:mm",
-                              )}
+                              {dayjs(selectedAppointment.appointment.schedule).format("DD/MM/YYYY HH:mm")}
                             </div>
                           </div>
-                          <div className="flex items-center gap-2">
-                            {selectedAppointment.appointment.reason?.trim() ? (
-                              <Badge>Motivo: {selectedAppointment.appointment.reason}</Badge>
-                            ) : (
-                              <Badge>Motivo: —</Badge>
-                            )}
-                          </div>
+                          <Badge>
+                            Motivo: {selectedAppointment.appointment.reason?.trim() || "—"}
+                          </Badge>
                         </div>
 
                         <div>
@@ -449,10 +423,7 @@ export default function AppointmentSlidePanel({
                     </Section>
 
                     {/* Evolución */}
-                    <Section
-                      icon={<Stethoscope className="w-4 h-4" />}
-                      title="Evolución"
-                    >
+                    <Section icon={<Stethoscope className="w-4 h-4" />} title="Evolución">
                       {selectedAppointment.appointment.pastAppointment?.id ? (
                         <PastAppointmentDetailCard
                           pastAppointment={selectedAppointment.appointment.pastAppointment}
@@ -464,9 +435,7 @@ export default function AppointmentSlidePanel({
                             Evolución pendiente
                           </div>
                           <div className="text-sm text-gray-600 mt-1">
-                            Cuando finalices la cita, vas a ver acá el detalle
-                            clínico (diagnóstico, receta, notas, seguimiento y
-                            adjuntos).
+                            Cuando finalices la cita, vas a ver acá el detalle clínico.
                           </div>
                           <Button onClick={goPast} className="mt-3 rounded-xl">
                             Finalizar ahora
@@ -475,21 +444,13 @@ export default function AppointmentSlidePanel({
                       )}
                     </Section>
 
-                    {/* Acciones inferiores */}
                     <div className="flex items-center gap-2">
-                      <Button
-                        variant="ghost"
-                        onClick={goList}
-                        className="rounded-xl"
-                      >
+                      <Button variant="ghost" onClick={goList} className="rounded-xl">
                         <ArrowLeft className="w-4 h-4 mr-2" />
                         Volver a lista
                       </Button>
 
-                      <Button
-                        onClick={() => refetch?.()}
-                        className="ml-auto rounded-xl"
-                      >
+                      <Button onClick={() => refetch?.()} className="ml-auto rounded-xl">
                         <RefreshCcw className="w-4 h-4 mr-2" />
                         Refrescar
                       </Button>
@@ -497,7 +458,7 @@ export default function AppointmentSlidePanel({
                   </motion.div>
                 )}
 
-                {/* ===== PAST APPOINTMENT FORM ===== */}
+                {/* PAST FORM */}
                 {view === "past" && selectedAppointment && resolvedPatient && (
                   <motion.div
                     key={`past-${selectedAppointment.appointment.id}`}
@@ -507,7 +468,6 @@ export default function AppointmentSlidePanel({
                     transition={{ duration: 0.2 }}
                     className="w-full max-w-[600px] mx-auto space-y-3"
                   >
-                    {/* Header contextual */}
                     <div className="rounded-2xl border border-gray-200 bg-white p-4">
                       <div className="flex items-start justify-between gap-3">
                         <div className="min-w-0">
@@ -519,10 +479,7 @@ export default function AppointmentSlidePanel({
                             {`${resolvedPatient.firstName ?? ""} ${resolvedPatient.lastName ?? ""}`.trim() || "—"}
                           </div>
                           <div className="text-xs text-gray-500 mt-1">
-                            Turno:{" "}
-                            {dayjs(selectedAppointment.appointment.schedule).format(
-                              "DD/MM/YYYY HH:mm",
-                            )}
+                            Turno: {dayjs(selectedAppointment.appointment.schedule).format("DD/MM/YYYY HH:mm")}
                           </div>
                         </div>
                         {selectedAppointment.appointment.pastAppointment?.id ? (
@@ -533,7 +490,6 @@ export default function AppointmentSlidePanel({
                       </div>
                     </div>
 
-                    {/* Form container (mantengo dark porque tu form es oscuro) */}
                     <div className="rounded-2xl border border-gray-200 bg-[#0f1620] p-4">
                       <PastAppointmentForm
                         patient={resolvedPatient}
@@ -548,10 +504,7 @@ export default function AppointmentSlidePanel({
                           <ArrowLeft className="w-4 h-4 mr-2" />
                           Volver
                         </Button>
-                        <Button
-                          onClick={() => refetch?.()}
-                          className="ml-auto rounded-xl"
-                        >
+                        <Button onClick={() => refetch?.()} className="ml-auto rounded-xl">
                           <RefreshCcw className="w-4 h-4 mr-2" />
                           Refrescar
                         </Button>

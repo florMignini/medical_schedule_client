@@ -26,7 +26,9 @@ export default function CalendarLayout({
   selectedDate,
 }: CalendarLayoutProps) {
   const [isPanelOpen, setIsPanelOpen] = useState(false);
-  const [selectedAppointmentId, setSelectedAppointmentId] = useState<string | null>(null);
+  const [selectedAppointmentId, setSelectedAppointmentId] = useState<
+    string | null
+  >(null);
 
   const openCreateAt = (dt: Date) => {
     setSelectedAppointmentId(null);
@@ -52,7 +54,9 @@ export default function CalendarLayout({
         <AppointmentSkeletonLoader />
       ) : (
         <main className="relative flex-1 w-full overflow-hidden rounded-2xl">
-          <h1 className="text-red-500 font-extrabold text-xl">Seccion en optimizacion</h1>
+          <h1 className="text-red-500 font-extrabold text-xl">
+            Seccion en optimizacion
+          </h1>
           <div className="flex-1 h-full overflow-hidden">
             <CalendarModern
               isDemo={isDemo}
@@ -70,7 +74,7 @@ export default function CalendarLayout({
             onClose={handleClosePanel}
             selectedDate={selectedDate}
             appointments={appointments}
-            patientsList={patients}
+            patientsForCreate={patients}
             refetch={refetch}
             selectedAppointmentId={selectedAppointmentId}
           />
