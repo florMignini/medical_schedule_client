@@ -3,15 +3,7 @@
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import dayjs from "dayjs";
 import "dayjs/locale/es";
-import {
-  ChevronLeft,
-  ChevronRight,
-  Minus,
-  Plus,
-  Clock,
-  ArrowUp,
-  Target,
-} from "lucide-react";
+import { ChevronLeft, ChevronRight, Clock, ArrowUp } from "lucide-react";
 
 import { AppointmentsIncluded, Appointment, PatientsIncluded } from "@/interfaces";
 
@@ -24,10 +16,11 @@ const STEP_MINUTES = 15;
 
 const DEFAULT_APPT_MINUTES = 15;
 
-// ✅ Zoom bounds (px por minuto)
-const ZOOM_MIN = 1.25;
-const ZOOM_MAX = 4.0;
-const ZOOM_STEP = 0.25;
+// ✅ Zoom fijo: 138% (base 2px/min * 1.38 = 2.76)
+const PX_PER_MIN = 2.76;
+
+// ✅ padding superior del grid (para alinear todo) + fix clicks
+const GRID_TOP_PADDING_PX = 12; // ~ pt-3
 
 interface Props {
   appointments: AppointmentsIncluded[];
@@ -51,6 +44,7 @@ function getStart(a: Appointment) {
   return dayjs(a.schedule);
 }
 
+// ✅ duración fija visual
 function getEnd(a: Appointment) {
   return getStart(a).add(DEFAULT_APPT_MINUTES, "minute");
 }
@@ -101,15 +95,18 @@ function computeOverlapsLayout(
     const cols = groupMaxCols.get(p.groupId) ?? 1;
 
     const startMin = clamp(minutesFromDayStart(it.start), 0, timelineMinutes);
-    const endMin = clamp(minutesFromDayStart(it.end), 0, timelineMinutes);
+
+    // ✅ altura EXACTA: ocupa su cuarto de hora
+    const durMin = DEFAULT_APPT_MINUTES;
+    const endMin = clamp(startMin + durMin, 0, timelineMinutes);
 
     const top = startMin * pxPerMin;
-    const bottom = endMin * pxPerMin;
+    const height = Math.max(1, (endMin - startMin) * pxPerMin);
 
     return {
       key: it.key,
       top,
-      height: Math.max(18, bottom - top),
+      height,
       col: p.col,
       cols,
       start: it.start,
@@ -166,36 +163,6 @@ function FabButton({
   );
 }
 
-function FabIconButton({
-  icon,
-  onClick,
-  disabled,
-  title,
-}: {
-  icon: React.ReactNode;
-  onClick: () => void;
-  disabled?: boolean;
-  title?: string;
-}) {
-  return (
-    <button
-      onClick={onClick}
-      disabled={disabled}
-      title={title}
-      className={[
-        "h-11 w-11 rounded-full shadow-lg border",
-        "backdrop-blur bg-white/90 border-black/10 text-slate-800",
-        "hover:bg-white transition active:scale-[0.99]",
-        "focus:outline-none focus:ring-2 focus:ring-[#1a73e8]/50",
-        "grid place-items-center",
-        disabled ? "opacity-50 cursor-not-allowed hover:bg-white" : "",
-      ].join(" ")}
-    >
-      {icon}
-    </button>
-  );
-}
-
 export default function CalendarModern({
   appointments,
   refetch,
@@ -205,24 +172,25 @@ export default function CalendarModern({
   const [anchor, setAnchor] = useState(dayjs());
   const [selectedDateLocal, setSelectedDateLocal] = useState<Date>(() => new Date());
 
-  // ✅ Zoom state (px por minuto)
-  const [pxPerMin, setPxPerMin] = useState<number>(2);
-
   const selectedDay = useMemo(() => dayjs(selectedDateLocal), [selectedDateLocal]);
+
+  // ✅ SOLO LECTURA para días anteriores al de hoy (por día)
+  const isPastDay = useMemo(() => {
+    return selectedDay.startOf("day").isBefore(dayjs().startOf("day"));
+  }, [selectedDay]);
 
   const weekDays = useMemo(() => {
     const start = anchor.startOf("week");
     return Array.from({ length: 7 }, (_, i) => start.add(i, "day"));
   }, [anchor]);
 
-  // (sigue existiendo para desktop sidebar)
   const { startOfMonth, days: miniMonthDays } = useMemo(
     () => buildMiniMonthDays(anchor),
     [anchor],
   );
 
   const timelineMinutes = (DAY_END_HOUR - DAY_START_HOUR + 1) * 60;
-  const timelineHeight = timelineMinutes * pxPerMin;
+  const timelineHeight = timelineMinutes * PX_PER_MIN;
 
   const dayAppointments = useMemo(() => {
     return appointments.filter((a) =>
@@ -242,8 +210,8 @@ export default function CalendarModern({
       })
       .filter(({ start, end }) => end.isAfter(rangeStart) && start.isBefore(rangeEnd));
 
-    return computeOverlapsLayout(raw, timelineMinutes, pxPerMin);
-  }, [dayAppointments, selectedDay, timelineMinutes, pxPerMin]);
+    return computeOverlapsLayout(raw, timelineMinutes, PX_PER_MIN);
+  }, [dayAppointments, selectedDay, timelineMinutes]);
 
   const isToday = selectedDay.isSame(dayjs(), "day");
 
@@ -251,18 +219,18 @@ export default function CalendarModern({
     if (!isToday) return null;
     const now = dayjs();
     const mins = clamp(minutesFromDayStart(now), 0, timelineMinutes);
-    return mins * pxPerMin;
-  }, [isToday, timelineMinutes, pxPerMin]);
+    return mins * PX_PER_MIN;
+  }, [isToday, timelineMinutes]);
 
   const gridScrollRef = useRef<HTMLDivElement | null>(null);
-  const gridInnerRef = useRef<HTMLDivElement | null>(null);
 
   const scrollToMinuteOffset = (minsFromStart: number) => {
     const scroller = gridScrollRef.current;
     if (!scroller) return;
-    const topPx = clamp(minsFromStart, 0, timelineMinutes) * pxPerMin;
 
-    // lo centramos un poco para que se vea contexto alrededor
+    const topPx =
+      clamp(minsFromStart, 0, timelineMinutes) * PX_PER_MIN + GRID_TOP_PADDING_PX;
+
     const targetTop = Math.max(0, topPx - scroller.clientHeight * 0.35);
     scroller.scrollTo({ top: targetTop, behavior: "smooth" });
   };
@@ -279,7 +247,7 @@ export default function CalendarModern({
   // ✅ Auto-scroll al abrir: "ahora" si es hoy, sino inicio
   const didAutoScrollRef = useRef<string>("");
   useEffect(() => {
-    const key = `${selectedDay.format("YYYY-MM-DD")}::${pxPerMin}`;
+    const key = `${selectedDay.format("YYYY-MM-DD")}::fixed138`;
     if (didAutoScrollRef.current === key) return;
 
     const t = window.setTimeout(() => {
@@ -290,9 +258,10 @@ export default function CalendarModern({
 
     return () => window.clearTimeout(t);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [selectedDay, pxPerMin, isToday]);
+  }, [selectedDay, isToday]);
 
   const openCreateAt = (day: dayjs.Dayjs, hour: number, minute: number) => {
+    if (isPastDay) return; // ✅ bloqueo creación en días pasados
     const dt = day.hour(hour).minute(minute).second(0).millisecond(0).toDate();
     onOpenCreate(dt);
   };
@@ -301,16 +270,22 @@ export default function CalendarModern({
     onOpenDetail(apptId, start.toDate());
   };
 
+  // ✅ FIX click: referencia = scroller + compensación padding
   const handleGridClick = (e: React.MouseEvent) => {
-    if (!gridInnerRef.current || !gridScrollRef.current) return;
+    if (isPastDay) return; // ✅ no crear en pasado
+
+    const scroller = gridScrollRef.current;
+    if (!scroller) return;
+
     const target = e.target as HTMLElement;
     if (target.closest("[data-appt]")) return;
 
-    const rect = gridInnerRef.current.getBoundingClientRect();
-    const scrollTop = gridScrollRef.current.scrollTop;
-    const y = e.clientY - rect.top + scrollTop;
+    const scrollerRect = scroller.getBoundingClientRect();
+    const yInScroller = e.clientY - scrollerRect.top + scroller.scrollTop;
 
-    const mins = clamp(Math.round(y / pxPerMin), 0, timelineMinutes);
+    const y = yInScroller - GRID_TOP_PADDING_PX;
+
+    const mins = clamp(Math.round(y / PX_PER_MIN), 0, timelineMinutes);
     const rounded = roundToStep(mins, STEP_MINUTES);
 
     const hour = DAY_START_HOUR + Math.floor(rounded / 60);
@@ -330,59 +305,6 @@ export default function CalendarModern({
 
   const selectDayOnly = (d: dayjs.Dayjs) => {
     setSelectedDateLocal(d.hour(0).minute(0).second(0).millisecond(0).toDate());
-  };
-
-  // ✅ Zoom controls
-  const zoomIn = () =>
-    setPxPerMin((p) => clamp(Number((p + ZOOM_STEP).toFixed(2)), ZOOM_MIN, ZOOM_MAX));
-  const zoomOut = () =>
-    setPxPerMin((p) => clamp(Number((p - ZOOM_STEP).toFixed(2)), ZOOM_MIN, ZOOM_MAX));
-  const resetZoom = () => setPxPerMin(2);
-
-  // ✅ Pinch-to-zoom (touch) en grilla
-  const pinchRef = useRef<{
-    active: boolean;
-    startDist: number;
-    startZoom: number;
-    lastApplied: number;
-  }>({ active: false, startDist: 0, startZoom: 2, lastApplied: 2 });
-
-  const getTouchDist = (t1: React.Touch, t2: React.Touch) => {
-    const dx = t1.clientX - t2.clientX;
-    const dy = t1.clientY - t2.clientY;
-    return Math.hypot(dx, dy);
-  };
-
-  const onTouchStart = (e: React.TouchEvent) => {
-    if (e.touches.length !== 2) return;
-    pinchRef.current.active = true;
-    pinchRef.current.startDist = getTouchDist(e.touches[0], e.touches[1]);
-    pinchRef.current.startZoom = pxPerMin;
-    pinchRef.current.lastApplied = pxPerMin;
-  };
-
-  const onTouchMove = (e: React.TouchEvent) => {
-    if (!pinchRef.current.active || e.touches.length !== 2) return;
-    e.preventDefault();
-
-    const dist = getTouchDist(e.touches[0], e.touches[1]);
-    if (pinchRef.current.startDist <= 0) return;
-
-    const ratio = dist / pinchRef.current.startDist;
-    const next = clamp(pinchRef.current.startZoom * ratio, ZOOM_MIN, ZOOM_MAX);
-
-    const rounded = Number((Math.round(next / 0.05) * 0.05).toFixed(2));
-    if (Math.abs(rounded - pinchRef.current.lastApplied) >= 0.05) {
-      pinchRef.current.lastApplied = rounded;
-      setPxPerMin(rounded);
-    }
-  };
-
-  const onTouchEnd = (e: React.TouchEvent) => {
-    if (e.touches.length < 2) {
-      pinchRef.current.active = false;
-      pinchRef.current.startDist = 0;
-    }
   };
 
   return (
@@ -420,7 +342,13 @@ export default function CalendarModern({
         <div className="px-3 sm:px-4 pb-3 flex items-center justify-between">
           <div className="text-sm sm:text-base text-slate-600 capitalize">
             {selectedDay.format("MMMM D, YYYY")}
+            {isPastDay && (
+              <span className="ml-2 inline-flex items-center rounded-full bg-slate-100 px-2 py-0.5 text-[11px] text-slate-600 border border-black/5">
+                Solo lectura
+              </span>
+            )}
           </div>
+
           <button
             onClick={goToday}
             className="sm:hidden text-xs px-3 py-1.5 rounded-full border text-slate-700 border-black/10 hover:bg-black/5"
@@ -484,7 +412,9 @@ export default function CalendarModern({
         {/* SIDEBAR (desktop only) */}
         <aside className="hidden lg:flex w-[320px] min-w-[320px] border-r border-black/10 p-4 flex-col gap-4">
           <button
-            onClick={() =>
+            disabled={isPastDay}
+            onClick={() => {
+              if (isPastDay) return;
               onOpenCreate(
                 selectedDay
                   .hour(DAY_START_HOUR)
@@ -492,9 +422,13 @@ export default function CalendarModern({
                   .second(0)
                   .millisecond(0)
                   .toDate(),
-              )
-            }
-            className="w-full flex items-center justify-between px-4 py-3 rounded-2xl bg-white hover:bg-black/5 border border-black/10"
+              );
+            }}
+            className={[
+              "w-full flex items-center justify-between px-4 py-3 rounded-2xl bg-white border border-black/10",
+              isPastDay ? "opacity-50 cursor-not-allowed" : "hover:bg-black/5",
+            ].join(" ")}
+            title={isPastDay ? "Día en solo lectura" : "Crear turno"}
           >
             <span className="font-medium">+ Create</span>
             <span className="text-xs text-slate-600">{DEFAULT_APPT_MINUTES} min</span>
@@ -570,14 +504,14 @@ export default function CalendarModern({
               <div className="flex-1 min-h-0">
                 <div ref={gridScrollRef} className="h-full overflow-y-auto">
                   <div className="grid grid-cols-[56px_1fr] sm:grid-cols-[72px_1fr]">
-                    {/* ✅ Sticky hours column */}
-                    <div className="border-r border-black/10 mt-3 bg-white sticky left-0 z-30">
+                    {/* Hours */}
+                    <div className="border-r border-black/10 bg-white sticky left-0 z-30 pt-3">
                       <div style={{ height: timelineHeight }} className="relative">
                         {Array.from(
                           { length: DAY_END_HOUR - DAY_START_HOUR + 1 },
                           (_, i) => DAY_START_HOUR + i,
                         ).map((h) => {
-                          const top = (h - DAY_START_HOUR) * 60 * pxPerMin;
+                          const top = (h - DAY_START_HOUR) * 60 * PX_PER_MIN;
                           return (
                             <div
                               key={h}
@@ -593,27 +527,40 @@ export default function CalendarModern({
 
                     {/* Grid */}
                     <div
-                      className="relative"
+                      className={[
+                        "relative",
+                        isPastDay ? "cursor-not-allowed" : "cursor-crosshair",
+                      ].join(" ")}
                       onClick={handleGridClick}
-                      onTouchStart={onTouchStart}
-                      onTouchMove={onTouchMove}
-                      onTouchEnd={onTouchEnd}
-                      // ✅ importante para que preventDefault funcione en touchMove
-                      style={{ touchAction: "none" }}
-                      title="Tap para crear • Pinch para zoom"
+                      style={{ touchAction: "pan-y" }}
+                      title={isPastDay ? "Día en solo lectura (no se pueden crear turnos)" : "Tap para crear"}
                     >
-                      <div ref={gridInnerRef} className="relative" style={{ height: timelineHeight }}>
+                      <div
+                        className="relative pt-3"
+                        style={{ height: timelineHeight + GRID_TOP_PADDING_PX }}
+                      >
+                        {/* ✅ Overlay SOLO LECTURA (no bloquea turnos porque queda atrás) */}
+                        {isPastDay && (
+                          <div className="absolute inset-0 z-0 pointer-events-none">
+                            <div className="absolute inset-0 bg-white/40" />
+                          </div>
+                        )}
+
                         {/* Lines */}
-                        {Array.from({ length: Math.ceil(timelineMinutes / STEP_MINUTES) + 1 }).map((_, idx) => {
-                          const top = idx * STEP_MINUTES * pxPerMin;
+                        {Array.from({
+                          length: Math.ceil(timelineMinutes / STEP_MINUTES) + 1,
+                        }).map((_, idx) => {
+                          const top = GRID_TOP_PADDING_PX + idx * STEP_MINUTES * PX_PER_MIN;
                           const isHour = idx % (60 / STEP_MINUTES) === 0;
                           return (
                             <div
                               key={idx}
-                              className="absolute left-0 right-0"
+                              className="absolute left-0 right-0 z-[1]"
                               style={{
                                 top,
-                                borderTop: isHour ? "1px solid rgba(0,0,0,0.12)" : "1px solid rgba(0,0,0,0.06)",
+                                borderTop: isHour
+                                  ? "1px solid rgba(0,0,0,0.12)"
+                                  : "1px solid rgba(0,0,0,0.06)",
                               }}
                             />
                           );
@@ -621,7 +568,10 @@ export default function CalendarModern({
 
                         {/* Now line */}
                         {nowLineTop !== null && (
-                          <div className="absolute left-0 right-0 z-20" style={{ top: nowLineTop }}>
+                          <div
+                            className="absolute left-0 right-0 z-20"
+                            style={{ top: GRID_TOP_PADDING_PX + nowLineTop }}
+                          >
                             <div className="relative">
                               <div className="border-t border-red-500" />
                               <div className="absolute -left-1 -top-1.5 w-3 h-3 rounded-full bg-red-500" />
@@ -629,7 +579,7 @@ export default function CalendarModern({
                           </div>
                         )}
 
-                        {/* Appointments blocks */}
+                        {/* Appointments blocks (siempre clickeables) */}
                         {layoutItems.map((it) => {
                           const widthPct = 100 / it.cols;
                           const leftPct = it.col * widthPct;
@@ -645,9 +595,9 @@ export default function CalendarModern({
                             <div
                               key={it.key}
                               data-appt
-                              className="absolute z-10 px-1.5 sm:px-2"
+                              className="absolute z-30 px-1.5 sm:px-2"
                               style={{
-                                top: it.top,
+                                top: GRID_TOP_PADDING_PX + it.top,
                                 height: it.height,
                                 left: `${leftPct}%`,
                                 width: `${widthPct}%`,
@@ -659,7 +609,7 @@ export default function CalendarModern({
                                   openDetail(it.appt.appointment.id, it.start);
                                 }}
                                 className={[
-                                  "h-full w-full rounded-xl text-left p-2",
+                                  "w-full rounded-xl text-left p-2 flex items-center justify-start gap-2",
                                   "border border-[#1a73e8]/40 bg-[#1a73e8]/15 hover:bg-[#1a73e8]/25",
                                   "transition shadow-sm focus:outline-none focus:ring-2 focus:ring-[#1a73e8]/60",
                                 ].join(" ")}
@@ -667,26 +617,18 @@ export default function CalendarModern({
                                 <div className="text-[11px] font-semibold text-slate-700 line-clamp-1">
                                   {patientName}
                                 </div>
-                                <div className="text-[11px] text-slate-600 line-clamp-1">
-                                  {reason}
-                                </div>
-                                <div className="text-[10px] sm:text-[11px] text-slate-600 mt-0.5">
+                                <div className="text-[10px] sm:text-[11px] text-slate-600 mt-0.5 flex items-center justify-start">
                                   {startLabel} – {endLabel}
                                 </div>
-
-                                {/* ✅ Mostrar notas solo si el bloque tiene altura suficiente */}
-                                {it.height >= 56 && it.appt.appointment.notes && (
-                                  <div className="mt-1 text-[10px] text-slate-600 line-clamp-2">
-                                    {it.appt.appointment.notes}
-                                  </div>
-                                )}
                               </button>
                             </div>
                           );
                         })}
 
-                        <div className="absolute left-0 right-0 bottom-2 text-center text-xs text-slate-400 pointer-events-none">
-                          Tap para crear • Pinch para zoom • Duración {DEFAULT_APPT_MINUTES} min
+                        <div className="absolute left-0 right-0 bottom-2 text-center text-xs text-slate-400 pointer-events-none z-10">
+                          {isPastDay
+                            ? "Solo lectura • Podés abrir turnos existentes"
+                            : `Tap para crear • Duración ${DEFAULT_APPT_MINUTES} min`}
                         </div>
                       </div>
                     </div>
@@ -697,19 +639,26 @@ export default function CalendarModern({
               {/* Mobile quick action */}
               <div className="lg:hidden border-t border-black/10 bg-white px-3 py-2 flex items-center justify-between">
                 <button
+                  disabled={isPastDay}
                   onClick={() => openCreateAt(selectedDay, DAY_START_HOUR, 0)}
-                  className="px-4 py-2 rounded-full bg-[#1a73e8] text-white text-sm font-medium"
+                  className={[
+                    "px-4 py-2 rounded-full text-sm font-medium",
+                    isPastDay
+                      ? "bg-slate-200 text-slate-500 cursor-not-allowed"
+                      : "bg-[#1a73e8] text-white",
+                  ].join(" ")}
+                  title={isPastDay ? "Día en solo lectura" : "Crear turno"}
                 >
                   + Crear (15 min)
                 </button>
+
                 <div className="text-xs text-slate-500">{selectedDay.format("ddd D")}</div>
               </div>
             </div>
           </div>
 
-          {/* ✅ FLOATING CONTROLS (todas las pantallas) */}
+          {/* FLOATING CONTROLS */}
           <div className="fixed right-4 bottom-4 z-[60] flex flex-col gap-2">
-            {/* Jump buttons */}
             <FabButton
               icon={<ArrowUp className="w-4 h-4" />}
               label="Inicio"
@@ -724,28 +673,6 @@ export default function CalendarModern({
               disabled={!isToday}
               title={isToday ? "Ir al horario actual" : "Disponible solo para hoy"}
             />
-
-            {/* Zoom cluster */}
-            <div className="flex items-center gap-2 justify-end">
-              <FabIconButton
-                icon={<Minus className="w-5 h-5" />}
-                onClick={zoomOut}
-                title="Zoom -"
-              />
-
-              <FabButton
-                icon={<Target className="w-4 h-4" />}
-                label={`${Math.round((pxPerMin / 2) * 100)}%`}
-                onClick={resetZoom}
-                title="Reset zoom"
-              />
-
-              <FabIconButton
-                icon={<Plus className="w-5 h-5" />}
-                onClick={zoomIn}
-                title="Zoom +"
-              />
-            </div>
           </div>
         </main>
       </div>
