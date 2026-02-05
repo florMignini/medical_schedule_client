@@ -2,19 +2,7 @@
 
 import React, { useEffect, useMemo, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import {
-  X,
-  ArrowLeft,
-  CalendarClock,
-  ClipboardList,
-  FileText,
-  Stethoscope,
-  UserRound,
-  RefreshCcw,
-  Plus,
-  Pencil,
-  CheckCircle2,
-} from "lucide-react";
+import { X, ArrowLeft } from "lucide-react";
 import dayjs from "dayjs";
 
 import { Button } from "@/components/ui/button";
@@ -32,55 +20,12 @@ type Props = {
   selectedDate: Date | null | undefined;
   appointments: AppointmentsIncluded[];
 
-  /** ✅ Solo para crear (NewAppointmentForm) */
+  // ⬇️ en tu padre ahora se llama así
   patientsForCreate: PatientsIncluded[];
 
   refetch?: () => void;
   selectedAppointmentId?: string | null;
 };
-
-function Badge({
-  variant = "neutral",
-  children,
-}: {
-  variant?: "neutral" | "success" | "warning";
-  children: React.ReactNode;
-}) {
-  const cls =
-    variant === "success"
-      ? "bg-emerald-50 text-emerald-700 border-emerald-200"
-      : variant === "warning"
-        ? "bg-amber-50 text-amber-800 border-amber-200"
-        : "bg-gray-50 text-gray-700 border-gray-200";
-
-  return (
-    <span
-      className={`inline-flex items-center rounded-full border px-2.5 py-1 text-xs font-medium ${cls}`}
-    >
-      {children}
-    </span>
-  );
-}
-
-function Section({
-  icon,
-  title,
-  children,
-}: {
-  icon: React.ReactNode;
-  title: string;
-  children: React.ReactNode;
-}) {
-  return (
-    <div className="rounded-2xl border border-gray-200 bg-white p-4">
-      <div className="flex items-center gap-2 mb-3">
-        <div className="text-gray-600">{icon}</div>
-        <div className="text-sm font-semibold text-gray-900">{title}</div>
-      </div>
-      {children}
-    </div>
-  );
-}
 
 export default function AppointmentSlidePanel({
   isOpen,
@@ -93,11 +38,9 @@ export default function AppointmentSlidePanel({
 }: Props) {
   const [activeDateTime, setActiveDateTime] = useState<Date | null>(null);
   const [view, setView] = useState<PanelView>("list");
+  const [selectedPatientId, setSelectedPatientId] = useState<string>("");
 
-  useEffect(() => {
-    if (selectedDate) setActiveDateTime(new Date(selectedDate));
-  }, [selectedDate]);
-
+  // ===== Selected appointment (detail) =====
   const selectedAppointment = useMemo(() => {
     if (!selectedAppointmentId) return null;
     return (
@@ -106,28 +49,46 @@ export default function AppointmentSlidePanel({
     );
   }, [appointments, selectedAppointmentId]);
 
+  // ===== FIX PRINCIPAL =====
+  // Si se abre desde un click del grid (openCreateAt), selectedAppointmentId es null
+  // y selectedDate trae la hora cliqueada -> abrir directo en CREATE con esa hora.
   useEffect(() => {
-    if (selectedAppointmentId && selectedAppointment) {
-      setView("detail");
-    } else {
-      if (view === "detail" || view === "past") setView("list");
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [selectedAppointmentId, selectedAppointment]);
+    if (!isOpen) return;
 
+    // si viene un turno seleccionado -> detalle
+    if (selectedAppointmentId && selectedAppointment) {
+      setActiveDateTime(new Date(selectedAppointment.appointment.schedule));
+      setView("detail");
+      setSelectedPatientId("");
+      return;
+    }
+
+    // si NO hay appointment seleccionado pero viene selectedDate -> create directo
+    if (!selectedAppointmentId && selectedDate) {
+      setActiveDateTime(new Date(selectedDate));
+      setView("create"); // ✅ acá está la magia
+      setSelectedPatientId("");
+      return;
+    }
+
+    // fallback
+    if (!selectedAppointmentId && !selectedDate) {
+      setActiveDateTime(null);
+      setView("list");
+      setSelectedPatientId("");
+    }
+  }, [isOpen, selectedAppointmentId, selectedAppointment, selectedDate]);
+
+  // Turnos del mismo día (para list)
   const filteredAppointments = useMemo(() => {
     if (!activeDateTime) return [];
     const day = dayjs(activeDateTime).startOf("day");
-    return appointments
-      .filter(({ appointment }) => dayjs(appointment.schedule).isSame(day, "day"))
-      .sort(
-        (a, b) =>
-          dayjs(a.appointment.schedule).valueOf() -
-          dayjs(b.appointment.schedule).valueOf(),
-      );
+    return appointments.filter(({ appointment }) =>
+      dayjs(appointment.schedule).isSame(day, "day"),
+    );
   }, [appointments, activeDateTime]);
 
-  /** ✅ Ahora viene plano del backend */
+  // Resolver paciente (ya te viene en it.appt.patient por el normalize del backend/front)
   const resolvedPatient = useMemo(() => {
     return selectedAppointment?.patient ?? null;
   }, [selectedAppointment]);
@@ -138,168 +99,101 @@ export default function AppointmentSlidePanel({
   const goPast = () => setView("past");
 
   const headerTitle = useMemo(() => {
-    if (!activeDateTime && !selectedAppointment) return "Turnos";
     if (view === "create") return "Nuevo turno";
     if (view === "past") return "Finalizar cita (Evolución)";
     if (view === "detail") return "Detalle del turno";
-    return `Turnos del ${dayjs(
-      activeDateTime ?? selectedAppointment?.appointment.schedule,
-    ).format("DD/MM/YYYY")}`;
+
+    const baseDate =
+      activeDateTime ??
+      (selectedAppointment
+        ? new Date(selectedAppointment.appointment.schedule)
+        : null);
+
+    if (!baseDate) return "Turnos";
+    return `Turnos del ${dayjs(baseDate).format("DD/MM/YYYY")}`;
   }, [activeDateTime, selectedAppointment, view]);
 
-  const headerSubtitle = useMemo(() => {
-    if (view === "detail" && selectedAppointment) {
-      const dt = dayjs(selectedAppointment.appointment.schedule);
-      const hasPast = !!selectedAppointment.appointment.pastAppointment?.id;
-      return `${dt.format("DD/MM/YYYY HH:mm")} • ${hasPast ? "Evolución cargada" : "Evolución pendiente"}`;
-    }
-    if (view === "list" && activeDateTime) {
-      return `${dayjs(activeDateTime).format("DD/MM/YYYY")} • ${filteredAppointments.length} turno(s)`;
-    }
-    return "";
-  }, [view, selectedAppointment, activeDateTime, filteredAppointments.length]);
-
-  const canRender = isOpen && (activeDateTime || selectedAppointment);
+  const panelKey = useMemo(() => {
+    const k1 = selectedAppointmentId ?? "none";
+    const k2 = selectedDate ? new Date(selectedDate).getTime() : "no-date";
+    return `panel-${k1}-${k2}`;
+  }, [selectedAppointmentId, selectedDate]);
 
   return (
     <AnimatePresence>
-      {canRender && (
+      {isOpen && (activeDateTime || selectedAppointment) && (
         <>
+          {/* Overlay */}
           <motion.div
             key="overlay"
             initial={{ opacity: 0 }}
-            animate={{ opacity: 0.35 }}
+            animate={{ opacity: 0.4 }}
             exit={{ opacity: 0 }}
-            transition={{ duration: 0.18 }}
-            className="fixed inset-0 bg-black/30 backdrop-blur-sm z-40"
+            transition={{ duration: 0.2 }}
+            className="fixed inset-0 bg-black/30 backdrop-blur-[2px] z-40"
             onClick={onClose}
           />
 
+          {/* Panel */}
           <motion.aside
-            key={`panel-${selectedAppointmentId ?? activeDateTime?.getTime() ?? "none"}`}
+            key={panelKey}
             initial={{ x: "100%" }}
             animate={{ x: 0 }}
             exit={{ x: "100%" }}
             transition={{
               type: "spring",
-              stiffness: 90,
-              damping: 24,
-              mass: 0.65,
+              stiffness: 80,
+              damping: 22,
+              mass: 0.6,
             }}
             className="fixed top-0 right-0 z-50 h-dvh w-[100vw] max-w-full sm:max-w-[760px]
                        bg-white text-black shadow-2xl flex flex-col"
           >
             {/* Header */}
-            <div className="sticky top-0 z-10 bg-white border-b border-gray-200">
-              <div className="flex items-center justify-between px-4 py-3">
-                <div className="flex items-center gap-2 min-w-0">
-                  {(view === "create" || view === "detail" || view === "past") && (
-                    <Button
-                      variant="ghost"
-                      onClick={() => {
-                        if (view === "past") return goDetail();
-                        if (view === "detail") return goList();
-                        return goList();
-                      }}
-                      className="h-9 px-2 rounded-xl"
-                      title="Volver"
-                    >
-                      <ArrowLeft className="w-4 h-4" />
-                    </Button>
-                  )}
-
-                  <div className="min-w-0">
-                    <h2 className="text-base font-semibold text-gray-900 truncate">
-                      {headerTitle}
-                    </h2>
-                    {headerSubtitle ? (
-                      <div className="text-xs text-gray-500 truncate">
-                        {headerSubtitle}
-                      </div>
-                    ) : null}
-                  </div>
-                </div>
-
-                <div className="flex items-center gap-2">
-                  {refetch && (
-                    <Button
-                      variant="ghost"
-                      onClick={() => refetch?.()}
-                      className="h-9 px-2 rounded-xl"
-                      title="Refrescar"
-                    >
-                      <RefreshCcw className="w-4 h-4 text-gray-600" />
-                    </Button>
-                  )}
-
-                  <button
-                    aria-label="Cerrar panel"
-                    onClick={onClose}
-                    className="p-2 rounded-full hover:bg-gray-100 transition-colors"
+            <div className="flex items-center justify-between px-4 py-3 border-b border-gray-200">
+              <div className="flex items-center gap-2">
+                {(view === "create" ||
+                  view === "detail" ||
+                  view === "past") && (
+                  <Button
+                    variant="ghost"
+                    onClick={() => {
+                      if (view === "past") return goDetail();
+                      if (view === "detail") return goList();
+                      return goList();
+                    }}
+                    className="h-9 px-2"
+                    title="Volver"
                   >
-                    <X className="w-5 h-5 text-gray-600" />
-                  </button>
-                </div>
+                    <ArrowLeft className="w-4 h-4" />
+                  </Button>
+                )}
+
+                <h2 className="text-base font-semibold text-gray-800">
+                  {headerTitle}
+                </h2>
               </div>
 
-              {(view === "list" || view === "detail") && (
-                <div className="px-4 pb-3 flex items-center gap-2">
-                  {view === "list" && (
-                    <Button
-                      onClick={() => {
-                        const base = dayjs(activeDateTime ?? new Date())
-                          .hour(8)
-                          .minute(0)
-                          .second(0)
-                          .millisecond(0);
-                        setActiveDateTime(base.toDate());
-                        goCreate();
-                      }}
-                      className="rounded-xl"
-                    >
-                      <Plus className="w-4 h-4 mr-2" />
-                      Crear turno
-                    </Button>
-                  )}
-
-                  {view === "detail" && selectedAppointment && (
-                    <Button
-                      onClick={goPast}
-                      className="rounded-xl"
-                      variant={
-                        selectedAppointment.appointment.pastAppointment?.id
-                          ? "secondary"
-                          : "default"
-                      }
-                    >
-                      {selectedAppointment.appointment.pastAppointment?.id ? (
-                        <>
-                          <Pencil className="w-4 h-4 mr-2" />
-                          Editar evolución
-                        </>
-                      ) : (
-                        <>
-                          <CheckCircle2 className="w-4 h-4 mr-2" />
-                          Finalizar cita
-                        </>
-                      )}
-                    </Button>
-                  )}
-                </div>
-              )}
+              <button
+                aria-label="Cerrar panel"
+                onClick={onClose}
+                className="p-2 rounded-full hover:bg-gray-100 transition-colors"
+              >
+                <X className="w-5 h-5 text-gray-600" />
+              </button>
             </div>
 
             {/* Content */}
             <div className="flex-1 min-h-0 overflow-y-auto px-3 py-4">
               <AnimatePresence mode="wait">
-                {/* LIST */}
+                {/* ===== LIST ===== */}
                 {view === "list" && (
                   <motion.div
                     key="list"
                     initial={{ opacity: 0, y: 10 }}
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: -10 }}
-                    transition={{ duration: 0.2 }}
+                    transition={{ duration: 0.25 }}
                     className="w-full max-w-[600px] mx-auto space-y-4"
                   >
                     <AppointmentsList
@@ -309,41 +203,48 @@ export default function AppointmentSlidePanel({
                         setActiveDateTime(datetime);
                         goCreate();
                       }}
-                      onSelectAppointment={() => {
-                        // lo maneja el padre via selectedAppointmentId
-                      }}
+                      onSelectAppointment={() => {}}
                     />
 
-                    <div className="pt-1">
-                      <div className="rounded-2xl border border-gray-200 bg-gray-50 p-4 flex items-center justify-between">
-                        <div className="min-w-0">
-                          <div className="text-sm font-semibold text-gray-900">
-                            Tip rápido
-                          </div>
-                          <div className="text-xs text-gray-600">
-                            Abrí un turno para ver paciente y evolución en detalle.
-                          </div>
-                        </div>
-                        <CalendarClock className="w-5 h-5 text-gray-500" />
-                      </div>
+                    <div className="pt-2">
+                      <Button
+                        onClick={() => {
+                          const base = dayjs(activeDateTime ?? new Date());
+                          const dt =
+                            base.hour() === 0 && base.minute() === 0
+                              ? base
+                                  .hour(8)
+                                  .minute(0)
+                                  .second(0)
+                                  .millisecond(0)
+                                  .toDate()
+                              : base.second(0).millisecond(0).toDate();
+
+                          setActiveDateTime(dt);
+                          goCreate();
+                        }}
+                        className="w-full rounded-xl text-white"
+                      >
+                        + Crear turno
+                      </Button>
                     </div>
                   </motion.div>
                 )}
 
-                {/* CREATE */}
+                {/* ===== CREATE ===== */}
                 {view === "create" && activeDateTime && (
                   <motion.div
                     key={`create-${activeDateTime.getTime()}`}
-                    initial={{ opacity: 0, x: 16 }}
+                    initial={{ opacity: 0, x: 20 }}
                     animate={{ opacity: 1, x: 0 }}
-                    exit={{ opacity: 0, x: 16 }}
-                    transition={{ duration: 0.2 }}
+                    exit={{ opacity: 0, x: 20 }}
+                    transition={{ duration: 0.25 }}
                     className="relative w-full max-w-[600px] mx-auto"
                   >
                     <NewAppointmentForm
                       type="create"
                       patientsList={patientsForCreate}
-                      initialDateTime={activeDateTime}
+                      initialDateTime={activeDateTime} // ✅ acá va la hora cliqueada
                       onSuccess={() => {
                         refetch?.();
                         goList();
@@ -353,163 +254,163 @@ export default function AppointmentSlidePanel({
                   </motion.div>
                 )}
 
-                {/* DETAIL */}
+                {/* ===== DETAIL ===== */}
                 {view === "detail" && selectedAppointment && (
                   <motion.div
                     key={`detail-${selectedAppointment.appointment.id}`}
                     initial={{ opacity: 0, y: 10 }}
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: -10 }}
-                    transition={{ duration: 0.2 }}
+                    transition={{ duration: 0.25 }}
                     className="w-full max-w-[600px] mx-auto space-y-4"
                   >
-                    {/* Paciente */}
-                    <Section icon={<UserRound className="w-4 h-4" />} title="Paciente">
-                      <div className="flex items-start justify-between gap-3">
-                        <div className="min-w-0">
-                          <div className="text-base font-semibold text-gray-900 truncate">
-                            {resolvedPatient
-                              ? `${resolvedPatient.firstName ?? ""} ${resolvedPatient.lastName ?? ""}`.trim()
-                              : "—"}
-                          </div>
-                          <div className="mt-1 flex flex-wrap items-center gap-2">
-                            {resolvedPatient?.identityNumber && <Badge>DNI: {resolvedPatient?.identityNumber}</Badge>}
-                            {resolvedPatient?.phone && <Badge>Tel: {resolvedPatient.phone}</Badge>}
-                            {resolvedPatient?.email && <Badge>{resolvedPatient.email}</Badge>}
-                          </div>
+                    <div className="rounded-2xl border border-gray-200 bg-white p-4 space-y-3">
+                      <div>
+                        <div className="text-xs text-gray-500">Horario</div>
+                        <div className="text-lg font-semibold text-gray-800">
+                          {dayjs(
+                            selectedAppointment.appointment.schedule,
+                          ).format("DD/MM/YYYY HH:mm")}
                         </div>
-
-                        {selectedAppointment.appointment.pastAppointment?.id ? (
-                          <Badge variant="success">Cita finalizada</Badge>
-                        ) : (
-                          <Badge variant="warning">Pendiente</Badge>
-                        )}
                       </div>
-                    </Section>
 
-                    {/* Turno */}
-                    <Section icon={<ClipboardList className="w-4 h-4" />} title="Turno">
-                      <div className="space-y-3">
-                        <div className="flex items-center justify-between gap-3">
-                          <div className="min-w-0">
-                            <div className="text-xs text-gray-500">Horario</div>
-                            <div className="text-lg font-semibold text-gray-900">
-                              {dayjs(selectedAppointment.appointment.schedule).format("DD/MM/YYYY HH:mm")}
-                            </div>
+                      <div className="grid gap-2">
+                        <div>
+                          <div className="text-xs text-gray-500">Motivo</div>
+                          <div className="text-sm text-gray-800">
+                            {selectedAppointment.appointment.reason || "—"}
                           </div>
-                          <Badge>
-                            Motivo: {selectedAppointment.appointment.reason?.trim() || "—"}
-                          </Badge>
                         </div>
 
                         <div>
                           <div className="text-xs text-gray-500">Notas</div>
-                          <div className="text-sm text-gray-900 whitespace-pre-wrap">
+                          <div className="text-sm text-gray-800 whitespace-pre-wrap">
                             {selectedAppointment.appointment.notes || "—"}
                           </div>
                         </div>
+                      </div>
 
-                        {selectedAppointment.appointment.cancellationReason && (
-                          <div className="rounded-xl border border-amber-200 bg-amber-50 p-3">
-                            <div className="text-xs font-semibold text-amber-900">
-                              Motivo de cancelación
+                      <div className="pt-3 border-t border-gray-100 flex items-center justify-between gap-3">
+                        <div className="min-w-0">
+                          <div className="text-sm font-semibold text-gray-800">
+                            Evolución
+                          </div>
+                          <div className="text-xs text-gray-500">
+                            {selectedAppointment.appointment.pastAppointment
+                              ? "Ya hay evolución cargada."
+                              : "Todavía no se finalizó esta cita."}
+                          </div>
+                        </div>
+
+                        {selectedAppointment.appointment.pastAppointment?.id ? (
+                          <PastAppointmentDetailCard
+                            pastAppointment={
+                              selectedAppointment.appointment.pastAppointment
+                            }
+                            onEdit={goPast}
+                          />
+                        ) : (
+                          <div className="rounded-2xl border border-gray-200 bg-white p-4">
+                            <div className="text-sm font-semibold text-gray-900">
+                              Evolución pendiente
                             </div>
-                            <div className="text-sm text-amber-900 whitespace-pre-wrap">
-                              {selectedAppointment.appointment.cancellationReason}
+                            <div className="text-sm text-gray-600 mt-1">
+                              Todavía no se finalizó esta cita. Cuando la
+                              cierres, acá vas a ver el detalle clínico.
                             </div>
+                            <Button
+                              onClick={goPast}
+                              className="mt-3 rounded-xl"
+                            >
+                              Finalizar ahora
+                            </Button>
                           </div>
                         )}
                       </div>
-                    </Section>
-
-                    {/* Evolución */}
-                    <Section icon={<Stethoscope className="w-4 h-4" />} title="Evolución">
-                      {selectedAppointment.appointment.pastAppointment?.id ? (
-                        <PastAppointmentDetailCard
-                          pastAppointment={selectedAppointment.appointment.pastAppointment}
-                          onEdit={goPast}
-                        />
-                      ) : (
-                        <div className="rounded-2xl border border-gray-200 bg-gray-50 p-4">
-                          <div className="text-sm font-semibold text-gray-900">
-                            Evolución pendiente
-                          </div>
-                          <div className="text-sm text-gray-600 mt-1">
-                            Cuando finalices la cita, vas a ver acá el detalle clínico.
-                          </div>
-                          <Button onClick={goPast} className="mt-3 rounded-xl">
-                            Finalizar ahora
-                          </Button>
-                        </div>
-                      )}
-                    </Section>
-
-                    <div className="flex items-center gap-2">
-                      <Button variant="ghost" onClick={goList} className="rounded-xl">
-                        <ArrowLeft className="w-4 h-4 mr-2" />
-                        Volver a lista
-                      </Button>
-
-                      <Button onClick={() => refetch?.()} className="ml-auto rounded-xl">
-                        <RefreshCcw className="w-4 h-4 mr-2" />
-                        Refrescar
-                      </Button>
                     </div>
+
+                    {!resolvedPatient && (
+                      <div className="rounded-2xl border border-amber-200 bg-amber-50 p-4">
+                        <div className="text-sm font-semibold text-amber-900">
+                          Seleccioná el paciente para cargar la evolución
+                        </div>
+                        <div className="text-xs text-amber-800 mt-1">
+                          No se pudo resolver el paciente del turno.
+                          Seleccionalo manualmente.
+                        </div>
+
+                        <div className="mt-3">
+                          <label className="text-xs text-amber-900">
+                            Paciente
+                          </label>
+                          <select
+                            value={selectedPatientId}
+                            onChange={(e) =>
+                              setSelectedPatientId(e.target.value)
+                            }
+                            className="mt-1 w-full rounded-xl border border-amber-200 bg-white px-3 py-2 text-sm"
+                          >
+                            <option value="">Seleccionar…</option>
+                            {patientsForCreate.map((p) => (
+                              <option key={p.patient.id} value={p.patient.id}>
+                                {p.patient.firstName} {p.patient.lastName ?? ""}
+                              </option>
+                            ))}
+                          </select>
+                        </div>
+                      </div>
+                    )}
                   </motion.div>
                 )}
 
-                {/* PAST FORM */}
-                {view === "past" && selectedAppointment && resolvedPatient && (
+                {/* ===== PAST FORM ===== */}
+                {view === "past" && selectedAppointment && (
                   <motion.div
                     key={`past-${selectedAppointment.appointment.id}`}
-                    initial={{ opacity: 0, x: 16 }}
+                    initial={{ opacity: 0, x: 20 }}
                     animate={{ opacity: 1, x: 0 }}
-                    exit={{ opacity: 0, x: 16 }}
-                    transition={{ duration: 0.2 }}
-                    className="w-full max-w-[600px] mx-auto space-y-3"
+                    exit={{ opacity: 0, x: 20 }}
+                    transition={{ duration: 0.25 }}
+                    className="w-full max-w-[600px] mx-auto"
                   >
-                    <div className="rounded-2xl border border-gray-200 bg-white p-4">
-                      <div className="flex items-start justify-between gap-3">
-                        <div className="min-w-0">
-                          <div className="text-sm text-gray-500 flex items-center gap-2">
-                            <FileText className="w-4 h-4" />
-                            Evolución para
-                          </div>
-                          <div className="text-lg font-semibold text-gray-900 truncate">
-                            {`${resolvedPatient.firstName ?? ""} ${resolvedPatient.lastName ?? ""}`.trim() || "—"}
-                          </div>
-                          <div className="text-xs text-gray-500 mt-1">
-                            Turno: {dayjs(selectedAppointment.appointment.schedule).format("DD/MM/YYYY HH:mm")}
-                          </div>
+                    {!resolvedPatient ? (
+                      <div className="rounded-2xl border border-gray-200 bg-white p-4">
+                        <div className="text-sm font-semibold text-gray-800">
+                          Falta seleccionar paciente
                         </div>
-                        {selectedAppointment.appointment.pastAppointment?.id ? (
-                          <Badge variant="success">Editando</Badge>
-                        ) : (
-                          <Badge variant="warning">Nueva</Badge>
-                        )}
+                        <div className="text-sm text-gray-600 mt-1">
+                          Volvé al detalle y seleccioná el paciente para poder
+                          finalizar la cita.
+                        </div>
+                        <Button onClick={goDetail} className="mt-3 rounded-xl">
+                          Volver al detalle
+                        </Button>
                       </div>
-                    </div>
+                    ) : (
+                      <div className="rounded-2xl border border-gray-200 bg-[#0f1620] p-4">
+                        <PastAppointmentForm
+                          patient={resolvedPatient}
+                          appointment={selectedAppointment.appointment}
+                        />
 
-                    <div className="rounded-2xl border border-gray-200 bg-[#0f1620] p-4">
-                      <PastAppointmentForm
-                        patient={resolvedPatient}
-                        appointment={selectedAppointment.appointment}
-                      />
-                      <div className="mt-4 flex gap-2">
-                        <Button
-                          variant="ghost"
-                          onClick={goDetail}
-                          className="text-white hover:bg-white/10"
-                        >
-                          <ArrowLeft className="w-4 h-4 mr-2" />
-                          Volver
-                        </Button>
-                        <Button onClick={() => refetch?.()} className="ml-auto rounded-xl">
-                          <RefreshCcw className="w-4 h-4 mr-2" />
-                          Refrescar
-                        </Button>
+                        <div className="mt-4 flex gap-2">
+                          <Button
+                            variant="ghost"
+                            onClick={goDetail}
+                            className="text-white hover:bg-white/10"
+                          >
+                            <ArrowLeft className="w-4 h-4 mr-2" />
+                            Volver
+                          </Button>
+                          <Button
+                            onClick={() => refetch?.()}
+                            className="ml-auto rounded-xl"
+                          >
+                            Refrescar
+                          </Button>
+                        </div>
                       </div>
-                    </div>
+                    )}
                   </motion.div>
                 )}
               </AnimatePresence>
